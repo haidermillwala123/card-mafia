@@ -1,0 +1,23 @@
+/* Base element styles and type utility classes */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--background);color:var(--text);font:var(--type-body);font-feature-settings:"ss01";-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:var(--accent-strong);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{color:var(--text);text-decoration-thickness:2px}
+::selection{background:var(--primary-tint);color:var(--on-primary-tint)}
+:focus-visible{outline:var(--border-focus) solid var(--focus-ring);outline-offset:var(--focus-offset)}
+h1,h2,h3,h4,p{margin:0;text-wrap:pretty}
+.cm-display{font:var(--type-display);letter-spacing:var(--type-display-tracking);text-wrap:balance}
+.cm-headline-lg{font:var(--type-headline-lg);letter-spacing:var(--type-headline-lg-tracking);text-wrap:balance}
+.cm-headline-md{font:var(--type-headline-md);letter-spacing:var(--type-headline-md-tracking)}
+.cm-headline-sm{font:var(--type-headline-sm);letter-spacing:var(--type-headline-sm-tracking)}
+.cm-title{font:var(--type-title);letter-spacing:var(--type-title-tracking)}
+.cm-body-lg{font:var(--type-body-lg)}
+.cm-body{font:var(--type-body)}
+.cm-body-sm{font:var(--type-body-sm);letter-spacing:var(--type-body-sm-tracking)}
+.cm-label{font:var(--type-label);letter-spacing:var(--type-label-tracking);text-transform:uppercase}
+.cm-button-text{font:var(--type-button);letter-spacing:var(--type-button-tracking)}
+.cm-number{font:var(--type-number);letter-spacing:var(--type-number-tracking);font-variant-numeric:tabular-nums lining-nums}
+.cm-mono{font:var(--type-mono);font-variant-numeric:tabular-nums}
+.cm-muted{color:var(--text-muted)}
+.cm-container{max-width:var(--content-max);margin-inline:auto;padding-inline:var(--gutter-md)}

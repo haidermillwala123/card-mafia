@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { allocate, bestPaths, buildPlans, hopsFor, type Data, type Holdings, type Trip } from './engine.ts';
+import { allocate, bestPaths, buildPlans, combine, hopsFor, pointsFor, reachable, type Data, type Holdings, type Trip } from './engine.ts';
 
 const load = (f: string) => JSON.parse(readFileSync(new URL(`../../data/${f}.json`, import.meta.url), 'utf8'));
 const seats = load('seats_cache');
@@ -91,6 +91,41 @@ test('every plan carries the data age and never promises a seat', () => {
 test('value per point uses the typed fare minus taxes', () => {
   const p = buildPlans(data, { ...trip, cashFareInr: 600000 }, demo, NOW).plans[0];
   assert.equal(p.valuePerPoint, Math.round(((600000 - p.taxesInr) / p.sourcePointsTotal) * 100) / 100);
+});
+
+test('calculator: Infinia 1.2L reaches Qatar at 1:1 through the chain and BA at 2:1 directly', () => {
+  const r = reachable(data, 'hdfc-infinia', 120000);
+  const qatar = r.find(x => x.programme === 'qatar-privilege-club')!;
+  assert.equal(qatar.miles, 120000);
+  assert.equal(qatar.hops.length, 3);
+  assert.equal(qatar.pointsPerMile, 1);
+  assert.ok(r.every((x, i) => i === 0 || r[i - 1].miles >= x.miles), 'best first');
+  assert.equal(r.find(x => x.programme === 'hdfc-reward-points'), undefined, 'banks are not targets');
+});
+
+test('calculator: direct-only shows the dearer 2:1 route', () => {
+  const direct = reachable(data, 'hdfc-infinia', 120000, true).find(x => x.programme === 'qatar-privilege-club')!;
+  assert.equal(direct.miles, 60000);
+  assert.equal(direct.hops.length, 1);
+});
+
+test('calculator reverse: miles to points, with cap months', () => {
+  const need = pointsFor(data, 'hdfc-infinia', 'qatar-privilege-club', 140000, true)!;
+  assert.equal(need.pointsUsed, 280000);
+  assert.equal(need.cap.monthsNeeded, 2);
+  assert.equal(pointsFor(data, 'hdfc-regalia', 'qatar-privilege-club', 1000), null);
+});
+
+test('calculator combine: two cards cover 140k Avios, cheapest chain first', () => {
+  const r = combine(data, demo, 'qatar-privilege-club', 140000);
+  assert.equal(r.shortfall, 0);
+  assert.deepEqual(r.transfers.map(t => [t.cardId, t.sourcePoints]), [['hdfc-infinia', 120000], ['amex-plat-travel', 40000]]);
+});
+
+test('an annual cap is a hard limit on the calculator', () => {
+  const ba = reachable(data, 'axis-atlas', 500000).find(x => x.programme === 'ba-executive-club')!;
+  assert.equal(ba.miles, 15000);
+  assert.equal(ba.pointsUsed, 30000);
 });
 
 test('an unknown route says what is cached instead of failing', () => {

@@ -1,0 +1,10 @@
+/* Spacing (4px base), radii, borders, layout */
+:root{
+  --space-2xs:4px; --space-xs:8px; --space-sm:12px; --space-md:16px; --space-lg:24px; --space-xl:32px; --space-2xl:48px; --space-3xl:64px; --space-4xl:96px;
+  --radius-none:0px; --radius-xs:4px; --radius-sm:8px; --radius-md:12px; --radius-lg:16px; --radius-xl:24px; --radius-full:999px;
+  --border-hairline:1px; --border-control:1.5px; --border-focus:2px; --focus-offset:2px;
+  --content-max:1120px; --gutter-sm:16px; --gutter-md:24px; --gutter-lg:32px;
+  --header-h:64px; --touch-min:44px; --control-h:44px;
+  /* breakpoints (reference only; use in media queries): sm 480px, md 768px, lg 1024px, xl 1280px */
+  --bp-sm:480px; --bp-md:768px; --bp-lg:1024px; --bp-xl:1280px;
+}

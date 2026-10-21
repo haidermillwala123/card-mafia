@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Breadcrumbs from '@/components/Breadcrumbs';
-import { data, programmeName, cardName } from '@/lib/engine/data';
+import { BANKS } from '@/lib/engine/data';
+import { getData } from '@/lib/engine/load';
 
 export const metadata: Metadata = {
   title: 'Transfer rules and sources',
@@ -12,7 +13,15 @@ const day = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString('en
 const n = (x: number) => x.toLocaleString('en-IN');
 const host = (u: string) => new URL(u).hostname.replace(/^www\./, '');
 
-export default function RulesPage() {
+export const revalidate = 300;
+
+export default async function RulesPage() {
+  const { data, source } = await getData();
+  const programmeName = (id: string) => data.programmes.find(p => p.id === id)?.name ?? id;
+  const cardName = (id: string) => {
+    const c = data.cards.find(x => x.id === id);
+    return c ? `${BANKS.find(b => b.id === c.bank)?.name.replace(/ Bank| Card/, '') ?? ''} ${c.name}`.trim() : id;
+  };
   const rules = [...data.rules].sort((a, b) => a.from.localeCompare(b.from) || a.to.localeCompare(b.to));
   return (
     <>
@@ -22,6 +31,7 @@ export default function RulesPage() {
         <p className="t-lg muted measure">
           These are the rules behind every plan. Ratios read as points in : points out, so 2:1 means two points for one mile. Rules were compiled from public sources on {day(data.rulesCheckedOn)} and are not yet matched to the bank portals. Where a route has been seen working it says so.
         </p>
+        <p className="t-sm muted">{source === 'database' ? 'Read live from the Card Mafia database.' : 'Read from the versioned rules files. The database was not reachable.'}</p>
         <div className="note note-warn"><span>Banks change rules without notice. Axis removed Qatar in April 2026 and re-added it in July at a worse rate. Always match each hop on the bank portal before you transfer.</span></div>
 
         <section aria-labelledby="rules-h" className="stack">

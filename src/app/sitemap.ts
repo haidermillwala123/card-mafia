@@ -8,6 +8,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${SITE_URL}/`, lastModified: rulesDate },
     { url: `${SITE_URL}/plan`, lastModified: rulesDate },
+    { url: `${SITE_URL}/calculator`, lastModified: rulesDate },
+    { url: `${SITE_URL}/transfers`, lastModified: rulesDate },
     { url: `${SITE_URL}/start`, lastModified: rulesDate },
     { url: `${SITE_URL}/rules`, lastModified: rulesDate },
   ];

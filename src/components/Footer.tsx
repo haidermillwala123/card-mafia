@@ -14,6 +14,8 @@ export default function Footer() {
           <p className="t-label" style={{ marginBottom: 12 }}>Product</p>
           <ul>
             <li><Link href="/plan">Build a plan</Link></li>
+            <li><Link href="/calculator">Points calculator</Link></li>
+            <li><Link href="/transfers">Transfer explorer</Link></li>
             <li><Link href="/start">Set up your cards</Link></li>
             <li><Link href="/rules">Transfer rules and sources</Link></li>
           </ul>

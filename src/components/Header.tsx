@@ -7,6 +7,8 @@ import ThemeToggle from './ThemeToggle';
 
 const LINKS = [
   { href: '/plan', label: 'Build a plan' },
+  { href: '/calculator', label: 'Calculator' },
+  { href: '/transfers', label: 'Transfers', optional: true },
   { href: '/rules', label: 'Rules', optional: true },
   { href: '/start', label: 'Set up', optional: true },
 ];

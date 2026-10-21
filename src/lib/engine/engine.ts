@@ -322,6 +322,51 @@ export function buildPlans(data: Data, trip: Trip, holdings: Holdings, now = new
   return { plans: plans.slice(0, 3).map((p, i) => ({ ...p, rank: i + 1 })), considered, empty: null };
 }
 
+// ---------- calculator: what a card's points are worth in every programme it reaches ----------
+export type Reach = {
+  programme: string;
+  hops: Hop[];
+  miles: number; // delivered at the end of the chain
+  pointsUsed: number; // spent from the card
+  pointsPerMile: number;
+  cap: Transfer['cap'];
+};
+
+// Everything one card can reach with `points`, cheapest chain per programme, best first.
+export function reachable(data: Data, cardId: string, points: number, directOnly = false): Reach[] {
+  const out: Reach[] = [];
+  for (const [programme, rules] of bestPaths(data, cardId, directOnly)) {
+    if (data.programmes.find(p => p.id === programme)?.kind !== 'airline') continue;
+    const cap = capOf(rules[0]);
+    const miles = maxMiles(rules, Math.min(points, cap.period === 'year' ? cap.limit! : Infinity));
+    if (miles <= 0) continue;
+    const hops = hopsFor(rules, miles);
+    const used = hops[0].points_in;
+    out.push({
+      programme, hops, miles, pointsUsed: used, pointsPerMile: Math.round(cost(rules) * 100) / 100,
+      cap: { limit: cap.limit, period: cap.period, ok: !cap.limit || used <= cap.limit, monthsNeeded: cap.limit ? Math.ceil(used / cap.limit) : 1 },
+    });
+  }
+  return out.sort((a, b) => b.miles - a.miles || a.hops.length - b.hops.length);
+}
+
+// The reverse question: how many card points buy `miles` in one programme.
+export function pointsFor(data: Data, cardId: string, programme: string, miles: number, directOnly = false): Reach | null {
+  const rules = bestPaths(data, cardId, directOnly).get(programme);
+  if (!rules || miles <= 0) return null;
+  const cap = capOf(rules[0]);
+  const hops = hopsFor(rules, miles);
+  const used = hops[0].points_in;
+  return {
+    programme, hops, miles, pointsUsed: used, pointsPerMile: Math.round(cost(rules) * 100) / 100,
+    cap: { limit: cap.limit, period: cap.period, ok: !cap.limit || used <= cap.limit, monthsNeeded: cap.limit ? Math.ceil(used / cap.limit) : 1 },
+  };
+}
+
+// Several cards into one programme: cheapest chain first, until the miles are covered or the balances run out.
+export const combine = (data: Data, holdings: Holdings, target: string, miles: number, directOnly = false) =>
+  allocate(sourcesFor(data, holdings, target, directOnly), miles);
+
 // Value per point = (cash fare the user types in - cash taxes) / points needed. The MVP has no fare feed.
 export const valuePerPoint = (fare: number, taxes: number, points: number) => (points > 0 ? Math.round(((fare - taxes) / points) * 100) / 100 : null);
 export { fmt as formatIndian };
