@@ -1,29 +1,411 @@
 {
-  "note": "Fees, earn rates and eligibility are not in the catalogue yet. They are null on purpose: Haider supplies and verifies them. Nothing here is a verified bank figure.",
-  "cards": [
-    { "id": "hdfc-infinia", "bank": "hdfc", "name": "Infinia", "programme": "hdfc-reward-points", "annual_fee_inr": null },
-    { "id": "hdfc-diners", "bank": "hdfc", "name": "Diners Club Black", "programme": "hdfc-reward-points", "annual_fee_inr": null },
-    { "id": "hdfc-regalia", "bank": "hdfc", "name": "Regalia Gold", "programme": "hdfc-reward-points", "annual_fee_inr": null },
-    { "id": "axis-atlas", "bank": "axis", "name": "Atlas", "programme": "axis-edge-miles", "annual_fee_inr": null },
-    { "id": "axis-horizon", "bank": "axis", "name": "Horizon", "programme": "axis-edge-miles", "annual_fee_inr": null },
-    { "id": "axis-magnus", "bank": "axis", "name": "Magnus", "programme": "axis-edge-rewards", "annual_fee_inr": null },
-    { "id": "axis-reserve", "bank": "axis", "name": "Reserve", "programme": "axis-edge-rewards", "annual_fee_inr": null },
-    { "id": "amex-plat-travel", "bank": "amex", "name": "Platinum Travel", "programme": "amex-membership-rewards", "annual_fee_inr": null },
-    { "id": "amex-gold", "bank": "amex", "name": "Gold Card", "programme": "amex-membership-rewards", "annual_fee_inr": null },
-    { "id": "amex-plat", "bank": "amex", "name": "Platinum Card", "programme": "amex-membership-rewards", "annual_fee_inr": null },
-    { "id": "sbi-miles", "bank": "sbi", "name": "MILES", "programme": "sbi-travel-credits", "annual_fee_inr": null },
-    { "id": "sbi-miles-prime", "bank": "sbi", "name": "MILES Prime", "programme": "sbi-travel-credits", "annual_fee_inr": null },
-    { "id": "sbi-miles-elite", "bank": "sbi", "name": "MILES Elite", "programme": "sbi-travel-credits", "annual_fee_inr": null },
-    { "id": "sbi-elite", "bank": "sbi", "name": "Elite", "programme": "sbi-reward-points", "annual_fee_inr": null },
-    { "id": "sbi-aurum", "bank": "sbi", "name": "Aurum", "programme": "sbi-reward-points", "annual_fee_inr": null },
-    { "id": "icici-emeralde", "bank": "icici", "name": "Emeralde Private Metal", "programme": "icici-reward-points", "annual_fee_inr": null },
-    { "id": "icici-sapphiro", "bank": "icici", "name": "Sapphiro", "programme": "icici-reward-points", "annual_fee_inr": null },
-    { "id": "hsbc-premier", "bank": "hsbc", "name": "Premier", "programme": "hsbc-reward-points", "annual_fee_inr": null },
-    { "id": "hsbc-travel-one", "bank": "hsbc", "name": "Travel One", "programme": "hsbc-reward-points", "annual_fee_inr": null },
-    { "id": "hsbc-visa-platinum", "bank": "hsbc", "name": "Visa Platinum", "programme": "hsbc-reward-points", "annual_fee_inr": null },
-    { "id": "hsbc-visa-infinite", "bank": "hsbc", "name": "Visa Infinite", "programme": "hsbc-reward-points", "annual_fee_inr": null },
-    { "id": "kotak-white", "bank": "kotak", "name": "White Reserve", "programme": "kotak-reward-points", "annual_fee_inr": null },
-    { "id": "idfc-wealth", "bank": "idfc", "name": "Wealth", "programme": "idfc-first-reward-points", "annual_fee_inr": null },
-    { "id": "sc-ultimate", "bank": "sc", "name": "Ultimate", "programme": "standard-chartered-reward-points", "annual_fee_inr": null }
-  ]
+ "note": "Fees, earn rates and eligibility are not in the catalogue yet. They are null on purpose: nothing here is a verified bank figure.",
+ "cards": [
+  {
+   "id": "axis-magnus",
+   "bank": "axis",
+   "name": "Magnus",
+   "programme": "axis-magnus-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "axis-atlas",
+   "bank": "axis",
+   "name": "Atlas",
+   "programme": "axis-atlas-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "axis-magnus-burgundy",
+   "bank": "axis",
+   "name": "Magnus Burgundy",
+   "programme": "axis-magnus-burgundy-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "amex-plat-travel",
+   "bank": "amex",
+   "name": "Platinum Travel",
+   "programme": "amex-platinum-travel-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "axis-privilege",
+   "bank": "axis",
+   "name": "Privilege",
+   "programme": "axis-privilege-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "axis-select",
+   "bank": "axis",
+   "name": "Select",
+   "programme": "axis-select-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "hdfc-diners",
+   "bank": "hdfc",
+   "name": "Diners Club Black",
+   "programme": "hdfc-diners-club-black-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "hdfc-diners-privilege",
+   "bank": "hdfc",
+   "name": "Diners Privilege",
+   "programme": "hdfc-diners-privilege-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "hdfc-infinia",
+   "bank": "hdfc",
+   "name": "Infinia",
+   "programme": "hdfc-infinia-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "hdfc-regalia-gold",
+   "bank": "hdfc",
+   "name": "Regalia Gold",
+   "programme": "hdfc-regalia-gold-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "hsbc-premier",
+   "bank": "hsbc",
+   "name": "Premier",
+   "programme": "hsbc-premier-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "icici-times-black",
+   "bank": "icici",
+   "name": "Times Black",
+   "programme": "icici-times-black-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "yes-private",
+   "bank": "yes",
+   "name": "Private",
+   "programme": "yes-private-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "amex-mrcc",
+   "bank": "amex",
+   "name": "MRCC",
+   "programme": "amex-mrcc-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "amex-gold",
+   "bank": "amex",
+   "name": "Gold",
+   "programme": "amex-gold-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "amex-smartearn",
+   "bank": "amex",
+   "name": "SmartEarn",
+   "programme": "amex-smartearn-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "amex-plat",
+   "bank": "amex",
+   "name": "Platinum",
+   "programme": "amex-platinum-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "amex-platinum-reserve",
+   "bank": "amex",
+   "name": "Platinum Reserve",
+   "programme": "amex-platinum-reserve-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "hsbc-travel-one",
+   "bank": "hsbc",
+   "name": "TravelOne",
+   "programme": "hsbc-travelone-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "axis-horizon",
+   "bank": "axis",
+   "name": "Horizon",
+   "programme": "axis-horizon-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "yes-marquee",
+   "bank": "yes",
+   "name": "Marquee",
+   "programme": "yes-marquee-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "yes-reserv",
+   "bank": "yes",
+   "name": "Reserv",
+   "programme": "yes-reserv-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "hsbc-visa-platinum",
+   "bank": "hsbc",
+   "name": "VisaPlatinum",
+   "programme": "hsbc-visaplatinum-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "sbi-miles-elite",
+   "bank": "sbi",
+   "name": "Miles Elite",
+   "programme": "sbi-miles-elite-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "sbi-miles-prime",
+   "bank": "sbi",
+   "name": "Miles Prime",
+   "programme": "sbi-miles-prime-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "sbi-miles",
+   "bank": "sbi",
+   "name": "Miles",
+   "programme": "sbi-miles-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "axis-olympus",
+   "bank": "axis",
+   "name": "Olympus",
+   "programme": "axis-olympus-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "hdfc-biz-black",
+   "bank": "hdfc",
+   "name": "Biz Black",
+   "programme": "hdfc-biz-black-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "hdfc-biz-power",
+   "bank": "hdfc",
+   "name": "Biz Power",
+   "programme": "hdfc-biz-power-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "indusind-legend",
+   "bank": "indusind",
+   "name": "Legend",
+   "programme": "indusind-legend-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "indusind-celesta",
+   "bank": "indusind",
+   "name": "Celesta",
+   "programme": "indusind-celesta-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "indusind-crest",
+   "bank": "indusind",
+   "name": "Crest",
+   "programme": "indusind-crest-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "indusind-indulge",
+   "bank": "indusind",
+   "name": "Indulge",
+   "programme": "indusind-indulge-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "indusind-heritage",
+   "bank": "indusind",
+   "name": "Heritage",
+   "programme": "indusind-heritage-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "indusind-pinnacle",
+   "bank": "indusind",
+   "name": "Pinnacle",
+   "programme": "indusind-pinnacle-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "indusind-pioneer-private",
+   "bank": "indusind",
+   "name": "Pioneer Private",
+   "programme": "indusind-pioneer-private-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "kotak-air-plus",
+   "bank": "kotak",
+   "name": "Air Plus",
+   "programme": "kotak-air-plus-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "kotak-solitaire",
+   "bank": "kotak",
+   "name": "Solitaire",
+   "programme": "kotak-solitaire-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "au-zenith",
+   "bank": "au",
+   "name": "Zenith",
+   "programme": "au-zenith-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "au-zenith-plus",
+   "bank": "au",
+   "name": "Zenith Plus",
+   "programme": "au-zenith-plus-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "sbi-aurum",
+   "bank": "sbi",
+   "name": "Aurum",
+   "programme": "sbi-aurum-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "sbi-air-india-platinum",
+   "bank": "sbi",
+   "name": "Air India Platinum",
+   "programme": "sbi-air-india-platinum-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "sbi-air-india-signature",
+   "bank": "sbi",
+   "name": "Air India Signature",
+   "programme": "sbi-air-india-signature-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "indusind-tiger",
+   "bank": "indusind",
+   "name": "Tiger",
+   "programme": "indusind-tiger-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "icici-emeralde-private-metal",
+   "bank": "icici",
+   "name": "Emeralde Private Metal",
+   "programme": "icici-emeralde-private-metal-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "amex-centurion",
+   "bank": "amex",
+   "name": "Centurion",
+   "programme": "amex-centurion-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "hdfc-regalia",
+   "bank": "hdfc",
+   "name": "Regalia",
+   "programme": "hdfc-regalia-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "axis-reserve",
+   "bank": "axis",
+   "name": "Reserve",
+   "programme": "axis-reserve-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "icici-emeralde",
+   "bank": "icici",
+   "name": "Emeralde",
+   "programme": "icici-emeralde-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "kotak-air",
+   "bank": "kotak",
+   "name": "Air",
+   "programme": "kotak-air-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "kotak-air-plus-prime",
+   "bank": "kotak",
+   "name": "Air Plus Prime",
+   "programme": "kotak-air-plus-prime-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "rbl-nova",
+   "bank": "rbl",
+   "name": "Nova",
+   "programme": "rbl-nova-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "jupiter-edge-plus",
+   "bank": "jupiter",
+   "name": "Edge Plus",
+   "programme": "jupiter-edge-plus-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "hdfc-corporate-premium",
+   "bank": "hdfc",
+   "name": "Corporate Premium",
+   "programme": "hdfc-corporate-premium-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "rbl-lumiere",
+   "bank": "rbl",
+   "name": "Lumiere",
+   "programme": "rbl-lumiere-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "rbl-world-safari-plus",
+   "bank": "rbl",
+   "name": "World Safari Plus",
+   "programme": "rbl-world-safari-plus-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "rbl-iglobe",
+   "bank": "rbl",
+   "name": "iGlobe",
+   "programme": "rbl-iglobe-pts",
+   "annual_fee_inr": null
+  },
+  {
+   "id": "rbl-insignia-preferred",
+   "bank": "rbl",
+   "name": "Insignia Preferred",
+   "programme": "rbl-insignia-preferred-pts",
+   "annual_fee_inr": null
+  }
+ ]
 }

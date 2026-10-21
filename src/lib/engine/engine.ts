@@ -12,6 +12,7 @@ export type Rule = {
   annual_cap?: number | null;
   min_multiple?: number | null;
   route_confirmed_on?: string | null;
+  transfer_time?: string | null;
   source_url: string;
   source_note: string;
 };

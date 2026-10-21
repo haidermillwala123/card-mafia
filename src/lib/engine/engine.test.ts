@@ -20,16 +20,23 @@ const demo: Holdings = { cardIds: ['hdfc-infinia', 'amex-plat-travel'], balances
 
 test('multi-hop path beats the direct 2:1 route to Qatar', () => {
   const multi = bestPaths(data, 'hdfc-infinia').get('qatar-privilege-club')!;
-  assert.deepEqual(multi.map(r => r.id), ['hdfc-inf-finnair', 'finnair-ba', 'ba-qatar']);
+  assert.deepEqual(multi.map(r => r.id), ['hdfc-infinia-pts>finnair-plus', 'finnair-plus>qatar-privilege-club']);
   const direct = bestPaths(data, 'hdfc-infinia', true).get('qatar-privilege-club')!;
-  assert.deepEqual(direct.map(r => r.id), ['hdfc-inf-qatar']);
+  assert.deepEqual(direct.map(r => r.id), ['hdfc-infinia-pts>qatar-privilege-club']);
   assert.equal(hopsFor(multi, 140000)[0].points_in, 140000);
   assert.equal(hopsFor(direct, 140000)[0].points_in, 280000);
 });
 
-test('a card only uses rules that name it', () => {
-  assert.equal(bestPaths(data, 'hdfc-regalia').has('qatar-privilege-club'), false);
+test('a card only reaches what its own programme connects to', () => {
+  assert.equal(bestPaths(data, 'icici-times-black').has('qatar-privilege-club'), false, 'a one-partner card is a dead end');
   assert.equal(bestPaths(data, 'hsbc-premier').get('qatar-privilege-club')!.length, 1);
+  assert.ok(bestPaths(data, 'hdfc-infinia').size > 20);
+});
+
+test('the dataset carries the full research graph', () => {
+  assert.equal(data.rules.length, 814);
+  assert.equal(data.cards.length, 58);
+  assert.ok(data.rules.every(r => r.ratio_in > 0 && r.ratio_out > 0));
 });
 
 test('hop rounding goes up, and the first hop honours its minimum multiple', () => {
@@ -97,7 +104,7 @@ test('calculator: Infinia 1.2L reaches Qatar at 1:1 through the chain and BA at 
   const r = reachable(data, 'hdfc-infinia', 120000);
   const qatar = r.find(x => x.programme === 'qatar-privilege-club')!;
   assert.equal(qatar.miles, 120000);
-  assert.equal(qatar.hops.length, 3);
+  assert.equal(qatar.hops.length, 2);
   assert.equal(qatar.pointsPerMile, 1);
   assert.ok(r.every((x, i) => i === 0 || r[i - 1].miles >= x.miles), 'best first');
   assert.equal(r.find(x => x.programme === 'hdfc-reward-points'), undefined, 'banks are not targets');
@@ -113,7 +120,7 @@ test('calculator reverse: miles to points, with cap months', () => {
   const need = pointsFor(data, 'hdfc-infinia', 'qatar-privilege-club', 140000, true)!;
   assert.equal(need.pointsUsed, 280000);
   assert.equal(need.cap.monthsNeeded, 2);
-  assert.equal(pointsFor(data, 'hdfc-regalia', 'qatar-privilege-club', 1000), null);
+  assert.equal(pointsFor(data, 'icici-times-black', 'qatar-privilege-club', 1000), null);
 });
 
 test('calculator combine: two cards cover 140k Avios, cheapest chain first', () => {
@@ -123,9 +130,12 @@ test('calculator combine: two cards cover 140k Avios, cheapest chain first', () 
 });
 
 test('an annual cap is a hard limit on the calculator', () => {
-  const ba = reachable(data, 'axis-atlas', 500000).find(x => x.programme === 'ba-executive-club')!;
-  assert.equal(ba.miles, 15000);
-  assert.equal(ba.pointsUsed, 30000);
+  for (const card of data.cards) {
+    for (const r of reachable(data, card.id, 50000000)) {
+      const first = data.rules.find(x => x.id === r.hops[0].ruleId)!;
+      if (first.annual_cap) assert.ok(r.pointsUsed <= first.annual_cap, `${card.id} to ${r.programme} spends ${r.pointsUsed} over a ${first.annual_cap} annual cap`);
+    }
+  }
 });
 
 test('an unknown route says what is cached instead of failing', () => {

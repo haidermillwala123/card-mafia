@@ -1,35 +1,58 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PathChain from '@/components/PathChain';
 import { Close, Info, Warn } from '@/components/Icons';
-import { combine, formatIndian as n, pointsFor, reachable, valuePerPoint, type Data, type Hop, type Reach, type Rule } from '@/lib/engine/engine';
 import { loadProfile } from '@/lib/profile';
+import { formatIndian as n, valuePerPoint } from '@/lib/engine/engine';
 
-type CardOpt = { id: string; name: string; bankId: string; bankName: string; programmeId: string };
-type Prog = { id: string; name: string; kind: string };
+type CardOpt = { id: string; name: string; bankId: string; bankName: string };
+type Prog = { id: string; name: string };
 type Tab = 'forward' | 'reverse' | 'pool' | 'value';
+type Chain = { nodes: string[]; ratios: string[] };
+type Cap = { limit: number | null; period: 'month' | 'year' | null; ok: boolean; monthsNeeded: number };
+type Row = { programme: string; name: string; miles: number; pointsUsed: number; rate: number; chain: Chain; cap: Cap; transferTime: string | null; confirmed: boolean; vsDirect?: number; card?: string; cardId?: string };
+type Pool = { transfers: { cardId: string; card: string; sourcePoints: number; targetMiles: number; chain: Chain; cap: Cap; transferTime: string | null }[]; shortfall: number; target: string };
 
 const TABS: [Tab, string, string][] = [
-  ['forward', 'Points to miles', 'What one card’s points become in every programme it reaches.'],
+  ['forward', 'Points to miles', 'What one card’s points become in every airline programme it reaches.'],
   ['reverse', 'Miles to points', 'How many points each card needs for the miles you want.'],
   ['pool', 'Combine my cards', 'Cover one award with points from several cards.'],
   ['value', 'Value per point', 'What a redemption is worth against the cash fare.'],
 ];
 const digits = (s: string) => s.replace(/\D/g, '').slice(0, 9);
 const num = (s: string) => Number(s) || 0;
+const capText = (c: Cap) => (c.limit ? `${n(c.limit)} a ${c.period === 'year' ? 'year' : 'month'}` : 'no cap found');
 
-export default function Calculator({ cards, programmes, rules }: { cards: CardOpt[]; programmes: Prog[]; rules: Rule[] }) {
-  const d = useMemo<Data>(() => ({
-    rules, rulesCheckedOn: '', cards: cards.map(c => ({ id: c.id, bank: c.bankId, name: c.name, programme: c.programmeId, annual_fee_inr: null })), programmes,
-    qsuite: { types: [], status: 'unverified', verified_at: null }, seats: { sample: true, fetched_at: '', rows: [] },
-  }), [rules, cards, programmes]);
-  const airlines = programmes.filter(p => p.kind === 'airline');
-  const pn = (id: string) => programmes.find(p => p.id === id)?.name ?? id;
+// Calls the server calculator after a short pause, and ignores answers that arrive out of order.
+function useCalc<T>(body: object | null) {
+  const [out, setOut] = useState<{ data: T | null; error: string }>({ data: null, error: '' });
+  const [busy, setBusy] = useState(false);
+  const seq = useRef(0);
+  const key = JSON.stringify(body);
+  useEffect(() => {
+    if (!key || key === 'null') return;
+    const id = ++seq.current;
+    const t = setTimeout(async () => {
+      setBusy(true);
+      try {
+        const res = await fetch('/api/calc', { method: 'POST', headers: { 'content-type': 'application/json' }, body: key });
+        const json = await res.json();
+        if (id === seq.current) setOut(res.ok ? { data: json, error: '' } : { data: null, error: json.error ?? 'Could not calculate.' });
+      } catch {
+        if (id === seq.current) setOut({ data: null, error: 'Could not calculate. Check your connection.' });
+      } finally {
+        if (id === seq.current) setBusy(false);
+      }
+    }, 250);
+    return () => clearTimeout(t);
+  }, [key]);
+  return { ...out, busy };
+}
+
+export default function Calculator({ cards, airlines }: { cards: CardOpt[]; airlines: Prog[] }) {
   const label = (id: string) => { const c = cards.find(x => x.id === id); return c ? `${c.bankName.replace(/ Bank| Card/, '')} ${c.name}` : id; };
-  const chain = (h: Hop[]) => ({ nodes: [h[0].from, ...h.map(x => x.to)].map(pn), ratios: h.map(x => `${x.ratio_in}:${x.ratio_out}`) });
-
   const [tab, setTab] = useState<Tab>('forward');
   const [cardId, setCardId] = useState('hdfc-infinia');
   const [points, setPoints] = useState('120000');
@@ -50,45 +73,40 @@ export default function Calculator({ cards, programmes, rules }: { cards: CardOp
     /* eslint-disable react-hooks/set-state-in-effect */
     const p = loadProfile();
     if (p?.cardIds.length) {
-      setMine(p.cardIds);
-      setCardId(p.cardIds[0]);
-      setPool(p.cardIds.map(id => ({ cardId: id, balance: p.balances[id] ? String(p.balances[id]) : '' })));
-      if (p.balances[p.cardIds[0]]) setPoints(String(p.balances[p.cardIds[0]]));
+      const ids = p.cardIds.filter(id => cards.some(c => c.id === id));
+      if (ids.length) {
+        setMine(ids);
+        setCardId(ids[0]);
+        setPool(ids.map(id => ({ cardId: id, balance: p.balances[id] ? String(p.balances[id]) : '' })));
+        if (p.balances[ids[0]]) setPoints(String(p.balances[ids[0]]));
+      }
     }
     /* eslint-enable react-hooks/set-state-in-effect */
-  }, []);
+  }, [cards]);
 
-  const fwd = useMemo(() => (num(points) ? reachable(d, cardId, num(points), direct) : []), [d, cardId, points, direct]);
-  const fwdDirect = useMemo(() => new Map(reachable(d, cardId, num(points), true).map(r => [r.programme, r])), [d, cardId, points]);
-  const rev = useMemo(() => {
-    if (!num(miles)) return [];
-    return cards.map(c => ({ c, r: pointsFor(d, c.id, target, num(miles), direct) })).filter((x): x is { c: CardOpt; r: Reach } => !!x.r).sort((a, b) => a.r.pointsUsed - b.r.pointsUsed);
-  }, [d, cards, target, miles, direct]);
-  const pooled = useMemo(() => {
-    const held = pool.filter(p => num(p.balance) > 0);
-    return combine(d, { cardIds: held.map(p => p.cardId), balances: Object.fromEntries(held.map(p => [p.cardId, num(p.balance)])) }, target, num(miles), direct);
-  }, [d, pool, target, miles, direct]);
+  const fwd = useCalc<{ rows: Row[]; card: string }>(tab === 'forward' && num(points) ? { mode: 'forward', cardId, points: num(points), direct } : null);
+  const rev = useCalc<{ rows: Row[]; target: string }>(tab === 'reverse' && num(miles) ? { mode: 'reverse', target, miles: num(miles), direct } : null);
+  const pooled = useCalc<Pool>(tab === 'pool' && num(miles) ? { mode: 'pool', target, miles: num(miles), direct, rows: pool.map(p => ({ cardId: p.cardId, balance: num(p.balance) })) } : null);
   const vpp = num(fare) && num(used) ? valuePerPoint(num(fare), num(taxes), num(used)) : null;
 
   const directToggle = (
-    <label className="check-box" style={{ alignSelf: 'end' }}>
+    <label className="check-box">
       <input type="checkbox" checked={direct} onChange={e => setDirect(e.target.checked)} />
-      <span><b>Direct transfers only</b><br /><span className="t-sm muted">Skip multi-hop chains through other airline programmes.</span></span>
+      <span><b>Direct transfers only</b><br /><span className="t-sm muted">Skip multi-hop chains through other programmes.</span></span>
     </label>
   );
-  const cardSelect = (id: string, set: (v: string) => void, name: string) => (
-    <select id={name} value={id} onChange={e => set(e.target.value)}>
-      {[...new Set(cards.map(c => c.bankId))].map(b => (
-        <optgroup key={b} label={cards.find(c => c.bankId === b)!.bankName}>
-          {cards.filter(c => c.bankId === b).map(c => <option key={c.id} value={c.id}>{c.bankName.replace(/ Bank| Card/, '')} {c.name}{mine.includes(c.id) ? ' (yours)' : ''}</option>)}
-        </optgroup>
-      ))}
-    </select>
-  );
-  const capText = (c: Reach['cap']) => (c.limit ? `${n(c.limit)} a ${c.period === 'year' ? 'year' : 'month'}` : 'no cap found');
+  const cardOptions = [...new Set(cards.map(c => c.bankId))].map(b => (
+    <optgroup key={b} label={cards.find(c => c.bankId === b)!.bankName}>
+      {cards.filter(c => c.bankId === b).map(c => <option key={c.id} value={c.id}>{c.bankName.replace(/ Bank| Card/, '')} {c.name}{mine.includes(c.id) ? ' (yours)' : ''}</option>)}
+    </optgroup>
+  ));
   const targetField = (
     <div className="field"><label htmlFor="target">Programme</label>
       <select id="target" value={target} onChange={e => setTarget(e.target.value)}>{airlines.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}</select></div>
+  );
+  const status = (c: { busy: boolean; error: string }) => (c.error ? <div className="note note-bad" role="alert"><Warn />{c.error}</div> : c.busy ? <p className="t-sm muted" role="status"><span className="spin" /> Calculating</p> : null);
+  const capCell = (c: Cap, time: string | null) => (
+    <td className="t-sm">{capText(c)}{c.monthsNeeded > 1 && <div style={{ color: 'var(--color-warning)' }}>{c.monthsNeeded} months</div>}{time && <div className="muted">{time}</div>}</td>
   );
 
   return (
@@ -101,35 +119,31 @@ export default function Calculator({ cards, programmes, rules }: { cards: CardOp
           {TABS.map(([id, name]) => <button key={id} type="button" role="tab" aria-selected={tab === id} className={tab === id ? 'btn btn-primary btn-sm' : 'btn btn-secondary btn-sm'} onClick={() => setTab(id)}>{name}</button>)}
         </div>
         <p className="t-sm muted">{TABS.find(t => t[0] === tab)![2]}</p>
-
         <div className="note note-warn"><Warn /><span>Ratios come from public sources and are not yet matched to the bank portals. <Link href="/rules">See every rule and source</Link>.</span></div>
 
         {tab === 'forward' && (
           <section className="stack settle" style={{ ['--stack' as string]: '16px' }} aria-label="Points to miles">
             <div className="grid-2">
-              <div className="field"><label htmlFor="card">Card</label>{cardSelect(cardId, setCardId, 'card')}</div>
+              <div className="field"><label htmlFor="card">Card</label><select id="card" value={cardId} onChange={e => setCardId(e.target.value)}>{cardOptions}</select></div>
               <div className="field"><label htmlFor="pts">Points on the card</label><input id="pts" inputMode="numeric" value={points ? n(num(points)) : ''} placeholder="For example 1,20,000" onChange={e => setPoints(digits(e.target.value))} />
                 <span className="btn-row" style={{ gap: 6 }}>{[50000, 100000, 150000, 500000].map(v => <button key={v} type="button" className="btn btn-secondary btn-sm" onClick={() => setPoints(String(v))}>{n(v)}</button>)}</span></div>
             </div>
             {directToggle}
+            {status(fwd)}
             {!num(points) && <div className="note note-info"><Info />Add a balance to see what it buys.</div>}
-            {num(points) > 0 && fwd.length === 0 && <div className="note note-info"><Info />{label(cardId)} has no transfer route to an airline in our rules yet.</div>}
-            {fwd.length > 0 && (
+            {fwd.data && fwd.data.rows.length === 0 && num(points) > 0 && <div className="note note-info"><Info />{fwd.data.card} has no transfer route to an airline in our rules.</div>}
+            {fwd.data && fwd.data.rows.length > 0 && (
               <div className="table-wrap" role="status"><table className="data">
                 <thead><tr><th>Programme</th><th className="n">Miles</th><th className="n">Rate</th><th>Path</th><th>Cap</th></tr></thead>
-                <tbody>{fwd.map((r, i) => {
-                  const base = fwdDirect.get(r.programme);
-                  const extra = base && r.miles > base.miles ? r.miles - base.miles : base ? 0 : r.miles;
-                  return (
-                    <tr key={r.programme}>
-                      <td><b>{pn(r.programme)}</b>{i === 0 && fwd[1]?.miles !== r.miles && <> <span className="tag tag-best">Most miles</span></>}</td>
-                      <td className="n"><b>{n(r.miles)}</b>{r.hops.length > 1 && extra > 0 && <div className="t-sm muted">+{n(extra)} vs direct</div>}</td>
-                      <td className="n">{r.pointsPerMile}:1</td>
-                      <td><PathChain {...chain(r.hops)} /></td>
-                      <td className="t-sm">{capText(r.cap)}{r.cap.monthsNeeded > 1 && <div style={{ color: 'var(--color-warning)' }}>{r.cap.monthsNeeded} months</div>}</td>
-                    </tr>
-                  );
-                })}</tbody>
+                <tbody>{fwd.data.rows.map((r, i) => (
+                  <tr key={r.programme}>
+                    <td><b>{r.name}</b>{i === 0 && fwd.data!.rows[1]?.miles !== r.miles && <> <span className="tag tag-best">Most miles</span></>}{r.confirmed && <> <span className="tag tag-ok">Route seen working</span></>}</td>
+                    <td className="n"><b>{n(r.miles)}</b>{(r.vsDirect ?? 0) > 0 && r.chain.nodes.length > 2 && <div className="t-sm muted">+{n(r.vsDirect!)} vs direct</div>}</td>
+                    <td className="n">{r.rate}:1</td>
+                    <td><PathChain {...r.chain} /></td>
+                    {capCell(r.cap, r.transferTime)}
+                  </tr>
+                ))}</tbody>
               </table></div>
             )}
           </section>
@@ -142,17 +156,18 @@ export default function Calculator({ cards, programmes, rules }: { cards: CardOp
               <div className="field"><label htmlFor="miles">Miles you want</label><input id="miles" inputMode="numeric" value={miles ? n(num(miles)) : ''} placeholder="For example 1,40,000" onChange={e => setMiles(digits(e.target.value))} /></div>
             </div>
             {directToggle}
-            {num(miles) > 0 && rev.length === 0 && <div className="note note-info"><Info />No card in our rules reaches {pn(target)} yet.</div>}
-            {rev.length > 0 && (
+            {status(rev)}
+            {rev.data && rev.data.rows.length === 0 && <div className="note note-info"><Info />No card in our rules reaches {rev.data.target}.</div>}
+            {rev.data && rev.data.rows.length > 0 && (
               <div className="table-wrap" role="status"><table className="data">
                 <thead><tr><th>Card</th><th className="n">Points needed</th><th className="n">Rate</th><th>Path</th><th>Cap</th></tr></thead>
-                <tbody>{rev.map(({ c, r }, i) => (
-                  <tr key={c.id}>
-                    <td><b>{c.bankName.replace(/ Bank| Card/, '')} {c.name}</b>{mine.includes(c.id) && <> <span className="tag">Yours</span></>}{i === 0 && <> <span className="tag tag-best">Fewest points</span></>}</td>
+                <tbody>{rev.data.rows.map((r, i) => (
+                  <tr key={r.cardId}>
+                    <td><b>{r.card}</b>{mine.includes(r.cardId!) && <> <span className="tag">Yours</span></>}{i === 0 && <> <span className="tag tag-best">Fewest points</span></>}</td>
                     <td className="n"><b>{n(r.pointsUsed)}</b></td>
-                    <td className="n">{r.pointsPerMile}:1</td>
-                    <td><PathChain {...chain(r.hops)} /></td>
-                    <td className="t-sm">{capText(r.cap)}{r.cap.monthsNeeded > 1 && <div style={{ color: 'var(--color-warning)' }}>{r.cap.monthsNeeded} months</div>}</td>
+                    <td className="n">{r.rate}:1</td>
+                    <td><PathChain {...r.chain} /></td>
+                    {capCell(r.cap, r.transferTime)}
                   </tr>
                 ))}</tbody>
               </table></div>
@@ -183,17 +198,20 @@ export default function Calculator({ cards, programmes, rules }: { cards: CardOp
                 </select></div>
             </fieldset>
             {directToggle}
-            <div role="status" className="stack" style={{ ['--stack' as string]: '12px' }}>
-              {pooled.transfers.map(t => (
-                <div className="card" key={t.cardId}>
-                  <p><b>{label(t.cardId)}</b>: <span className="t-mono">{n(t.sourcePoints)}</span> points to <span className="t-mono">{n(t.targetMiles)}</span> miles</p>
-                  <div style={{ marginTop: 8 }}><PathChain {...chain(t.hops)} /></div>
-                  {t.cap.monthsNeeded > 1 && <p className="t-sm" style={{ color: 'var(--color-warning)', marginTop: 8 }}>Cap {capText(t.cap)}: this takes {t.cap.monthsNeeded} months.</p>}
-                </div>
-              ))}
-              {num(miles) > 0 && pooled.shortfall === 0 && pooled.transfers.length > 0 && <div className="note note-ok"><Info />These cards cover {n(num(miles))} miles. Total points spent: {n(pooled.transfers.reduce((s, t) => s + t.sourcePoints, 0))}.</div>}
-              {num(miles) > 0 && pooled.shortfall > 0 && <div className="note note-warn"><Warn />You are {n(pooled.shortfall)} miles short with these balances.{pooled.transfers.length === 0 ? ' None of the cards listed reaches this programme.' : ''}</div>}
-            </div>
+            {status(pooled)}
+            {pooled.data && (
+              <div role="status" className="stack" style={{ ['--stack' as string]: '12px' }}>
+                {pooled.data.transfers.map(t => (
+                  <div className="card" key={t.cardId}>
+                    <p><b>{t.card}</b>: <span className="t-mono">{n(t.sourcePoints)}</span> points to <span className="t-mono">{n(t.targetMiles)}</span> miles</p>
+                    <div style={{ marginTop: 8 }}><PathChain {...t.chain} /></div>
+                    {t.cap.monthsNeeded > 1 && <p className="t-sm" style={{ color: 'var(--color-warning)', marginTop: 8 }}>Cap {capText(t.cap)}: this takes {t.cap.monthsNeeded} months.</p>}
+                  </div>
+                ))}
+                {pooled.data.shortfall === 0 && pooled.data.transfers.length > 0 && <div className="note note-ok"><Info />These cards cover {n(num(miles))} miles in {pooled.data.target}. Total points spent: {n(pooled.data.transfers.reduce((s, t) => s + t.sourcePoints, 0))}.</div>}
+                {pooled.data.shortfall > 0 && <div className="note note-warn"><Warn />You are {n(pooled.data.shortfall)} miles short with these balances.{pooled.data.transfers.length === 0 ? ' None of the cards listed reaches this programme.' : ''}</div>}
+              </div>
+            )}
           </section>
         )}
 

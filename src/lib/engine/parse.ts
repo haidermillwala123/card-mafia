@@ -18,6 +18,7 @@ export type ParsedTrip = {
 const ALIASES: [RegExp, string][] = [
   [/\binfinia\b/, 'hdfc-infinia'],
   [/\b(diners|dcb)\b/, 'hdfc-diners'],
+  [/\bregalia gold\b/, 'hdfc-regalia-gold'],
   [/\bregalia\b/, 'hdfc-regalia'],
   [/\batlas\b/, 'axis-atlas'],
   [/\bhorizon\b/, 'axis-horizon'],
@@ -27,6 +28,7 @@ const ALIASES: [RegExp, string][] = [
   [/\btravel one\b/, 'hsbc-travel-one'],
   [/\bhsbc premier\b|\bpremier\b/, 'hsbc-premier'],
   [/\bsbi miles\b/, 'sbi-miles'],
+  [/\bemeralde private\b/, 'icici-emeralde-private-metal'],
   [/\bemeralde\b/, 'icici-emeralde'],
 ];
 const CITIES: Record<string, string> = { delhi: 'DEL', mumbai: 'BOM', bengaluru: 'BLR', bangalore: 'BLR', hyderabad: 'HYD', chennai: 'MAA', kolkata: 'CCU', pune: 'PNQ', ahmedabad: 'AMD' };

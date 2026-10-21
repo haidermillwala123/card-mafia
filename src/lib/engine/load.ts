@@ -12,7 +12,7 @@ let cache: { at: number; value: Loaded } | null = null;
 type RuleRow = {
   id: string; from_programme_id: string; to_programme_id: string; card_id: string | null; ratio_in: number | string; ratio_out: number | string;
   monthly_cap_points: number | null; annual_cap_points: number | null; min_multiple: number | null; route_confirmed_on: string | null;
-  source_url: string | null; source_note: string | null;
+  source_url: string | null; source_note: string | null; transfer_time_text: string | null;
 };
 
 export async function getData(): Promise<Loaded> {
@@ -31,7 +31,7 @@ async function fromDatabase(): Promise<Loaded | null> {
     const [progs, cards, rules, aircraft] = await Promise.all([
       sb.from('programmes').select('id,name,kind'),
       sb.from('cards').select('id,bank_id,name,programme_id,annual_fee_inr').eq('active', true),
-      sb.from('transfer_rules').select('id,from_programme_id,to_programme_id,card_id,ratio_in,ratio_out,monthly_cap_points,annual_cap_points,min_multiple,route_confirmed_on,source_url,source_note'),
+      sb.from('transfer_rules').select('id,from_programme_id,to_programme_id,card_id,ratio_in,ratio_out,monthly_cap_points,annual_cap_points,min_multiple,route_confirmed_on,source_url,source_note,transfer_time_text').limit(5000),
       sb.from('aircraft_products').select('aircraft_type,notes,verified_at').eq('airline_iata', 'QR').eq('product_name', 'Qsuite').eq('is_true_product', true),
     ]);
     if (progs.error || cards.error || rules.error || aircraft.error || !rules.data?.length || !cards.data?.length) return null;
@@ -46,7 +46,7 @@ async function fromDatabase(): Promise<Loaded | null> {
         merged.set(k, {
           id: r.id, from: r.from_programme_id, to: r.to_programme_id, cards: r.card_id ? [r.card_id] : undefined,
           ratio_in: Number(r.ratio_in), ratio_out: Number(r.ratio_out), monthly_cap: r.monthly_cap_points, annual_cap: r.annual_cap_points,
-          min_multiple: r.min_multiple, route_confirmed_on: r.route_confirmed_on, source_url: r.source_url ?? '', source_note: r.source_note ?? '',
+          min_multiple: r.min_multiple, route_confirmed_on: r.route_confirmed_on, transfer_time: r.transfer_time_text, source_url: r.source_url ?? '', source_note: r.source_note ?? '',
         });
       }
     }

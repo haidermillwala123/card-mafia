@@ -1,29 +1,742 @@
 {
-  "banks": [
-    { "id": "hdfc", "name": "HDFC Bank" },
-    { "id": "axis", "name": "Axis Bank" },
-    { "id": "amex", "name": "American Express" },
-    { "id": "sbi", "name": "SBI Card" },
-    { "id": "icici", "name": "ICICI Bank" },
-    { "id": "hsbc", "name": "HSBC" },
-    { "id": "kotak", "name": "Kotak" },
-    { "id": "idfc", "name": "IDFC FIRST" },
-    { "id": "sc", "name": "Standard Chartered" }
-  ],
-  "programmes": [
-    { "id": "hdfc-reward-points", "name": "HDFC Reward Points", "kind": "bank", "bank": "hdfc" },
-    { "id": "axis-edge-miles", "name": "Axis EDGE Miles", "kind": "bank", "bank": "axis" },
-    { "id": "axis-edge-rewards", "name": "Axis EDGE Rewards", "kind": "bank", "bank": "axis" },
-    { "id": "amex-membership-rewards", "name": "Amex Membership Rewards", "kind": "bank", "bank": "amex" },
-    { "id": "sbi-reward-points", "name": "SBI Reward Points", "kind": "bank", "bank": "sbi" },
-    { "id": "sbi-travel-credits", "name": "SBI Travel Credits", "kind": "bank", "bank": "sbi" },
-    { "id": "icici-reward-points", "name": "ICICI Reward Points", "kind": "bank", "bank": "icici" },
-    { "id": "hsbc-reward-points", "name": "HSBC Reward Points", "kind": "bank", "bank": "hsbc" },
-    { "id": "kotak-reward-points", "name": "Kotak Reward Points", "kind": "bank", "bank": "kotak" },
-    { "id": "idfc-first-reward-points", "name": "IDFC FIRST Reward Points", "kind": "bank", "bank": "idfc" },
-    { "id": "standard-chartered-reward-points", "name": "Standard Chartered Reward Points", "kind": "bank", "bank": "sc" },
-    { "id": "finnair-plus", "name": "Finnair Plus", "kind": "airline", "iata": "AY", "alliance": "oneworld" },
-    { "id": "ba-executive-club", "name": "British Airways Executive Club", "kind": "airline", "iata": "BA", "alliance": "oneworld" },
-    { "id": "qatar-privilege-club", "name": "Qatar Airways Privilege Club", "kind": "airline", "iata": "QR", "alliance": "oneworld" }
-  ]
+ "banks": [
+  {
+   "id": "hdfc",
+   "name": "HDFC Bank"
+  },
+  {
+   "id": "axis",
+   "name": "Axis Bank"
+  },
+  {
+   "id": "amex",
+   "name": "American Express"
+  },
+  {
+   "id": "hsbc",
+   "name": "HSBC"
+  },
+  {
+   "id": "sbi",
+   "name": "SBI Card"
+  },
+  {
+   "id": "icici",
+   "name": "ICICI Bank"
+  },
+  {
+   "id": "yes",
+   "name": "Yes Bank"
+  },
+  {
+   "id": "indusind",
+   "name": "IndusInd Bank"
+  },
+  {
+   "id": "kotak",
+   "name": "Kotak"
+  },
+  {
+   "id": "au",
+   "name": "AU Small Finance Bank"
+  },
+  {
+   "id": "rbl",
+   "name": "RBL Bank"
+  },
+  {
+   "id": "jupiter",
+   "name": "Jupiter"
+  }
+ ],
+ "programmes": [
+  {
+   "id": "axis-magnus-pts",
+   "name": "Axis Magnus reward points",
+   "kind": "bank",
+   "bank": "axis"
+  },
+  {
+   "id": "axis-atlas-pts",
+   "name": "Axis Atlas reward points",
+   "kind": "bank",
+   "bank": "axis"
+  },
+  {
+   "id": "axis-magnus-burgundy-pts",
+   "name": "Axis Magnus Burgundy reward points",
+   "kind": "bank",
+   "bank": "axis"
+  },
+  {
+   "id": "amex-platinum-travel-pts",
+   "name": "Amex Platinum Travel reward points",
+   "kind": "bank",
+   "bank": "amex"
+  },
+  {
+   "id": "axis-privilege-pts",
+   "name": "Axis Privilege reward points",
+   "kind": "bank",
+   "bank": "axis"
+  },
+  {
+   "id": "axis-select-pts",
+   "name": "Axis Select reward points",
+   "kind": "bank",
+   "bank": "axis"
+  },
+  {
+   "id": "hdfc-diners-club-black-pts",
+   "name": "HDFC Diners Club Black reward points",
+   "kind": "bank",
+   "bank": "hdfc"
+  },
+  {
+   "id": "hdfc-diners-privilege-pts",
+   "name": "HDFC Diners Privilege reward points",
+   "kind": "bank",
+   "bank": "hdfc"
+  },
+  {
+   "id": "hdfc-infinia-pts",
+   "name": "HDFC Infinia reward points",
+   "kind": "bank",
+   "bank": "hdfc"
+  },
+  {
+   "id": "hdfc-regalia-gold-pts",
+   "name": "HDFC Regalia Gold reward points",
+   "kind": "bank",
+   "bank": "hdfc"
+  },
+  {
+   "id": "hsbc-premier-pts",
+   "name": "HSBC Premier reward points",
+   "kind": "bank",
+   "bank": "hsbc"
+  },
+  {
+   "id": "icici-times-black-pts",
+   "name": "ICICI Times Black reward points",
+   "kind": "bank",
+   "bank": "icici"
+  },
+  {
+   "id": "yes-private-pts",
+   "name": "Yes Private reward points",
+   "kind": "bank",
+   "bank": "yes"
+  },
+  {
+   "id": "amex-mrcc-pts",
+   "name": "Amex MRCC reward points",
+   "kind": "bank",
+   "bank": "amex"
+  },
+  {
+   "id": "amex-gold-pts",
+   "name": "Amex Gold reward points",
+   "kind": "bank",
+   "bank": "amex"
+  },
+  {
+   "id": "amex-smartearn-pts",
+   "name": "Amex SmartEarn reward points",
+   "kind": "bank",
+   "bank": "amex"
+  },
+  {
+   "id": "amex-platinum-pts",
+   "name": "Amex Platinum reward points",
+   "kind": "bank",
+   "bank": "amex"
+  },
+  {
+   "id": "amex-platinum-reserve-pts",
+   "name": "Amex Platinum Reserve reward points",
+   "kind": "bank",
+   "bank": "amex"
+  },
+  {
+   "id": "hsbc-travelone-pts",
+   "name": "HSBC TravelOne reward points",
+   "kind": "bank",
+   "bank": "hsbc"
+  },
+  {
+   "id": "axis-horizon-pts",
+   "name": "Axis Horizon reward points",
+   "kind": "bank",
+   "bank": "axis"
+  },
+  {
+   "id": "yes-marquee-pts",
+   "name": "Yes Marquee reward points",
+   "kind": "bank",
+   "bank": "yes"
+  },
+  {
+   "id": "yes-reserv-pts",
+   "name": "Yes Reserv reward points",
+   "kind": "bank",
+   "bank": "yes"
+  },
+  {
+   "id": "hsbc-visaplatinum-pts",
+   "name": "HSBC VisaPlatinum reward points",
+   "kind": "bank",
+   "bank": "hsbc"
+  },
+  {
+   "id": "sbi-miles-elite-pts",
+   "name": "SBI Miles Elite reward points",
+   "kind": "bank",
+   "bank": "sbi"
+  },
+  {
+   "id": "sbi-miles-prime-pts",
+   "name": "SBI Miles Prime reward points",
+   "kind": "bank",
+   "bank": "sbi"
+  },
+  {
+   "id": "sbi-miles-pts",
+   "name": "SBI Miles reward points",
+   "kind": "bank",
+   "bank": "sbi"
+  },
+  {
+   "id": "axis-olympus-pts",
+   "name": "Axis Olympus reward points",
+   "kind": "bank",
+   "bank": "axis"
+  },
+  {
+   "id": "hdfc-biz-black-pts",
+   "name": "HDFC Biz Black reward points",
+   "kind": "bank",
+   "bank": "hdfc"
+  },
+  {
+   "id": "hdfc-biz-power-pts",
+   "name": "HDFC Biz Power reward points",
+   "kind": "bank",
+   "bank": "hdfc"
+  },
+  {
+   "id": "indusind-legend-pts",
+   "name": "IndusInd Legend reward points",
+   "kind": "bank",
+   "bank": "indusind"
+  },
+  {
+   "id": "indusind-celesta-pts",
+   "name": "IndusInd Celesta reward points",
+   "kind": "bank",
+   "bank": "indusind"
+  },
+  {
+   "id": "indusind-crest-pts",
+   "name": "IndusInd Crest reward points",
+   "kind": "bank",
+   "bank": "indusind"
+  },
+  {
+   "id": "indusind-indulge-pts",
+   "name": "IndusInd Indulge reward points",
+   "kind": "bank",
+   "bank": "indusind"
+  },
+  {
+   "id": "indusind-heritage-pts",
+   "name": "IndusInd Heritage reward points",
+   "kind": "bank",
+   "bank": "indusind"
+  },
+  {
+   "id": "indusind-pinnacle-pts",
+   "name": "IndusInd Pinnacle reward points",
+   "kind": "bank",
+   "bank": "indusind"
+  },
+  {
+   "id": "indusind-pioneer-private-pts",
+   "name": "IndusInd Pioneer Private reward points",
+   "kind": "bank",
+   "bank": "indusind"
+  },
+  {
+   "id": "kotak-air-plus-pts",
+   "name": "Kotak Air Plus reward points",
+   "kind": "bank",
+   "bank": "kotak"
+  },
+  {
+   "id": "kotak-solitaire-pts",
+   "name": "Kotak Solitaire reward points",
+   "kind": "bank",
+   "bank": "kotak"
+  },
+  {
+   "id": "au-zenith-pts",
+   "name": "AU Zenith reward points",
+   "kind": "bank",
+   "bank": "au"
+  },
+  {
+   "id": "au-zenith-plus-pts",
+   "name": "AU Zenith Plus reward points",
+   "kind": "bank",
+   "bank": "au"
+  },
+  {
+   "id": "sbi-aurum-pts",
+   "name": "SBI Aurum reward points",
+   "kind": "bank",
+   "bank": "sbi"
+  },
+  {
+   "id": "sbi-air-india-platinum-pts",
+   "name": "SBI Air India Platinum reward points",
+   "kind": "bank",
+   "bank": "sbi"
+  },
+  {
+   "id": "sbi-air-india-signature-pts",
+   "name": "SBI Air India Signature reward points",
+   "kind": "bank",
+   "bank": "sbi"
+  },
+  {
+   "id": "indusind-tiger-pts",
+   "name": "IndusInd Tiger reward points",
+   "kind": "bank",
+   "bank": "indusind"
+  },
+  {
+   "id": "icici-emeralde-private-metal-pts",
+   "name": "ICICI Emeralde Private Metal reward points",
+   "kind": "bank",
+   "bank": "icici"
+  },
+  {
+   "id": "amex-centurion-pts",
+   "name": "Amex Centurion reward points",
+   "kind": "bank",
+   "bank": "amex"
+  },
+  {
+   "id": "hdfc-regalia-pts",
+   "name": "HDFC Regalia reward points",
+   "kind": "bank",
+   "bank": "hdfc"
+  },
+  {
+   "id": "axis-reserve-pts",
+   "name": "Axis Reserve reward points",
+   "kind": "bank",
+   "bank": "axis"
+  },
+  {
+   "id": "icici-emeralde-pts",
+   "name": "ICICI Emeralde reward points",
+   "kind": "bank",
+   "bank": "icici"
+  },
+  {
+   "id": "kotak-air-pts",
+   "name": "Kotak Air reward points",
+   "kind": "bank",
+   "bank": "kotak"
+  },
+  {
+   "id": "kotak-air-plus-prime-pts",
+   "name": "Kotak Air Plus Prime reward points",
+   "kind": "bank",
+   "bank": "kotak"
+  },
+  {
+   "id": "rbl-nova-pts",
+   "name": "RBL Nova reward points",
+   "kind": "bank",
+   "bank": "rbl"
+  },
+  {
+   "id": "jupiter-edge-plus-pts",
+   "name": "Jupiter Edge Plus reward points",
+   "kind": "bank",
+   "bank": "jupiter"
+  },
+  {
+   "id": "hdfc-corporate-premium-pts",
+   "name": "HDFC Corporate Premium reward points",
+   "kind": "bank",
+   "bank": "hdfc"
+  },
+  {
+   "id": "rbl-lumiere-pts",
+   "name": "RBL Lumiere reward points",
+   "kind": "bank",
+   "bank": "rbl"
+  },
+  {
+   "id": "rbl-world-safari-plus-pts",
+   "name": "RBL World Safari Plus reward points",
+   "kind": "bank",
+   "bank": "rbl"
+  },
+  {
+   "id": "rbl-iglobe-pts",
+   "name": "RBL iGlobe reward points",
+   "kind": "bank",
+   "bank": "rbl"
+  },
+  {
+   "id": "rbl-insignia-preferred-pts",
+   "name": "RBL Insignia Preferred reward points",
+   "kind": "bank",
+   "bank": "rbl"
+  },
+  {
+   "id": "ana-mileage-club",
+   "name": "ANA Mileage Club",
+   "kind": "airline"
+  },
+  {
+   "id": "ba-executive-club",
+   "name": "British Airways Executive Club",
+   "kind": "airline"
+  },
+  {
+   "id": "qatar-privilege-club",
+   "name": "Qatar Airways Privilege Club",
+   "kind": "airline"
+  },
+  {
+   "id": "accor-all",
+   "name": "Accor Live Limitless",
+   "kind": "hotel"
+  },
+  {
+   "id": "itc-club",
+   "name": "ITC Club",
+   "kind": "hotel"
+  },
+  {
+   "id": "hilton-honors",
+   "name": "Hilton Honors",
+   "kind": "hotel"
+  },
+  {
+   "id": "ihg-one",
+   "name": "IHG Rewards Club",
+   "kind": "hotel"
+  },
+  {
+   "id": "marriott-bonvoy",
+   "name": "Marriott Bonvoy",
+   "kind": "hotel"
+  },
+  {
+   "id": "aeroplan",
+   "name": "Aeroplan",
+   "kind": "airline"
+  },
+  {
+   "id": "cathay-asiamiles",
+   "name": "Asia Miles (Cathay)",
+   "kind": "airline"
+  },
+  {
+   "id": "emirates-skywards",
+   "name": "Emirates Skywards",
+   "kind": "airline"
+  },
+  {
+   "id": "finnair-plus",
+   "name": "Finnair Plus",
+   "kind": "airline"
+  },
+  {
+   "id": "jal-mileage-bank",
+   "name": "JAL Mileage Bank",
+   "kind": "airline"
+  },
+  {
+   "id": "krisflyer",
+   "name": "KrisFlyer",
+   "kind": "airline"
+  },
+  {
+   "id": "vietnam-lotusmiles",
+   "name": "Lotusmiles",
+   "kind": "airline"
+  },
+  {
+   "id": "united-mileageplus",
+   "name": "MileagePlus",
+   "kind": "airline"
+  },
+  {
+   "id": "shebamiles",
+   "name": "ShebaMiles",
+   "kind": "airline"
+  },
+  {
+   "id": "indigo-bluchip",
+   "name": "Indigo BluChip",
+   "kind": "airline"
+  },
+  {
+   "id": "aerclub",
+   "name": "AerClub",
+   "kind": "airline"
+  },
+  {
+   "id": "atmos-rewards",
+   "name": "Atmos Rewards",
+   "kind": "airline"
+  },
+  {
+   "id": "iberia-club",
+   "name": "Iberia Club",
+   "kind": "airline"
+  },
+  {
+   "id": "latam-pass",
+   "name": "LATAM Pass",
+   "kind": "airline"
+  },
+  {
+   "id": "miles-bonus",
+   "name": "Miles & Bonus",
+   "kind": "airline"
+  },
+  {
+   "id": "vueling-club",
+   "name": "Vueling Club",
+   "kind": "airline"
+  },
+  {
+   "id": "juneyao-air",
+   "name": "Juneyao Club",
+   "kind": "airline"
+  },
+  {
+   "id": "falconflyer",
+   "name": "FalconFlyer",
+   "kind": "airline"
+  },
+  {
+   "id": "rove-miles",
+   "name": "Rove Miles",
+   "kind": "hotel"
+  },
+  {
+   "id": "suma",
+   "name": "Suma",
+   "kind": "hotel"
+  },
+  {
+   "id": "flipkart-supercoins",
+   "name": "Flipkart SuperCoins",
+   "kind": "hotel"
+  },
+  {
+   "id": "thai-royalorchid",
+   "name": "Royal Orchid Plus",
+   "kind": "airline"
+  },
+  {
+   "id": "etihad-guest",
+   "name": "Etihad Guest",
+   "kind": "airline"
+  },
+  {
+   "id": "spiceclub",
+   "name": "SpiceClub",
+   "kind": "airline"
+  },
+  {
+   "id": "airasia-rewards",
+   "name": "AirAsia Rewards",
+   "kind": "airline"
+  },
+  {
+   "id": "turkish-ms",
+   "name": "Miles & Smiles",
+   "kind": "airline"
+  },
+  {
+   "id": "wyndham",
+   "name": "Wyndham",
+   "kind": "hotel"
+  },
+  {
+   "id": "orchid-rewards",
+   "name": "Orchid Rewards",
+   "kind": "hotel"
+  },
+  {
+   "id": "postcard-sunshine-club",
+   "name": "Postcard Sunshine Club",
+   "kind": "hotel"
+  },
+  {
+   "id": "radisson-rewards",
+   "name": "Radisson Rewards",
+   "kind": "hotel"
+  },
+  {
+   "id": "flying-blue",
+   "name": "Flying Blue",
+   "kind": "airline"
+  },
+  {
+   "id": "air-india",
+   "name": "Maharaja Club",
+   "kind": "airline"
+  },
+  {
+   "id": "miles-and-more",
+   "name": "Miles & More",
+   "kind": "airline"
+  },
+  {
+   "id": "qantas-ff",
+   "name": "Qantas Frequent Flyer",
+   "kind": "airline"
+  },
+  {
+   "id": "virgin-flyingclub",
+   "name": "Virgin Atlantic Flying Club",
+   "kind": "airline"
+  },
+  {
+   "id": "lifemiles",
+   "name": "LifeMiles",
+   "kind": "airline"
+  },
+  {
+   "id": "fortune-wings-club",
+   "name": "Fortune Wings Club",
+   "kind": "airline"
+  },
+  {
+   "id": "infinity-mileagelands",
+   "name": "Infinity MileageLands",
+   "kind": "airline"
+  },
+  {
+   "id": "golden-circle",
+   "name": "Golden Circle",
+   "kind": "hotel"
+  },
+  {
+   "id": "jumeirah-one",
+   "name": "Jumeirah One",
+   "kind": "hotel"
+  },
+  {
+   "id": "aa-rewards",
+   "name": "AA Rewards",
+   "kind": "airline"
+  },
+  {
+   "id": "saudia-alfursan",
+   "name": "Saudia Alfursan",
+   "kind": "airline"
+  },
+  {
+   "id": "smiles-gol",
+   "name": "Smiles (GOL)",
+   "kind": "airline"
+  },
+  {
+   "id": "tap-miles-go",
+   "name": "TAP Miles&Go",
+   "kind": "airline"
+  },
+  {
+   "id": "skypass",
+   "name": "SkyPass",
+   "kind": "airline"
+  },
+  {
+   "id": "phoenix-miles",
+   "name": "Phoenix Miles",
+   "kind": "airline"
+  },
+  {
+   "id": "delta-skymiles",
+   "name": "Delta SkyMiles",
+   "kind": "airline"
+  },
+  {
+   "id": "aeromexico-rewards",
+   "name": "Aeromexico Rewards",
+   "kind": "airline"
+  },
+  {
+   "id": "velocity",
+   "name": "Velocity",
+   "kind": "airline"
+  },
+  {
+   "id": "eastern-miles",
+   "name": "Eastern Miles",
+   "kind": "airline"
+  },
+  {
+   "id": "enrich",
+   "name": "Enrich",
+   "kind": "airline"
+  },
+  {
+   "id": "trueblue",
+   "name": "TrueBlue",
+   "kind": "airline"
+  },
+  {
+   "id": "sky-pearl-club",
+   "name": "Sky Pearl Club",
+   "kind": "airline"
+  },
+  {
+   "id": "voyager",
+   "name": "Voyager",
+   "kind": "airline"
+  },
+  {
+   "id": "american-airlines-aadvantage",
+   "name": "AAdvantage",
+   "kind": "airline"
+  },
+  {
+   "id": "asiana-club",
+   "name": "Asiana Club",
+   "kind": "airline"
+  },
+  {
+   "id": "connectmiles",
+   "name": "ConnectMiles",
+   "kind": "airline"
+  },
+  {
+   "id": "frontier-miles",
+   "name": "Frontier Miles",
+   "kind": "airline"
+  },
+  {
+   "id": "rapid-rewards",
+   "name": "Rapid Rewards",
+   "kind": "airline"
+  },
+  {
+   "id": "sas-eurobonus",
+   "name": "SAS EuroBonus",
+   "kind": "airline"
+  }
+ ]
 }

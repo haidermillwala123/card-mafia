@@ -15,12 +15,13 @@ export const revalidate = 300;
 
 export default async function CalculatorPage() {
   const { data } = await getData();
-  const cards = data.cards.map(c => ({ id: c.id, name: c.name, bankId: c.bank, bankName: BANKS.find(b => b.id === c.bank)?.name ?? c.bank, programmeId: c.programme }));
+  const cards = data.cards.map(c => ({ id: c.id, name: c.name, bankId: c.bank, bankName: BANKS.find(b => b.id === c.bank)?.name ?? c.bank }));
+  const airlines = data.programmes.filter(p => p.kind === 'airline').map(p => ({ id: p.id, name: p.name })).sort((a, b) => a.name.localeCompare(b.name));
   return (
     <>
       <Breadcrumbs trail={[{ name: 'Points calculator', href: '/calculator' }]} />
       <JsonLd data={{ '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Card Mafia points calculator', url: `${SITE_URL}/calculator`, applicationCategory: 'FinanceApplication', operatingSystem: 'Any', inLanguage: 'en-IN' }} />
-      <Calculator cards={cards} programmes={data.programmes} rules={data.rules} />
+      <Calculator cards={cards} airlines={airlines} />
     </>
   );
 }
