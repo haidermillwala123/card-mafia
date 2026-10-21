@@ -1,0 +1,14 @@
+{
+  "airline": "QR",
+  "product": "Qsuite",
+  "status": "unverified",
+  "verified_at": null,
+  "note": "Aircraft types Qatar Airways fits with Qsuite. Haider supplies and verifies this list before the demo. 'some' means only part of that type's fleet has Qsuite, so the plan must say Qsuite is not guaranteed and the aircraft must be confirmed on the airline site.",
+  "source_url": null,
+  "types": [
+    { "type": "A350-1000", "fit": "all" },
+    { "type": "777-300ER", "fit": "some" },
+    { "type": "A350-900", "fit": "some" },
+    { "type": "787-9", "fit": "some" }
+  ]
+}

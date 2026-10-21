@@ -1,0 +1,29 @@
+{
+  "banks": [
+    { "id": "hdfc", "name": "HDFC Bank" },
+    { "id": "axis", "name": "Axis Bank" },
+    { "id": "amex", "name": "American Express" },
+    { "id": "sbi", "name": "SBI Card" },
+    { "id": "icici", "name": "ICICI Bank" },
+    { "id": "hsbc", "name": "HSBC" },
+    { "id": "kotak", "name": "Kotak" },
+    { "id": "idfc", "name": "IDFC FIRST" },
+    { "id": "sc", "name": "Standard Chartered" }
+  ],
+  "programmes": [
+    { "id": "hdfc-reward-points", "name": "HDFC Reward Points", "kind": "bank", "bank": "hdfc" },
+    { "id": "axis-edge-miles", "name": "Axis EDGE Miles", "kind": "bank", "bank": "axis" },
+    { "id": "axis-edge-rewards", "name": "Axis EDGE Rewards", "kind": "bank", "bank": "axis" },
+    { "id": "amex-membership-rewards", "name": "Amex Membership Rewards", "kind": "bank", "bank": "amex" },
+    { "id": "sbi-reward-points", "name": "SBI Reward Points", "kind": "bank", "bank": "sbi" },
+    { "id": "sbi-travel-credits", "name": "SBI Travel Credits", "kind": "bank", "bank": "sbi" },
+    { "id": "icici-reward-points", "name": "ICICI Reward Points", "kind": "bank", "bank": "icici" },
+    { "id": "hsbc-reward-points", "name": "HSBC Reward Points", "kind": "bank", "bank": "hsbc" },
+    { "id": "kotak-reward-points", "name": "Kotak Reward Points", "kind": "bank", "bank": "kotak" },
+    { "id": "idfc-first-reward-points", "name": "IDFC FIRST Reward Points", "kind": "bank", "bank": "idfc" },
+    { "id": "standard-chartered-reward-points", "name": "Standard Chartered Reward Points", "kind": "bank", "bank": "sc" },
+    { "id": "finnair-plus", "name": "Finnair Plus", "kind": "airline", "iata": "AY", "alliance": "oneworld" },
+    { "id": "ba-executive-club", "name": "British Airways Executive Club", "kind": "airline", "iata": "BA", "alliance": "oneworld" },
+    { "id": "qatar-privilege-club", "name": "Qatar Airways Privilege Club", "kind": "airline", "iata": "QR", "alliance": "oneworld" }
+  ]
+}

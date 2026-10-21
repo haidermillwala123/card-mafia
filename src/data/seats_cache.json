@@ -1,0 +1,1287 @@
+{
+ "sample": true,
+ "source": "sample",
+ "fetched_at": "2026-10-21T10:00:00Z",
+ "rows": [
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "JFK",
+   "date": "2027-10-03",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 39500,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "777-300ER",
+   "flights": [
+    "QR701"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "ORD",
+   "date": "2027-10-03",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 41000,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "787-8",
+   "flights": [
+    "QR702"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "LAX",
+   "date": "2027-10-03",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 42500,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR703"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "MIA",
+   "date": "2027-10-03",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 38000,
+   "seats": 1,
+   "airline": "QR",
+   "aircraft": "777-300ER",
+   "flights": [
+    "QR704"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DEL",
+   "dest": "DOH",
+   "date": "2027-10-02",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 10000,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR505"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BOM",
+   "dest": "DOH",
+   "date": "2027-10-02",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9000,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR506"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BLR",
+   "dest": "DOH",
+   "date": "2027-10-02",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9500,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR507"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "HYD",
+   "dest": "DOH",
+   "date": "2027-10-02",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 10000,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR508"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "JFK",
+   "date": "2027-10-06",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 39500,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR700"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "ORD",
+   "date": "2027-10-06",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 41000,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "777-300ER",
+   "flights": [
+    "QR701"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "LAX",
+   "date": "2027-10-06",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 42500,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "787-9",
+   "flights": [
+    "QR702"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "MIA",
+   "date": "2027-10-06",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 38000,
+   "seats": 1,
+   "airline": "QR",
+   "aircraft": "A350-1000",
+   "flights": [
+    "QR703"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DEL",
+   "dest": "DOH",
+   "date": "2027-10-05",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9500,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR504"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BOM",
+   "dest": "DOH",
+   "date": "2027-10-05",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 10000,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR505"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BLR",
+   "dest": "DOH",
+   "date": "2027-10-05",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9000,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR506"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "HYD",
+   "dest": "DOH",
+   "date": "2027-10-05",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9500,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR507"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "JFK",
+   "date": "2027-10-09",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 39500,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "787-9",
+   "flights": [
+    "QR708"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "ORD",
+   "date": "2027-10-09",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 41000,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "A350-1000",
+   "flights": [
+    "QR700"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "LAX",
+   "date": "2027-10-09",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 42500,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "777-300ER",
+   "flights": [
+    "QR701"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "MIA",
+   "date": "2027-10-09",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 38000,
+   "seats": 1,
+   "airline": "QR",
+   "aircraft": "787-8",
+   "flights": [
+    "QR702"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DEL",
+   "dest": "DOH",
+   "date": "2027-10-08",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9000,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR503"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BOM",
+   "dest": "DOH",
+   "date": "2027-10-08",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9500,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR504"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BLR",
+   "dest": "DOH",
+   "date": "2027-10-08",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 10000,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR505"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "HYD",
+   "dest": "DOH",
+   "date": "2027-10-08",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9000,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR506"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "JFK",
+   "date": "2027-10-12",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 39500,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "777-300ER",
+   "flights": [
+    "QR707"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "ORD",
+   "date": "2027-10-12",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 41000,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "787-8",
+   "flights": [
+    "QR708"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "LAX",
+   "date": "2027-10-12",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 42500,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR700"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "MIA",
+   "date": "2027-10-12",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 38000,
+   "seats": 1,
+   "airline": "QR",
+   "aircraft": "777-300ER",
+   "flights": [
+    "QR701"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DEL",
+   "dest": "DOH",
+   "date": "2027-10-11",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 10000,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR502"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BOM",
+   "dest": "DOH",
+   "date": "2027-10-11",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9000,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR503"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BLR",
+   "dest": "DOH",
+   "date": "2027-10-11",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9500,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR504"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "HYD",
+   "dest": "DOH",
+   "date": "2027-10-11",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 10000,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR505"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "JFK",
+   "date": "2027-10-15",
+   "cabin": "business",
+   "miles": 160000,
+   "taxes_inr": 39500,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR706"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "ORD",
+   "date": "2027-10-15",
+   "cabin": "business",
+   "miles": 160000,
+   "taxes_inr": 41000,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "777-300ER",
+   "flights": [
+    "QR707"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "LAX",
+   "date": "2027-10-15",
+   "cabin": "business",
+   "miles": 160000,
+   "taxes_inr": 42500,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "787-9",
+   "flights": [
+    "QR708"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "MIA",
+   "date": "2027-10-15",
+   "cabin": "business",
+   "miles": 160000,
+   "taxes_inr": 38000,
+   "seats": 1,
+   "airline": "QR",
+   "aircraft": "A350-1000",
+   "flights": [
+    "QR700"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DEL",
+   "dest": "DOH",
+   "date": "2027-10-14",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9500,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR501"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BOM",
+   "dest": "DOH",
+   "date": "2027-10-14",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 10000,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR502"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BLR",
+   "dest": "DOH",
+   "date": "2027-10-14",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9000,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR503"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "HYD",
+   "dest": "DOH",
+   "date": "2027-10-14",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9500,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR504"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "JFK",
+   "date": "2027-10-18",
+   "cabin": "business",
+   "miles": 160000,
+   "taxes_inr": 39500,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "787-9",
+   "flights": [
+    "QR705"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "ORD",
+   "date": "2027-10-18",
+   "cabin": "business",
+   "miles": 160000,
+   "taxes_inr": 41000,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "A350-1000",
+   "flights": [
+    "QR706"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "LAX",
+   "date": "2027-10-18",
+   "cabin": "business",
+   "miles": 160000,
+   "taxes_inr": 42500,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "777-300ER",
+   "flights": [
+    "QR707"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "MIA",
+   "date": "2027-10-18",
+   "cabin": "business",
+   "miles": 160000,
+   "taxes_inr": 38000,
+   "seats": 1,
+   "airline": "QR",
+   "aircraft": "787-8",
+   "flights": [
+    "QR708"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DEL",
+   "dest": "DOH",
+   "date": "2027-10-17",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9000,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR500"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BOM",
+   "dest": "DOH",
+   "date": "2027-10-17",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9500,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR501"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BLR",
+   "dest": "DOH",
+   "date": "2027-10-17",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 10000,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR502"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "HYD",
+   "dest": "DOH",
+   "date": "2027-10-17",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9000,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR503"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "JFK",
+   "date": "2027-10-21",
+   "cabin": "business",
+   "miles": 160000,
+   "taxes_inr": 39500,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "777-300ER",
+   "flights": [
+    "QR704"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "ORD",
+   "date": "2027-10-21",
+   "cabin": "business",
+   "miles": 160000,
+   "taxes_inr": 41000,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "787-8",
+   "flights": [
+    "QR705"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "LAX",
+   "date": "2027-10-21",
+   "cabin": "business",
+   "miles": 160000,
+   "taxes_inr": 42500,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR706"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "MIA",
+   "date": "2027-10-21",
+   "cabin": "business",
+   "miles": 160000,
+   "taxes_inr": 38000,
+   "seats": 1,
+   "airline": "QR",
+   "aircraft": "777-300ER",
+   "flights": [
+    "QR707"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DEL",
+   "dest": "DOH",
+   "date": "2027-10-20",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 10000,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR508"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BOM",
+   "dest": "DOH",
+   "date": "2027-10-20",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9000,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR500"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BLR",
+   "dest": "DOH",
+   "date": "2027-10-20",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9500,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR501"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "HYD",
+   "dest": "DOH",
+   "date": "2027-10-20",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 10000,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR502"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "JFK",
+   "date": "2027-10-24",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 39500,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR703"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "ORD",
+   "date": "2027-10-24",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 41000,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "777-300ER",
+   "flights": [
+    "QR704"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "LAX",
+   "date": "2027-10-24",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 42500,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "787-9",
+   "flights": [
+    "QR705"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "MIA",
+   "date": "2027-10-24",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 38000,
+   "seats": 1,
+   "airline": "QR",
+   "aircraft": "A350-1000",
+   "flights": [
+    "QR706"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DEL",
+   "dest": "DOH",
+   "date": "2027-10-23",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9500,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR507"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BOM",
+   "dest": "DOH",
+   "date": "2027-10-23",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 10000,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR508"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BLR",
+   "dest": "DOH",
+   "date": "2027-10-23",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9000,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR500"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "HYD",
+   "dest": "DOH",
+   "date": "2027-10-23",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9500,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR501"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "JFK",
+   "date": "2027-10-27",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 39500,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "787-9",
+   "flights": [
+    "QR702"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "ORD",
+   "date": "2027-10-27",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 41000,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "A350-1000",
+   "flights": [
+    "QR703"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "LAX",
+   "date": "2027-10-27",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 42500,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "777-300ER",
+   "flights": [
+    "QR704"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "MIA",
+   "date": "2027-10-27",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 38000,
+   "seats": 1,
+   "airline": "QR",
+   "aircraft": "787-8",
+   "flights": [
+    "QR705"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DEL",
+   "dest": "DOH",
+   "date": "2027-10-26",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9000,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR506"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BOM",
+   "dest": "DOH",
+   "date": "2027-10-26",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9500,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR507"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BLR",
+   "dest": "DOH",
+   "date": "2027-10-26",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 10000,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR508"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "HYD",
+   "dest": "DOH",
+   "date": "2027-10-26",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9000,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR500"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "JFK",
+   "date": "2027-10-30",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 39500,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "777-300ER",
+   "flights": [
+    "QR701"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "ORD",
+   "date": "2027-10-30",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 41000,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "787-8",
+   "flights": [
+    "QR702"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "LAX",
+   "date": "2027-10-30",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 42500,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR703"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DOH",
+   "dest": "MIA",
+   "date": "2027-10-30",
+   "cabin": "business",
+   "miles": 140000,
+   "taxes_inr": 38000,
+   "seats": 1,
+   "airline": "QR",
+   "aircraft": "777-300ER",
+   "flights": [
+    "QR704"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "DEL",
+   "dest": "DOH",
+   "date": "2027-10-29",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 10000,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR505"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BOM",
+   "dest": "DOH",
+   "date": "2027-10-29",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9000,
+   "seats": 2,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR506"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "BLR",
+   "dest": "DOH",
+   "date": "2027-10-29",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 9500,
+   "seats": 3,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR507"
+   ],
+   "direct": true
+  },
+  {
+   "programme": "qatar-privilege-club",
+   "origin": "HYD",
+   "dest": "DOH",
+   "date": "2027-10-29",
+   "cabin": "business",
+   "miles": 45000,
+   "taxes_inr": 10000,
+   "seats": 4,
+   "airline": "QR",
+   "aircraft": "A350-900",
+   "flights": [
+    "QR508"
+   ],
+   "direct": true
+  }
+ ]
+}

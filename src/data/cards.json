@@ -1,0 +1,29 @@
+{
+  "note": "Fees, earn rates and eligibility are not in the catalogue yet. They are null on purpose: Haider supplies and verifies them. Nothing here is a verified bank figure.",
+  "cards": [
+    { "id": "hdfc-infinia", "bank": "hdfc", "name": "Infinia", "programme": "hdfc-reward-points", "annual_fee_inr": null },
+    { "id": "hdfc-diners", "bank": "hdfc", "name": "Diners Club Black", "programme": "hdfc-reward-points", "annual_fee_inr": null },
+    { "id": "hdfc-regalia", "bank": "hdfc", "name": "Regalia Gold", "programme": "hdfc-reward-points", "annual_fee_inr": null },
+    { "id": "axis-atlas", "bank": "axis", "name": "Atlas", "programme": "axis-edge-miles", "annual_fee_inr": null },
+    { "id": "axis-horizon", "bank": "axis", "name": "Horizon", "programme": "axis-edge-miles", "annual_fee_inr": null },
+    { "id": "axis-magnus", "bank": "axis", "name": "Magnus", "programme": "axis-edge-rewards", "annual_fee_inr": null },
+    { "id": "axis-reserve", "bank": "axis", "name": "Reserve", "programme": "axis-edge-rewards", "annual_fee_inr": null },
+    { "id": "amex-plat-travel", "bank": "amex", "name": "Platinum Travel", "programme": "amex-membership-rewards", "annual_fee_inr": null },
+    { "id": "amex-gold", "bank": "amex", "name": "Gold Card", "programme": "amex-membership-rewards", "annual_fee_inr": null },
+    { "id": "amex-plat", "bank": "amex", "name": "Platinum Card", "programme": "amex-membership-rewards", "annual_fee_inr": null },
+    { "id": "sbi-miles", "bank": "sbi", "name": "MILES", "programme": "sbi-travel-credits", "annual_fee_inr": null },
+    { "id": "sbi-miles-prime", "bank": "sbi", "name": "MILES Prime", "programme": "sbi-travel-credits", "annual_fee_inr": null },
+    { "id": "sbi-miles-elite", "bank": "sbi", "name": "MILES Elite", "programme": "sbi-travel-credits", "annual_fee_inr": null },
+    { "id": "sbi-elite", "bank": "sbi", "name": "Elite", "programme": "sbi-reward-points", "annual_fee_inr": null },
+    { "id": "sbi-aurum", "bank": "sbi", "name": "Aurum", "programme": "sbi-reward-points", "annual_fee_inr": null },
+    { "id": "icici-emeralde", "bank": "icici", "name": "Emeralde Private Metal", "programme": "icici-reward-points", "annual_fee_inr": null },
+    { "id": "icici-sapphiro", "bank": "icici", "name": "Sapphiro", "programme": "icici-reward-points", "annual_fee_inr": null },
+    { "id": "hsbc-premier", "bank": "hsbc", "name": "Premier", "programme": "hsbc-reward-points", "annual_fee_inr": null },
+    { "id": "hsbc-travel-one", "bank": "hsbc", "name": "Travel One", "programme": "hsbc-reward-points", "annual_fee_inr": null },
+    { "id": "hsbc-visa-platinum", "bank": "hsbc", "name": "Visa Platinum", "programme": "hsbc-reward-points", "annual_fee_inr": null },
+    { "id": "hsbc-visa-infinite", "bank": "hsbc", "name": "Visa Infinite", "programme": "hsbc-reward-points", "annual_fee_inr": null },
+    { "id": "kotak-white", "bank": "kotak", "name": "White Reserve", "programme": "kotak-reward-points", "annual_fee_inr": null },
+    { "id": "idfc-wealth", "bank": "idfc", "name": "Wealth", "programme": "idfc-first-reward-points", "annual_fee_inr": null },
+    { "id": "sc-ultimate", "bank": "sc", "name": "Ultimate", "programme": "standard-chartered-reward-points", "annual_fee_inr": null }
+  ]
+}
