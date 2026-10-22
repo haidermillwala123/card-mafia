@@ -1,0 +1,91 @@
+/* Points calculator: one flowing page. A huge live total, airy spend groups with sliders, and a result card that follows you. */
+.cx{display:flex;flex-direction:column;gap:40px;overflow-x:clip}
+
+.cx-hero{position:relative;display:flex;flex-direction:column;gap:6px;padding:48px 0 8px;isolation:isolate}
+.cx-hero::before{content:"";position:absolute;inset:-70px -6% auto -6%;height:420px;z-index:-1;pointer-events:none;background:radial-gradient(ellipse closest-side at 32% 48%,color-mix(in srgb,var(--accent) 42%,transparent) 0%,transparent 100%)}
+.cx-lead{margin:0;font:500 17px var(--font-body);color:var(--text-muted)}
+.cx-total{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;font-family:var(--font-display);color:var(--text)}
+.cx-total .cx-cur{font-size:clamp(28px,4vw,44px);font-weight:600;color:var(--text-muted)}
+.cx-total b{font-size:clamp(64px,11vw,128px);line-height:.95;font-weight:700;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+.cx-total small{font:500 20px var(--font-body);color:var(--text-muted)}
+.cx-sub{margin:10px 0 0;max-width:46ch;color:var(--text-muted);font-size:17px}
+
+.cx-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,400px);gap:48px;align-items:start}
+.cx-groups{display:flex;flex-direction:column;gap:48px;min-width:0}
+.cx-group h2{margin:0;font:700 28px/1.1 var(--font-display);letter-spacing:-.03em}
+.cx-group>p{margin:6px 0 18px;color:var(--text-muted)}
+.cx-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.cx-row{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:6px 18px;align-items:center;padding:22px 0;border-top:1px solid var(--border)}
+.cx-row:first-child{border-top:0}
+.cx-ico{grid-row:1/3;display:grid;place-items:center;width:48px;height:48px;border-radius:16px;color:var(--accent-strong);background:color-mix(in srgb,var(--accent) 22%,transparent)}
+.cx-ico svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.cx-row label{font:600 17px var(--font-body);color:var(--text)}
+.cx-amt{display:flex;align-items:center;gap:4px;min-width:140px;justify-content:flex-end;border-radius:999px;padding:0 6px 0 16px;border:1.5px solid transparent;background:color-mix(in srgb,var(--text) 7%,transparent);transition:border-color .15s,background .15s}
+.cx-amt:focus-within{border-color:var(--accent-strong);background:transparent}
+.cx-amt span{color:var(--text-muted);font:600 17px var(--font-body)}
+.cx-amt input{width:104px;min-width:0;height:46px;border:0;outline:0;background:transparent;text-align:right;color:var(--text);font:700 20px var(--font-display);font-variant-numeric:tabular-nums;padding:0 12px 0 0}
+.cx-amt input::placeholder{color:var(--text-muted);opacity:.7}
+.cx-range-wrap{grid-column:2/4}
+
+.cx-range{-webkit-appearance:none;appearance:none;display:block;width:100%;height:30px;margin:0;background:transparent;cursor:pointer;--pct:0%}
+.cx-range::-webkit-slider-runnable-track{height:6px;border-radius:999px;background:linear-gradient(90deg,var(--accent-strong) var(--pct),var(--border) var(--pct))}
+.cx-range::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;margin-top:-9px;width:24px;height:24px;border-radius:50%;background:var(--primary);border:3px solid var(--background);box-shadow:0 0 0 1px var(--border-strong),0 4px 10px rgba(0,0,0,.35);transition:transform .15s}
+.cx-range:active::-webkit-slider-thumb{transform:scale(1.15)}
+.cx-range::-moz-range-track{height:6px;border-radius:999px;background:var(--border)}
+.cx-range::-moz-range-progress{height:6px;border-radius:999px;background:var(--accent-strong)}
+.cx-range::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--primary);border:3px solid var(--background);box-shadow:0 0 0 1px var(--border-strong)}
+.cx-range:focus-visible{outline:2px solid var(--accent-strong);outline-offset:4px;border-radius:999px}
+
+.cx-chips{display:flex;flex-wrap:wrap;gap:10px}
+.cx-chip{min-height:48px;padding:0 20px;border-radius:999px;border:1.5px solid var(--border-strong);background:transparent;color:var(--text);font:500 16px var(--font-body);cursor:pointer;transition:background .15s,border-color .15s}
+.cx-chip:hover{border-color:var(--text-muted)}
+.cx-chip[aria-pressed="true"]{background:var(--text);color:var(--background);border-color:var(--text)}
+.cx-chip.ghost{border-style:dashed;color:var(--text-muted)}
+
+/* the result: teal card, one big number */
+.cx-out{position:sticky;top:24px;display:flex;flex-direction:column;gap:16px}
+.cx-card{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:14px;padding:32px;border-radius:32px;color:#EAF4F5;background:linear-gradient(150deg,#0F2A31 0%,#17505D 70%,#1F5967 100%);box-shadow:0 24px 60px -20px rgba(0,0,0,.6)}
+.cx-card::after{content:"";position:absolute;right:-70px;top:-70px;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,.08)}
+.cx-card>*{position:relative;z-index:1}
+.cx-badge{align-self:flex-start;padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.16);font:600 13px var(--font-body)}
+.cx-card h3{margin:0;font:700 28px/1.1 var(--font-display);letter-spacing:-.02em;color:#fff}
+.cx-card h3 small{display:block;margin-top:6px;font:500 14px var(--font-body);color:rgba(234,244,245,.75);letter-spacing:0}
+.cx-num{display:flex;flex-direction:column}
+.cx-num b{font:700 clamp(52px,6vw,72px)/1 var(--font-display);letter-spacing:-.04em;font-variant-numeric:tabular-nums;color:#fff}
+.cx-num span{color:rgba(234,244,245,.8);font-size:15px}
+.cx-why{margin:0;font-size:14px;color:rgba(234,244,245,.78)}
+.cx-links{display:flex;gap:18px;font-size:15px}
+.cx-links a{color:#fff;text-decoration:underline;text-underline-offset:3px}
+.cx-empty{display:flex;flex-direction:column;gap:14px;padding:32px;border-radius:32px;border:1.5px dashed var(--border-strong);color:var(--text-muted)}
+.cx-empty strong{font:700 24px/1.15 var(--font-display);color:var(--text);letter-spacing:-.02em}
+.cx-next{padding:6px 24px;border-radius:24px;background:var(--surface);border:1px solid var(--border)}
+.cx-next h4{margin:14px 0 4px;font:600 14px var(--font-body);color:var(--text-muted)}
+.cx-next ol{list-style:none;margin:0;padding:0}
+.cx-next li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:14px 0;border-top:1px solid var(--border)}
+.cx-next li:first-child{border-top:0}
+.cx-next b{display:block;font:600 16px var(--font-body);color:var(--text)}
+.cx-next small{color:var(--text-muted)}
+.cx-next li>span{font:700 18px var(--font-display);font-variant-numeric:tabular-nums;text-align:right}
+.cx-next li>span small{display:block;font:400 12px var(--font-body)}
+.cx-fine{margin:0;font-size:13px;color:var(--text-muted);max-width:44ch}
+
+@media (max-width:980px){
+  .cx-body{grid-template-columns:1fr;gap:28px}
+  /* on a phone the result rides above the tab bar, so the answer is always in view while you slide */
+  .cx-out{position:fixed;left:12px;right:12px;bottom:88px;top:auto;z-index:30;gap:0}
+  .cx-out .cx-next,.cx-out .cx-fine,.cx-out .cx-why,.cx-out .cx-links,.cx-out .cx-badge{display:none}
+  .cx-card{flex-direction:row;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;border-radius:24px}
+  .cx-card::after{display:none}
+  .cx-card h3{font-size:17px}.cx-card h3 small{font-size:12px;margin-top:2px}
+  .cx-num{align-items:flex-end}.cx-num b{font-size:30px}.cx-num span{font-size:12px}
+  .cx-empty{padding:16px 20px;border-radius:24px;background:var(--background);flex-direction:row;align-items:center}
+  .cx-empty strong{font-size:16px}
+  .cx{padding-bottom:160px}
+  .cx-hero{padding-top:20px}
+  .cx-row{grid-template-columns:44px minmax(0,1fr) auto;gap:4px 14px;padding:18px 0}
+  .cx-ico{width:44px;height:44px;border-radius:14px}
+  .cx-row label{font-size:16px}
+  .cx-amt{min-width:0}
+  .cx-amt input{width:84px}
+}
+@media (prefers-reduced-motion:reduce){.cx-range::-webkit-slider-thumb,.cx-amt,.cx-chip{transition:none}}

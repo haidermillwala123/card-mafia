@@ -1,7 +1,7 @@
 'use client';
 
-// Points calculator as a short guided form: a few spend questions on the left, the live ranking on the right.
-// Same shape as "Best card for you" so the two tools feel like one product. The maths is unchanged: rankCards().
+// Points calculator, laid out like an app rather than a form: one big live total, spend groups with sliders,
+// and a result card that stays in view. The maths is unchanged: rankCards().
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { CAT_LABEL, rankCards, type CalcCard, type Cat, type Spend } from '@/lib/earn';
@@ -18,19 +18,33 @@ type Props = {
 const inr = (n: number) => n.toLocaleString('en-IN');
 const SHOWN = 10;
 
-const STEPS: { title: string; q: string; hint: string; cats: Cat[] }[] = [
-  { title: 'Everyday', q: 'What do you spend day to day?', hint: 'A typical month. Leave out what you do not spend on.', cats: ['general', 'dining', 'groceries', 'online'] },
-  { title: 'Travel', q: 'And on travel and abroad?', hint: 'Flights, hotels, forex and fuel.', cats: ['travel_portal', 'international', 'fuel'] },
-  { title: 'Bills', q: 'Bills and big payments?', hint: 'These often earn less, but they add up.', cats: ['utilities', 'insurance', 'rent', 'education', 'other'] },
-  { title: 'Miles', q: 'Which airline do you collect?', hint: 'Optional. We turn each card’s points into miles for it, through the cheapest transfer chain.', cats: [] },
+const GROUPS: { title: string; hint: string; cats: Cat[] }[] = [
+  { title: 'Everyday', hint: 'What you swipe for most weeks.', cats: ['general', 'dining', 'groceries', 'online'] },
+  { title: 'Travel and abroad', hint: 'Flights, hotels, forex and fuel.', cats: ['travel_portal', 'international', 'fuel'] },
+  { title: 'Bills and big payments', hint: 'These often earn less, but they add up.', cats: ['utilities', 'insurance', 'rent', 'education', 'other'] },
 ];
-const ENTERED: Cat[] = STEPS.flatMap(s => s.cats);
+const ENTERED: Cat[] = GROUPS.flatMap(g => g.cats);
+// top of each slider; typing a bigger number still works
+const MAX: Record<Cat, number> = { general: 150000, dining: 50000, groceries: 50000, online: 60000, travel_portal: 100000, international: 150000, fuel: 20000, utilities: 30000, insurance: 100000, rent: 150000, education: 100000, other: 100000 };
+const ICON: Record<Cat, string> = {
+  general: 'M6 8h12l-1 12H7L6 8ZM9 8a3 3 0 0 1 6 0',
+  dining: 'M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 3c-2 1-3 4-3 7 0 1 1 2 3 2v9',
+  groceries: 'M4 10h16l-2 9H6l-2-9ZM8 10l3-5M16 10l-3-5',
+  online: 'M3 5h18v11H3zM8 20h8M12 16v4',
+  travel_portal: 'M21 3 3 11l7 3 3 7 8-18Z',
+  international: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18',
+  fuel: 'M12 3s6 6 6 11a6 6 0 0 1-12 0c0-5 6-11 6-11Z',
+  utilities: 'M13 2 4 14h7l-1 8 9-12h-7l1-8Z',
+  insurance: 'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z',
+  rent: 'M3 11l9-8 9 8M5 10v10h14V10M10 20v-6h4v6',
+  education: 'M2 9l10-5 10 5-10 5-10-5ZM6 11v5c3 2 9 2 12 0v-5',
+  other: 'M5 12h.01M12 12h.01M19 12h.01',
+};
 const AIRLINES = ['indigo-bluchip', 'air-india', 'emirates-skywards', 'qatar-privilege-club', 'krisflyer', 'ba-executive-club', 'flying-blue', 'etihad-guest', 'cathay-asiamiles', 'virgin-flyingclub', 'miles-and-more', 'turkish-ms'];
 
 export default function EarnCalculator({ cards, programmes, miles }: Props) {
   const [raw, setRaw] = useState<Partial<Record<Cat, string>>>({});
   const [prog, setProg] = useState('');
-  const [step, setStep] = useState(0);
   const [allAir, setAllAir] = useState(false);
   const [all, setAll] = useState(false);
 
@@ -48,91 +62,108 @@ export default function EarnCalculator({ cards, programmes, miles }: Props) {
 
   const progName = programmes.find(p => p.id === prog)?.name;
   const airlineList = allAir ? programmes : AIRLINES.map(id => programmes.find(p => p.id === id)).filter((p): p is { id: string; name: string } => !!p);
-  const stepFilled = (i: number) => STEPS[i].cats.some(c => Number(raw[c]) > 0) || (i === 3 && !!prog);
-  const done = [0, 1, 2, 3].filter(stepFilled).length;
 
   const top = ranked[0];
   const topRate = top ? rate(top.card.card_id) : null;
   const topNone = !top || top.computedSpend === 0;
-  const next = ranked.slice(1, 4);
+  const next = ranked.slice(1, 3);
   const list = all ? ranked : ranked.slice(0, SHOWN);
+  const set = (c: Cat, v: string) => setRaw(r => ({ ...r, [c]: v.replace(/\D/g, '').slice(0, 9) }));
 
   return (
-    <section aria-label="Points calculator" className="stack" style={{ ['--stack' as string]: '20px' }}>
-      <div className="rw">
-        <div className="rw-form">
-          <ol className="rw-dots" aria-label="Progress">
-            {STEPS.map((s, i) => <li key={s.title} className={i === step ? 'now' : i < step ? 'past' : ''}><button type="button" onClick={() => setStep(i)} aria-current={i === step ? 'step' : undefined}>{s.title}</button></li>)}
-          </ol>
+    <div className="cx">
+      <header className="cx-hero">
+        <p className="cx-lead">Your typical month</p>
+        <div className="cx-total" aria-live="polite">
+          <span className="cx-cur">₹</span>
+          <b>{inr(total)}</b>
+          <small>a month</small>
+        </div>
+        <p className="cx-sub">Slide each one, or tap the amount to type it. Rough is fine, and anything you skip counts as zero.</p>
+      </header>
 
-          {STEPS.map((s, i) => (
-            <section key={s.title} className="rw-q" aria-labelledby={`cq${i}`} hidden={step !== i}>
-              <span className="rw-step">Question {i + 1} of {STEPS.length}</span>
-              <h2 id={`cq${i}`}>{s.q}</h2>
-              <p className="rw-hint">{s.hint}</p>
-              {s.cats.length > 0 ? (
-                <div className="rw-grid">
-                  {s.cats.map(c => (
-                    <label key={c} className="rw-in"><span>{CAT_LABEL[c]}</span>
-                      <input inputMode="numeric" autoComplete="off" placeholder="₹ 0 a month" value={raw[c] ? inr(Number(raw[c])) : ''} onChange={e => setRaw(r => ({ ...r, [c]: e.target.value.replace(/\D/g, '').slice(0, 9) }))} />
-                    </label>
-                  ))}
-                </div>
-              ) : (
-                <div className="rw-chips">
-                  <button type="button" className="rw-c" aria-pressed={prog === ''} onClick={() => setProg('')}>Card points only</button>
-                  {airlineList.map(p => <button key={p.id} type="button" className="rw-c" aria-pressed={prog === p.id} onClick={() => setProg(prog === p.id ? '' : p.id)}>{p.name}</button>)}
-                  <button type="button" className="rw-c ghost" onClick={() => setAllAir(a => !a)}>{allAir ? 'Fewer' : 'More airlines'}</button>
-                </div>
-              )}
+      <div className="cx-body">
+        <div className="cx-groups">
+          {GROUPS.map(g => (
+            <section key={g.title} className="cx-group" aria-label={g.title}>
+              <h2>{g.title}</h2>
+              <p>{g.hint}</p>
+              <ul className="cx-list">
+                {g.cats.map(c => {
+                  const v = Number(raw[c]) || 0;
+                  const pct = Math.min(100, (v / MAX[c]) * 100);
+                  return (
+                    <li key={c} className="cx-row">
+                      <i className="cx-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d={ICON[c]} /></svg></i>
+                      <label htmlFor={`sp-${c}`}>{CAT_LABEL[c]}</label>
+                      <div className="cx-amt">
+                        <span aria-hidden="true">₹</span>
+                        <input id={`sp-${c}`} inputMode="numeric" autoComplete="off" placeholder="0" value={v ? inr(v) : ''} onChange={e => set(c, e.target.value)} aria-label={`${CAT_LABEL[c]}, rupees a month`} />
+                      </div>
+                      <div className="cx-range-wrap">
+                        <input
+                          type="range" className="cx-range" min={0} max={MAX[c]} step={500} value={Math.min(v, MAX[c])}
+                          style={{ ['--pct' as string]: `${pct}%` }}
+                          onChange={e => set(c, e.target.value)}
+                          aria-label={`${CAT_LABEL[c]} slider`} aria-valuetext={`₹${inr(v)} a month`}
+                        />
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
             </section>
           ))}
 
-          <div className="rw-nav">
-            <button type="button" className="rw-back" disabled={step === 0} onClick={() => setStep(s => s - 1)}>Back</button>
-            <span className="rw-sp" />
-            {step < STEPS.length - 1
-              ? <button type="button" className="rw-next" onClick={() => setStep(s => s + 1)}>{stepFilled(step) ? 'Next' : 'Skip'}</button>
-              : <button type="button" className="rw-next" onClick={() => { setAll(true); document.getElementById('calc-all')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }} disabled={total === 0}>See all {ranked.length} cards</button>}
-          </div>
+          <section className="cx-group" aria-label="Airline miles">
+            <h2>Count it in miles</h2>
+            <p>Optional. Pick an airline and we turn each card’s points into its miles, through the cheapest transfer chain.</p>
+            <div className="cx-chips">
+              <button type="button" className="cx-chip" aria-pressed={prog === ''} onClick={() => setProg('')}>Card points only</button>
+              {airlineList.map(p => <button key={p.id} type="button" className="cx-chip" aria-pressed={prog === p.id} onClick={() => setProg(prog === p.id ? '' : p.id)}>{p.name}</button>)}
+              <button type="button" className="cx-chip ghost" onClick={() => setAllAir(a => !a)}>{allAir ? 'Fewer' : 'More airlines'}</button>
+            </div>
+          </section>
         </div>
 
-        <aside className="rw-out" aria-label="Your result" aria-live="polite">
-          <div className="rw-meter" role="img" aria-label={`${done} of 4 questions answered`}><i style={{ width: `${(done / 4) * 100}%` }} /><span>{total > 0 ? `₹${inr(total)} a month entered` : `${done} of 4 answered`}</span></div>
-          {total === 0 ? (
-            <div className="rw-empty">Type any amount and the best card for that spend appears here. Rough numbers are fine.</div>
-          ) : top && (
-            <article className="rw-pick">
-              <span className="rw-badge">Earns the most</span>
-              <h3>{top.card.name}<small>{top.card.bank} · {top.card.currency}</small></h3>
-              <div className="rw-gain">
-                <b>{topNone ? 'not found' : inr(Math.floor(prog && topRate ? top.points * topRate.perPoint : top.points))}</b>
-                <span>{topNone ? 'no usable rate for this spend' : prog && topRate ? `${progName} miles a month, derived` : 'points a month, in the card’s own currency'}</span>
-              </div>
-              {prog && !topRate && <p className="rw-why">{progName}: no transfer route from this card.</p>}
-              {prog && topRate && !topNone && <p className="rw-why">{topRate.perPoint} {progName} miles per card point over {topRate.hops} transfer {topRate.hops === 1 ? 'hop' : 'hops'}{topRate.monthlyCap ? `. First hop capped at ${inr(topRate.monthlyCap)} points a month` : ''}.</p>}
-              <div className="rw-links"><Link href={`/earn#${top.card.card_id}`}>How it earns</Link><Link href={`/transfers/${top.card.card_id}`}>Where points go</Link></div>
-            </article>
+        <aside className="cx-out" aria-label="Your result" aria-live="polite">
+          {total === 0 || !top ? (
+            <div className="cx-empty"><strong>Move a slider</strong><span>The best card for your spend shows up here, and updates as you go.</span></div>
+          ) : (
+            <>
+              <article className="cx-card">
+                <span className="cx-badge">Earns the most</span>
+                <h3>{top.card.name}<small>{top.card.bank} · {top.card.currency}</small></h3>
+                <div className="cx-num">
+                  <b>{topNone ? 'not found' : inr(Math.floor(prog && topRate ? top.points * topRate.perPoint : top.points))}</b>
+                  <span>{topNone ? 'no usable rate for this spend' : prog && topRate ? `${progName} miles a month` : 'points a month'}</span>
+                </div>
+                {prog && !topRate && <p className="cx-why">{progName}: no transfer route from this card.</p>}
+                {prog && topRate && !topNone && <p className="cx-why">{topRate.perPoint} {progName} miles per card point over {topRate.hops} transfer {topRate.hops === 1 ? 'hop' : 'hops'}{topRate.monthlyCap ? `. First hop capped at ${inr(topRate.monthlyCap)} points a month` : ''}.</p>}
+                <div className="cx-links"><Link href={`/earn#${top.card.card_id}`}>How it earns</Link><Link href={`/transfers/${top.card.card_id}`}>Where points go</Link></div>
+              </article>
+              {next.length > 0 && (
+                <div className="cx-next">
+                  <h4>Runners-up</h4>
+                  <ol>
+                    {next.map(x => {
+                      const mr = rate(x.card.card_id);
+                      const val = prog ? (mr ? x.points * mr.perPoint : 0) : x.points;
+                      return <li key={x.card.card_id}><div><b>{x.card.name}</b><small>{x.card.bank}</small></div><span>{inr(Math.floor(val))}<small>{prog ? 'miles a month' : 'points a month'}</small></span></li>;
+                    })}
+                  </ol>
+                </div>
+              )}
+              <p className="cx-fine">Every figure is derived from each card’s own rates and caps. Where a rate was not found it is left out, never counted as zero or unlimited.</p>
+            </>
           )}
-          {total > 0 && next.length > 0 && (
-            <div className="rw-more">
-              <h4>Next best</h4>
-              <ol>
-                {next.map(x => {
-                  const mr = rate(x.card.card_id);
-                  const v = prog ? (mr ? x.points * mr.perPoint : 0) : x.points;
-                  return <li key={x.card.card_id}><div><b>{x.card.name}</b><small>{x.card.bank}</small></div><span>{inr(Math.floor(v))}<small>{prog ? 'miles/mo' : 'points/mo'}</small></span></li>;
-                })}
-              </ol>
-            </div>
-          )}
-          <p className="rw-caveat">Every figure is derived from each card’s own rates and caps. Where a rate was not found it is left out, never counted as zero or unlimited.</p>
         </aside>
       </div>
 
       {total > 0 && (
-        <div id="calc-all" className="stack" style={{ ['--stack' as string]: '12px' }}>
-          <h3 className="t-h3">{prog ? `All cards ranked by ${progName} miles a month` : 'All cards ranked by points a month, in each card’s own currency'}</h3>
+        <section id="calc-all" className="stack" style={{ ['--stack' as string]: '12px' }} aria-label="All cards ranked">
+          <h2 className="t-h2">{prog ? `All cards, ranked by ${progName} miles` : 'All cards, ranked by points'}</h2>
+          <p className="muted measure">{prog ? 'Miles are comparable across banks.' : 'Points are in each card’s own currency, so compare miles, not points, across banks. Pick an airline above to see miles.'}</p>
           <ol className="earn-rank">
             {list.map((x, i) => {
               const mr = rate(x.card.card_id);
@@ -167,8 +198,8 @@ export default function EarnCalculator({ cards, programmes, miles }: Props) {
               {all ? `Show top ${SHOWN} only` : `Show all ${ranked.length} cards`}
             </button>
           )}
-        </div>
+        </section>
       )}
-    </section>
+    </div>
   );
 }
