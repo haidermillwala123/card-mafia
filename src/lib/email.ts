@@ -101,3 +101,20 @@ export function welcomeEmail(firstName: string, siteUrl: string) {
 <p style="margin:20px 0 0;font-size:13px;line-height:1.55;color:#AAA498">Seats can disappear before you transfer, so check the seat and the transfer rules before you move points.</p>`;
   return { subject, html: shell('Your account is ready. Here is what you can do.', inner, NOT_AFFILIATED), text };
 }
+
+const KIND_LABEL: Record<string, string> = { reminder: 'Reminder', price: 'Price alert', rule: 'Rule change', balance: 'Balance alert' };
+
+// One template for every custom alert: a reminder, a seat under your price, a changed transfer rule, a balance that reached its target.
+export function customAlertEmail(opts: { siteUrl: string; kind: string; title: string; body: string; ctaLabel?: string; ctaHref?: string }) {
+  const { siteUrl, kind, title, body } = opts;
+  const label = KIND_LABEL[kind] ?? 'Alert';
+  const href = `${siteUrl}${opts.ctaHref ?? '/alerts'}`;
+  const cta = opts.ctaLabel ?? 'Open your alerts';
+  const subject = kind === 'reminder' ? `Reminder: ${title}` : `${label}: ${title}`;
+  const text = `${title}\n\n${body}\n\n${cta}: ${href}\n\nYou get this because you set an alert in Card Mafia. Turn it off any time on the Alerts page.\n${NOT_AFFILIATED}`;
+  const inner = `<div style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#8A8479">${esc(label)}</div>
+<h1 style="margin:6px 0 10px;font-size:24px;line-height:1.25;letter-spacing:-.02em;color:#EDEBE6">${esc(title)}</h1>
+<p style="margin:0 0 22px;font-size:15px;line-height:1.6;color:#AAA498;white-space:pre-line">${esc(body)}</p>
+<a href="${esc(href)}" style="display:block;text-align:center;background:#CDD1D6;color:#110F0E;text-decoration:none;font-size:15px;font-weight:650;padding:14px 18px;border-radius:12px">${esc(cta)}</a>`;
+  return { subject, html: shell(`${title}. ${body.slice(0, 90)}`, inner, `You get this because you set an alert in Card Mafia. Turn it off any time on the Alerts page. ${NOT_AFFILIATED}`), text };
+}

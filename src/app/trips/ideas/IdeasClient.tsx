@@ -1,6 +1,7 @@
 'use client';
 
 // Trips you could take with the points in your wallet: the cheapest seat your cards can pay for, per region, from your home airport.
+import { cityPhoto } from '@/lib/photos';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import FlightLoader from '@/components/FlightLoader';
@@ -15,7 +16,6 @@ const REGIONS = GROUPS.filter(g => ['europe', 'middle-east', 'southeast-asia', '
 
 type Idea = { region: string; seat: SeatView };
 // a photo only where we have one for the region
-const PHOTO: Record<string, string> = { europe: 'london', 'middle-east': 'dubai', 'east-asia': 'japan', 'north-america': 'newyork' };
 
 export default function IdeasClient() {
   const w = useWallet();
@@ -61,9 +61,9 @@ export default function IdeasClient() {
       <div className="a-g3">
         {ideas.map(({ region, seat: s }) => (
           <Link key={region} className="a-gl a-home-card" href={`/flights?${new URLSearchParams({ o: s.origin, d: region, from, to, cabin: 'business', n: '1', reach: '1' })}`}>
-            {PHOTO[region] && (
+            {cityPhoto(s.dest) && (
               // eslint-disable-next-line @next/next/no-img-element
-              <img className="idea-img" src={`/cities/${PHOTO[region]}-sm.webp`} alt="" loading="lazy" decoding="async" />
+              <img className="idea-img" src={`/cities/${cityPhoto(s.dest)}-sm.webp`} alt="" loading="lazy" decoding="async" />
             )}
             <span className="a-cap">{GROUPS.find(g => g.id === region)?.label}</span>
             <b className="a-t">{cityOf(s.origin)} → {cityOf(s.dest)}</b>

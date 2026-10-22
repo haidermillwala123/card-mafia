@@ -3,3 +3,12 @@
 .a-alerts-title{font:650 20px/1.2 var(--font-display);letter-spacing:-.015em}
 .a-alerts-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 @media (max-width:760px){.a-alerts-form{grid-template-columns:minmax(0,1fr)}}
+
+/* pick what to be told about: a row of option tiles, the chosen one lit */
+.a-alerts-types{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.a-alerts-type{display:flex;flex-direction:column;gap:4px;text-align:left;padding:16px 18px;border-radius:20px;border:1.5px solid var(--border-strong);background:transparent;color:var(--text);font:inherit;cursor:pointer;transition:border-color .15s,background .15s}
+.a-alerts-type b{font:650 16px var(--font-display)}
+.a-alerts-type small{color:var(--text-muted);font-size:13px;line-height:1.35}
+.a-alerts-type:hover{border-color:var(--text-muted)}
+.a-alerts-type[aria-pressed="true"]{border-color:var(--accent-strong);background:color-mix(in srgb,var(--accent) 22%,transparent)}
+@media (prefers-reduced-motion:reduce){.a-alerts-type{transition:none}}

@@ -1,5 +1,7 @@
 // Daily job (Vercel Cron, Hobby plan = once a day): refresh the routes people searched or watch, then check every alert watch.
 // Protected by CRON_SECRET: Vercel sends "Authorization: Bearer <CRON_SECRET>" itself when that env var exists.
+import { type CustomAlert } from '@/lib/custom-alerts';
+import { runCustomAlerts } from '@/lib/custom-alerts-run';
 import { emailConfigured, seatAlertEmail, sendEmail } from '@/lib/email';
 import { getData } from '@/lib/engine/load';
 import { sendOwnerDigest } from '@/lib/owner-digest';
@@ -39,12 +41,20 @@ export async function GET(req: Request) {
     const sb = admin();
     const { data: watchRows } = await sb.from('alert_watches').select('*').eq('active', true);
     const watches = (watchRows ?? []) as Watch[];
+    // Custom alerts live in their own table. If it is not there yet (migration not applied), carry on without them.
+    const customRes = await sb.from('custom_alerts').select('*').eq('active', true);
+    const customRows = (customRes.error ? [] : customRes.data ?? []) as CustomAlert[];
+    const pricePairs = customRows.filter(c => c.kind === 'price').flatMap(c => {
+      const p = c.params as Record<string, string>;
+      return /^[A-Z]{3}$/.test(p.origin ?? '') && /^[A-Z]{3}$/.test(p.dest ?? '') ? [{ pair: [p.origin, p.dest] as Pair, cabin: (p.cabin ?? 'business') as Cabin }] : [];
+    });
     const room = Math.max(0, Math.min(CALL_BUDGET, DAILY_CAP - 50 - (await store.quotaToday())));
 
     // 1. refresh: group wanted pairs by origin and cabin so each group is one request
     const wanted = [
       ...(await store.hotPairs(7, 80)),
       ...watches.map(w => ({ pair: [w.origin_iata, w.dest_iata] as Pair, cabin: w.cabin })),
+      ...pricePairs,
     ];
     const groups = new Map<string, { origin: string; cabin: Cabin; dests: Set<string> }>();
     for (const { pair, cabin } of wanted) {
@@ -128,11 +138,20 @@ export async function GET(req: Request) {
       await sb.from('alert_watches').update(patch).eq('id', w.id);
     }
 
+    // 3. custom alerts: reminders, a seat under your price, changed transfer rules, balance targets. A failure here must not fail the run.
+    let custom: { checked: number; fired: number; emailed: number; errors: string[] } = { checked: 0, fired: 0, emailed: 0, errors: [] };
+    try {
+      custom = await runCustomAlerts({ sb, store, data, rows: customRows, today: new Date().toISOString().slice(0, 10), siteUrl: SITE_URL });
+    } catch (e) {
+      custom.errors.push(e instanceof Error ? e.message : 'failed');
+    }
+    errors.push(...custom.errors);
+
     const quota = await store.quotaToday();
     await store.finishRun(runId, { calls_used: calls, rows_written: written, pairs: pulled, errors: errors.length ? errors : null, quota_remaining: DAILY_CAP - quota });
     // The owner's daily summary of new users and activity. A failure here must not fail the run.
     const digest = emailConfigured() ? await sendOwnerDigest().catch(() => 'failed' as const) : 'not-configured';
-    return Response.json({ ok: true, calls, rowsWritten: written, groups: pulled.length, watches: watches.length, alerted, emailed, digest, errors });
+    return Response.json({ ok: true, calls, rowsWritten: written, groups: pulled.length, watches: watches.length, alerted, emailed, custom: { checked: custom.checked, fired: custom.fired, emailed: custom.emailed }, digest, errors });
   } catch (e) {
     const msg = e instanceof Error ? e.message : 'failed';
     await store.finishRun(runId, { calls_used: calls, rows_written: written, errors: [...errors, msg] });

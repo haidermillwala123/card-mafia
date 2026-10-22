@@ -1,5 +1,6 @@
 // Watched routes (alert_watches, owner-only by RLS) and the alerts the daily job wrote for them (alerts table, read-only for the owner).
 import { supabase } from '@/lib/supabase';
+import type { CustomPayload } from '@/lib/custom-alerts';
 import type { Cabin } from './api';
 
 export type Watch = {
@@ -10,10 +11,12 @@ export type AlertRow = {
   id: string;
   created_at: string;
   sent_at: string | null; // set when the email went out
-  payload: {
-    watch_id: string; origin: string; dest: string; cabin: Cabin; count: number;
-    best: { id: string; points: number; date: string; programme: string; programme_name: string; taxes_inr: number | null; seen_at: string };
-  };
+  // a seat alert has the route and its cheapest seat; a custom alert (reminder, price, rule change, balance) has custom: true and a title and body
+  payload: Partial<SeatPayload> & Partial<CustomPayload>;
+};
+export type SeatPayload = {
+  watch_id: string; origin: string; dest: string; cabin: Cabin; count: number;
+  best: { id: string; points: number; date: string; programme: string; programme_name: string; taxes_inr: number | null; seen_at: string };
 };
 export type WatchResult = { ok: true; id: string } | { ok: false; error: string; needsSignIn?: boolean };
 
@@ -38,7 +41,7 @@ export async function stopWatch(id: string): Promise<boolean> {
 }
 
 export async function listAlerts(limit = 20): Promise<AlertRow[]> {
-  const { data } = (await supabase()?.from('alerts').select('id,created_at,sent_at,payload').eq('kind', 'seat').order('created_at', { ascending: false }).limit(limit)) ?? { data: [] };
+  const { data } = (await supabase()?.from('alerts').select('id,created_at,sent_at,payload').in('kind', ['seat', 'deadline', 'devaluation']).order('created_at', { ascending: false }).limit(limit)) ?? { data: [] };
   return (data ?? []) as AlertRow[];
 }
 

@@ -98,3 +98,6 @@
 .fx-r:hover{background:var(--primary-tint)}
 @media (max-width:860px){.fx-tiles{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding-bottom:6px}.fx-tile{flex:0 0 62%;scroll-snap-align:start}}
 @media (prefers-reduced-motion:reduce){.fx-tile img{transition:none}}
+
+/* the confirm box now sits in the summary card, right above the button it unlocks */
+.a-checkout-ack{margin:4px 0 2px}

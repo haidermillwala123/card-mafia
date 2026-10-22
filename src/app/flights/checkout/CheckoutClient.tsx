@@ -97,13 +97,6 @@ export default function CheckoutClient({ id, travellers: n }: { id: string; trav
 
               <Recheck check={check} onClick={() => s.recheck(r.id)} />
 
-              <label className="cm-check">
-                <input type="checkbox" checked={ticked} onChange={e => setTicked(e.target.checked)} />
-                <span className="cm-check__text">
-                  <span className="cm-check__label">I have read these checks</span>
-                  <span className="cm-check__desc">Ratio, cap, transfer time and name format.</span>
-                </span>
-              </label>
             </div>
 
             <div className="a-side a-gl a-sel a-sticky-sum">
@@ -121,6 +114,15 @@ export default function CheckoutClient({ id, travellers: n }: { id: string; trav
                   {typeof balances[t.cardId] === 'number' && <div className="a-kv"><span>You keep</span><b>{fmt(Math.max(0, balances[t.cardId] - t.sourcePoints))} pts</b></div>}
                 </Fragment>
               ))}
+              {ok && (
+                <label className="cm-check a-checkout-ack">
+                <input type="checkbox" checked={ticked} onChange={e => setTicked(e.target.checked)} />
+                <span className="cm-check__text">
+                  <span className="cm-check__label">I have read the checks on the left</span>
+                  <span className="cm-check__desc">Ratio, cap, transfer time and name format.</span>
+                </span>
+              </label>
+              )}
               <Link
                 href={urlFor('handoff', r.id, n)}
                 className="a-cta a-full a-checkout-go"
@@ -132,7 +134,7 @@ export default function CheckoutClient({ id, travellers: n }: { id: string; trav
                 <span className="a-ar"><Ic name="arrow" /></span>
               </Link>
               <span className="a-cap a-checkout-hint">
-                {!ok ? 'This seat cannot be paid for with your cards' : go ? 'Ready. You leave Card Mafia next.' : 'Tick the box to continue'}
+                {!ok ? 'This seat cannot be paid for with your cards' : go ? 'Ready. You leave Card Mafia next.' : 'Tick the box above to continue'}
               </span>
             </div>
           </div>

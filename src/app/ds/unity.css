@@ -42,29 +42,26 @@ main::before{content:"";position:absolute;left:0;right:0;top:-30px;height:440px;
   .a-gl{padding:20px}
 }
 
-/* 7. Expanding gallery: slim photo strips, the one you hover or focus opens up */
-.xg{list-style:none;margin:0;padding:0;display:flex;gap:10px;height:clamp(340px,44vw,460px)}
-.xg-card{position:relative;flex:1 1 0;min-width:0;border-radius:24px;overflow:hidden;background:var(--surface-sunken);transition:flex .65s cubic-bezier(.22,1,.36,1)}
-.xg-card.on,.xg-card:hover,.xg-card:focus-within{flex:7}
-.xg:has(.xg-card:hover,.xg-card:focus-within) .xg-card.on:not(:hover,:focus-within){flex:1}
+/* 7. Destination mosaic: rounded photo tiles in mixed sizes */
+.xg{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:clamp(150px,15.5vw,215px);grid-auto-flow:dense;gap:12px}
+.xg-card{position:relative;border-radius:26px;overflow:hidden;background:var(--surface-sunken);isolation:isolate}
+.xg-big{grid-column:span 2;grid-row:span 2}
+.xg-wide{grid-column:span 2}
+.xg-tall{grid-row:span 2}
 .xg-a{position:absolute;inset:0;display:block;width:100%;height:100%;padding:0;border:0;background:none;color:#F4F1EB;text-align:left;font:inherit;cursor:pointer}
-.xg-a img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.22,1,.36,1)}
-.xg-card:hover .xg-a img,.xg-card:focus-within .xg-a img,.xg-card.on .xg-a img{transform:scale(1.04)}
-.xg-a::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,9,8,0) 35%,rgba(10,9,8,.82) 100%)}
-.xg-a:focus-visible{outline:2px solid var(--focus-ring,#7FC4CC);outline-offset:-4px;border-radius:24px}
-.xg-name{position:absolute;z-index:1;left:50%;bottom:20px;writing-mode:vertical-rl;transform:translateX(-50%) rotate(180deg);white-space:nowrap;font:650 16px var(--font-display);letter-spacing:-.01em;transition:opacity .25s}
-.xg-more{position:absolute;z-index:1;left:22px;right:22px;bottom:22px;display:flex;flex-direction:column;gap:3px;opacity:0;transform:translateY(10px);transition:opacity .35s .2s,transform .35s .2s}
-.xg-more b{font:700 26px/1.1 var(--font-display);letter-spacing:-.025em}
-.xg-more small{font-size:14px;color:rgba(244,241,235,.82)}
-.xg-more em{margin-top:6px;font-style:normal;font-weight:600;font-size:14px;text-decoration:underline;text-underline-offset:3px}
-.xg-card.on .xg-more,.xg-card:hover .xg-more,.xg-card:focus-within .xg-more{opacity:1;transform:none}
-.xg-card.on .xg-name,.xg-card:hover .xg-name,.xg-card:focus-within .xg-name{opacity:0}
-.xg:has(.xg-card:hover,.xg-card:focus-within) .xg-card.on:not(:hover,:focus-within) .xg-more{opacity:0;transform:translateY(10px)}
-.xg:has(.xg-card:hover,.xg-card:focus-within) .xg-card.on:not(:hover,:focus-within) .xg-name{opacity:1}
+.xg-a img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.22,1,.36,1)}
+.xg-a::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,9,8,0) 32%,rgba(10,9,8,.84) 100%)}
+.xg-card:hover .xg-a img,.xg-a:focus-visible img{transform:scale(1.06)}
+.xg-a:focus-visible{outline:2px solid var(--focus-ring,#7FC4CC);outline-offset:-4px;border-radius:26px}
+.xg-more{position:absolute;z-index:1;left:20px;right:20px;bottom:18px;display:flex;flex-direction:column;gap:1px}
+.xg-more b{font:700 20px/1.15 var(--font-display);letter-spacing:-.02em}
+.xg-more small{font-size:13px;color:rgba(244,241,235,.82)}
+.xg-big .xg-more b{font-size:32px}
+.xg-more em{margin-top:0;max-height:0;overflow:hidden;opacity:0;font-style:normal;font-weight:600;font-size:14px;text-decoration:underline;text-underline-offset:3px;transition:max-height .35s,opacity .35s,margin .35s}
+.xg-card:hover .xg-more em,.xg-a:focus-visible .xg-more em{max-height:24px;opacity:1;margin-top:8px}
 @media (max-width:860px){
-  .xg{height:auto;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding-bottom:8px}
-  .xg-card,.xg-card.on,.xg-card:hover{flex:0 0 74%;height:320px;scroll-snap-align:start}
-  .xg-name{display:none}
-  .xg-more,.xg:has(.xg-card:hover) .xg-card.on:not(:hover) .xg-more{opacity:1;transform:none}
+  .xg{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:150px}
+  .xg-more b{font-size:17px}.xg-big .xg-more b{font-size:24px}
+  .xg-more em{max-height:24px;opacity:1;margin-top:6px}
 }
-@media (prefers-reduced-motion:reduce){.xg-card,.xg-a img,.xg-more,.xg-name{transition:none}}
+@media (prefers-reduced-motion:reduce){.xg-a img,.xg-more em{transition:none}}
