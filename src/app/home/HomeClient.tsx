@@ -8,7 +8,7 @@ import { DataFoot, SeenStamp, Tag } from '@/components/app/ui';
 import { searchSeats, type SearchResponse, type SeatView } from '@/lib/app/api';
 import { type AlertRow, listAlerts, listWatches, type Watch } from '@/lib/app/alerts';
 import { programmeName } from '@/lib/app/catalog';
-import { CABIN_LABEL, dateShort, fmt, monthLabel, monthRange } from '@/lib/app/format';
+import { addDaysIso, CABIN_LABEL, dateShort, fmt, monthLabel, monthRange, todayIso } from '@/lib/app/format';
 import { askNext, type Parsed, parseTrip, type Question, upcomingMonths } from '@/lib/app/parse';
 import { listTrips, type TripRow } from '@/lib/app/trips';
 import { useWallet } from '@/lib/app/wallet';
@@ -24,6 +24,13 @@ const QUICK: [string, string, string][] = [
   ['/transfers', 'Transfers', 'Ratios, caps and indirect routes'],
 ];
 
+const CITIES = [
+  { id: 'dubai', name: 'Dubai', sub: 'Skyline and desert', d: 'DXB' },
+  { id: 'newyork', name: 'New York', sub: 'Manhattan', d: 'JFK' },
+  { id: 'london', name: 'London', sub: 'Tower Bridge', d: 'LHR' },
+  { id: 'lisbon', name: 'Lisbon', sub: 'Hills and tiles', d: 'LIS' },
+  { id: 'japan', name: 'Japan', sub: 'Fuji and Tokyo', d: 'HND' },
+];
 const EXAMPLES = ['DEL to Tokyo, business, 1 person', 'BLR to Doha, 2 people', 'BOM to Europe, first class'];
 const STRIP_REGIONS = ['middle-east', 'europe', 'southeast-asia'];
 const STATUS_LABEL: Record<string, string> = { exploring: 'Exploring', transferring: 'Transferring', booked: 'Booked' };
@@ -63,7 +70,7 @@ export default function HomeClient() {
 
   const nextYm = upcomingMonths(2)[1];
   useEffect(() => {
-    if (!w.ready) return;
+    if (!w.ready || !w.hasCards) return;
     let live = true;
     const { from, to } = monthRange(nextYm);
     // Each region lands as soon as it is ready: a cold region can take 30 s, and the others should not wait for it.
@@ -122,81 +129,48 @@ export default function HomeClient() {
   return (
     <div className="a-pg">
       <Tour />
-      <div className="a-body">
-        <div className="a-hero">
-          {[0, 1].map(side => (
-            <div key={side} className={`a-hero-fl a-hero-${side ? 'r' : 'l'}`} aria-label={side ? undefined : 'Example seats we saw'}>
-              {(strip?.rows ?? []).filter((_, i) => i % 2 === side).map(({ seat: s }, k) => (
-                <Link key={s.id} href={`/flights?${new URLSearchParams({ o: s.origin, d: s.dest, from: s.date, to: s.date, cabin: s.cabin, n: '1' })}`} className={`a-gl a-hero-card a-hero-c${k}`}>
-                  <span className="a-cap">{cityOf(s.origin)} → {cityOf(s.dest)}</span>
-                  <span className="a-big">{fmt(s.miles)} <small>pts</small></span>
-                  <span className="a-mu">{dateShort(s.date)} · {programmeName(s.programme_id)}</span>
-                  <SeenStamp iso={s.updated_at} />
-                </Link>
-              ))}
-            </div>
+      <section className="hm-hero" aria-label="Plan a trip">
+        <div className="hm-slides" aria-hidden="true">
+          {CITIES.map((c, i) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={c.id} className="hm-slide" style={{ animationDelay: `${i * 7}s` }} src={`/cities/${c.id}-sm.webp`} srcSet={`/cities/${c.id}-sm.webp 1200w, /cities/${c.id}.webp 3840w`} sizes="100vw" alt="" loading={i === 0 ? "eager" : "lazy"} fetchPriority={i === 0 ? "high" : "auto"} decoding="async" />
           ))}
-          <div className="a-hero-mid">
-            <span className="a-eb">Plan a trip</span>
-            <h1 className="a-hd">
-              Tell us where.
-              <br />
-              <em>We find the seat.</em>
-            </h1>
-          </div>
         </div>
-
-        <form
-          className="a-r a-rw a-hero-form"
-          onSubmit={e => {
-            e.preventDefault();
-            submit();
-          }}
-        >
-          <label className="a-field a-g" style={{ minWidth: 280 }}>
-            <span className="a-i a-i-search a-aff" aria-hidden="true" />
+        <div className="hm-shade" />
+        <div className="hm-copy">
+          <h1>Where to next?</h1>
+          <p>Fly business class on your points.</p>
+          <form className="hm-search" onSubmit={e => { e.preventDefault(); submit(); }}>
             <input type="text" value={text} onChange={e => setText(e.target.value)} placeholder="BOM to London, December, 2 people" aria-label="Describe your trip" maxLength={200} />
-          </label>
-          <button type="submit" className="a-cta a-home-btn">
-            Build my plan
-            <span className="a-ar">
-              <Ic name="arrow" />
-            </span>
-          </button>
-        </form>
-
-        {q && (
-          <div className="a-gl a-flat a-home-q" role="group" aria-label="One more question">
-            <b>{q.text}</b>
-            <div className="a-r a-rw">
-              {q.options.map(o => (
-                <button key={o.label} type="button" className="a-chip a-home-btn" onClick={() => answer(o)}>
-                  {o.label}
-                </button>
-              ))}
+            <button type="submit">Plan my trip</button>
+          </form>
+          {q && (
+            <div className="hm-q" role="group" aria-label="One more question">
+              <b>{q.text}</b>
+              <div>{q.options.map(o => <button key={o.label} type="button" onClick={() => answer(o)}>{o.label}</button>)}</div>
             </div>
+          )}
+          <div className="hm-try">
+            {EXAMPLES.map(x => <button key={x} type="button" onClick={() => { setText(x); submit(x); }}>{x}</button>)}
+            <Link href="/flights">Browse every route</Link>
           </div>
-        )}
-
-        <div className="a-r a-rw">
-          <span className="a-cap">Try</span>
-          {EXAMPLES.map(x => (
-            <button
-              key={x}
-              type="button"
-              className="a-chip a-home-btn"
-              onClick={() => {
-                setText(x);
-                submit(x);
-              }}
-            >
-              {x}
-            </button>
-          ))}
-          <Link className="a-chip" href="/flights">
-            Browse every route from India
-          </Link>
         </div>
+        <Link className="hm-credit" href="/credits">Photos: Wikimedia Commons</Link>
+      </section>
+
+      <div className="a-body">
+        <section className="hm-dest" aria-label="Ideas for your next trip">
+          <h2>Ideas for your next trip</h2>
+          <div className="hm-tiles">
+            {CITIES.map(c => (
+              <Link key={c.id} className="hm-tile" href={`/flights?${new URLSearchParams({ o: home, d: c.d, from: addDaysIso(14, todayIso()), to: addDaysIso(150, todayIso()), cabin: "business", n: "1" })}`}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={`/cities/${c.id}-sm.webp`} alt="" loading="lazy" decoding="async" />
+                <span><b>{c.name}</b><small>{c.sub}</small></span>
+              </Link>
+            ))}
+          </div>
+        </section>
 
         <div className="a-g3" style={{ marginTop: 8 }}>
           <Link className="a-gl a-home-card" href="/wallet">

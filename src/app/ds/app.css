@@ -221,3 +221,25 @@ html,body{margin:0;background:var(--background)}
 @media (max-width:760px){.imp-row{grid-template-columns:22px 1fr auto}.imp-card{grid-column:2/-1}}
 .imp-list{list-style:disc}
 .nxt a{text-decoration:none}
+
+/* Sign-in code boxes: big, rounded, filled boxes light up, a gap in the middle (3 + 3) */
+.otp,.a-auth-card .otp{display:grid!important;grid-template-columns:repeat(3,1fr) 14px repeat(3,1fr);gap:8px;margin-top:14px;max-width:420px}
+.otp input,.a-auth-card .otp input{width:100%;min-width:0;height:64px;border-radius:16px;text-align:center;font:700 26px var(--font-mono,monospace);letter-spacing:0;background:var(--surface,#1c1a18);color:var(--text,#fff);border:1.5px solid var(--border-strong,#555);transition:border-color .15s,background .15s,transform .15s}
+.otp input::placeholder{color:var(--text-muted,#888);opacity:.5}
+.otp input:not(:placeholder-shown){border-color:var(--accent-strong,#7fc);background:var(--primary-tint,#233);transform:translateY(-1px)}
+.otp input:focus{outline:none;border-color:var(--accent-strong,#7fc);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent-strong,#7fc) 25%,transparent)}
+.otp.err input{border-color:var(--danger,#e66);animation:otp-shake .35s}
+.otp.ok input{border-color:var(--success,#4c8)}
+.otp input:nth-child(4){grid-column:5}.otp input:nth-child(5){grid-column:6}.otp input:nth-child(6){grid-column:7}
+@keyframes otp-shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@media (prefers-reduced-motion:reduce){.otp.err input{animation:none}.otp input{transition:none}}
+@media (max-width:420px){.otp input,.a-auth-card .otp input{height:54px;font-size:22px}}
+
+/* Page-change flight: a plane along the top edge, the full loader when the page is slow */
+.rl-bar{position:fixed;top:0;left:0;right:0;height:3px;z-index:200;background:linear-gradient(90deg,var(--accent-strong,#7fc) 0,var(--accent-strong,#7fc) 100%) left/0 100% no-repeat;animation:rl-fill 1.6s cubic-bezier(.2,.7,.3,1) forwards}
+.rl-plane{position:absolute;top:-9px;left:0;color:var(--text,#fff);animation:rl-fly 1.6s cubic-bezier(.2,.7,.3,1) forwards;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4))}
+.rl-veil{position:fixed;inset:0;z-index:190;display:grid;place-items:center;background:color-mix(in srgb,var(--bg,#111) 78%,transparent);backdrop-filter:blur(3px);animation:rl-in .25s ease both}
+@keyframes rl-fill{to{background-size:92% 100%}}
+@keyframes rl-fly{to{left:calc(92% - 20px)}}
+@keyframes rl-in{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.rl-bar{animation:none;background-size:60% 100%}.rl-plane{animation:none;left:calc(60% - 20px)}.rl-veil{animation:none}}

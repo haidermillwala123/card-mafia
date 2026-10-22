@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import MobileBar from '@/components/app/MobileBar';
 import SessionGate from '@/components/SessionGate';
 import NextSteps from '@/components/NextSteps';
+import RouteLoader from '@/components/RouteLoader';
 import { SITE_NAME, SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <a className="skip" href="#main">Skip to content</a>
         <Header />
+        <RouteLoader />
         <main id="main"><SessionGate>{children}</SessionGate><NextSteps /></main>
         <Footer />
         <MobileBar />

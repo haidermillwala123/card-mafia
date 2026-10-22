@@ -72,8 +72,13 @@ export default function EmailCode({ meta, onVerified, intro, sendLabel = 'Send t
   const type = (i: number, el: HTMLInputElement) => {
     el.value = el.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(-1);
     if (el.value && boxes.current[i + 1]) boxes.current[i + 1]!.focus();
+    setErr('');
+  };
+  // The code is only checked when the person presses Submit (or Enter), never on its own.
+  const submit = () => {
     const code = boxes.current.map(b => b?.value ?? '').join('');
-    if (code.length === 6) void verify(code);
+    if (code.length !== 6) return setErr('Enter all six characters from the email.');
+    void verify(code);
   };
 
   if (stage === 'email') {
@@ -101,19 +106,19 @@ export default function EmailCode({ meta, onVerified, intro, sendLabel = 'Send t
       <div className={'otp ' + state} role="group" aria-label="Six-character code">
         {Array.from({ length: 6 }, (_, k) => (
           <input key={k} ref={el => { boxes.current[k] = el; }} inputMode="text" autoCapitalize="characters" autoCorrect="off" spellCheck={false} maxLength={1} aria-label={`Digit ${k + 1}`} autoComplete={k ? 'off' : 'one-time-code'} autoFocus={k === 0} disabled={busy}
-            onChange={e => type(k, e.target)} onKeyDown={e => { if (e.key === 'Backspace' && !e.currentTarget.value && k) boxes.current[k - 1]?.focus(); }}
+            onChange={e => type(k, e.target)} placeholder="·" onKeyDown={e => { if (e.key === 'Enter') submit(); if (e.key === 'Backspace' && !e.currentTarget.value && k) boxes.current[k - 1]?.focus(); }}
             onPaste={e => {
               const d = e.clipboardData.getData('text').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
               if (!d) return;
               e.preventDefault();
               [...d].forEach((ch, j) => { if (boxes.current[j]) boxes.current[j]!.value = ch; });
               boxes.current[Math.min(d.length, 5)]?.focus();
-              if (d.length === 6) void verify(d);
             }} />
         ))}
       </div>
       {err && <p className="err t-sm" role="alert" style={{ color: 'var(--color-danger)' }}>{err}</p>}
       <div className="btn-row">
+        <button type="button" className="btn btn-primary" disabled={busy} onClick={submit}>{busy ? <><span className="spin" /> Checking</> : <>Submit code <Arrow /></>}</button>
         <button type="button" className="btn btn-ghost" disabled={wait > 0 || busy} onClick={() => { setStage('email'); setErr(''); }}>{wait > 0 ? `Change email (${wait}s)` : 'Change email'}</button>
       </div>
     </div>

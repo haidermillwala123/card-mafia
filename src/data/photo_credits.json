@@ -1,0 +1,37 @@
+{
+ "dubai": {
+  "title": "Dubai skyline unsplash.jpg",
+  "artist": "Robert Bock",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Dubai_skyline_unsplash.jpg"
+ },
+ "newyork": {
+  "title": "Lower Manhattan from Jersey City November 2016 002.jpg",
+  "artist": "King of Hearts",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Lower_Manhattan_from_Jersey_City_November_2016_002.jpg"
+ },
+ "london": {
+  "title": "Tower Bridge golden hour.jpg",
+  "artist": "The Cosmonaut",
+  "license": "CC BY-SA 2.5 ca",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5/ca/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Tower_Bridge_golden_hour.jpg"
+ },
+ "lisbon": {
+  "title": "Lisbon panorama from the Bairro Alto.jpg",
+  "artist": "Dudva",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Lisbon_panorama_from_the_Bairro_Alto.jpg"
+ },
+ "japan": {
+  "title": "Mount Fuji at sunset, March 2025.jpg",
+  "artist": "Romain Guy from San Francisco, USA",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Mount_Fuji_at_sunset%2C_March_2025.jpg"
+ }
+}

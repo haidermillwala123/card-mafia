@@ -4,6 +4,7 @@
 // small filter menus, removable chips for what is on, then a plain table. Details open on demand.
 import Link from 'next/link';
 import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { feeTier } from '@/lib/fees';
 
 export type BrowseCard = {
   id: string; name: string; bankId: string; bank: string; currency: string;
@@ -135,7 +136,7 @@ export default function EarnBrowser({ cards }: { cards: BrowseCard[] }) {
                   <span className="ef-name"><b>{c.name}</b><small>{c.bank}</small></span>
                   <span data-l="Base rate">{c.basePer100 === null ? <em>not found</em> : `${r2(c.basePer100)} / ₹100`}</span>
                   <span data-l="Best category">{t ? `${r2(t)} / ₹100` : <em>none found</em>}</span>
-                  <span data-l="Annual fee">{inr(c.annualFee)}</span>
+                  <span data-l="Annual fee">{inr(c.annualFee)}<i className={`ef-tier t-${feeTier(c.annualFee).id}`}>{feeTier(c.annualFee).short}</i></span>
                   <span className="ef-caret" aria-hidden="true">{isOpen ? '−' : '+'}</span>
                 </button>
                 {isOpen && (
