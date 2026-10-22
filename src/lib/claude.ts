@@ -83,6 +83,17 @@ Return a JSON array of strings, one per plan, in the same order.`;
   return out.success && out.data.length === plans.length && out.data.every((t, i) => numbersMatch(t, facts[i])) ? out.data : null;
 }
 
+// Puts each merchant text on a spend category. Returns one entry per input, null where the model gave no usable answer.
+const CAT_IDS = ['general', 'travel_portal', 'international', 'dining', 'groceries', 'online', 'utilities', 'insurance', 'fuel', 'rent', 'education', 'other'] as const;
+export async function categorizeWithClaude(descs: string[]): Promise<((typeof CAT_IDS)[number] | null)[] | null> {
+  const system = `You sort Indian credit card statement lines into spend categories. Return only a JSON array of strings, one per input line, in the same order.
+Allowed values: general (anything that fits nothing else: clothes shops, pharmacies, hospitals, cabs, cinemas, salons, gyms, government fees, wallets), travel_portal (airlines, hotels, travel booking sites, railways), international (foreign merchants or overseas spend), dining (restaurants, cafes, bars, food delivery), groceries (supermarkets, grocery apps, daily needs), online (online shopping and subscriptions: marketplaces, streaming, apps), utilities (electricity, gas, water, phone, broadband, DTH), insurance, fuel (petrol pumps), rent, education (schools, colleges, courses), other (only when the text is unreadable).
+Use only the allowed values. Do not explain.`;
+  const out = z.array(z.string()).safeParse(jsonIn(await ask(system, JSON.stringify(descs), Math.min(1500, descs.length * 8 + 50), 12000)));
+  if (!out.success || out.data.length !== descs.length) return null;
+  return out.data.map(v => ((CAT_IDS as readonly string[]).includes(v) ? (v as (typeof CAT_IDS)[number]) : null));
+}
+
 // Best-effort limiter for the two endpoints that spend Claude tokens. In-memory, so per server instance.
 const hits = new Map<string, number[]>();
 export function allow(ip: string, perMinute = 30): boolean {

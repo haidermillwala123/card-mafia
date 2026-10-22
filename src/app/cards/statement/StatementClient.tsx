@@ -39,10 +39,30 @@ export default function StatementClient({ cards, fees, programmes, miles }: Prop
   const [prog, setProg] = useState('');
   const drop = useRef<HTMLLabelElement>(null);
 
+  const [sorting, setSorting] = useState(false);
+
+  // The keyword rules leave unknown merchants as "general". The model places them; only merchant text leaves the browser, never amounts or dates.
+  async function refine(txns: Txn[]) {
+    const descs = [...new Set(txns.filter(t => t.cat === 'general').map(t => t.desc.slice(0, 60)))].slice(0, 200);
+    if (!descs.length) return;
+    setSorting(true);
+    const found = new Map<string, Cat>();
+    for (let i = 0; i < descs.length; i += 100) {
+      const chunk = descs.slice(i, i + 100);
+      const res = await fetch('/api/statement/categorize', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ descs: chunk }) }).catch(() => null);
+      const j = (await res?.json().catch(() => null)) as { cats?: (Cat | null)[] } | null;
+      j?.cats?.forEach((c, k) => { if (c && c !== 'general') found.set(chunk[k], c); });
+    }
+    setRows(rs => rs && rs.map(r => (r.cat === 'general' && found.has(r.desc.slice(0, 60)) ? { ...r, cat: found.get(r.desc.slice(0, 60))! } : r)));
+    setSorting(false);
+  }
+
   const load = (txns: Txn[], from: string | null, to: string | null, skipped: number) => {
     setRows(txns.map(t => ({ ...t, on: true })));
     setMeta({ from, to, skipped });
     setError('');
+    setOpen(true);
+    void refine(txns);
   };
 
   async function readPdf() {
@@ -82,9 +102,35 @@ export default function StatementClient({ cards, fees, programmes, miles }: Prop
       const r = recommend({ cards, miles, spend: { [cat]: spend[cat] }, targets, held: [], fees, feeCap: Infinity });
       const best = r.picks[0];
       const mine = r.picks.find(p => held.includes(p.card.card_id));
-      return { cat, amount: spend[cat]!, best, mine };
+      return { cat, amount: spend[cat]!, best, mine, picks: r.picks };
     });
   }, [cards, miles, spend, prog, fees, held]);
+
+  // One card against a small basket (at most three), built greedily: add the card that lifts total monthly miles most, stop when the next one barely helps.
+  const suggestion = useMemo(() => {
+    if (!perCat.length) return null;
+    const milesOf = (id: string, pc: (typeof perCat)[number]) => pc.picks.find(p => p.card.card_id === id)?.miles ?? 0;
+    const ids = [...new Set(perCat.flatMap(pc => pc.picks.slice(0, 8).map(p => p.card.card_id)))];
+    const score = (set: string[]) => perCat.reduce((s, pc) => s + Math.max(0, ...set.map(id => milesOf(id, pc))), 0);
+    const set: string[] = [];
+    let cur = 0;
+    while (set.length < 3) {
+      let pick = '', top = cur;
+      for (const id of ids) if (!set.includes(id)) { const v = score([...set, id]); if (v > top) { top = v; pick = id; } }
+      if (!pick || (set.length > 0 && top - cur < Math.max(300, cur * 0.08))) break;
+      set.push(pick);
+      cur = top;
+    }
+    if (!set.length) return null;
+    const byId = (id: string) => cards.find(c => c.card_id === id)!;
+    const single = score([set[0]]);
+    const covers = (id: string) => perCat.filter(pc => set.every(o => milesOf(o, pc) <= milesOf(id, pc))).map(pc => CAT_LABEL[pc.cat]);
+    return {
+      one: byId(set[0]), oneMiles: single, oneFee: fees[set[0]] ?? 0,
+      basket: set.map(id => ({ card: byId(id), covers: covers(id) })), basketMiles: cur, basketFee: set.reduce((s, id) => s + (fees[id] ?? 0), 0),
+      basketWins: set.length > 1 && cur >= single * 1.2,
+    };
+  }, [perCat, cards, fees]);
   const uplift = perCat.reduce((s, p) => s + Math.max(0, (p.best?.miles ?? 0) - (p.mine?.miles ?? 0)), 0);
 
   function useInRecommender() {
@@ -137,7 +183,7 @@ export default function StatementClient({ cards, fees, programmes, miles }: Prop
             <div className="st-head">
               <div>
                 <h2>₹{fmt(total)} a month</h2>
-                <p>{used.length} of {rows.length} lines, {meta.from} to {meta.to}, about {months} {months === 1 ? 'month' : 'months'}.{meta.skipped > 0 ? ` Left out ${meta.skipped} payments, fees and interest.` : ''}</p>
+                <p>{used.length} of {rows.length} lines, {meta.from} to {meta.to}, about {months} {months === 1 ? 'month' : 'months'}.{meta.skipped > 0 ? ` Left out ${meta.skipped} payments, fees and interest.` : ''}{sorting ? ' Sorting the lines we did not recognise.' : ''}</p>
               </div>
               <button type="button" className="st-link" onClick={() => setRows(null)}>Start again</button>
             </div>
@@ -160,6 +206,46 @@ export default function StatementClient({ cards, fees, programmes, miles }: Prop
               </div>
             )}
           </section>
+
+          {suggestion && (
+            <section className="st-best" aria-label="What we suggest">
+              <div className="st-head">
+                <div>
+                  <h2>{suggestion.basketWins ? `A basket of ${suggestion.basket.length} cards fits this spend` : 'One card fits this spend'}</h2>
+                  <p>
+                    {suggestion.basketWins
+                      ? `${suggestion.basket.length} cards earn about ${fmt(Math.round(suggestion.basketMiles - suggestion.oneMiles))} more miles a month than the best single card, for ₹${fmt(suggestion.basketFee - suggestion.oneFee)} more in yearly fees.`
+                      : suggestion.basket.length > 1
+                        ? `A second card would add only about ${fmt(Math.round(suggestion.basketMiles - suggestion.oneMiles))} miles a month, so one card is simpler.`
+                        : 'Nothing else adds enough to be worth a second card.'}
+                  </p>
+                </div>
+              </div>
+              <div className="st-cats">
+                <div className="st-cat">
+                  <div><b>One card</b><small>Simplest</small></div>
+                  <div className="st-pick">
+                    <span className="st-k">{suggestion.basketWins ? 'Single card' : 'Our pick'}</span>
+                    <b>{suggestion.one.name}</b>
+                    <small>{suggestion.one.bank} · {feeTier(suggestion.oneFee).label}</small>
+                    <small className="st-m">+{fmt(Math.round(suggestion.oneMiles))} miles a month{held.includes(suggestion.one.card_id) ? ' · you hold this' : ''}</small>
+                  </div>
+                </div>
+                {suggestion.basket.length > 1 && (
+                  <div className="st-cat">
+                    <div><b>A basket of {suggestion.basket.length}</b><small>Best card for each use</small></div>
+                    {suggestion.basket.map(b => (
+                      <div className="st-pick" key={b.card.card_id}>
+                        <b>{b.card.name}</b>
+                        <small>{b.covers.length ? `For ${b.covers.slice(0, 3).join(', ')}` : 'Backup card'}{held.includes(b.card.card_id) ? ' · you hold this' : ''}</small>
+                      </div>
+                    ))}
+                    <small className="st-m">+{fmt(Math.round(suggestion.basketMiles))} miles a month in all</small>
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
 
           <section className="st-best" aria-label="Best card for each kind of spend">
             <div className="st-head">
