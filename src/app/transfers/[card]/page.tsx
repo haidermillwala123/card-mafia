@@ -118,7 +118,7 @@ export default async function CardTransfers({ params }: { params: Promise<{ card
           {!lim ? <p className="muted">No limits research for this card yet. Every limit is not found.</p> : (
             <>
               <p className="muted measure">
-                Verified {day(lim.last_verified)}.{lim.confidence ? <> Confidence <span className={`tag ${lim.confidence === 'high' ? 'tag-ok' : lim.confidence === 'low' ? 'tag-warn' : ''}`}>{lim.confidence}</span>.</> : ' Confidence not stated.'} “Not found” means no figure turned up in the sources. It does not mean there is no limit.
+                “Not found” means no figure turned up in the sources. It does not mean there is no limit.
               </p>
               <div className="table-wrap"><table className="data" aria-label="Transfer limits and fees">
                 <thead><tr><th scope="col">Item</th><th scope="col">What the sources say</th></tr></thead>

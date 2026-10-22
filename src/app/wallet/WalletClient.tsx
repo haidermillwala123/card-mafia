@@ -9,6 +9,7 @@ import { BANKS, CARDS, PROGRAMME_OF_CARD, bankName, cardName, programmeName } fr
 import { fmt } from '@/lib/app/format';
 import { useWallet } from '@/lib/app/wallet';
 import type { Profile } from '@/lib/profile';
+import WalletTransfers from './WalletTransfers';
 import './wallet.css';
 
 const MAX = 1_000_000_000;
@@ -197,6 +198,8 @@ export default function WalletClient() {
           </div>
         </div>
       )}
+
+      {groups.length > 0 && <WalletTransfers held={groups.map(g => ({ programme: g.programme, cardId: g.cardIds[0], balance: valueOf(g) }))} />}
 
       <div className="a-foot">
         <span className="a-cap">Balances are what you type. We do not check them with your bank.</span>

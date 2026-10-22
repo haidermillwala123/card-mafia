@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Ic from '@/components/app/Icons';
-import { DataFoot, SeenStamp, Tag, VerifiedStamp } from '@/components/app/ui';
+import { DataFoot, SeenStamp, Tag } from '@/components/app/ui';
 import { searchSeats, type SearchResponse, type SeatView } from '@/lib/app/api';
 import { type AlertRow, listAlerts, listWatches, type Watch } from '@/lib/app/alerts';
 import { programmeName } from '@/lib/app/catalog';
@@ -362,7 +362,6 @@ export default function HomeClient() {
             <div className="a-gl">
               <span className="a-cap">Data on this screen</span>
               {dataAge ? <SeenStamp iso={dataAge} prefix="Seats seen" /> : <span className="a-mu">Seat age shows here once we have looked at seats for you.</span>}
-              {strip?.rulesCheckedOn && <VerifiedStamp>Rules checked {strip.rulesCheckedOn}</VerifiedStamp>}
             </div>
           </div>
         </div>

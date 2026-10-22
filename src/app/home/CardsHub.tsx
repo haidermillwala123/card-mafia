@@ -5,7 +5,6 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import Select from '@/components/Select';
-import { Tag } from '@/components/app/ui';
 import { bankName, CARDS, programmeName } from '@/lib/app/catalog';
 import { fmt } from '@/lib/app/format';
 import earnJson from '@/data/earn_rules.json';
@@ -26,7 +25,8 @@ const RULES = (rulesJson as unknown as { rules: Rule[] }).rules;
 const EARN = earnJson.cards as unknown as Record<string, Earn>;
 const LIMITS = limitsJson.cards as unknown as Record<string, Limit>;
 const TABS = ['Transfer ratios', 'How to earn', 'Fees and limits'] as const;
-const NF = <span className="a-mu">not found</span>;
+const clip = (s: string, n: number) => (s.length <= n ? s : `${s.slice(0, s.lastIndexOf(' ', n))}…`);
+const NF =<span className="a-mu">not found</span>;
 const show = (v: unknown) => (v === null || v === undefined || v === '' ? NF : typeof v === 'object' ? JSON.stringify(v) : String(v));
 
 export default function CardsHub({ cardIds }: { cardIds: string[] }) {
@@ -91,11 +91,11 @@ export default function CardsHub({ cardIds }: { cardIds: string[] }) {
             <>
               <div className="a-kv"><span>Base rate</span><b>{show(earn.base_earn?.rate_text)}</b></div>
               <div className="a-kv"><span>Reward currency</span><b>{show(earn.reward_currency)}</b></div>
-              {earn.best_way_to_earn && <div className="a-kv"><span>Best way to earn</span><b>{earn.best_way_to_earn}</b></div>}
-              {earn.accelerated.slice(0, 6).map((a, i) => <div className="a-kv" key={i}><span>{a.category}</span><b>{a.rate_text}</b></div>)}
+              {earn.best_way_to_earn && <div className="a-kv"><span>Best way to earn</span><b>{clip(earn.best_way_to_earn, 120)}</b></div>}
+              {earn.accelerated.slice(0, 6).map((a, i) => <div className="a-kv" key={i}><span>{a.category}</span><b>{clip(a.rate_text, 70)}</b></div>)}
               {earn.accelerated.length > 6 && <span className="a-cap">{earn.accelerated.length - 6} more accelerated rows on the Earn page.</span>}
               {earn.milestones.map((m, i) => <div className="a-kv" key={i}><span>Milestone{m.spend_inr ? ` at ₹${fmt(m.spend_inr)}` : ''}</span><b>{m.benefit}</b></div>)}
-              <div className="a-r a-rw"><Tag kind="outline" plain>Confidence: {earn.confidence}</Tag><Link className="cm-btn cm-btn--ghost cm-btn--sm" href="/earn">Full earn rules and calculator</Link></div>
+              <Link className="cm-btn cm-btn--ghost cm-btn--sm" style={{ alignSelf: 'flex-start' }} href={`/earn#${card.id}`}>Full earn rules for this card</Link>
             </>
           )}
         </div>
@@ -111,7 +111,6 @@ export default function CardsHub({ cardIds }: { cardIds: string[] }) {
               <div className="a-kv"><span>Minimum transfer</span><b>{show(lim.min_transfer)}</b></div>
               <div className="a-kv"><span>Transfer in multiples of</span><b>{show(lim.multiple_of)}</b></div>
               <div className="a-kv"><span>Transfer fee</span><b>{show(lim.transfer_fee)}</b></div>
-              <Tag kind="outline" plain>Confidence: {lim.confidence}</Tag>
             </>
           ) : <span className="a-mu">No transfer limits found for this card.</span>}
           <span className="a-cap">Not found means we could not find it. It does not mean there is no limit.</span>
