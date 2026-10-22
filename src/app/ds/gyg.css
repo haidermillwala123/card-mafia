@@ -86,3 +86,76 @@ header{position:sticky;top:0;z-index:60;background:var(--background);border-bott
 .ef-table,.ef-row{border-radius:12px}
 .ef-chip[aria-pressed=true]{background:var(--text);color:var(--background)}
 .ef-tier{text-transform:none;letter-spacing:0;font-size:12px}
+
+/* ===== App feel: tab bar, touch feedback, loading, boarding pass, card visuals ===== */
+.a-mobilebar{grid-template-columns:repeat(5,1fr);left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));padding:6px;border:1px solid var(--border);border-radius:26px;background:color-mix(in srgb,var(--surface) 90%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 10px 30px rgba(26,43,73,.2)}
+.a-mobilebar .cm-bottombar__item{min-height:56px;gap:2px;border-radius:20px;font:600 11px var(--font-body);transition:transform .15s,color .2s}
+.a-mobilebar .cm-bottombar__item:active{transform:scale(.92)}
+.tab-ic{display:grid;place-items:center;width:46px;height:30px;border-radius:999px;transition:background .25s,color .25s}
+.a-mobilebar [aria-current=page]{color:var(--primary)}
+.a-mobilebar [aria-current=page] .tab-ic{background:var(--primary-tint)}
+.a-mobilebar [aria-current=page] svg{fill:currentColor;fill-opacity:.16}
+@media (max-width:760px){main:has(.a-pg){padding-bottom:96px}.nxt{padding-bottom:104px}}
+
+/* Touch feedback: things you tap sink a little, then spring back */
+.cm-btn,.a-cta,.hm-tile,.sc,.fm-pill,.a-home-card,.bp,.wc,.hm-act,.rw-opt,.rw-c,.hm-try button,.fb-chip,.seg button{transition:transform .14s cubic-bezier(.3,.7,.4,1.4),box-shadow .2s,background-color .2s,border-color .2s}
+.cm-btn:active,.a-cta:active,.hm-tile:active,.sc:active,.fm-pill:active,.a-home-card:active,.bp:active,.wc:active,.hm-act:active,.rw-opt:active,.rw-c:active,.hm-try button:active{transform:scale(.97)}
+
+/* Loading skeletons shimmer instead of sitting still */
+.a-sk{background:linear-gradient(90deg,var(--surface-sunken) 25%,var(--border) 37%,var(--surface-sunken) 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:8px}
+@keyframes shimmer{from{background-position:100% 0}to{background-position:0 0}}
+
+/* One entrance on Home: the greeting, search and actions rise in, one after another */
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}
+.hm-hero>*{animation:rise .55s cubic-bezier(.2,.7,.3,1) both}
+.hm-hero>*:nth-child(2){animation-delay:.07s}.hm-hero>*:nth-child(3){animation-delay:.14s}.hm-hero>*:nth-child(4){animation-delay:.21s}.hm-hero>*:nth-child(5){animation-delay:.28s}
+
+/* Home greeting and quick actions */
+.hm-top{display:flex;justify-content:space-between;align-items:center;gap:12px;width:min(720px,100%);text-align:left}
+.hm-top small{display:block;font:600 14px var(--font-body);color:var(--text-muted)}
+.hm-top h1{max-width:none;text-align:left;font-size:clamp(28px,4vw,38px)}
+.hm-pts{display:flex;flex-direction:column;align-items:flex-end;padding:8px 14px;border-radius:14px;border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow-raised);color:var(--text);white-space:nowrap}
+.hm-pts b{font:800 20px var(--font-body);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.hm-pts span{font-size:12px;color:var(--text-muted)}
+.hm-actions{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:min(720px,100%)}
+.hm-act{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--text);font:600 13px var(--font-body);text-align:center}
+.hm-act i{display:grid;place-items:center;width:58px;height:58px;border-radius:50%;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow-raised);color:var(--primary)}
+.hm-act:hover i{background:var(--primary-tint)}
+.hm-next{width:min(720px,100%);text-align:left}
+.hm-next h2{margin:0 0 10px;font:700 20px var(--font-body)}
+
+/* Boarding pass */
+.bp{position:relative;display:block;overflow:hidden;border-radius:18px;background:linear-gradient(135deg,#16284a 0%,#0b5fd0 100%);color:#fff;box-shadow:0 12px 30px rgba(11,95,208,.28);text-decoration:none}
+.bp:hover{color:#fff}
+.bp-top{position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:30px 24px 18px}
+.bp-code{display:block;font:800 clamp(30px,5vw,42px)/1 var(--font-body);letter-spacing:.04em}
+.bp-top small{display:block;margin-top:4px;opacity:.82;font-size:13px}
+.bp-r{text-align:right}
+.bp-mid{display:flex;align-items:center;gap:8px;color:#fff}
+.bp-mid::before,.bp-mid::after{content:"";flex:1;border-top:2px dashed rgba(255,255,255,.45)}
+.bp-line{display:none}
+.bp-badge{position:absolute;top:10px;left:50%;transform:translateX(-50%);padding:3px 12px;border-radius:999px;background:rgba(255,255,255,.18);font:600 12px var(--font-body);white-space:nowrap}
+.bp-tear{position:relative;margin:0 22px;border-top:2px dashed rgba(255,255,255,.35)}
+.bp-tear i{position:absolute;top:-13px;width:26px;height:26px;border-radius:50%;background:var(--background)}
+.bp-tear i:first-child{left:-35px}.bp-tear i:last-child{right:-35px}
+.bp-tear span{display:none}
+.bp-bot{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:14px 20px;margin:0;padding:18px 24px 22px}
+.bp-bot dt{font-size:12px;opacity:.75}
+.bp-bot dd{margin:2px 0 0;font:700 15px var(--font-body)}
+
+/* Card visuals in the wallet */
+.wc-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.wc{position:relative;display:flex;flex-direction:column;justify-content:space-between;aspect-ratio:1.586;padding:18px 20px;border-radius:18px;color:#fff;overflow:hidden;box-shadow:0 12px 26px rgba(0,0,0,.22)}
+.wc::after{content:"";position:absolute;right:-36px;top:-36px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.13)}
+.wc-chip{width:36px;height:27px;border-radius:6px;background:linear-gradient(135deg,#f6dc8a,#c79f3b);box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.wc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.wc small{opacity:.85;font-size:13px}
+.wc .wc-name{display:block;font:700 18px/1.2 var(--font-body)}
+.wc .wc-bal{display:block;font:800 28px/1 var(--font-body);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+@media (max-width:620px){.wc-row{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding-bottom:6px}.wc{flex:0 0 82%;scroll-snap-align:start}}
+
+.empty-art{display:block;margin-bottom:6px}
+@media (max-width:620px){.hm-actions{gap:2px}.hm-act i{width:52px;height:52px}.hm-act{font-size:12px}}
+@media (prefers-reduced-motion:reduce){.hm-hero>*{animation:none}.a-sk{animation:none}.cm-btn,.a-cta,.hm-tile,.sc,.fm-pill,.a-home-card,.bp,.wc,.hm-act{transition:none}}
+/* the older rule that hides the bar sits after the one that shows it, so show it again here, last */
+@media (max-width:760px){.a-mobilebar{display:grid}}

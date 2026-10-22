@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import BoardingPass from '@/components/BoardingPass';
+import EmptyArt from '@/components/EmptyArt';
 import { Note, SeenStamp, Tag } from '@/components/app/ui';
 import { cityOf } from '@/lib/airports';
 import { createWatch } from '@/lib/app/alerts';
@@ -143,6 +145,7 @@ export default function TripsClient() {
         <div className="a-c" style={{ gap: 14 }}>
           {shown.length === 0 && (
             <div className="a-gl a-dashed trips-empty">
+              <EmptyArt />
               <b>{tab === 'booked' ? 'No booked trips yet.' : 'No trips here yet.'}</b>
               <span className="a-mu">Find a seat, save it, and it lands here with its status.</span>
               <div className="a-trips-actions">
@@ -162,13 +165,25 @@ export default function TripsClient() {
             const route = t.origin && t.destination ? `${cityOf(t.origin)} → ${cityOf(t.destination)}` : null;
             return (
               <article className={`a-gl trip${s === 'transferring' ? ' a-sel' : ''}`} key={t.id}>
-                <div className="a-r a-rw">
-                  <div className="a-g">
-                    <b className="a-trips-title">{route ?? t.title}</b>
-                    <div className="a-mu">{[route ? t.title : null, when, CABIN_LABEL[t.cabin] ?? t.cabin, `${t.travellers} ${t.travellers === 1 ? 'traveller' : 'travellers'}`].filter(Boolean).join(' · ')}</div>
+                {t.origin && t.destination ? (
+                  <BoardingPass
+                    from={t.origin} to={t.destination} fromCity={cityOf(t.origin)} toCity={cityOf(t.destination)} badge={cd ?? undefined}
+                    fields={[
+                      { label: 'Trip', value: t.title },
+                      { label: 'Date', value: when ?? 'Dates open' },
+                      { label: 'Cabin', value: CABIN_LABEL[t.cabin] ?? t.cabin },
+                      { label: 'Travellers', value: t.travellers },
+                    ]}
+                  />
+                ) : (
+                  <div className="a-r a-rw">
+                    <div className="a-g">
+                      <b className="a-trips-title">{route ?? t.title}</b>
+                      <div className="a-mu">{[when, CABIN_LABEL[t.cabin] ?? t.cabin, `${t.travellers} ${t.travellers === 1 ? 'traveller' : 'travellers'}`].filter(Boolean).join(' · ')}</div>
+                    </div>
+                    {cd && <Tag kind={cd === 'Date has passed' ? 'warning' : 'outline'} plain>{cd}</Tag>}
                   </div>
-                  {cd && <Tag kind={cd === 'Date has passed' ? 'warning' : 'outline'} plain>{cd}</Tag>}
-                </div>
+                )}
 
                 <ol className="trip-steps" aria-label="Trip status">
                   {STEPS.map((x, i) => (

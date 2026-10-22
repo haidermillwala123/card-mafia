@@ -11,6 +11,7 @@ import { useWallet } from '@/lib/app/wallet';
 import type { Profile } from '@/lib/profile';
 import Loyalty from './Loyalty';
 import WalletTransfers from './WalletTransfers';
+import { bankGradient } from '@/lib/bank-style';
 import './wallet.css';
 
 const MAX = 1_000_000_000;
@@ -121,6 +122,24 @@ export default function WalletClient() {
           <button type="button" className="cm-btn cm-btn--secondary a-pb" disabled={!cardId} onClick={addCard}>Add card</button>
         </div>
       </div>
+
+      {groups.length > 0 && (
+        <div className="wc-row" aria-label="Your cards">
+          {groups.map(g => {
+            const c = CARDS.find(x => x.id === g.cardIds[0]);
+            return (
+              <div className="wc" key={g.programme} style={{ background: bankGradient(c?.bank ?? '') }}>
+                <div className="wc-top"><span className="wc-chip" aria-hidden="true" /><small>{bankName(c?.bank ?? '')}</small></div>
+                <div>
+                  <small>{programmeName(g.programme)}</small>
+                  <b className="wc-bal">{fmt(valueOf(g))}</b>
+                  <span className="wc-name">{g.cardIds.map(id => cardName(id).replace(bankName(CARDS.find(x => x.id === id)?.bank ?? ''), '').trim()).join(' + ')}</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {groups.length === 0 ? (
         <div className="a-gl a-dashed" style={{ alignItems: 'center', textAlign: 'center' }}>

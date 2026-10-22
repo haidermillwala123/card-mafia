@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
+import BoardingPass from '@/components/BoardingPass';
 import Ic from '@/components/app/Icons';
 import { DataFoot, SeenStamp, Tag } from '@/components/app/ui';
 import { searchSeats, type SearchResponse, type SeatView } from '@/lib/app/api';
@@ -31,6 +32,14 @@ const CITIES = [
   { id: 'lisbon', name: 'Lisbon', sub: 'Hills and tiles', d: 'LIS' },
   { id: 'japan', name: 'Japan', sub: 'Fuji and Tokyo', d: 'HND' },
 ];
+const SV = { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round', strokeLinejoin: 'round' } as const;
+const ACTIONS: [string, string, ReactNode][] = [
+  ['/flights', 'Search', <svg key="a" {...SV}><circle cx="11" cy="11" r="6.5" /><path d="m20 20-4-4" /></svg>],
+  ['/plan', 'Plan', <svg key="b" {...SV}><path d="M5 19c0-5 7-3 7-8s-6-4-6-7" /><circle cx="5" cy="19" r="1.6" /><circle cx="18" cy="5" r="1.6" /><path d="M12 11c0 5 6 3 6 8" /></svg>],
+  ['/cards/recommend', 'Best card', <svg key="c" {...SV}><rect x="3" y="6" width="18" height="13" rx="3" /><path d="M3 10h18M7 15h3" /></svg>],
+  ['/cards/statement', 'Statement', <svg key="d" {...SV}><path d="M7 3h7l4 4v14H7z" /><path d="M14 3v4h4M10 12h5M10 16h5" /></svg>],
+  ['/alerts', 'Alerts', <svg key="e" {...SV}><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z" /><path d="M10 20a2 2 0 0 0 4 0" /></svg>],
+];
 const EXAMPLES = ['DEL to Tokyo, business, 1 person', 'BLR to Doha, 2 people', 'BOM to Europe, first class'];
 const STRIP_REGIONS = ['middle-east', 'europe', 'southeast-asia'];
 const STATUS_LABEL: Record<string, string> = { exploring: 'Exploring', transferring: 'Transferring', booked: 'Booked' };
@@ -47,6 +56,11 @@ export default function HomeClient() {
   const w = useWallet();
   const home = w.profile.airport || 'BOM';
 
+  const [hour, setHour] = useState<number | null>(null);
+  // the greeting follows the clock, which only the browser knows, so it is set after the first paint
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { setHour(new Date().getHours()); }, []);
+  const greeting = hour === null ? 'Hello' : hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
   const [text, setText] = useState('');
   const [trip, setTrip] = useState<Parsed | null>(null);
   const [q, setQ] = useState<Question | null>(null);
@@ -123,14 +137,21 @@ export default function HomeClient() {
   };
 
   const points = w.profile.cardIds.reduce((s, id) => s + (w.profile.balances[id] ?? 0), 0);
-  const latest = trips?.[0];
+  // the soonest trip that has not passed, else the one touched last
+  const latest = trips ? ([...trips].filter(t => t.depart_from && t.depart_from >= todayIso()).sort((a, b) => a.depart_from!.localeCompare(b.depart_from!))[0] ?? trips[0]) : undefined;
   const alert = alerts?.[0];
 
   return (
     <div className="a-pg">
       <Tour />
       <section className="hm-hero" aria-label="Plan a trip">
-        <h1>Discover trips you can pay for with points</h1>
+        <div className="hm-top">
+          <div>
+            <small>{greeting}</small>
+            <h1>{w.profile.first.trim() ? `Hi ${w.profile.first.trim()}, where to?` : 'Where to next?'}</h1>
+          </div>
+          {w.hasCards && <Link className="hm-pts" href="/wallet"><b>{fmt(points)}</b><span>points in your wallet</span></Link>}
+        </div>
         <form className="hm-search" onSubmit={e => { e.preventDefault(); submit(); }}>
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
           <input type="text" value={text} onChange={e => setText(e.target.value)} placeholder="Where to? Try BOM to London, December" aria-label="Describe your trip" maxLength={200} />
@@ -145,9 +166,27 @@ export default function HomeClient() {
         <div className="hm-try">
           {EXAMPLES.map(x => <button key={x} type="button" onClick={() => { setText(x); submit(x); }}>{x}</button>)}
         </div>
+        <nav className="hm-actions" aria-label="Quick actions">
+          {ACTIONS.map(([href, label, icon]) => <Link key={href} className="hm-act" href={href}><i>{icon}</i>{label}</Link>)}
+        </nav>
       </section>
 
       <div className="a-body">
+        {latest && latest.origin && latest.destination && (
+          <section className="hm-next" aria-label="Your next trip">
+            <h2>Your next trip</h2>
+            <BoardingPass
+              href="/trips" from={latest.origin} to={latest.destination} fromCity={cityOf(latest.origin)} toCity={cityOf(latest.destination)}
+              badge={STATUS_LABEL[latest.status] ?? latest.status}
+              fields={[
+                { label: 'Date', value: latest.depart_from ? dateShort(latest.depart_from) : 'Dates open' },
+                { label: 'Cabin', value: CABIN_LABEL[latest.cabin] ?? latest.cabin },
+                { label: 'Travellers', value: latest.travellers },
+                ...(latest.parsed?.seat ? [{ label: 'Points each', value: fmt(latest.parsed.seat.points) }] : []),
+              ]}
+            />
+          </section>
+        )}
         <section className="hm-dest" aria-label="Where to fly">
           <div className="hm-dh"><h2>Where to fly</h2><Link href="/flights">See every route</Link></div>
           <div className="hm-tiles">
