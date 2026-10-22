@@ -9,6 +9,7 @@ import { BANKS, CARDS, PROGRAMME_OF_CARD, bankName, cardName, programmeName } fr
 import { fmt } from '@/lib/app/format';
 import { useWallet } from '@/lib/app/wallet';
 import type { Profile } from '@/lib/profile';
+import Loyalty from './Loyalty';
 import WalletTransfers from './WalletTransfers';
 import './wallet.css';
 
@@ -103,7 +104,7 @@ export default function WalletClient() {
       <p className="a-lead">Add a card and its balance. We never ask for logins.</p>
 
       <div className="a-gl">
-        <span className="a-cap">Add a card</span>
+        <div className="a-r a-rw"><span className="a-cap a-g">Add a card</span><Link className="cm-btn cm-btn--ghost cm-btn--sm" href="/wallet/import">Import balances from Gmail</Link></div>
         <div className="a-wallet-picker">
           <label className="cm-field"><span className="cm-field__label">Bank</span>
             <span className="cm-control"><Select ref={picker} value={bank} onChange={e => { setBank(e.target.value); setCardId(''); }}>
@@ -198,6 +199,8 @@ export default function WalletClient() {
           </div>
         </div>
       )}
+
+      <Loyalty />
 
       {groups.length > 0 && <WalletTransfers held={groups.map(g => ({ programme: g.programme, cardId: g.cardIds[0], balance: valueOf(g) }))} />}
 

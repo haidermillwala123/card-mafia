@@ -164,11 +164,20 @@ export default function AlertsClient() {
               <div className="a-alerts-actions">
                 {w.last_checked_at && <span className="cm-stamp" suppressHydrationWarning><Ic name="clock" small />Last checked {ageLabel(w.last_checked_at)} ago</span>}
                 <span className="a-g" />
+                <Link className="cm-btn cm-btn--secondary cm-btn--sm a-pb" href={`/flights?${new URLSearchParams({ o: w.origin_iata, d: w.dest_iata, from: w.depart_from, to: w.depart_to, cabin: w.cabin, n: '1', ...(w.reachable_only ? { reach: '1' } : {}) })}`}>Search now</Link>
                 <button type="button" className="cm-btn cm-btn--ghost cm-btn--sm" onClick={() => stop(w.id)}>Stop watching</button>
               </div>
             </div>
           ))}
-          {watches && watches.length === 0 && <div className="a-gl a-dashed" style={{ textAlign: 'center' }}><span>You are not watching any routes. Add one on the left.</span></div>}
+          {watches && watches.length === 0 && (
+            <div className="a-gl a-dashed" style={{ alignItems: 'flex-start', gap: 10 }}>
+              <span>You are not watching any routes. Add one on the left, or find a route first.</span>
+              <div className="a-alerts-actions">
+                <Link className="cm-btn cm-btn--primary cm-btn--sm a-pb" href="/flights">Search for trips</Link>
+                <Link className="cm-btn cm-btn--secondary cm-btn--sm a-pb" href="/trips/ideas">Trips you can take</Link>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <div className="a-foot">

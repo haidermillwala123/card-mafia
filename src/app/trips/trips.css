@@ -1,3 +1,18 @@
 .a-trips-tabs{overflow-x:auto;max-width:100%}
 .a-trips-title{font:650 22px/1.2 var(--font-display);letter-spacing:-.015em}
 .a-trips-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.trips-empty{align-items:flex-start;gap:10px}
+.trip{gap:14px}
+.trip-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.trip-steps button{width:100%;display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:14px;border:1px solid var(--border);background:transparent;color:var(--text-muted);font:inherit;text-align:left;cursor:pointer}
+.trip-steps button:disabled{cursor:default}
+.trip-steps i{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:600 12px var(--font-mono);font-style:normal;border:1px solid var(--border-strong)}
+.trip-steps small{display:block;font-size:11px;opacity:.8}
+.trip-steps li.done button{color:var(--text)}
+.trip-steps li.done i{background:var(--accent-strong);border-color:var(--accent-strong);color:var(--bg,#111)}
+.trip-steps li.now button{color:var(--text);border-color:var(--accent-strong);background:var(--primary-tint)}
+.trip-steps li.now i{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.trip-steps button:hover:not(:disabled){border-color:var(--text-muted)}
+.trip-seat{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:10px 14px;border-radius:12px;background:var(--surface-2,rgba(255,255,255,.04))}
+.trip-check{font-size:14px}.trip-check.ok{color:var(--text)}.trip-check.gone,.trip-check.error{color:var(--danger)}
+@media (max-width:620px){.trip-steps{grid-template-columns:1fr}}

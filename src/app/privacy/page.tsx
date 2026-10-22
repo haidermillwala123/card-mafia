@@ -21,6 +21,11 @@ export default function Privacy() {
           <p className="measure">If you use the setup, your name, home airport, preferred cabin, cards and balances are kept in your browser storage on this device. Clear your browser data and they are gone. Nothing needs an account.</p>
         </section>
 
+        <section className="stack" aria-labelledby="gmail-h">
+          <h2 id="gmail-h" className="t-h2">If you import from Gmail</h2>
+          <p className="measure">Importing is optional. It asks Google for read-only access to your mail, once. We look only at mail from banks and airlines we recognise, from the last two years, and read the points balance from it with fixed rules. We keep the number, the sender, the subject and the date, and only what you tick. We do not store email text, we do not ask for ongoing access, and the Google token is revoked when the scan ends. You can also remove the app at myaccount.google.com/permissions.</p>
+        </section>
+
         <section className="stack" aria-labelledby="account-h">
           <h2 id="account-h" className="t-h2">If you sign in</h2>
           <p className="measure">Sign-in uses a six-character code sent to your email, with no password. Your email is used only to sign you in and, if you ask, to tell you when Pro opens. With an account, the same setup is saved so it follows you across devices: your name, date of birth if you gave it, home airport, cabin, cards, banks and balances. Each account can read and change only its own rows. Sign out from your account page.</p>
