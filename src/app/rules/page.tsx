@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { BANKS } from '@/lib/engine/data';
 import { getData } from '@/lib/engine/load';
+import RulesBrowser, { type RuleGroup } from './RulesBrowser';
 
 export const metadata: Metadata = {
   title: 'Transfer rules and sources',
@@ -23,6 +24,20 @@ export default async function RulesPage() {
   };
   const rules = [...data.rules].sort((a, b) => a.from.localeCompare(b.from) || a.to.localeCompare(b.to));
   const groups = [...Map.groupBy(rules, r => r.from)];
+  // The browser is a client component, so it gets plain strings, not the data objects.
+  const browserGroups: RuleGroup[] = groups.map(([from, list]) => ({
+    id: from,
+    name: programmeName(from),
+    rows: list.map(r => ({
+      id: r.id,
+      to: programmeName(r.to),
+      cards: r.cards ? r.cards.map(cardName).join(', ') : null,
+      ratio: `${r.ratio_in}:${r.ratio_out}`,
+      limit: r.monthly_cap ? `${n(r.monthly_cap)} a month` : r.annual_cap ? `${n(r.annual_cap)} a year` : null,
+      multiple: r.min_multiple ? `multiples of ${n(r.min_multiple)}` : null,
+    })),
+  }));
+  const cardProgramme = Object.fromEntries(data.cards.map(c => [c.id, c.programme]));
   return (
     <>
       <Breadcrumbs trail={[{ name: 'Rules', href: '/rules' }]} />
@@ -35,26 +50,8 @@ export default async function RulesPage() {
 
         <section aria-labelledby="rules-h" className="stack">
           <h2 id="rules-h" className="t-h2">Ratios and caps</h2>
-          <p className="muted measure">Open a points currency to see every airline or hotel it can move to.</p>
-          {groups.map(([from, list]) => (
-            <details key={from} className="rules-group">
-              <summary><b>{programmeName(from)}</b> <span className="muted">· {list.length} {list.length === 1 ? 'partner' : 'partners'}</span></summary>
-              <div className="table-wrap">
-                <table className="data" aria-label={`Transfers from ${programmeName(from)}`}>
-                  <thead><tr><th scope="col">Moves to</th><th scope="col" className="n">Ratio</th><th scope="col">Limit</th></tr></thead>
-                  <tbody>
-                    {list.map(r => (
-                      <tr key={r.id}>
-                        <td>{programmeName(r.to)}{r.cards && <div className="t-sm muted">{r.cards.map(cardName).join(', ')}</div>}</td>
-                        <td className="n">{r.ratio_in}:{r.ratio_out}</td>
-                        <td>{r.monthly_cap ? `${n(r.monthly_cap)} a month` : r.annual_cap ? `${n(r.annual_cap)} a year` : <span className="muted">No limit found</span>}{r.min_multiple ? <div className="t-sm muted">multiples of {n(r.min_multiple)}</div> : null}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </details>
-          ))}
+          <p className="muted measure">Search for your card or an airline, or tick “My cards only”. Open a points currency to see every airline or hotel it can move to.</p>
+          <RulesBrowser groups={browserGroups} cardProgramme={cardProgramme} />
         </section>
 
         <section aria-labelledby="qs-h" className="stack">

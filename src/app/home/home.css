@@ -56,3 +56,11 @@
 @media (max-width:620px){.hm-hero{padding:36px 16px 28px}.hm-search{padding-left:16px}.hm-search button{padding:0 18px}.hm-tiles{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding-bottom:6px}.hm-tile{flex:0 0 58%;scroll-snap-align:start}}
 @media (prefers-reduced-motion:reduce){.hm-tile img{transition:none}}
 .idea-img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;margin-bottom:4px}
+
+/* one line of secondary links instead of a second row of cards */
+.hm-quick{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;margin:28px 0 8px;padding-top:18px;border-top:1px solid var(--border);font:500 14px var(--font-body)}
+.hm-quick span{color:var(--text-muted)}
+.hm-quick a{color:var(--text);min-height:44px;display:inline-flex;align-items:center;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--border-strong)}
+.hm-quick a:hover{color:var(--accent-strong)}
+.hm-signin{font:500 14px var(--font-body);color:var(--text-muted);text-decoration:underline;text-underline-offset:3px;min-height:44px;display:inline-flex;align-items:center}
+.hm-signin:hover{color:var(--accent-strong)}

@@ -7,7 +7,6 @@ import BoardingPass from '@/components/BoardingPass';
 import Ic from '@/components/app/Icons';
 import { DataFoot, SeenStamp, Tag } from '@/components/app/ui';
 import { searchSeats, type SearchResponse, type SeatView } from '@/lib/app/api';
-import { type AlertRow, listAlerts, listWatches, type Watch } from '@/lib/app/alerts';
 import { programmeName } from '@/lib/app/catalog';
 import { addDaysIso, CABIN_LABEL, dateShort, fmt, monthLabel, monthRange, todayIso } from '@/lib/app/format';
 import { askNext, type Parsed, parseTrip, type Question, upcomingMonths } from '@/lib/app/parse';
@@ -66,8 +65,6 @@ export default function HomeClient() {
   const [q, setQ] = useState<Question | null>(null);
 
   const [trips, setTrips] = useState<TripRow[] | null>(null);
-  const [watches, setWatches] = useState<Watch[] | null>(null);
-  const [alerts, setAlerts] = useState<AlertRow[] | null>(null);
   const [strip, setStrip] = useState<Strip | null>(null);
 
   const userId = w.user?.id ?? null;
@@ -75,8 +72,6 @@ export default function HomeClient() {
     if (!userId) return;
     let live = true;
     listTrips().then(r => live && setTrips(r));
-    listWatches().then(r => live && setWatches(r));
-    listAlerts(1).then(r => live && setAlerts(r));
     return () => {
       live = false;
     };
@@ -139,7 +134,6 @@ export default function HomeClient() {
   const points = w.profile.cardIds.reduce((s, id) => s + (w.profile.balances[id] ?? 0), 0);
   // the soonest trip that has not passed, else the one touched last
   const latest = trips ? ([...trips].filter(t => t.depart_from && t.depart_from >= todayIso()).sort((a, b) => a.depart_from!.localeCompare(b.depart_from!))[0] ?? trips[0]) : undefined;
-  const alert = alerts?.[0];
 
   return (
     <div className="a-pg">
@@ -154,7 +148,7 @@ export default function HomeClient() {
         </div>
         <form className="hm-search" onSubmit={e => { e.preventDefault(); submit(); }}>
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
-          <input type="text" value={text} onChange={e => setText(e.target.value)} placeholder="Where to? Try BOM to London, December" aria-label="Describe your trip" maxLength={200} />
+          <input type="text" value={text} onChange={e => setText(e.target.value)} placeholder="Try BOM to London, December" aria-label="Describe your trip" maxLength={200} />
           <button type="submit">Search</button>
         </form>
         {q && (
@@ -166,6 +160,7 @@ export default function HomeClient() {
         <div className="hm-try">
           {EXAMPLES.map(x => <button key={x} type="button" onClick={() => { setText(x); submit(x); }}>{x}</button>)}
         </div>
+        {!w.user && <Link className="hm-signin" href="/signin">Sign in to save trips and watch routes</Link>}
         <nav className="hm-actions" aria-label="Quick actions">
           {ACTIONS.map(([href, label, icon]) => <Link key={href} className="hm-act" href={href}><i>{icon}</i>{label}</Link>)}
         </nav>
@@ -187,110 +182,7 @@ export default function HomeClient() {
             />
           </section>
         )}
-        <section className="hm-dest" aria-label="Where to fly">
-          <div className="hm-dh"><h2>Where to fly</h2><Link href="/flights">See every route</Link></div>
-          <div className="hm-tiles">
-            {CITIES.map(c => (
-              <Link key={c.id} className="hm-tile" href={`/flights?${new URLSearchParams({ o: home, d: c.d, from: addDaysIso(14, todayIso()), to: addDaysIso(150, todayIso()), cabin: "business", n: "1" })}`}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`/cities/${c.id}-sm.webp`} alt="" loading={c.id === "dubai" ? "eager" : "lazy"} decoding="async" />
-                <b>{c.name}</b>
-                <small>{c.sub}</small>
-              </Link>
-            ))}
-          </div>
-          <Link className="hm-credit" href="/credits">Photos from Wikimedia Commons</Link>
-        </section>
-
-        <div className="a-g3" style={{ marginTop: 8 }}>
-          <Link className="a-gl a-home-card" href="/wallet">
-            <span className="a-cap">Wallet</span>
-            {!w.ready ? (
-              <div className="a-sk" style={{ width: '60%', height: 40 }} />
-            ) : w.hasCards ? (
-              <>
-                <div className="a-big">
-                  {w.profile.cardIds.length} <small>{w.profile.cardIds.length === 1 ? 'card' : 'cards'}</small>
-                </div>
-                <div className="a-kv">
-                  <span>Points across cards</span>
-                  <b>{fmt(points)}</b>
-                </div>
-              </>
-            ) : (
-              <>
-                <b className="a-t">No cards yet. Add your cards.</b>
-                <span className="a-mu">Search works without them. Cards let us show what you can pay for.</span>
-              </>
-            )}
-          </Link>
-
-          <Link className="a-gl a-home-card" href={w.user ? '/trips' : '/signin'}>
-            <span className="a-cap">Next trip</span>
-            {!w.user ? (
-              <>
-                <b className="a-t">Sign in to save trips</b>
-                <span className="a-mu">Saved trips show up here.</span>
-              </>
-            ) : trips === null ? (
-              <div className="a-sk" style={{ width: '60%', height: 40 }} />
-            ) : latest ? (
-              <>
-                <div className="a-big">
-                  {latest.origin ?? '—'} → {latest.destination ?? '—'}
-                </div>
-                <div className="a-kv">
-                  <span>Status</span>
-                  <b>{STATUS_LABEL[latest.status] ?? latest.status}</b>
-                </div>
-                <div className="a-kv">
-                  <span>
-                    {latest.depart_from ? dateShort(latest.depart_from) : 'Dates open'} · {latest.travellers} {latest.travellers === 1 ? 'person' : 'people'}
-                  </span>
-                  <b>{latest.parsed?.seat ? `${fmt(latest.parsed.seat.points)} pts` : CABIN_LABEL[latest.cabin] ?? latest.cabin}</b>
-                </div>
-              </>
-            ) : (
-              <>
-                <b className="a-t">No saved trips yet.</b>
-                <span className="a-mu">Build a plan and save it.</span>
-              </>
-            )}
-          </Link>
-
-          <Link className="a-gl a-home-card" href="/alerts">
-            <span className="a-cap">Alerts</span>
-            {!w.user ? (
-              <>
-                <b className="a-t">Sign in to watch routes</b>
-                <span className="a-mu">We tell you when a seat opens.</span>
-              </>
-            ) : watches === null || alerts === null ? (
-              <div className="a-sk" style={{ width: '60%', height: 40 }} />
-            ) : (
-              <>
-                <div className="a-big">
-                  {watches.length} <small>{watches.length === 1 ? 'route watched' : 'routes watched'}</small>
-                </div>
-                {alert ? (
-                  <>
-                    <div className="a-kv">
-                      <span>
-                        {alert.payload.origin} → {alert.payload.dest}
-                      </span>
-                      <b>{fmt(alert.payload.best.points)} pts</b>
-                    </div>
-                    <SeenStamp iso={alert.payload.best.seen_at} />
-                  </>
-                ) : (
-                  <span className="a-mu">No seats opened yet.</span>
-                )}
-              </>
-            )}
-          </Link>
-        </div>
-
-        {(!w.ready || w.hasCards) && <div style={{ marginTop: 8 }}>
+        <div style={{ marginTop: 8 }}>
           <div className="a-gl">
             <h2 className="a-sec">What can my points buy?</h2>
             {!w.ready ? (
@@ -349,18 +241,29 @@ export default function HomeClient() {
             )}
           </div>
 
-        </div>}
+        </div>
+
+        <section className="hm-dest" aria-label="Where to fly">
+          <div className="hm-dh"><h2>Where to fly</h2><Link href="/flights">See every route</Link></div>
+          <div className="hm-tiles">
+            {CITIES.map(c => (
+              <Link key={c.id} className="hm-tile" href={`/flights?${new URLSearchParams({ o: home, d: c.d, from: addDaysIso(14, todayIso()), to: addDaysIso(150, todayIso()), cabin: "business", n: "1" })}`}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={`/cities/${c.id}-sm.webp`} alt="" loading={c.id === "dubai" ? "eager" : "lazy"} decoding="async" />
+                <b>{c.name}</b>
+                <small>{c.sub}</small>
+              </Link>
+            ))}
+          </div>
+          <Link className="hm-credit" href="/credits">Photos from Wikimedia Commons</Link>
+        </section>
 
         {w.ready && <CardsHub cardIds={w.profile.cardIds} />}
 
-        <section className="a-c" aria-label="Tools">
-          <h2 className="a-sec">Tools</h2>
-          <div className="a-g4 a-quick">
-            {QUICK.map(([href, title, hint]) => (
-              <Link key={href} href={href} className="a-gl a-home-card"><b>{title}</b><span className="a-mu">{hint}</span></Link>
-            ))}
-          </div>
-        </section>
+        <nav className="hm-quick" aria-label="More tools">
+          <span>Also:</span>
+          {QUICK.map(([href, title]) => <Link key={href} href={href}>{title}</Link>)}
+        </nav>
 
         <DataFoot />
       </div>
