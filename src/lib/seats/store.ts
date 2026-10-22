@@ -63,16 +63,15 @@ export interface Store {
 const db: Store = {
   kind: 'database',
   async read(q) {
-    const out: StoredRow[] = [];
-    for (let page = 0; page < 5; page++) {
+    // five 1,000-row pages fetched together; an empty page past the end is cheap
+    const pages = await Promise.all([0, 1, 2, 3, 4].map(async page => {
       const { data, error } = await admin().from('seat_snapshots').select('*')
         .in('origin_iata', q.origins).in('dest_iata', q.dests).eq('cabin', q.cabin).gte('travel_date', q.from).lte('travel_date', q.to)
         .order('miles', { ascending: true }).range(page * 1000, page * 1000 + 999);
       if (error) throw new Error(`seat read failed: ${error.message}`);
-      out.push(...(data as DbRow[]).map(fromDb));
-      if ((data?.length ?? 0) < 1000) break;
-    }
-    return out;
+      return (data as DbRow[]).map(fromDb);
+    }));
+    return pages.flat();
   },
   async byIds(ids) {
     if (!ids.length) return [];
@@ -83,11 +82,15 @@ const db: Store = {
   async upsert(rows, pulledAt) {
     const unique = [...new Map(rows.map(r => [rowKey(r), r])).values()];
     let n = 0;
-    for (let i = 0; i < unique.length; i += 400) {
-      const chunk = unique.slice(i, i + 400).map(r => toDb(r, pulledAt));
-      const { error } = await admin().from('seat_snapshots').upsert(chunk, { onConflict: CONFLICT });
-      if (error) throw new Error(`seat write failed: ${error.message}`);
-      n += chunk.length;
+    // 500-row chunks, six in flight at a time: a 5,000-row pull used to wait on 13 writes in a row
+    const chunks: ReturnType<typeof toDb>[][] = [];
+    for (let i = 0; i < unique.length; i += 500) chunks.push(unique.slice(i, i + 500).map(r => toDb(r, pulledAt)));
+    for (let i = 0; i < chunks.length; i += 6) {
+      await Promise.all(chunks.slice(i, i + 6).map(async chunk => {
+        const { error } = await admin().from('seat_snapshots').upsert(chunk, { onConflict: CONFLICT });
+        if (error) throw new Error(`seat write failed: ${error.message}`);
+        n += chunk.length;
+      }));
     }
     return n;
   },
