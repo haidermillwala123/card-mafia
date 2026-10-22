@@ -9,6 +9,7 @@ import Ic from '@/components/app/Icons';
 import { SeatCard, SeatTable, payable } from '@/components/app/flights/seat-bits';
 import SeatFilters, { applyFilters, EMPTY, type Filters } from '@/components/app/flights/seat-filters';
 import FlightLoader from '@/components/FlightLoader';
+import DestinationGallery from '@/components/DestinationGallery';
 import DatePicker from '@/components/DatePicker';
 import { createWatch } from '@/lib/app/alerts';
 import { type Cabin, getQuota, type QuotaResponse, type SearchResponse, searchSeats, type SeatView } from '@/lib/app/api';
@@ -27,13 +28,6 @@ const CABINS = Object.keys(CABIN_LABEL) as Cabin[];
 const AIRLINE_PROGRAMMES = (programmesJson.programmes as { id: string; name: string; kind: string }[]).filter(p => p.kind === 'airline').sort((a, b) => a.name.localeCompare(b.name));
 const OTHER = AIRPORTS.filter(a => !INDIAN.includes(a.i));
 const PAGE = 24;
-const PLACES = [
-  { id: 'dubai', name: 'Dubai', sub: 'Skyline and desert', d: 'DXB' },
-  { id: 'newyork', name: 'New York', sub: 'Manhattan', d: 'JFK' },
-  { id: 'london', name: 'London', sub: 'Tower Bridge', d: 'LHR' },
-  { id: 'lisbon', name: 'Lisbon', sub: 'Hills and tiles', d: 'LIS' },
-  { id: 'japan', name: 'Japan', sub: 'Fuji and Tokyo', d: 'HND' },
-];
 const IATA = /^[A-Z]{3}$/;
 
 export default function FlightsClient({ initial }: { initial: InitialParams }) {
@@ -240,16 +234,7 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
         {state.status === 'idle' && (
           <section className="fx-dest" aria-labelledby="fx-dest-h">
             <h2 id="fx-dest-h">Not sure where? Start here.</h2>
-            <div className="fx-tiles">
-              {PLACES.map(c => (
-                <button key={c.id} type="button" className="fx-tile" onClick={() => { setD(c.d); void run(c.d); }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={`/cities/${c.id}-sm.webp`} alt="" loading="lazy" decoding="async" />
-                  <b>{c.name}</b>
-                  <small>{c.sub}</small>
-                </button>
-              ))}
-            </div>
+            <DestinationGallery onPick={c => { setD(c.d); void run(c.d); }} />
             <div className="fx-regions">
               <span>Or a whole region</span>
               {GROUPS.slice(0, 8).map(g => <button key={g.id} type="button" className="fx-r" onClick={() => { setD(g.id); void run(g.id); }}>{g.label}</button>)}

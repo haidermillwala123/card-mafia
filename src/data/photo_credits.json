@@ -33,5 +33,54 @@
   "license": "CC0",
   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
   "page": "https://commons.wikimedia.org/wiki/File:Mount_Fuji_at_sunset%2C_March_2025.jpg"
+ },
+ "singapore": {
+  "title": "Marina Bay Sands in the evening - 20101120.jpg",
+  "artist": "Someformofhuman",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Marina_Bay_Sands_in_the_evening_-_20101120.jpg"
+ },
+ "paris": {
+  "title": "Seine River and the Eiffel Tower, 27 October 2012 - panoramio.jpg",
+  "artist": "Roman Ostash",
+  "license": "CC BY 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Seine_River_and_the_Eiffel_Tower,_27_October_2012_-_panoramio.jpg"
+ },
+ "bangkok": {
+  "title": "Templo Wat Arun, Bangkok, Tailandia, 2013-08-22, DD 30.jpg",
+  "artist": "Diego Delso",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Templo_Wat_Arun,_Bangkok,_Tailandia,_2013-08-22,_DD_30.jpg"
+ },
+ "istanbul": {
+  "title": "Istanbul as seen from the Galata Tower (8396801424).jpg",
+  "artist": "Jorge Láscar from Australia",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Istanbul_as_seen_from_the_Galata_Tower_(8396801424).jpg"
+ },
+ "sydney": {
+  "title": "Sydney Opera House and Harbour Bridge Dusk (2) 2019-06-21.jpg",
+  "artist": "Benh LIEU SONG (Flickr)",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sydney_Opera_House_and_Harbour_Bridge_Dusk_(2)_2019-06-21.jpg"
+ },
+ "bali": {
+  "title": "Tanah-Lot Bali Indonesia Pura-Tanah-Lot-01.jpg",
+  "artist": "CEphoto, Uwe Aranas",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Tanah-Lot_Bali_Indonesia_Pura-Tanah-Lot-01.jpg"
+ },
+ "maldives": {
+  "title": "Aerial shot, Maldives.jpg",
+  "artist": "Dr. Ondřej Havelka (cestovatel)",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Aerial_shot,_Maldives.jpg"
  }
 }

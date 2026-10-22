@@ -14,6 +14,8 @@ import { listTrips, type TripRow } from '@/lib/app/trips';
 import { useWallet } from '@/lib/app/wallet';
 import { cityOf, expandDest } from '@/lib/airports';
 import CardsHub from './CardsHub';
+import DestinationGallery from '@/components/DestinationGallery';
+import { type Destination, HERO } from '@/lib/destinations';
 import Tour from '@/components/Tour';
 import './home.css';
 
@@ -24,13 +26,6 @@ const QUICK: [string, string, string][] = [
   ['/earn', 'Best way to earn', 'Filter 58 cards'],
 ];
 
-const CITIES = [
-  { id: 'dubai', name: 'Dubai', sub: 'Skyline and desert', d: 'DXB' },
-  { id: 'newyork', name: 'New York', sub: 'Manhattan', d: 'JFK' },
-  { id: 'london', name: 'London', sub: 'Tower Bridge', d: 'LHR' },
-  { id: 'lisbon', name: 'Lisbon', sub: 'Hills and tiles', d: 'LIS' },
-  { id: 'japan', name: 'Japan', sub: 'Fuji and Tokyo', d: 'HND' },
-];
 const SV = { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round', strokeLinejoin: 'round' } as const;
 const ACTIONS: [string, string, ReactNode][] = [
   ['/flights', 'Search', <svg key="a" {...SV}><circle cx="11" cy="11" r="6.5" /><path d="m20 20-4-4" /></svg>],
@@ -131,6 +126,7 @@ export default function HomeClient() {
     if (!more) router.push(planHref(next));
   };
 
+  const flightsTo = (c: Destination) => `/flights?${new URLSearchParams({ o: home, d: c.d, from: addDaysIso(14, todayIso()), to: addDaysIso(150, todayIso()), cabin: 'business', n: '1' })}`;
   const points = w.profile.cardIds.reduce((s, id) => s + (w.profile.balances[id] ?? 0), 0);
   // the soonest trip that has not passed, else the one touched last
   const latest = trips ? ([...trips].filter(t => t.depart_from && t.depart_from >= todayIso()).sort((a, b) => a.depart_from!.localeCompare(b.depart_from!))[0] ?? trips[0]) : undefined;
@@ -141,9 +137,9 @@ export default function HomeClient() {
       <section className="hm-stage" aria-label="Plan a trip">
        <div className="hm-sticky">
         <div className="hm-frame" aria-hidden="true">
-          {CITIES.map((c, i) => (
+          {HERO.map((c, i) => (
             // eslint-disable-next-line @next/next/no-img-element
-            <img key={c.id} className={`hm-ph hm-ph-${i}`} src={`/cities/${c.id}.webp`} alt="" decoding="async" loading={i === 0 ? 'eager' : 'lazy'} />
+            <img key={c.id} className={`hm-ph hm-ph-${i}`} src={`/cities/${c.photo}.webp`} alt="" decoding="async" loading={i === 0 ? 'eager' : 'lazy'} />
           ))}
           <i className="hm-shade" />
         </div>
@@ -175,12 +171,15 @@ export default function HomeClient() {
         </nav>
         </div>
         <div className="hm-caps">
-          {CITIES.map((c, i) => (
-            <Link key={c.id} className={`hm-cap hm-cap-${i}`} href={`/flights?${new URLSearchParams({ o: home, d: c.d, from: addDaysIso(14, todayIso()), to: addDaysIso(150, todayIso()), cabin: 'business', n: '1' })}`} tabIndex={i === 0 ? 0 : -1}>
-              <b>{c.name}</b><span>{c.sub}</span><em>See seats</em>
+          {HERO.map((c, i) => (
+            <Link key={c.id} className={`hm-cap hm-cap-${i}`} href={flightsTo(c)} tabIndex={i === 0 ? 0 : -1}>
+              <b>{c.name}</b><span>{c.country}</span><em>See seats</em>
             </Link>
           ))}
         </div>
+        <ol className="hm-dots" aria-hidden="true">
+          {HERO.map((c, i) => <li key={c.id} className={`hm-dot hm-dot-${i}`} />)}
+        </ol>
        </div>
       </section>
 
@@ -263,16 +262,7 @@ export default function HomeClient() {
 
         <section className="hm-dest" aria-label="Where to fly">
           <div className="hm-dh"><h2>Where to fly</h2><Link href="/flights">See every route</Link></div>
-          <div className="hm-tiles">
-            {CITIES.map(c => (
-              <Link key={c.id} className="hm-tile" href={`/flights?${new URLSearchParams({ o: home, d: c.d, from: addDaysIso(14, todayIso()), to: addDaysIso(150, todayIso()), cabin: "business", n: "1" })}`}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`/cities/${c.id}-sm.webp`} alt="" loading={c.id === "dubai" ? "eager" : "lazy"} decoding="async" />
-                <b>{c.name}</b>
-                <small>{c.sub}</small>
-              </Link>
-            ))}
-          </div>
+          <DestinationGallery hrefFor={flightsTo} />
           <Link className="hm-credit" href="/credits">Photos from Wikimedia Commons</Link>
         </section>
 
