@@ -26,7 +26,8 @@ const ALIASES: [RegExp, string][] = [
   [/\bhorizon\b/, 'axis-horizon'],
   [/\bmagnus\b/, 'axis-magnus'],
   [/\baxis reserve\b|(?<!sapphire )\breserve\b/, 'axis-reserve'],
-  [/\b(?:amex|american express)\b(?!\s+(?:gold|green|blue|everyday|membership))|\bplatinum travel\b/, 'amex-plat-travel'],
+  // a bare "Amex" is not matched: Amex has several cards, so reviewNotes asks which one
+  [/\bplatinum travel\b/, 'amex-plat-travel'],
   [/\btravel one\b/, 'hsbc-travel-one'],
   [/\bhsbc premier\b|\bpremier\b/, 'hsbc-premier'],
   [/\bsbi miles\b/, 'sbi-miles'],
@@ -58,6 +59,41 @@ export function unsupportedNotes(text: string, month: string | null, now: Date):
   const other = OTHER_CARDS.exec(t)?.[1];
   if (other) notes.push(`We do not cover “${other}”. We map Indian cards only, so pick yours below.`);
   if (month && Date.UTC(+month.slice(0, 4), +month.slice(5, 7) - 1, 1) <= now.getTime()) notes.push(`${month} has already started. Pick a later month below.`);
+  return notes;
+}
+
+const PARTY = /(\d+|one|two|three|four|five|six)\s*(?:people|persons?|pax|travell?ers?|adults?|passengers?|of us)/g;
+const monthName = (m: string) => new Date(Date.UTC(+m.slice(0, 4), +m.slice(5, 7) - 1, 1)).toLocaleString('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+
+// Checks a finished parse (Claude's or the rules') for things that would otherwise be settled silently. Only adds notes; nothing is changed.
+export function reviewNotes(text: string, trip: ParsedTrip, seatMonths: string[], seatDests: string[]): string[] {
+  const t = text.toLowerCase();
+  const notes: string[] = [];
+
+  if (/\b(?:amex|american express)\b/.test(t) && !OTHER_CARDS.test(t) && !trip.cardIds.some(id => id.startsWith('amex-')))
+    notes.push('You said Amex but not which card. Pick your Amex card below.');
+
+  if (/\b(first class|economy)\b/.test(t)) notes.push('The MVP plans business class only. We used business.');
+
+  const sizes = [...new Set([...t.matchAll(PARTY)].map(m => WORDS[m[1]] ?? +m[1]))];
+  if (sizes.length > 1) notes.push(`You gave different party sizes (${sizes.join(' and ')}). We used ${trip.travellers}. Change it below if that is wrong.`);
+
+  // a number that looks like a points balance but has no card beside it
+  if (!trip.cardIds.length) {
+    const seen = [...text.matchAll(NUM)].find(m => {
+      const v = amountOf(m[1], m[2]);
+      const before = text.slice(Math.max(0, m.index! - 14), m.index!).toLowerCase();
+      return (m[2] || v >= 1000) && !(v >= 2000 && v <= 2100 && !m[2]) && !/fare|cash|cost|price/.test(before)
+        && !/^\s*(people|persons|pax|travell?ers|adults|passengers|of us|st|nd|rd|th)/i.test(text.slice(m.index! + m[0].length, m.index! + m[0].length + 14));
+    });
+    if (seen) notes.push(`We read ${seen[0].trim()} but no card name came with it. Pick your card below and enter the balance.`);
+  }
+
+  // Plans only exist where cached seats exist, so say so before the person reaches an empty result
+  if (trip.month && seatMonths.length && !seatMonths.includes(trip.month))
+    notes.push(`We only have seats for ${seatMonths.map(monthName).join(' and ')} right now, so ${monthName(trip.month)} will come back with no plans. Pick ${seatMonths.length > 1 ? 'one of those months' : monthName(seatMonths[0])}.`);
+  if (trip.dests.length && seatDests.length && !trip.dests.some(d => seatDests.includes(d)))
+    notes.push(`We only have seats to ${seatDests.join(', ')}. Pick one of those cities.`);
   return notes;
 }
 

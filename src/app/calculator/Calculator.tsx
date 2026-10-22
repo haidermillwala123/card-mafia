@@ -107,7 +107,7 @@ export default function Calculator({ cards, airlines }: { cards: CardOpt[]; airl
   );
   const status = (c: { busy: boolean; error: string }) => (c.error ? <div className="note note-bad" role="alert"><Warn />{c.error}</div> : c.busy ? <p className="t-sm muted" role="status"><span className="spin" /> Calculating</p> : null);
   const capCell = (c: Cap, time: string | null) => (
-    <td className="t-sm">{capText(c)}{c.monthsNeeded > 1 && <div style={{ color: 'var(--color-warning)' }}>{c.monthsNeeded} months</div>}{time && <div className="muted">{time}</div>}</td>
+    <td className="t-sm" data-l="Limit">{capText(c)}{c.monthsNeeded > 1 && <div style={{ color: 'var(--color-warning)' }}>{c.monthsNeeded} months</div>}{time && <div className="muted">{time}</div>}</td>
   );
 
   return (
@@ -134,14 +134,14 @@ export default function Calculator({ cards, airlines }: { cards: CardOpt[]; airl
             {!num(points) && <div className="note note-info"><Info />Add a balance to see what it buys.</div>}
             {fwd.data && fwd.data.rows.length === 0 && num(points) > 0 && <div className="note note-info"><Info />{fwd.data.card} has no transfer route to an airline in our rules.</div>}
             {fwd.data && fwd.data.rows.length > 0 && (
-              <div className="table-wrap" role="status"><table className="data">
-                <thead><tr><th>Programme</th><th className="n">Miles</th><th className="n">Rate</th><th>Path</th><th>Cap</th></tr></thead>
+              <div className="table-wrap" role="status"><table className="data data--cards">
+                <thead><tr><th>Programme</th><th className="n">Miles</th><th className="n">Rate</th><th>Path</th><th>Limit</th></tr></thead>
                 <tbody>{fwd.data.rows.map((r, i) => (
                   <tr key={r.programme}>
                     <td><b>{r.name}</b>{i === 0 && fwd.data!.rows[1]?.miles !== r.miles && <> <span className="tag tag-best">Most miles</span></>}{r.confirmed && <> <span className="tag tag-ok">Route seen working</span></>}</td>
-                    <td className="n"><b>{n(r.miles)}</b>{(r.vsDirect ?? 0) > 0 && r.chain.nodes.length > 2 && <div className="t-sm muted">+{n(r.vsDirect!)} vs direct</div>}</td>
-                    <td className="n">{r.rate}:1</td>
-                    <td><PathChain {...r.chain} /></td>
+                    <td className="n" data-l="Miles"><b>{n(r.miles)}</b>{(r.vsDirect ?? 0) > 0 && r.chain.nodes.length > 2 && <div className="t-sm muted">+{n(r.vsDirect!)} vs direct</div>}</td>
+                    <td className="n" data-l="Points for 1 mile">{r.rate}:1</td>
+                    <td data-l="Route"><PathChain {...r.chain} /></td>
                     {capCell(r.cap, r.transferTime)}
                   </tr>
                 ))}</tbody>
@@ -160,14 +160,14 @@ export default function Calculator({ cards, airlines }: { cards: CardOpt[]; airl
             {status(rev)}
             {rev.data && rev.data.rows.length === 0 && <div className="note note-info"><Info />No card in our rules reaches {rev.data.target}.</div>}
             {rev.data && rev.data.rows.length > 0 && (
-              <div className="table-wrap" role="status"><table className="data">
-                <thead><tr><th>Card</th><th className="n">Points needed</th><th className="n">Rate</th><th>Path</th><th>Cap</th></tr></thead>
+              <div className="table-wrap" role="status"><table className="data data--cards">
+                <thead><tr><th>Card</th><th className="n">Points needed</th><th className="n">Rate</th><th>Path</th><th>Limit</th></tr></thead>
                 <tbody>{rev.data.rows.map((r, i) => (
                   <tr key={r.cardId}>
                     <td><b>{r.card}</b>{mine.includes(r.cardId!) && <> <span className="tag">Yours</span></>}{i === 0 && <> <span className="tag tag-best">Fewest points</span></>}</td>
-                    <td className="n"><b>{n(r.pointsUsed)}</b></td>
-                    <td className="n">{r.rate}:1</td>
-                    <td><PathChain {...r.chain} /></td>
+                    <td className="n" data-l="Points needed"><b>{n(r.pointsUsed)}</b></td>
+                    <td className="n" data-l="Points for 1 mile">{r.rate}:1</td>
+                    <td data-l="Route"><PathChain {...r.chain} /></td>
                     {capCell(r.cap, r.transferTime)}
                   </tr>
                 ))}</tbody>

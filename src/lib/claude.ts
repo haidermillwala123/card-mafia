@@ -55,7 +55,7 @@ export async function parseWithClaude(text: string, today: string, cards: Card[]
   const system = `You turn one sentence about an award-flight trip from India into JSON. Return only the JSON object, no prose.
 Keys: month ("YYYY-MM" or null), dests (array of JFK, ORD, LAX, MIA; "the US" means all four), origin (3-letter Indian airport or null), travellers (integer, default 1), mustProduct ("Qsuite" if the person requires Qsuite, else null), cards (array of {id, balance}), cashFareInr (number or null).
 Rules: use null when the sentence does not say. Never guess a balance. "1.2L" or "1.2 lakh" is 120000, "65k" is 65000. A month that has already started this year means next year. Today is ${today}.
-Card ids you may use: ${cards.map(c => `${c.id} (${c.name})`).join('; ')}. "Amex" alone means amex-plat-travel. Amex Gold, Green or Blue and cards from outside India (Chase, Citi, Capital One) are not in the list: leave them out. "husband", "wife" or "partner" means travellers 2; "family of N" means N.`;
+Card ids you may use: ${cards.map(c => `${c.id} (${c.name})`).join('; ')}. "Amex" alone does not name a card: leave it out. Amex Gold, Green or Blue and cards from outside India (Chase, Citi, Capital One) are not in the list: leave them out. "husband", "wife" or "partner" means travellers 2; "family of N" means N.`;
   const out = ParseOut.safeParse(jsonIn(await ask(system, text.slice(0, 700), 500, 6000)));
   if (!out.success) return null;
   const known = new Set(cards.map(c => c.id));

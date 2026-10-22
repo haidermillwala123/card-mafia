@@ -88,9 +88,10 @@ export default function Onboarding({ banks, cards, programmes }: Props) {
     setI(x => Math.min(LAST, x + 1));
     scrollTo({ top: 0 });
   };
+  // Skipping the account lands on the plan page, which works signed out. /home needs an account.
   const finish = () => {
     saveProfile(withDob(p));
-    router.push(nextPath());
+    router.push(user ? nextPath() : '/plan');
   };
 
   // After the email code (or when already signed in): save the setup to the account, note Pro interest, then go plan.

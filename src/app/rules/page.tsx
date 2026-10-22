@@ -22,6 +22,7 @@ export default async function RulesPage() {
     return c ? `${BANKS.find(b => b.id === c.bank)?.name.replace(/ Bank| Card/, '') ?? ''} ${c.name}`.trim() : id;
   };
   const rules = [...data.rules].sort((a, b) => a.from.localeCompare(b.from) || a.to.localeCompare(b.to));
+  const groups = [...Map.groupBy(rules, r => r.from)];
   return (
     <>
       <Breadcrumbs trail={[{ name: 'Rules', href: '/rules' }]} />
@@ -34,20 +35,26 @@ export default async function RulesPage() {
 
         <section aria-labelledby="rules-h" className="stack">
           <h2 id="rules-h" className="t-h2">Ratios and caps</h2>
-          <div className="table-wrap">
-            <table className="data" aria-label="Transfer ratios and caps">
-              <thead><tr><th scope="col">From</th><th scope="col">To</th><th scope="col" className="n">Ratio</th><th scope="col">Cap</th></tr></thead>
-              <tbody>
-                {rules.map(r => (
-                  <tr key={r.id}>
-                    <td><b>{programmeName(r.from)}</b>{r.cards && <div className="t-sm muted">{r.cards.map(cardName).join(', ')}</div>}</td>
-                    <td>{programmeName(r.to)}</td>
-                    <td className="n">{r.ratio_in}:{r.ratio_out}</td>
-                    <td>{r.monthly_cap ? `${n(r.monthly_cap)} a month` : r.annual_cap ? `${n(r.annual_cap)} a year` : <span className="muted">not found</span>}{r.min_multiple ? <div className="t-sm muted">multiples of {n(r.min_multiple)}</div> : null}</td>                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <p className="muted measure">Open a points currency to see every airline or hotel it can move to.</p>
+          {groups.map(([from, list]) => (
+            <details key={from} className="rules-group">
+              <summary><b>{programmeName(from)}</b> <span className="muted">· {list.length} {list.length === 1 ? 'partner' : 'partners'}</span></summary>
+              <div className="table-wrap">
+                <table className="data" aria-label={`Transfers from ${programmeName(from)}`}>
+                  <thead><tr><th scope="col">Moves to</th><th scope="col" className="n">Ratio</th><th scope="col">Limit</th></tr></thead>
+                  <tbody>
+                    {list.map(r => (
+                      <tr key={r.id}>
+                        <td>{programmeName(r.to)}{r.cards && <div className="t-sm muted">{r.cards.map(cardName).join(', ')}</div>}</td>
+                        <td className="n">{r.ratio_in}:{r.ratio_out}</td>
+                        <td>{r.monthly_cap ? `${n(r.monthly_cap)} a month` : r.annual_cap ? `${n(r.annual_cap)} a year` : <span className="muted">No limit found</span>}{r.min_multiple ? <div className="t-sm muted">multiples of {n(r.min_multiple)}</div> : null}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </details>
+          ))}
         </section>
 
         <section aria-labelledby="qs-h" className="stack">

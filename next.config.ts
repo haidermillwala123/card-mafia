@@ -23,6 +23,8 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: { '/': ['./public/landing/index.html'] },
   async headers() {
     return [
+      // the two font files never change under the same name, so browsers keep them for 30 days
+      { source: "/fonts/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=2592000, stale-while-revalidate=86400" }] },
       {
         source: "/:path*",
         headers: [

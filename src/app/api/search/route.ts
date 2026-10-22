@@ -1,3 +1,4 @@
+import { airport } from '@/lib/airports';
 import { allow } from '@/lib/claude';
 import { getData } from '@/lib/engine/load';
 import { clientKey, readJson } from '@/lib/guard';
@@ -29,6 +30,10 @@ export async function POST(req: Request) {
   if (!allow(clientKey(req), 20)) return Response.json({ error: 'Too many searches. Wait a minute and try again.' }, { status: 429 });
   const b = body.data;
   if (b.to < b.from) return Response.json({ error: 'The end date is before the start date.' }, { status: 400 });
+  // checked before any live pull, so a typo or a made-up code never spends one of the day's seats.aero calls
+  const unknown = [...b.origins, ...b.dests].find(code => !airport(code));
+  if (unknown) return Response.json({ error: `We do not cover the airport ${unknown}. Pick one from the list.` }, { status: 400 });
+  if (b.dests.every(d => b.origins.includes(d))) return Response.json({ error: 'Pick two different airports.' }, { status: 400 });
 
   try {
     const ip = clientKey(req);

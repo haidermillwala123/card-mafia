@@ -74,6 +74,8 @@ const db: Store = {
     return pages.flat();
   },
   async byIds(ids) {
+    // the id column is a uuid: a malformed id would make the query throw, so it is dropped here and reads as "no such seat"
+    ids = ids.filter(i => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(i));
     if (!ids.length) return [];
     const { data, error } = await admin().from('seat_snapshots').select('*').in('id', ids);
     if (error) throw new Error(`seat read failed: ${error.message}`);

@@ -253,3 +253,27 @@ svg{max-width:100%;vertical-align:-3px}
 .a-auth-card .otp input:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--color-primary) 28%,transparent)}
 .a-auth-card .otp.err input{border-color:var(--color-danger)}
 .a-auth-card .btn-primary{width:100%;justify-content:center}
+
+/* Phone fixes: rules groups, tooltips that wrap instead of widening the page, result rows as cards */
+.rules-group{border:1px solid var(--color-border);border-radius:14px;padding:0 16px;margin:0}
+.rules-group+.rules-group{margin-top:8px}
+.rules-group summary{cursor:pointer;min-height:48px;display:flex;align-items:center;gap:8px;list-style:none}
+.rules-group summary::-webkit-details-marker{display:none}
+.rules-group summary::after{content:"+";margin-left:auto;color:var(--color-text-muted);font-size:20px}
+.rules-group[open]{padding-bottom:12px}
+.rules-group[open] summary::after{content:"\2212"}
+.cm-tip__bubble{white-space:normal;width:max-content;max-width:min(260px,calc(100vw - 32px))}
+@media(max-width:640px){
+  .cm-tip__bubble{left:0;transform:translate(0,4px)}
+  .cm-tip:hover .cm-tip__bubble,.cm-tip:focus-within .cm-tip__bubble,.cm-tip--open .cm-tip__bubble{transform:translate(0,0)}
+  .data--cards thead{display:none}
+  .data--cards,.data--cards tbody,.data--cards tr,.data--cards td{display:block;width:100%}
+  .data--cards tr{border:1px solid var(--color-border);border-radius:14px;padding:12px 14px;margin-bottom:10px;background:var(--color-surface)}
+  .data--cards td{border:0;padding:4px 0;text-align:left!important}
+  .data--cards td[data-l]::before{content:attr(data-l);display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+}
+@media(max-width:760px){
+  .ef-head{min-height:0;align-items:start}
+  .ef-head>span{min-width:0}
+  .ef-head>span[data-l]::before{display:block}
+}

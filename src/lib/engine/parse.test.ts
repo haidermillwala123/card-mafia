@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { amountOf, parseTrip } from './parse.ts';
+import { amountOf, parseTrip, reviewNotes } from './parse.ts';
 import { numbersMatch } from './explain.ts';
 
 const cards = JSON.parse(readFileSync(new URL('../../data/cards.json', import.meta.url), 'utf8')).cards;
@@ -14,18 +14,29 @@ test('Indian amounts read as points', () => {
   assert.equal(amountOf('4.5', 'lakh'), 450000);
 });
 
-test('the demo sentence parses to Qsuite, the US and two cards', () => {
-  const p = parseTrip('I want to go to the US in October. Doha to the US must be Qsuite. India to Doha can be anything. I have HDFC Infinia and Amex.', NOW, cards);
+test('the demo sentence parses to Qsuite, the US and one card, and asks which Amex', () => {
+  const text = 'I want to go to the US in October. Doha to the US must be Qsuite. India to Doha can be anything. I have HDFC Infinia and Amex.';
+  const p = parseTrip(text, NOW, cards);
   assert.equal(p.month, '2027-10');
   assert.equal(p.mustProduct, 'Qsuite');
   assert.deepEqual(p.dests, ['JFK', 'ORD', 'LAX', 'MIA']);
-  assert.deepEqual(p.cardIds.sort(), ['amex-plat-travel', 'hdfc-infinia']);
+  assert.deepEqual(p.cardIds, ['hdfc-infinia']); // a bare "Amex" is never guessed
   assert.equal(p.travellers, 1);
   assert.ok(p.notes.some(n => /balance/.test(n)), 'asks for the missing balances');
+  assert.ok(reviewNotes(text, p, ['2027-10'], ['JFK', 'ORD', 'LAX', 'MIA']).some(n => /which card/.test(n)), 'asks which Amex');
+});
+
+test('review notes warn about empty months, conflicting party sizes and a balance with no card', () => {
+  const trip = (t: string) => parseTrip(t, NOW, cards);
+  const asks = (t: string) => reviewNotes(t, trip(t), ['2027-10'], ['JFK']);
+  assert.ok(asks('New York in May, Infinia 1.2L').some(n => /October 2027/.test(n)), 'month with no seats');
+  assert.equal(asks('New York in October 2027, Infinia 1.2L').length, 0, 'a covered trip gets no warning');
+  assert.ok(asks('New York in October, Infinia 1.2L, 1 traveller, 3 people').some(n => /party sizes/.test(n)));
+  assert.ok(asks('6k points, New York in October').some(n => /no card name/.test(n)));
 });
 
 test('balances sit on the card they were typed next to', () => {
-  const p = parseTrip('1.2L Infinia and 65k on my Amex card, US in October, 2 people', NOW, cards);
+  const p = parseTrip('1.2L Infinia and 65k on my Platinum Travel card, US in October, 2 people', NOW, cards);
   assert.deepEqual(p.balances, { 'hdfc-infinia': 120000, 'amex-plat-travel': 65000 });
   assert.equal(p.travellers, 2);
 });
