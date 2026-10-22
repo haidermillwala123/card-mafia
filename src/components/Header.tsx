@@ -24,6 +24,7 @@ const GROUPS = [
   { label: 'More', items: [
     { href: '/alerts', label: 'Alerts', hint: 'Routes we watch for you' },
     { href: '/learn', label: 'Learn', hint: 'Glossary and tools' },
+    { href: '/home?tour=1', label: 'Take the tour', hint: 'Where everything is' },
   ] },
 ];
 

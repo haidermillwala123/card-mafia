@@ -14,6 +14,7 @@ import { listTrips, type TripRow } from '@/lib/app/trips';
 import { useWallet } from '@/lib/app/wallet';
 import { cityOf, expandDest } from '@/lib/airports';
 import CardsHub from './CardsHub';
+import Tour from '@/components/Tour';
 import './home.css';
 
 const QUICK: [string, string, string][] = [
@@ -120,6 +121,7 @@ export default function HomeClient() {
 
   return (
     <div className="a-pg">
+      <Tour />
       <div className="a-body">
         <div className="a-hero">
           {[0, 1].map(side => (
@@ -141,7 +143,6 @@ export default function HomeClient() {
               <br />
               <em>We find the seat.</em>
             </h1>
-            <p className="a-lead">One sentence is enough. We read it, look at cached award seats, and show which of your cards can pay.</p>
           </div>
         </div>
 
@@ -357,7 +358,7 @@ export default function HomeClient() {
           </div>
         </section>
 
-        <DataFoot extra={<span className="a-cap">Search works without an account. Wallet, Trips and Alerts need a sign-in.</span>} />
+        <DataFoot />
       </div>
     </div>
   );

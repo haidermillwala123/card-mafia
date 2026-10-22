@@ -100,7 +100,7 @@ export default function WalletClient() {
     <div className="a-pg"><div className="a-body">
       <span className="a-eb">Your wallet</span>
       <h1 className="a-hd">The cards you<br /><em>already hold.</em></h1>
-      <p className="a-lead">Balances drive every &quot;can I afford this&quot; on the site. You type them in. We never ask for bank logins or card numbers.</p>
+      <p className="a-lead">Add a card and its balance. We never ask for logins.</p>
 
       <div className="a-gl">
         <span className="a-cap">Add a card</span>
@@ -201,11 +201,6 @@ export default function WalletClient() {
 
       {groups.length > 0 && <WalletTransfers held={groups.map(g => ({ programme: g.programme, cardId: g.cardIds[0], balance: valueOf(g) }))} />}
 
-      <div className="a-foot">
-        <span className="a-cap">Balances are what you type. We do not check them with your bank.</span>
-        <span className="a-g" />
-        <span className="a-cap">We never ask for bank logins or card numbers.</span>
-      </div>
     </div></div>
   );
 }

@@ -64,7 +64,7 @@ export function DataFoot({ extra }: { extra?: ReactNode }) {
       <SeatsCredit />
       {extra}
       <span className="a-g" />
-      <span className="a-cap">Seats can disappear before you transfer. Card Mafia does not book flights.</span>
+      <span className="a-cap">Seats can disappear before you transfer.</span>
     </div>
   );
 }

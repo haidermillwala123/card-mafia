@@ -11,6 +11,7 @@ import type { Cabin } from '@/lib/app/api';
 import { CABIN_LABEL, addDaysIso, ageLabel, dateShort, fmt, todayIso } from '@/lib/app/format';
 import { useUser } from '@/lib/auth';
 import { MAX_DAYS_OUT } from '@/lib/seats/sources';
+import DatePicker from '@/components/DatePicker';
 import './alerts.css';
 
 const CABINS: Cabin[] = ['economy', 'premium_economy', 'business', 'first'];
@@ -112,10 +113,10 @@ export default function AlertsClient() {
                 <option value="">Choose an airport</option>
                 {AIRPORTS.filter(a => a.i !== origin).map(a => <option key={a.i} value={a.i}>{label(a.i)}</option>)}
               </Select></span></label>
-            <label className="cm-field"><span className="cm-field__label">Leaving from</span>
-              <span className="cm-control"><input type="date" min={min} max={max} value={from} onChange={e => setFrom(e.target.value)} /></span></label>
-            <label className="cm-field"><span className="cm-field__label">Leaving by</span>
-              <span className="cm-control"><input type="date" min={min} max={max} value={to} onChange={e => setTo(e.target.value)} /></span></label>
+            <div className="cm-field"><span className="cm-field__label">Leaving from</span>
+              <span className="cm-control"><DatePicker ariaLabel="Leaving from" min={min} max={max} value={from} onChange={setFrom} /></span></div>
+            <div className="cm-field"><span className="cm-field__label">Leaving by</span>
+              <span className="cm-control"><DatePicker ariaLabel="Leaving by" min={min} max={max} value={to} onChange={setTo} /></span></div>
             <label className="cm-field a-alerts-wide"><span className="cm-field__label">Cabin</span>
               <span className="cm-control"><Select value={cabin} onChange={e => setCabin(e.target.value as Cabin)}>
                 {CABINS.map(c => <option key={c} value={c}>{CABIN_LABEL[c]}</option>)}

@@ -72,7 +72,6 @@ export default function WalletTransfers({ held }: { held: Held[] }) {
           </div>
         );
       })}
-      <span className="a-cap">&quot;1 point becomes&quot; is how many partner points one card point turns into. A rupee value per point depends on the seat: open one in Search and type its cash fare.</span>
     </section>
   );
 }

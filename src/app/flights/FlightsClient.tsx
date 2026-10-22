@@ -9,6 +9,7 @@ import Ic from '@/components/app/Icons';
 import { SeatCard, SeatTable, payable } from '@/components/app/flights/seat-bits';
 import SeatFilters, { applyFilters, EMPTY, type Filters } from '@/components/app/flights/seat-filters';
 import FlightLoader from '@/components/FlightLoader';
+import DatePicker from '@/components/DatePicker';
 import { createWatch } from '@/lib/app/alerts';
 import { type Cabin, getQuota, type QuotaResponse, type SearchResponse, searchSeats, type SeatView } from '@/lib/app/api';
 import { ageLabel, CABIN_LABEL, dateShort, fmt, monthLabel, addDaysIso, todayIso } from '@/lib/app/format';
@@ -186,8 +187,8 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
                 <optgroup label="Airports">{AIRPORTS.map(a => <option key={a.i} value={a.i}>{label(a.i)}</option>)}</optgroup>
               </Select>
             </Field>
-            <Field label="Earliest date"><input type="date" value={from} onChange={e => setFrom(e.target.value)} required /></Field>
-            <Field label="Latest date"><input type="date" value={to} onChange={e => setTo(e.target.value)} required /></Field>
+            <Field label="Earliest date"><DatePicker ariaLabel="Earliest date" value={from} max={to || undefined} onChange={setFrom} /></Field>
+            <Field label="Latest date"><DatePicker ariaLabel="Latest date" value={to} min={from || undefined} onChange={setTo} /></Field>
             <Field label="Cabin">
               <Select value={cabin} onChange={e => setCabin(e.target.value as Cabin)}>{CABINS.map(c => <option key={c} value={c}>{CABIN_LABEL[c]}</option>)}</Select>
             </Field>
@@ -204,7 +205,7 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
               <input inputMode="numeric" placeholder="No limit" value={max} onChange={e => setMax(e.target.value.replace(/[^\d,]/g, ''))} />
             </Field>
           </div>
-          <p className="a-cap">Search covers the next {MAX_DAYS_OUT} days, about 11 months. {outOfRange ? 'Your end date is later, so we will cut it short.' : ''}</p>
+          {outOfRange && <p className="a-cap">Search covers the next {MAX_DAYS_OUT} days. Your end date is later, so we will cut it short.</p>}
           <div className="a-r a-rw">
             <label className="cm-check"><input type="checkbox" checked={direct} onChange={e => setDirect(e.target.checked)} /><span className="cm-check__text"><span className="cm-check__label">Direct only</span></span></label>
             <label className="cm-check">
@@ -226,7 +227,7 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
           <div className="a-gl" aria-busy="true"><FlightLoader label="Finding seats. A new route can take up to 30 seconds." /></div>
         )}
         {state.status === 'error' && <Note kind="danger" title="We could not load seats.">{state.error}</Note>}
-        {state.status === 'idle' && <Note kind="info" title="Pick a route and press Search.">Results come from saved seat data and show how old each one is.</Note>}
+        {state.status === 'idle' && <p className="a-mu">Pick a route and press Search.</p>}
 
         {done && meta && (
           <>
@@ -240,7 +241,6 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
                 </h2>
               </div>
               {meta.pulledAt && <SeenStamp iso={meta.pulledAt} />}
-              {q && <span className="a-cap">Live checks today: {fmt(q.used)}/{fmt(q.cap)}</span>}
             </div>
 
             {meta.clamped && <Note kind="info" title="Dates shortened.">We searched {dateShort(meta.from)} to {dateShort(meta.to)}. Search covers the next {MAX_DAYS_OUT} days only.</Note>}
@@ -315,7 +315,7 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
               <>
                 <SeatFilters rows={routeRows} f={filters} setF={f => { setFilters(f); setShown(PAGE); setShownPhone(PHONE_PAGE); }} shown={rows.length} />
                 <div className="a-r a-rw">
-                  <span className="a-cap a-g">Click a card or tick Compare to pick up to 3</span>
+                  <span className="a-cap a-g">Pick up to 3 to compare</span>
                   {comparable ? (
                     <Link className="cm-btn cm-btn--secondary cm-btn--sm a-pb" href={`/flights/compare?ids=${picks.map(encodeURIComponent).join(',')}&n=${done.sub.n}`}>Compare {picks.length}</Link>
                   ) : (
@@ -343,7 +343,6 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
                   <SeatTable rows={rows.slice(0, shown)} n={done.sub.n} fare={fareNum} picks={picks} onPick={pick} />
                   {rows.length > shown && <button type="button" className="cm-btn cm-btn--secondary a-pb" style={{ alignSelf: 'center' }} onClick={() => setShown(s => s + PAGE)}>Show more ({fmt(rows.length - shown)} left)</button>}
                   {rows.length === 0 && <span className="a-mu">No rows match these filters. Press Clear filters.</span>}
-                  <span className="cm-stamp cm-stamp--stale"><Ic name="clock" small />Rows older than a day fade and carry a warning.</span>
                 </div>
 
                 <div className="a-flights-phone">
@@ -365,9 +364,9 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
 
 function Field({ label: text, children }: { label: string; children: React.ReactNode }) {
   return (
-    <label className="cm-field">
+    <div className="cm-field">
       <span className="cm-field__label">{text}</span>
       <span className="cm-control">{children}</span>
-    </label>
+    </div>
   );
 }
