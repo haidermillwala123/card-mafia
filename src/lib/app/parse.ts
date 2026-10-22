@@ -3,6 +3,7 @@
 import { AIRPORTS, GROUPS, INDIAN } from '@/lib/airports';
 import { addDaysIso, monthLabel, todayIso } from '@/lib/app/format';
 import type { Cabin } from '@/lib/app/api';
+import { MAX_DAYS_OUT } from '@/lib/seats/sources';
 
 export type Parsed = { o: string; d: string | null; ym: string | null; n: number; cabin: Cabin };
 export type Question = { text: string; options: { label: string; patch: Partial<Parsed>; go?: boolean }[] };
@@ -110,10 +111,10 @@ export function askNext(trip: Parsed, today = todayIso(), farOk = false): Questi
     return { text: 'Where do you want to go?', options: regions.map(id => ({ label: GROUPS.find(g => g.id === id)?.label ?? id, patch: { d: id } })) };
   }
   if (!trip.ym) return { text: 'Which month?', options: upcomingMonths(3, today).map(ym => ({ label: monthLabel(ym), patch: { ym } })) };
-  // Seats are only searched about 60 days out. A month past that gets a question, never a silent empty page.
-  if (!farOk && trip.ym > addDaysIso(60, today).slice(0, 7)) {
+  // Seats are only searched MAX_DAYS_OUT days out. A month past that gets a question, never a silent empty page.
+  if (!farOk && trip.ym > addDaysIso(MAX_DAYS_OUT, today).slice(0, 7)) {
     return {
-      text: `We only see seats about 60 days ahead, so ${monthLabel(trip.ym)} may show nothing. Which do you want?`,
+      text: `We only see seats about ${MAX_DAYS_OUT} days ahead, so ${monthLabel(trip.ym)} may show nothing. Which do you want?`,
       options: [{ label: `Search ${monthLabel(trip.ym)} anyway`, patch: { ym: trip.ym }, go: true }, ...upcomingMonths(3, today).map(ym => ({ label: monthLabel(ym), patch: { ym } }))],
     };
   }

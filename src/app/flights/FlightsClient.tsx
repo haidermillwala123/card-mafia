@@ -12,7 +12,8 @@ import { type Cabin, getQuota, type QuotaResponse, type SearchResponse, searchSe
 import { ageLabel, CABIN_LABEL, dateShort, fmt, monthLabel, addDaysIso, todayIso } from '@/lib/app/format';
 import programmesJson from '@/data/programmes.json';
 import { useWallet } from '@/lib/app/wallet';
-import { AIRPORTS, expandDest, GROUPS, INDIAN, label } from '@/lib/airports';
+import { AIRPORTS, expandDest, GROUPS, INDIAN, label, NEAR } from '@/lib/airports';
+import { MAX_DAYS_OUT } from '@/lib/seats/sources';
 import './flights.css';
 
 export type InitialParams = { o: string | null; d: string | null; from: string; to: string; cabin: string; n: string; reach: string | null; direct: boolean; p: string; max: string };
@@ -82,7 +83,7 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
       origins, dests, from, to, cabin, travellers: n,
       holdings: wallet.hasCards ? wallet.holdings : undefined,
       filters: { reachableOnly: reach || undefined, directOnly: direct || undefined, maxPoints: maxPoints > 0 ? Math.round(maxPoints) : undefined, programmes: prog ? [prog] : undefined },
-      limit: 200,
+      limit: 500,
     });
     if (mine !== token.current) return; // a newer search is already running
     setState(r.ok ? { status: 'done', res: r.data, sub } : { status: 'error', error: r.error });
@@ -151,7 +152,7 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
   };
 
   const meta = done?.res.meta;
-  const outOfRange = to > addDaysIso(60, todayIso());
+  const outOfRange = to > addDaysIso(MAX_DAYS_OUT, todayIso());
   const q = meta ? { used: meta.quotaUsed, cap: meta.quotaCap } : quota ? { used: quota.used, cap: quota.cap } : null;
   const comparable = picks.length >= 2;
 
@@ -198,7 +199,7 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
               <input inputMode="numeric" placeholder="No limit" value={max} onChange={e => setMax(e.target.value.replace(/[^\d,]/g, ''))} />
             </Field>
           </div>
-          <p className="a-cap">Search covers the next 60 days. {outOfRange ? 'Your end date is later, so we will cut it short.' : ''}</p>
+          <p className="a-cap">Search covers the next {MAX_DAYS_OUT} days, about 11 months. {outOfRange ? 'Your end date is later, so we will cut it short.' : ''}</p>
           <div className="a-r a-rw">
             <label className="cm-check"><input type="checkbox" checked={direct} onChange={e => setDirect(e.target.checked)} /><span className="cm-check__text"><span className="cm-check__label">Direct only</span></span></label>
             <label className="cm-check">
@@ -240,14 +241,27 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
               {q && <span className="a-cap">Live checks today: {fmt(q.used)}/{fmt(q.cap)}</span>}
             </div>
 
-            {meta.clamped && <Note kind="info" title="Dates shortened.">We searched {dateShort(meta.from)} to {dateShort(meta.to)}. Search covers the next 60 days only.</Note>}
+            {meta.clamped && <Note kind="info" title="Dates shortened.">We searched {dateShort(meta.from)} to {dateShort(meta.to)}. Search covers the next {MAX_DAYS_OUT} days only.</Note>}
             {meta.paused && <Note kind="warning" title="Live checks paused today">Showing saved results{meta.pulledAt ? ` from ${ageLabel(meta.pulledAt)} ago` : ''}.</Note>}
             {(meta.truncated || done.res.total > allRows.length) && (
               <Note kind="info" title="Showing part of the results.">We loaded {fmt(allRows.length)} of {fmt(done.res.total)} matching seats. Narrow the dates or add a filter to see the rest.</Note>
             )}
 
             {rows.length === 0 && allRows.length === 0 && (
-              <div className="a-gl a-dashed"><b className="a-t">No seats match yet.</b><span className="a-mu">Widen the dates or untick Reachable.</span></div>
+              <div className="a-gl a-dashed">
+                <b className="a-t">No seats match yet.</b>
+                {(() => {
+                  const ds = expandDest(done.sub.d);
+                  const near = ds.length === 1 ? NEAR[ds[0]] : undefined;
+                  if (!near) return <span className="a-mu">Widen the dates or untick Reachable.</span>;
+                  return (
+                    <>
+                      <span className="a-mu">seats.aero has no award seats listed for {label(ds[0])}, on any date. Try a nearby airport, then press Search.</span>
+                      <span className="a-r a-rw">{near.map(c => <button key={c} type="button" className="cm-btn cm-btn--sm" onClick={() => setD(c)}>{label(c)}</button>)}</span>
+                    </>
+                  );
+                })()}
+              </div>
             )}
 
             {routes.length > 1 && (

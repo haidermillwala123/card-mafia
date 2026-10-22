@@ -73,7 +73,7 @@ export async function runSearch(input: SearchInput): Promise<{ rows: SeatOut[]; 
       paused = true;
       pausedReason = 'quota';
     } else {
-      // always pull the whole 60-day window so "fresh" means fresh for any dates the person picks next
+      // always pull the whole window so "fresh" means fresh for any dates the person picks next
       const q = { origins: uniq(stale.map(p => p[0])), dests: uniq(stale.map(p => p[1])), from: win.full.from, to: win.full.to, cabin };
       const key = `${q.origins.join()}>${q.dests.join()}|${cabin}`;
       try {
@@ -81,7 +81,7 @@ export async function runSearch(input: SearchInput): Promise<{ rows: SeatOut[]; 
           inflight.get(key) ??
           (async () => {
             const pulledAt = new Date().toISOString();
-            const r = await pullRoutes({ ...q, maxPages: 4 });
+            const r = await pullRoutes({ ...q, maxPages: 8 });
             await store.bump(r.calls);
             await store.upsert(r.rows, pulledAt);
             if (!r.truncated) await store.prune(q, pulledAt);

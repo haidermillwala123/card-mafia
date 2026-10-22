@@ -10,6 +10,7 @@ import { createWatch, dismissAlert, listAlerts, listWatches, stopWatch, type Ale
 import type { Cabin } from '@/lib/app/api';
 import { CABIN_LABEL, addDaysIso, ageLabel, dateShort, fmt, todayIso } from '@/lib/app/format';
 import { useUser } from '@/lib/auth';
+import { MAX_DAYS_OUT } from '@/lib/seats/sources';
 import './alerts.css';
 
 const CABINS: Cabin[] = ['economy', 'premium_economy', 'business', 'first'];
@@ -19,7 +20,7 @@ const range = (w: Watch) => (w.depart_from === w.depart_to ? dateShort(w.depart_
 export default function AlertsClient() {
   const user = useUser();
   const min = todayIso();
-  const max = addDaysIso(60);
+  const max = addDaysIso(MAX_DAYS_OUT);
   const [origin, setOrigin] = useState('BOM');
   const [dest, setDest] = useState('');
   const [from, setFrom] = useState(min);
@@ -55,7 +56,7 @@ export default function AlertsClient() {
     setFormErr('');
     if (!dest) return setFormErr('Choose where you want to fly.');
     if (dest === origin) return setFormErr('Pick two different airports.');
-    if (!from || !to || from < min || to > max || from > to) return setFormErr(`Pick dates within the next 60 days, up to ${dateShort(max)}, with the start before the end.`);
+    if (!from || !to || from < min || to > max || from > to) return setFormErr(`Pick dates within the next ${MAX_DAYS_OUT} days, up to ${dateShort(max)}, with the start before the end.`);
     setBusy(true);
     const r = await createWatch({ origin, dest, from, to, cabin, reachableOnly: reachable, email });
     setBusy(false);

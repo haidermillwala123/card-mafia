@@ -3,7 +3,7 @@
 import { CABIN_API, CABIN_CODE, type Cabin, NO_TAXES_SOURCES, programmeForSource } from './sources';
 
 const BASE = 'https://seats.aero/partnerapi';
-const PAGE = 250;
+const PAGE = 1000; // the API accepts take=1000; a 330-day BOM-LHR business pull is 3 calls instead of 9
 
 export class SeatsError extends Error {
   constructor(message: string, readonly status: number, readonly quotaExhausted = false) {

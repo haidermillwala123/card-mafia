@@ -16,6 +16,9 @@ export const GROUPS: { id: string; label: string }[] = [
   { id: 'south-america', label: 'South America' },
 ];
 
+// Airports seats.aero returns no award seats for (checked 22 Oct 2026), and the nearest airports it does cover.
+export const NEAR: Record<string, string[]> = { OSL: ['CPH', 'ARN', 'HEL'] };
+
 export const airport = (iata: string) => AIRPORTS.find(a => a.i === iata);
 export const cityOf = (iata: string) => airport(iata)?.c ?? iata;
 export const label = (iata: string) => `${cityOf(iata)} (${iata})`;

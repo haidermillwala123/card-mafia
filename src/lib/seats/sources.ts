@@ -85,5 +85,7 @@ export const HANDOFF: Record<string, Handoff> = {
   iberia: { name: 'Iberia Club', url: 'https://www.iberia.com/', checkedOn: null },
 };
 
-// seats.aero shows no flight more than 60 days out to third parties without its OAuth flow or a commercial agreement
-export const MAX_DAYS_OUT = 60;
+// How far ahead a search may look. The Pro Partner key returns about 330 days of cached seats (checked 22 Oct 2026: BOM-LHR
+// business ran to 17 Sep 2027). This is a personal test build on that key. Before charging anyone or showing this data to
+// other people, check seats.aero's commercial terms again; they limit what third parties may show.
+export const MAX_DAYS_OUT = 330;
