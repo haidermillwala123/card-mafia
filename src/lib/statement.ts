@@ -108,6 +108,21 @@ function parseLines(text: string): Parsed {
   return { txns, skipped, from: dates[0] ?? null, to: dates[dates.length - 1] ?? null };
 }
 
+// Which card a statement belongs to, read from the bank and product names printed on it. Null when it cannot tell, so the person picks.
+const BANK_WORDS: Record<string, RegExp> = {
+  hdfc: /hdfc/i, axis: /axis ?bank/i, icici: /icici/i, sbi: /sbi ?card|state bank of india/i, amex: /american express|amex/i, hsbc: /hsbc/i,
+  yes: /yes ?bank/i, indusind: /indus ?ind/i, kotak: /kotak/i, au: /au small finance|au bank/i, rbl: /rbl ?bank/i, jupiter: /jupiter|edge csb/i,
+};
+export function detectCard(text: string, cards: { id: string; bank: string; name: string }[]): { cardId: string | null; bank: string | null } {
+  const squash = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+  const flat = squash(text.slice(0, 6000));
+  const bank = Object.keys(BANK_WORDS).find(b => BANK_WORDS[b].test(text.slice(0, 6000))) ?? null;
+  const named = cards.filter(c => (!bank || c.bank === bank) && flat.includes(squash(c.name)));
+  // the longest name wins, so "Regalia Gold" beats "Regalia" and "Magnus Burgundy" beats "Magnus"
+  const best = named.sort((a, b) => squash(b.name).length - squash(a.name).length)[0];
+  return { cardId: best?.id ?? null, bank: best?.bank ?? bank };
+}
+
 // Months the statement covers, at least one: a one-month statement is a month, not 28 days.
 export function monthsCovered(from: string | null, to: string | null): number {
   if (!from || !to) return 1;

@@ -13,7 +13,7 @@ import { useWallet } from '@/lib/app/wallet';
 import { CAT_LABEL, CATS, type Cat } from '@/lib/earn';
 import { feeTier } from '@/lib/fees';
 import { recommend } from '@/lib/recommend';
-import { monthlySpend, monthsCovered, parseStatementText, type Txn } from '@/lib/statement';
+import { detectCard, monthlySpend, monthsCovered, parseStatementText, type Txn } from '@/lib/statement';
 
 type Props = {
   cards: CalcEntry[];
@@ -40,6 +40,8 @@ export default function StatementClient({ cards, fees, programmes, miles }: Prop
   const drop = useRef<HTMLLabelElement>(null);
 
   const [sorting, setSorting] = useState(false);
+  const [stmtCard, setStmtCard] = useState(''); // the card this statement belongs to, read from the PDF when it names one
+  const [detected, setDetected] = useState(false);
 
   // The keyword rules leave unknown merchants as "general". The model places them; only merchant text leaves the browser, never amounts or dates.
   async function refine(txns: Txn[]) {
@@ -73,19 +75,24 @@ export default function StatementClient({ cards, fees, programmes, miles }: Prop
     fd.append('file', file);
     if (password) fd.append('password', password);
     const res = await fetch('/api/statement/pdf', { method: 'POST', body: fd }).catch(() => null);
-    const j = (await res?.json().catch(() => null)) as { txns?: Txn[]; from?: string | null; to?: string | null; skipped?: number; error?: string; needsPassword?: boolean } | null;
+    const j = (await res?.json().catch(() => null)) as { txns?: Txn[]; from?: string | null; to?: string | null; skipped?: number; error?: string; needsPassword?: boolean; cardId?: string | null } | null;
     setBusy(false);
     if (!res?.ok || !j?.txns) {
       setNeedsPassword(!!j?.needsPassword);
       return setError(j?.error ?? 'We could not reach the server. Try again.');
     }
     setNeedsPassword(false);
+    setStmtCard(j.cardId ?? '');
+    setDetected(!!j.cardId);
     load(j.txns, j.from ?? null, j.to ?? null, j.skipped ?? 0);
   }
 
   function readPasted() {
     const p = parseStatementText(pasted);
     if (!p.txns.length) return setError('We found no transactions. Each line needs a date, a merchant and an amount, like 12/10/2026 SWIGGY 1,245.00.');
+    const d = detectCard(pasted, cards.map(c => ({ id: c.card_id, bank: (c as CalcEntry).bank, name: c.name })));
+    setStmtCard(d.cardId ?? '');
+    setDetected(!!d.cardId);
     load(p.txns, p.from, p.to, p.skipped);
   }
 
@@ -131,6 +138,25 @@ export default function StatementClient({ cards, fees, programmes, miles }: Prop
       basketWins: set.length > 1 && cur >= single * 1.2,
     };
   }, [perCat, cards, fees]);
+  // Line by line: what the statement's card earned against the best card for that kind of spend. Rates are per rupee over the whole statement, so caps are averaged in.
+  const verdicts = useMemo(() => {
+    const out = new Map<number, { better: boolean; name: string; fee: string; gain: number; mine: number }>();
+    if (!rows || !stmtCard) return { out, total: 0, better: 0, counted: 0 };
+    let total = 0, better = 0, counted = 0;
+    rows.forEach((r, i) => {
+      const pc = perCat.find(p => p.cat === r.cat);
+      if (!r.on || !pc || !pc.best || !pc.amount) return;
+      const rate = (id: string) => (pc.picks.find(p => p.card.card_id === id)?.miles ?? 0) / pc.amount;
+      const mine = rate(stmtCard) * r.amount, top = rate(pc.best.card.card_id) * r.amount;
+      const gain = top - mine;
+      counted++;
+      const isBetter = pc.best.card.card_id !== stmtCard && gain >= Math.max(10, top * 0.1);
+      if (isBetter) { total += gain; better++; }
+      out.set(i, { better: isBetter, name: pc.best.card.name, fee: feeTier(fees[pc.best.card.card_id]).label, gain, mine });
+    });
+    return { out, total, better, counted };
+  }, [rows, perCat, stmtCard, fees]);
+  const stmtName = cards.find(c => c.card_id === stmtCard)?.name;
   const uplift = perCat.reduce((s, p) => s + Math.max(0, (p.best?.miles ?? 0) - (p.mine?.miles ?? 0)), 0);
 
   function useInRecommender() {
@@ -187,6 +213,20 @@ export default function StatementClient({ cards, fees, programmes, miles }: Prop
               </div>
               <button type="button" className="st-link" onClick={() => setRows(null)}>Start again</button>
             </div>
+            <div className="st-air">
+              <Select value={stmtCard} onChange={e => { setStmtCard(e.target.value); setDetected(false); }}>
+                <option value="">Which card is this statement from?</option>
+                {cards.slice().sort((a, b) => a.name.localeCompare(b.name)).map(c => <option key={c.card_id} value={c.card_id}>{(c as CalcEntry).bank} {c.name}</option>)}
+              </Select>
+            </div>
+            {stmtCard && (
+              <p className="st-up">
+                {detected ? `Read from the statement: ${stmtName}. ` : `Checking against ${stmtName}. `}
+                {verdicts.better > 0
+                  ? <>On {verdicts.better} of {verdicts.counted} lines a different card would have earned more, about <b>{fmt(Math.round(verdicts.total))}</b> extra miles over this statement. The rest were already on the right card.</>
+                  : verdicts.counted > 0 ? 'Every line was already on the best card for it.' : null}
+              </p>
+            )}
             <div className="st-bars">
               {CATS.filter(c => (spend[c] ?? 0) > 0).sort((a, b) => (spend[b] ?? 0) - (spend[a] ?? 0)).map(c => (
                 <div key={c} className="st-bar"><span>{CAT_LABEL[c]}</span><i style={{ width: `${Math.max(3, ((spend[c] ?? 0) / (total || 1)) * 100)}%` }} /><b>₹{fmt(spend[c] ?? 0)}</b></div>
@@ -198,7 +238,7 @@ export default function StatementClient({ cards, fees, programmes, miles }: Prop
                 {rows.map((r, i) => (
                   <div className="st-line" role="row" key={i}>
                     <input type="checkbox" checked={r.on} onChange={e => setRows(rs => rs!.map((x, k) => (k === i ? { ...x, on: e.target.checked } : x)))} aria-label={`Count ${r.desc}`} />
-                    <span className="st-d">{r.desc}<small>{r.date}</small></span>
+                    <span className="st-d">{r.desc}<small>{r.date}{(() => { const v = verdicts.out.get(i); return v ? (v.better ? ` · ${v.name} (${v.fee}) would earn about ${fmt(Math.round(v.gain))} more miles` : ' · right card for this') : ''; })()}</small></span>
                     <div className="st-sel"><Select value={r.cat} onChange={e => setRows(rs => rs!.map((x, k) => (k === i ? { ...x, cat: e.target.value as Cat } : x)))}>{CATS.map(c => <option key={c} value={c}>{CAT_LABEL[c]}</option>)}</Select></div>
                     <b>₹{fmt(r.amount)}</b>
                   </div>

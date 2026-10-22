@@ -2,7 +2,8 @@
 // it is never stored, and neither is its text. Card statements are usually password protected, so a password can be sent with the file.
 import { extractText, getDocumentProxy } from 'unpdf';
 import { sameOrigin } from '@/lib/guard';
-import { parseStatementText } from '@/lib/statement';
+import cardsJson from '@/data/cards.json';
+import { detectCard, parseStatementText } from '@/lib/statement';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 30;
@@ -24,7 +25,7 @@ export async function POST(req: Request) {
     const { text, totalPages } = await extractText(pdf, { mergePages: true });
     const parsed = parseStatementText(text);
     if (!parsed.txns.length) return Response.json({ error: 'We read the PDF but found no transactions. Paste them instead.', pages: totalPages }, { status: 422 });
-    return Response.json({ ...parsed, pages: totalPages });
+    return Response.json({ ...parsed, ...detectCard(text, cardsJson.cards as { id: string; bank: string; name: string }[]), pages: totalPages });
   } catch (e) {
     const name = (e as { name?: string }).name ?? '';
     if (name === 'PasswordException') {

@@ -1,7 +1,7 @@
 // Statement lines below are invented for the test: no real transactions.
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { categorize, monthlySpend, monthsCovered, parseStatementText } from './statement.ts';
+import { categorize, detectCard, monthlySpend, monthsCovered, parseStatementText } from './statement.ts';
 
 const text = `
 HDFC BANK Credit Card Statement
@@ -37,6 +37,17 @@ test('reads PDF text where rows run together and columns follow the amount', () 
   assert.equal(p.txns[0].amount, 1245);
   assert.equal(p.txns[3].amount, 9980);
   assert.equal(p.txns[3].cat, 'international');
+});
+
+test('finds the card a statement belongs to, preferring the longer name', () => {
+  const list = [
+    { id: 'hdfc-regalia', bank: 'hdfc', name: 'Regalia' }, { id: 'hdfc-regalia-gold', bank: 'hdfc', name: 'Regalia Gold' },
+    { id: 'hdfc-biz-black', bank: 'hdfc', name: 'Biz Black' }, { id: 'axis-magnus', bank: 'axis', name: 'Magnus' },
+  ];
+  assert.equal(detectCard('HDFC Bank BizBlack Credit Card Statement', list).cardId, 'hdfc-biz-black');
+  assert.equal(detectCard('HDFC BANK Regalia Gold Credit Card', list).cardId, 'hdfc-regalia-gold');
+  assert.equal(detectCard('Axis Bank Credit Card Statement', list).cardId, null);
+  assert.equal(detectCard('Axis Bank Credit Card Statement', list).bank, 'axis');
 });
 
 test('sorts merchants into spend categories', () => {
