@@ -27,6 +27,13 @@ const CABINS = Object.keys(CABIN_LABEL) as Cabin[];
 const AIRLINE_PROGRAMMES = (programmesJson.programmes as { id: string; name: string; kind: string }[]).filter(p => p.kind === 'airline').sort((a, b) => a.name.localeCompare(b.name));
 const OTHER = AIRPORTS.filter(a => !INDIAN.includes(a.i));
 const PAGE = 24;
+const PLACES = [
+  { id: 'dubai', name: 'Dubai', sub: 'Skyline and desert', d: 'DXB' },
+  { id: 'newyork', name: 'New York', sub: 'Manhattan', d: 'JFK' },
+  { id: 'london', name: 'London', sub: 'Tower Bridge', d: 'LHR' },
+  { id: 'lisbon', name: 'Lisbon', sub: 'Hills and tiles', d: 'LIS' },
+  { id: 'japan', name: 'Japan', sub: 'Fuji and Tokyo', d: 'HND' },
+];
 const IATA = /^[A-Z]{3}$/;
 
 export default function FlightsClient({ initial }: { initial: InitialParams }) {
@@ -59,16 +66,17 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
   const originStr = o ?? (wallet.profile.airport || 'BOM');
   const reach = wallet.hasCards && (reachPref ?? true);
 
-  const run = async () => {
+  const run = async (destOverride?: string) => {
     const origins = originStr.split(',').map(s => s.trim().toUpperCase()).filter(s => IATA.test(s)).slice(0, 6);
-    const dests = expandDest(d).slice(0, 40);
+    const dd = destOverride ?? d;
+    const dests = expandDest(dd).slice(0, 40);
     if (!origins.length || !dests.length || !from || !to || to < from) {
       setState({ status: 'error', error: 'Check the dates: the end date must be on or after the start date.' });
       return;
     }
     const maxPoints = Number(max.replace(/,/g, ''));
-    const sub: Submitted = { origins, d, from, to, cabin, n, reachOnly: reach };
-    const qs = new URLSearchParams({ o: origins.join(','), d, from, to, cabin, n: String(n) });
+    const sub: Submitted = { origins, d: dd, from, to, cabin, n, reachOnly: reach };
+    const qs = new URLSearchParams({ o: origins.join(','), d: dd, from, to, cabin, n: String(n) });
     if (wallet.hasCards) qs.set('reach', reach ? '1' : '0');
     if (direct) qs.set('direct', '1');
     if (prog) qs.set('p', prog);
@@ -186,6 +194,10 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
             </Field>
             <Field label="Earliest date"><DatePicker ariaLabel="Earliest date" value={from} max={to || undefined} onChange={setFrom} /></Field>
             <Field label="Latest date"><DatePicker ariaLabel="Latest date" value={to} min={from || undefined} onChange={setTo} /></Field>
+          </div>
+          <details className="fx-opts" open={cabin !== 'business' || n !== 1 || !!prog || !!max}>
+            <summary>More options <span>{CABIN_LABEL[cabin]} · {n} {n === 1 ? 'traveller' : 'travellers'}{prog ? ' · ' + (AIRLINE_PROGRAMMES.find(p => p.id === prog)?.name ?? '') : ''}{max ? ' · up to ' + max + ' pts' : ''}</span></summary>
+          <div className="a-flights-fields">
             <Field label="Cabin">
               <Select value={cabin} onChange={e => setCabin(e.target.value as Cabin)}>{CABINS.map(c => <option key={c} value={c}>{CABIN_LABEL[c]}</option>)}</Select>
             </Field>
@@ -202,6 +214,7 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
               <input inputMode="numeric" placeholder="No limit" value={max} onChange={e => setMax(e.target.value.replace(/[^\d,]/g, ''))} />
             </Field>
           </div>
+          </details>
           {outOfRange && <p className="a-cap">Search covers the next {MAX_DAYS_OUT} days. Your end date is later, so we will cut it short.</p>}
           <div className="a-r a-rw">
             <label className="cm-check"><input type="checkbox" checked={direct} onChange={e => setDirect(e.target.checked)} /><span className="cm-check__text"><span className="cm-check__label">Direct only</span></span></label>
@@ -224,7 +237,25 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
           <div className="a-gl" aria-busy="true"><FlightLoader label="Finding seats. A new route can take up to 30 seconds." /></div>
         )}
         {state.status === 'error' && <Note kind="danger" title="We could not load seats.">{state.error}</Note>}
-        {state.status === 'idle' && <p className="a-mu">Pick a route and press Search.</p>}
+        {state.status === 'idle' && (
+          <section className="fx-dest" aria-labelledby="fx-dest-h">
+            <h2 id="fx-dest-h">Not sure where? Start here.</h2>
+            <div className="fx-tiles">
+              {PLACES.map(c => (
+                <button key={c.id} type="button" className="fx-tile" onClick={() => { setD(c.d); void run(c.d); }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={`/cities/${c.id}-sm.webp`} alt="" loading="lazy" decoding="async" />
+                  <b>{c.name}</b>
+                  <small>{c.sub}</small>
+                </button>
+              ))}
+            </div>
+            <div className="fx-regions">
+              <span>Or a whole region</span>
+              {GROUPS.slice(0, 8).map(g => <button key={g.id} type="button" className="fx-r" onClick={() => { setD(g.id); void run(g.id); }}>{g.label}</button>)}
+            </div>
+          </section>
+        )}
 
         {done && meta && (
           <>

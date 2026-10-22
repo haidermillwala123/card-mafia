@@ -72,3 +72,29 @@
 .sc .a-flights-det{position:relative;z-index:2}
 @media (max-width:1000px){.sc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:620px){.sc-grid{grid-template-columns:1fr}}
+
+/* Search for trips: fewer boxes up front, and a way in when nothing is searched yet */
+.fx-opts{border-top:1px solid var(--border);padding-top:10px}
+.fx-opts summary{cursor:pointer;display:flex;gap:10px;align-items:center;flex-wrap:wrap;min-height:44px;font:600 14px var(--font-body);color:var(--text);list-style:none}
+.fx-opts summary::-webkit-details-marker{display:none}
+.fx-opts summary::before{content:"+";display:grid;place-items:center;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border-strong);font-weight:500;line-height:1}
+.fx-opts[open] summary::before{content:"\2212"}
+.fx-opts summary span{font-weight:400;color:var(--text-muted)}
+.fx-opts .a-flights-fields{margin-top:10px}
+.fx-dest{display:flex;flex-direction:column;gap:16px;margin-top:8px}
+.fx-dest h2{margin:0;font:700 22px var(--font-display);letter-spacing:-.02em}
+.fx-tiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.fx-tile{position:relative;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;aspect-ratio:3/4;padding:16px;border:0;border-radius:20px;overflow:hidden;cursor:pointer;color:#F4F1EB;text-align:left;font:inherit;background:var(--surface-sunken)}
+.fx-tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform var(--dur-slow) var(--ease-standard)}
+.fx-tile::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,9,8,0) 40%,rgba(10,9,8,.82) 100%)}
+.fx-tile b,.fx-tile small{position:relative;z-index:1}
+.fx-tile b{font:650 18px var(--font-display)}
+.fx-tile small{color:rgba(244,241,235,.8)}
+.fx-tile:hover img{transform:scale(1.05)}
+.fx-tile:focus-visible{outline:2px solid var(--focus-ring);outline-offset:3px}
+.fx-regions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.fx-regions>span{color:var(--text-muted);font-size:14px;margin-right:4px}
+.fx-r{min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid var(--border-strong);background:transparent;color:var(--text);font:500 15px var(--font-body);cursor:pointer}
+.fx-r:hover{background:var(--primary-tint)}
+@media (max-width:860px){.fx-tiles{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding-bottom:6px}.fx-tile{flex:0 0 62%;scroll-snap-align:start}}
+@media (prefers-reduced-motion:reduce){.fx-tile img{transition:none}}

@@ -4,6 +4,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import EarnCalculator from '../EarnCalculator';
 import { loadEarn } from '../data';
 import '../earn.css';
+import '@/app/cards/recommend/recommend.css';
 
 export const metadata: Metadata = {
   title: 'Points calculator: what your monthly spend earns',

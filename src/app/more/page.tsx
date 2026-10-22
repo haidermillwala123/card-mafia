@@ -6,12 +6,12 @@ export const metadata: Metadata = { title: 'Menu', robots: { index: false } };
 // Phone destination behind the "Menu" tab. On a desktop the same groups are the Cards, Trips and More menus in the top bar.
 const SECTIONS = [
   { title: 'Cards', rows: [
+    { href: '/earn/calculator', label: 'Points calculator', hint: 'What your spend earns' },
     { href: '/cards/recommend', label: 'Best card for you', hint: 'From what you spend' },
     { href: '/cards/statement', label: 'From your statement', hint: 'Upload a PDF or paste' },
     { href: '/earn', label: 'Best way to earn', hint: 'Filter 58 cards' },
     { href: '/wallet', label: 'Wallet', hint: 'Your cards and balances' },
     { href: '/transfers', label: 'Transfers', hint: 'Ratios, caps and routes' },
-    { href: '/earn/calculator', label: 'Points calculator', hint: 'What your spend earns' },
   ] },
   { title: 'Trips', rows: [
     { href: '/flights', label: 'Search for trips', hint: 'Every seat from India' },

@@ -18,10 +18,10 @@ import Tour from '@/components/Tour';
 import './home.css';
 
 const QUICK: [string, string, string][] = [
-  ['/cards/recommend', 'Best card for you', 'From what you spend each month'],
   ['/trips/ideas', 'Trips you can take', 'Seats your points can pay for'],
-  ['/earn/calculator', 'Points calculator', 'What your monthly spend earns'],
+  ['/alerts', 'Alerts', 'Routes we watch for you'],
   ['/transfers', 'Transfers', 'Ratios, caps and indirect routes'],
+  ['/earn', 'Best way to earn', 'Filter 58 cards'],
 ];
 
 const CITIES = [
@@ -35,9 +35,9 @@ const SV = { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 
 const ACTIONS: [string, string, ReactNode][] = [
   ['/flights', 'Search', <svg key="a" {...SV}><circle cx="11" cy="11" r="6.5" /><path d="m20 20-4-4" /></svg>],
   ['/plan', 'Plan', <svg key="b" {...SV}><path d="M5 19c0-5 7-3 7-8s-6-4-6-7" /><circle cx="5" cy="19" r="1.6" /><circle cx="18" cy="5" r="1.6" /><path d="M12 11c0 5 6 3 6 8" /></svg>],
+  ['/earn/calculator', 'Calculator', <svg key="k" {...SV}><rect x="5" y="3" width="14" height="18" rx="3" /><path d="M8.5 7.5h7M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01" /></svg>],
   ['/cards/recommend', 'Best card', <svg key="c" {...SV}><rect x="3" y="6" width="18" height="13" rx="3" /><path d="M3 10h18M7 15h3" /></svg>],
   ['/cards/statement', 'Statement', <svg key="d" {...SV}><path d="M7 3h7l4 4v14H7z" /><path d="M14 3v4h4M10 12h5M10 16h5" /></svg>],
-  ['/alerts', 'Alerts', <svg key="e" {...SV}><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z" /><path d="M10 20a2 2 0 0 0 4 0" /></svg>],
 ];
 const EXAMPLES = ['DEL to Tokyo, business, 1 person', 'BLR to Doha, 2 people', 'BOM to Europe, first class'];
 const STRIP_REGIONS = ['middle-east', 'europe', 'southeast-asia'];
@@ -138,7 +138,16 @@ export default function HomeClient() {
   return (
     <div className="a-pg">
       <Tour />
-      <section className="hm-hero" aria-label="Plan a trip">
+      <section className="hm-stage" aria-label="Plan a trip">
+       <div className="hm-sticky">
+        <div className="hm-frame" aria-hidden="true">
+          {CITIES.map((c, i) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={c.id} className={`hm-ph hm-ph-${i}`} src={`/cities/${c.id}.webp`} alt="" decoding="async" loading={i === 0 ? 'eager' : 'lazy'} />
+          ))}
+          <i className="hm-shade" />
+        </div>
+        <div className="hm-hero">
         <div className="hm-top">
           <div>
             <small>{greeting}</small>
@@ -164,6 +173,15 @@ export default function HomeClient() {
         <nav className="hm-actions" aria-label="Quick actions">
           {ACTIONS.map(([href, label, icon]) => <Link key={href} className="hm-act" href={href}><i>{icon}</i>{label}</Link>)}
         </nav>
+        </div>
+        <div className="hm-caps">
+          {CITIES.map((c, i) => (
+            <Link key={c.id} className={`hm-cap hm-cap-${i}`} href={`/flights?${new URLSearchParams({ o: home, d: c.d, from: addDaysIso(14, todayIso()), to: addDaysIso(150, todayIso()), cabin: 'business', n: '1' })}`} tabIndex={i === 0 ? 0 : -1}>
+              <b>{c.name}</b><span>{c.sub}</span><em>See seats</em>
+            </Link>
+          ))}
+        </div>
+       </div>
       </section>
 
       <div className="a-body">
