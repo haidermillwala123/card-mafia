@@ -1,5 +1,0 @@
-/* Compare: only what the shared a- classes do not cover. */
-.a-checkout-fare{min-width:min(280px,100%)}
-.a-checkout-col{gap:12px}
-.a-checkout-col .a-kv small{display:block;font:500 11px var(--font-mono)}
-.a-checkout-wide{grid-column:1 / -1}

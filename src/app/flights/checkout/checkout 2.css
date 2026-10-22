@@ -1,5 +1,0 @@
-/* Checkout: the disabled "Continue" link and the hop rows. */
-.a-checkout-go[aria-disabled='true']{opacity:.45;cursor:not-allowed;pointer-events:none}
-.a-checkout-hop{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
-.a-checkout-hop .a-g{min-width:0}
-.a-checkout-hint{text-align:center}
