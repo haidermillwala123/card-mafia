@@ -6,6 +6,8 @@ export const metadata: Metadata = { title: 'More', robots: { index: false } };
 const ROWS = [
   { href: '/plan', label: 'Plan', hint: 'Top 3 plans' },
   { href: '/wallet', label: 'Wallet', hint: 'Your cards and points' },
+  { href: '/transfers', label: 'Transfers', hint: 'Ratios, caps and routes' },
+  { href: '/earn', label: 'Earn', hint: 'How your cards earn' },
   { href: '/trips', label: 'Trips', hint: 'Saved plans' },
   { href: '/alerts', label: 'Alerts', hint: 'Watched routes' },
   { href: '/learn', label: 'Learn', hint: 'Glossary and tools' },

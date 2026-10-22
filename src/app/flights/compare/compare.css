@@ -3,3 +3,20 @@
 .a-checkout-col{gap:12px}
 .a-checkout-col .a-kv small{display:block;font:500 11px var(--font-mono)}
 .a-checkout-wide{grid-column:1 / -1}
+
+/* Side-by-side table: sticky column heads, best value marked with the word Best */
+.a-cmp-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:16px;background:var(--surface)}
+.a-cmp{border-collapse:separate;border-spacing:0;width:100%;min-width:calc(150px + var(--cols,3) * 230px)}
+.a-cmp th,.a-cmp td{padding:14px 16px;text-align:left;vertical-align:top;border-top:1px solid var(--border)}
+.a-cmp thead th,.a-cmp thead td{border-top:0;position:sticky;top:0;z-index:2;background:var(--surface)}
+.a-cmp thead th{display:table-cell;font-weight:500}
+.a-cmp thead th>*{display:block;margin-bottom:4px}
+.a-cmp tbody th{position:sticky;left:0;z-index:1;background:var(--surface);font:500 13px var(--font-body);color:var(--text-muted);width:150px}
+.a-cmp td.is-best,.a-cmp th.is-best{background:var(--primary-tint)}
+.a-cmp td .cm-tag{margin-left:8px}
+.a-cmp-prog{font:600 18px var(--font-display)}
+.a-cmp-tags{display:flex!important;flex-wrap:wrap;gap:6px}
+.a-cmp-tags .cm-tag{margin-left:0}
+.a-cmp-go td{padding-top:18px;padding-bottom:18px}
+.a-cmp-go .cm-btn{width:100%;justify-content:center;min-height:44px}
+.a-cmp .a-flights-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}

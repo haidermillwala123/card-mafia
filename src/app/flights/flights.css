@@ -22,3 +22,22 @@
   .a-flights-phone{display:flex}
   .a-flights-fields{grid-template-columns:minmax(0,1fr)}
 }
+
+/* Dim only the facts, never the actions; a picked card is clearly marked */
+.a-flights-card{cursor:pointer}
+.a-flights-card.a-picked{border:2px solid var(--accent-strong);box-shadow:0 0 0 3px var(--primary-tint)}
+.a-flights-dim{display:flex;flex-direction:column;gap:10px;opacity:.78}
+.a-flights-dimrow td{opacity:.78}
+.a-flights-dimrow td:last-child,.a-flights-dimrow td:nth-last-child(2),.a-flights-dimrow td:first-child{opacity:1}
+.a-flights-card>div:first-child:not(.a-flights-dim){display:flex;flex-direction:column;gap:10px}
+.a-flights-more summary{cursor:pointer;color:var(--text-muted);font:500 13px var(--font-body);min-height:32px}
+.a-flights-det{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px 16px;margin:8px 0 0}
+.a-flights-det div{display:flex;flex-direction:column;gap:2px}
+.a-flights-det dt{font:500 12px var(--font-body);color:var(--text-muted)}
+.a-flights-det dd{margin:0;font:500 14px var(--font-body);color:var(--text);overflow-wrap:anywhere}
+.a-flights-card .cm-btn--primary{opacity:1}
+.a-filters{display:flex;flex-direction:column;gap:12px}
+.a-filters-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 16px}
+@media (max-width:960px){.a-filters-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.a-filters-grid{grid-template-columns:minmax(0,1fr)}}
+.a-flights-top{align-items:start}

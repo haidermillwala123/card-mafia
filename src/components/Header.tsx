@@ -11,6 +11,8 @@ const LINKS = [
   { href: '/flights', label: 'Search' },
   { href: '/plan', label: 'Plan' },
   { href: '/wallet', label: 'Wallet' },
+  { href: '/transfers', label: 'Transfers' },
+  { href: '/earn', label: 'Earn' },
   { href: '/trips', label: 'Trips' },
   { href: '/alerts', label: 'Alerts' },
   { href: '/learn', label: 'Learn' },

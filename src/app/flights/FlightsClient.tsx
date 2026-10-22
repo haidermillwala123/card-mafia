@@ -7,6 +7,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { DataFoot, Note, SeenStamp, Tag } from '@/components/app/ui';
 import Ic from '@/components/app/Icons';
 import { SeatCard, SeatTable, payable } from '@/components/app/flights/seat-bits';
+import SeatFilters, { applyFilters, EMPTY, type Filters } from '@/components/app/flights/seat-filters';
+import FlightLoader from '@/components/FlightLoader';
 import { createWatch } from '@/lib/app/alerts';
 import { type Cabin, getQuota, type QuotaResponse, type SearchResponse, searchSeats, type SeatView } from '@/lib/app/api';
 import { ageLabel, CABIN_LABEL, dateShort, fmt, monthLabel, addDaysIso, todayIso } from '@/lib/app/format';
@@ -41,6 +43,7 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
   const [max, setMax] = useState(initial.max);
   const [reachPref, setReachPref] = useState<boolean | null>(initial.reach === null ? null : initial.reach === '1');
   const [fare, setFare] = useState('');
+  const [filters, setFilters] = useState<Filters>(EMPTY);
 
   const [state, setState] = useState<State>({ status: 'idle' });
   const [route, setRoute] = useState<string | null>(null);
@@ -76,6 +79,7 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
     setState({ status: 'loading' });
     setRoute(null);
     setPicks([]);
+    setFilters(EMPTY);
     setShown(PAGE);
     setShownPhone(PHONE_PAGE);
     setWatch({ kind: 'idle' });
@@ -120,7 +124,8 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
   }, [allRows]);
 
   const activeRoute = route ?? (routes.length === 1 ? routes[0][0] : null);
-  const rows = useMemo(() => (route ? allRows.filter(r => `${r.origin}-${r.dest}` === route) : allRows), [allRows, route]);
+  const routeRows = useMemo(() => (route ? allRows.filter(r => `${r.origin}-${r.dest}` === route) : allRows), [allRows, route]);
+  const rows = useMemo(() => applyFilters(routeRows, filters), [routeRows, filters]);
   const fareNum = Number(fare.replace(/,/g, '')) || null;
 
   const pick = (id: string) => setPicks(p => (p.includes(id) ? p.filter(x => x !== id) : p.length < 3 ? [...p, id] : p));
@@ -218,10 +223,7 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
         </form>
 
         {state.status === 'loading' && (
-          <div className="a-gl" aria-busy="true">
-            <span className="a-cap">Loading seats</span>
-            <div className="a-sk" /><div className="a-sk" style={{ width: '70%' }} /><div className="a-sk" /><div className="a-sk" style={{ width: '50%' }} />
-          </div>
+          <div className="a-gl" aria-busy="true"><FlightLoader label="Finding seats. A new route can take up to 30 seconds." /></div>
         )}
         {state.status === 'error' && <Note kind="danger" title="We could not load seats.">{state.error}</Note>}
         {state.status === 'idle' && <Note kind="info" title="Pick a route and press Search.">Results come from saved seat data and show how old each one is.</Note>}
@@ -309,10 +311,11 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
               </section>
             )}
 
-            {rows.length > 0 && (
+            {routeRows.length > 0 && (
               <>
+                <SeatFilters rows={routeRows} f={filters} setF={f => { setFilters(f); setShown(PAGE); setShownPhone(PHONE_PAGE); }} shown={rows.length} />
                 <div className="a-r a-rw">
-                  <span className="a-cap a-g">Pick up to 3 to compare</span>
+                  <span className="a-cap a-g">Click a card or tick Compare to pick up to 3</span>
                   {comparable ? (
                     <Link className="cm-btn cm-btn--secondary cm-btn--sm a-pb" href={`/flights/compare?ids=${picks.map(encodeURIComponent).join(',')}&n=${done.sub.n}`}>Compare {picks.length}</Link>
                   ) : (
@@ -339,6 +342,7 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
                   <div className="a-r"><h2 className="a-sec a-g">All rows</h2><Tag kind="outline" plain>Best for your cards first</Tag></div>
                   <SeatTable rows={rows.slice(0, shown)} n={done.sub.n} fare={fareNum} picks={picks} onPick={pick} />
                   {rows.length > shown && <button type="button" className="cm-btn cm-btn--secondary a-pb" style={{ alignSelf: 'center' }} onClick={() => setShown(s => s + PAGE)}>Show more ({fmt(rows.length - shown)} left)</button>}
+                  {rows.length === 0 && <span className="a-mu">No rows match these filters. Press Clear filters.</span>}
                   <span className="cm-stamp cm-stamp--stale"><Ic name="clock" small />Rows older than a day fade and carry a warning.</span>
                 </div>
 

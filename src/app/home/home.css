@@ -6,3 +6,23 @@
 .a-home-card:hover{border-color:var(--border-strong)}
 .a-home-row-main{min-width:0}
 .a-home-err{color:var(--text)}
+
+/* Hero D: centred headline with real example seats floating either side */
+.a-hero{position:relative;display:grid;grid-template-columns:1fr minmax(0,640px) 1fr;gap:24px;align-items:center;text-align:center;padding:24px 0 8px}
+.a-hero-mid{display:flex;flex-direction:column;align-items:center;gap:12px}
+.a-hero-fl{display:flex;flex-direction:column;gap:16px}
+.a-hero-card{color:inherit;text-align:left;width:230px;box-shadow:0 12px 32px rgba(0,0,0,.18);transition:transform var(--dur-fast) var(--ease-standard),border-color var(--dur-fast) var(--ease-standard)}
+.a-hero-l{align-items:flex-start}.a-hero-r{align-items:flex-end}
+.a-hero-l .a-hero-c0{transform:rotate(-4deg)}.a-hero-l .a-hero-c1{transform:translateX(24px) rotate(3deg)}
+.a-hero-r .a-hero-c0{transform:rotate(4deg) translateY(24px)}.a-hero-r .a-hero-c1{transform:translateX(-24px) rotate(-3deg)}
+.a-hero-card:hover{transform:translateY(-4px) rotate(0);border-color:var(--border-strong)}
+.a-hero-form{justify-content:center}
+.a-hero-form .a-field{max-width:560px}
+.a-quick .a-home-card{gap:4px}
+@media (max-width:1100px){.a-hero{grid-template-columns:1fr}.a-hero-fl{display:none}}
+@media (prefers-reduced-motion:reduce){.a-hero-card{transition:none}}
+.a-hub .cm-table-wrap{max-height:360px;overflow:auto}
+.a-hub-sel{width:100%}
+@media (max-width:960px){.a-quick{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.a-hero-mid{grid-column:2;grid-row:1}.a-hero-l{grid-column:1;grid-row:1}.a-hero-r{grid-column:3;grid-row:1}
+@media (max-width:1100px){.a-hero-mid{grid-column:1}}

@@ -12,7 +12,7 @@ type Props = {
   sendLabel?: string;
 };
 
-// Email sign-in with a six-digit code. Nothing to remember, and no password to leak. The same form signs in a returning person or creates the account.
+// Email sign-in with a six-character code. Nothing to remember, and no password to leak. The same form signs in a returning person or creates the account.
 export default function EmailCode({ meta, onVerified, intro, sendLabel = 'Send the code' }: Props) {
   const sb = supabase();
   const [stage, setStage] = useState<'email' | 'otp'>('email');

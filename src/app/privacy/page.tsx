@@ -23,7 +23,7 @@ export default function Privacy() {
 
         <section className="stack" aria-labelledby="account-h">
           <h2 id="account-h" className="t-h2">If you sign in</h2>
-          <p className="measure">Sign-in uses a six-digit code sent to your email, with no password. Your email is used only to sign you in and, if you ask, to tell you when Pro opens. With an account, the same setup is saved so it follows you across devices: your name, date of birth if you gave it, home airport, cabin, cards, banks and balances. Each account can read and change only its own rows. Sign out from your account page.</p>
+          <p className="measure">Sign-in uses a six-character code sent to your email, with no password. Your email is used only to sign you in and, if you ask, to tell you when Pro opens. With an account, the same setup is saved so it follows you across devices: your name, date of birth if you gave it, home airport, cabin, cards, banks and balances. Each account can read and change only its own rows. Sign out from your account page.</p>
         </section>
 
         <section className="stack" aria-labelledby="ai-h">

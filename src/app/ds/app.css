@@ -137,3 +137,8 @@ html,body{margin:0;background:var(--background)}
 .a-nav .icon-btn{color:var(--text-muted);margin:0 2px}
 .a-nav .icon-btn:hover{color:var(--text)}
 .a-sticky-sum{position:sticky;top:16px}
+
+/* Toggle chips (filters, card picker) */
+.a-chips{display:flex;flex-wrap:wrap;gap:6px}
+.a-chips .a-chip{height:auto;min-height:36px;padding:6px 14px;border:1px solid var(--border-strong);background:transparent;color:var(--text);cursor:pointer;white-space:normal}
+.a-chips .a-chip[aria-pressed=true]{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}

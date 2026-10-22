@@ -2,10 +2,10 @@
 
 // Pieces shared by the top-three cards, the phone list and the table: what a seat costs, who can pay, how old it is.
 import Link from 'next/link';
-import type { ReactNode } from 'react';
+import { Fragment, type ReactNode, useState } from 'react';
 import { SeenStamp, Tag } from '@/components/app/ui';
 import type { SeatView } from '@/lib/app/api';
-import { CABIN_LABEL, dateShort, fmt, inr, isStale, valuePerPoint } from '@/lib/app/format';
+import { CABIN_LABEL, dateShort, duration, fmt, inr, isStale, timeLabel, valuePerPoint } from '@/lib/app/format';
 
 export const payable = (r: SeatView) => r.reach?.status === 'ok' || r.reach?.status === 'pooled';
 // dimmed when the person cannot pay for it, or when the data is over a day old
@@ -50,6 +50,31 @@ export function Vpp({ r, fare }: { r: SeatView; fare: number | null }) {
   return v === null ? null : <span>₹{v} per point</span>;
 }
 
+const NP = <span className="a-mu">not published</span>;
+const stamp = (iso: string) => <>{iso.slice(0, 16).replace("T", " ")} UTC</>;
+
+// Every field we hold for a seat. Missing is "not published", never blank or 0.
+export function SeatDetails({ r }: { r: SeatView }) {
+  const rows: [string, ReactNode][] = [
+    ["Programme", r.programme_name], ["Cabin", CABIN_LABEL[r.cabin] ?? r.cabin], ["Date", r.date], ["Route", `${r.origin} → ${r.dest}`],
+    ["Points", fmt(r.miles)],
+    ["Taxes (original)", r.taxes_known && r.taxes_amount !== null ? `${r.taxes_currency} ${fmt(r.taxes_amount)}` : NP],
+    ["Taxes (INR)", r.taxes_inr !== null ? inr(r.taxes_inr) : NP],
+    ["Seats left", r.seats === null ? NP : r.seats], ["Airline", r.airline ?? NP],
+    ["Flight numbers", r.flights.length ? r.flights.join(", ") : NP],
+    ["Departs", r.departs_at ? `${r.departs_at.slice(0, 10)} ${timeLabel(r.departs_at)}` : NP],
+    ["Arrives", r.arrives_at ? `${r.arrives_at.slice(0, 10)} ${timeLabel(r.arrives_at)}` : NP],
+    ["Duration", duration(r.duration_minutes) ?? NP], ["Stops", stopsLabel(r)], ["Aircraft", r.aircraft ?? NP],
+    ["Updated by source", stamp(r.updated_at)], ["Fetched by us", stamp(r.fetched_at)], ["Source", r.source || NP],
+    ["Availability id", r.availability_id || NP],
+  ];
+  return (
+    <dl className="a-flights-det">
+      {rows.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
+    </dl>
+  );
+}
+
 type PickProps = { picked: boolean; locked: boolean; onPick: (id: string) => void };
 export const PickBox = ({ r, picked, locked, onPick }: { r: SeatView } & PickProps) => (
   <label className="cm-check a-flights-pick">
@@ -61,25 +86,36 @@ export const PickBox = ({ r, picked, locked, onPick }: { r: SeatView } & PickPro
 export const checkoutHref = (id: string, n: number) => `/flights/checkout?id=${encodeURIComponent(id)}&n=${n}`;
 
 export function SeatCard({ r, n, fare, selected, ...pick }: { r: SeatView; n: number; fare: number | null; selected: boolean } & PickProps) {
+  const full = pick.locked && !pick.picked;
+  // whole card toggles the pick; links, buttons and the details summary keep their own click
+  const toggle = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).closest("a,button,input,label,summary,details")) return;
+    if (!full) pick.onPick(r.id);
+  };
   return (
-    <article className={`a-gl a-flights-card${selected ? ' a-sel' : ''}${dimmed(r) ? ' a-u' : ''}`}>
-      <div className="a-r">
-        <span className="a-cap a-g">{dateShort(r.date)} · {r.programme_name}</span>
-        <Tag kind="premium">{CABIN_LABEL[r.cabin] ?? r.cabin}</Tag>
+    <article className={`a-gl a-flights-card${selected ? " a-sel" : ""}${pick.picked ? " a-picked" : ""}`} onClick={toggle}>
+      <div className={dimmed(r) ? "a-flights-dim" : undefined}>
+        <div className="a-r">
+          <span className="a-cap a-g">{dateShort(r.date)} · {r.programme_name}</span>
+          <Tag kind="premium">{CABIN_LABEL[r.cabin] ?? r.cabin}</Tag>
+        </div>
+        <div className="a-big">
+          {fmt(r.miles)} <small>pts + <Taxes r={r} /></small>
+        </div>
+        <div className="a-dsh" />
+        <div className="a-kv"><span>Pay with</span><b><PaidBy r={r} /></b></div>
+        <ShortText r={r} />
+        <div className="a-kv"><span>Seats</span><b>{seatsLabel(r)}</b></div>
+        <div className="a-kv"><span>Stops</span><b>{stopsLabel(r)}</b></div>
+        {r.airline && <div className="a-kv"><span>Airline</span><b>{r.airline}</b></div>}
+        {fare ? <div className="a-kv"><span>Value</span><b><Vpp r={r} fare={fare} /></b></div> : null}
+        <SeenStamp iso={r.updated_at} />
+        {dimmed(r) && <span className="a-cap">{isStale(r.updated_at) ? "Seen over a day ago, check before you transfer." : "Your cards cannot pay for this yet."}</span>}
       </div>
-      <div className="a-big">
-        {fmt(r.miles)} <small>pts + <Taxes r={r} /></small>
-      </div>
-      <div className="a-dsh" />
-      <div className="a-kv"><span>Pay with</span><b><PaidBy r={r} /></b></div>
-      <ShortText r={r} />
-      <div className="a-kv"><span>Seats</span><b>{seatsLabel(r)}</b></div>
-      <div className="a-kv"><span>Stops</span><b>{stopsLabel(r)}</b></div>
-      {r.airline && <div className="a-kv"><span>Airline</span><b>{r.airline}</b></div>}
-      {fare ? <div className="a-kv"><span>Value</span><b><Vpp r={r} fare={fare} /></b></div> : null}
-      <SeenStamp iso={r.updated_at} />
+      <details className="a-flights-more"><summary>All details</summary><SeatDetails r={r} /></details>
       <div className="a-r a-rw">
         <PickBox r={r} {...pick} />
+        {full && <span className="a-cap">3 picked already</span>}
         <span className="a-g" />
         <Link className="cm-btn cm-btn--primary cm-btn--sm a-pb" href={checkoutHref(r.id, n)}>Check out</Link>
       </div>
@@ -88,39 +124,59 @@ export function SeatCard({ r, n, fare, selected, ...pick }: { r: SeatView; n: nu
 }
 
 export function SeatTable({ rows, n, fare, picks, onPick }: { rows: SeatView[]; n: number; fare: number | null; picks: string[]; onPick: (id: string) => void }): ReactNode {
+  const [all, setAll] = useState(false);
+  const [open, setOpen] = useState<string | null>(null);
+  const cols = 13 + (fare ? 1 : 0) + (all ? 6 : 0);
   return (
-    <div className="cm-table-wrap a-flights-table">
-      <table className="cm-table">
-        <thead>
-          <tr>
-            <th>Compare</th><th>Date</th><th>Programme</th><th>Cabin</th><th className="is-num">Points</th><th className="is-num">Taxes</th>
-            {fare ? <th className="is-num">Value per point</th> : null}
-            <th>Stops</th><th className="is-num">Seats</th><th>Airline</th><th>Age</th><th>Your cards</th><th><span className="a-flights-vh">Action</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map(r => (
-            <tr key={r.id} className={`${picks.includes(r.id) ? 'is-selected' : ''}${dimmed(r) ? ' a-u' : ''}`}>
-              <td><PickBox r={r} picked={picks.includes(r.id)} locked={picks.length >= 3} onPick={onPick} /></td>
-              <td className="is-mono">{dateShort(r.date)}</td>
-              <td>{r.programme_name}</td>
-              <td>{CABIN_LABEL[r.cabin] ?? r.cabin}</td>
-              <td className="is-num is-mono">{fmt(r.miles)}</td>
-              <td className="is-num"><Taxes r={r} /></td>
-              {fare ? <td className="is-num is-mono"><Vpp r={r} fare={fare} /></td> : null}
-              <td>{r.direct ? <Tag kind="direct" plain>Direct</Tag> : stopsLabel(r)}</td>
-              <td className="is-num is-mono">{seatsLabel(r)}</td>
-              <td>{r.airline ?? ''}</td>
-              <td><SeenStamp iso={r.updated_at} prefix="" /></td>
-              <td>
-                <PaidBy r={r} />
-                {!payable(r) && r.reach && <><br /><ShortText r={r} /></>}
-              </td>
-              <td><Link className="cm-btn cm-btn--secondary cm-btn--sm a-pb" href={checkoutHref(r.id, n)}>Check out</Link></td>
+    <div className="a-c">
+      <label className="cm-check"><input type="checkbox" checked={all} onChange={e => setAll(e.target.checked)} /><span className="cm-check__text"><span className="cm-check__label">Show all columns</span></span></label>
+      <div className="cm-table-wrap a-flights-table">
+        <table className="cm-table">
+          <thead>
+            <tr>
+              <th>Compare</th><th>Date</th><th>Programme</th><th>Cabin</th><th className="is-num">Points</th><th className="is-num">Taxes</th>
+              {fare ? <th className="is-num">Value per point</th> : null}
+              <th>Stops</th><th className="is-num">Seats</th><th>Airline</th>
+              {all && <><th>Flights</th><th>Departs</th><th>Arrives</th><th>Duration</th><th>Aircraft</th><th>Source</th></>}
+              <th>Age</th><th>Your cards</th><th>Details</th><th><span className="a-flights-vh">Action</span></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {rows.map(r => (
+              <Fragment key={r.id}>
+                <tr className={`${picks.includes(r.id) ? "is-selected" : ""}${dimmed(r) ? " a-flights-dimrow" : ""}`}>
+                  <td><PickBox r={r} picked={picks.includes(r.id)} locked={picks.length >= 3} onPick={onPick} /></td>
+                  <td className="is-mono">{dateShort(r.date)}</td>
+                  <td>{r.programme_name}</td>
+                  <td>{CABIN_LABEL[r.cabin] ?? r.cabin}</td>
+                  <td className="is-num is-mono">{fmt(r.miles)}</td>
+                  <td className="is-num"><Taxes r={r} /></td>
+                  {fare ? <td className="is-num is-mono"><Vpp r={r} fare={fare} /></td> : null}
+                  <td>{r.direct ? <Tag kind="direct" plain>Direct</Tag> : stopsLabel(r)}</td>
+                  <td className="is-num is-mono">{seatsLabel(r)}</td>
+                  <td>{r.airline ?? NP}</td>
+                  {all && <>
+                    <td>{r.flights.length ? r.flights.join(", ") : NP}</td>
+                    <td>{r.departs_at ? timeLabel(r.departs_at) : NP}</td>
+                    <td>{r.arrives_at ? timeLabel(r.arrives_at) : NP}</td>
+                    <td>{duration(r.duration_minutes) ?? NP}</td>
+                    <td>{r.aircraft ?? NP}</td>
+                    <td>{r.source || NP}</td>
+                  </>}
+                  <td><SeenStamp iso={r.updated_at} prefix="" /></td>
+                  <td>
+                    <PaidBy r={r} />
+                    {!payable(r) && r.reach && <><br /><ShortText r={r} /></>}
+                  </td>
+                  <td><button type="button" className="cm-btn cm-btn--ghost cm-btn--sm" aria-expanded={open === r.id} onClick={() => setOpen(open === r.id ? null : r.id)}>{open === r.id ? "Hide" : "Show"}</button></td>
+                  <td><Link className="cm-btn cm-btn--primary cm-btn--sm a-pb" href={checkoutHref(r.id, n)}>Check out</Link></td>
+                </tr>
+                {open === r.id && <tr><td colSpan={cols}><SeatDetails r={r} /></td></tr>}
+              </Fragment>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

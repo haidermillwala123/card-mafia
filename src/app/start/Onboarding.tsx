@@ -4,6 +4,7 @@ import './start.css';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import FlightScene from './FlightScene';
+import { nextPath } from './next';
 import EmailCode from '@/components/EmailCode';
 import PlanPicker from '@/components/PlanPicker';
 import { Arrow, Back, Check, Lock } from '@/components/Icons';
@@ -39,6 +40,9 @@ export default function Onboarding({ banks, cards, programmes }: Props) {
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
   const started = useRef(false);
+  const [search, setSearch] = useState(''); // keeps ?next= when someone switches to Sign in
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { setSearch(window.location.search); }, []);
   const programmeOfCard = Object.fromEntries(cards.map(c => [c.id, c.programmeId]));
 
   useEffect(() => {
@@ -86,7 +90,7 @@ export default function Onboarding({ banks, cards, programmes }: Props) {
   };
   const finish = () => {
     saveProfile(withDob(p));
-    router.push('/plan');
+    router.push(nextPath());
   };
 
   // After the email code (or when already signed in): save the setup to the account, note Pro interest, then go plan.
@@ -99,7 +103,7 @@ export default function Onboarding({ banks, cards, programmes }: Props) {
     if (p.plan === 'pro') await recordInterest('pro', p.period);
     setBusy(false);
     if (!saved) return setErr('You are signed in, but we could not save the setup to your account. It is still on this device.');
-    router.push('/plan');
+    router.push(nextPath());
   }
 
   const field = (id: string, label: string, value: string, on: (v: string) => void, o: { ph?: string; ac?: string; mono?: boolean } = {}) => (
@@ -215,7 +219,7 @@ export default function Onboarding({ banks, cards, programmes }: Props) {
             {i === LAST && <button type="button" className="btn btn-secondary" onClick={finish}>{user ? 'Plan without saving' : 'Skip the account and plan a trip'}</button>}
           </div>
           <p className="fine">{i < LAST ? <>Your answers stay on this device. <button type="button" className="link" onClick={finish}>Skip setup</button> and add this later.</> : p.plan === 'pro' && !user ? 'Skipping means you will not be on the Pro list. Everything else still works.' : 'You can change any of this later from your account.'}</p>
-          <p className="fine">Already have an account? <a href="/signin">Sign in</a>.</p>
+          <p className="fine">Already have an account? <a href={`/signin${search}`}>Sign in</a>.</p>
         </div>
       </section>
     </div>

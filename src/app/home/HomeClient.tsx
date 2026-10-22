@@ -13,7 +13,19 @@ import { askNext, type Parsed, parseTrip, type Question, upcomingMonths } from '
 import { listTrips, type TripRow } from '@/lib/app/trips';
 import { useWallet } from '@/lib/app/wallet';
 import { cityOf, expandDest } from '@/lib/airports';
+import CardsHub from './CardsHub';
 import './home.css';
+
+const QUICK: [string, string, string][] = [
+  ['/flights', 'Search', 'Every route from India, cheapest first'],
+  ['/plan', 'Plan', 'Top 3 plans for a trip'],
+  ['/wallet', 'Wallet', 'Your cards and points'],
+  ['/transfers', 'Transfers', 'Ratios, caps and indirect routes'],
+  ['/earn', 'Earn', 'How 58 cards earn, with a calculator'],
+  ['/trips', 'Trips', 'Saved plans'],
+  ['/alerts', 'Alerts', 'Routes we watch for you'],
+  ['/learn', 'Learn', 'Glossary and tools'],
+];
 
 const EXAMPLES = ['DEL to Tokyo, business, 1 person', 'BLR to Doha, 2 people', 'BOM to Europe, first class'];
 const STRIP_REGIONS = ['middle-east', 'europe', 'southeast-asia'];
@@ -54,28 +66,37 @@ export default function HomeClient() {
 
   const nextYm = upcomingMonths(2)[1];
   useEffect(() => {
-    if (!w.ready || !w.hasCards) return;
+    if (!w.ready) return;
     let live = true;
     const { from, to } = monthRange(nextYm);
-    Promise.all(
-      STRIP_REGIONS.map(id =>
-        searchSeats({ origins: [home], dests: expandDest(id), from, to, cabin: 'business', travellers: 1, holdings: w.holdings, filters: { reachableOnly: true }, limit: 20 }).then(r => ({ id, r })),
-      ),
-    ).then(all => {
-      if (!live) return;
-      const rows: Strip['rows'] = [];
-      let meta: Strip['meta'] = null;
-      let rulesCheckedOn: string | null = null;
-      for (const { id, r } of all) {
-        if (!r.ok) continue;
-        meta = meta ?? r.data.meta;
-        rulesCheckedOn = rulesCheckedOn ?? r.data.rulesCheckedOn;
-        const best = r.data.rows.filter(s => s.reach?.best).sort((a, b) => (a.reach?.best?.pointsUsed ?? 0) - (b.reach?.best?.pointsUsed ?? 0))[0];
-        if (best) rows.push({ seat: best, region: id });
-      }
-      const failed = all.find(x => !x.r.ok);
-      setStrip({ rows, meta, rulesCheckedOn, error: !rows.length && failed && !failed.r.ok ? failed.r.error : null });
-    });
+    // Each region lands as soon as it is ready: a cold region can take 30 s, and the others should not wait for it.
+    const got = new Map<string, { seat: SeatView | undefined; meta: SearchResponse['meta']; rules: string } | string>();
+    STRIP_REGIONS.forEach(id =>
+      searchSeats({ origins: [home], dests: expandDest(id), from, to, cabin: 'business', travellers: 1, holdings: w.hasCards ? w.holdings : undefined, filters: w.hasCards ? { reachableOnly: true } : {}, limit: 20 }).then(r => {
+        if (!live) return;
+        if (!r.ok) got.set(id, r.error);
+        else {
+          const best = w.hasCards
+            ? r.data.rows.filter(s => s.reach?.best).sort((a, b) => (a.reach?.best?.pointsUsed ?? 0) - (b.reach?.best?.pointsUsed ?? 0))[0]
+            : [...r.data.rows].sort((a, b) => a.miles - b.miles)[0];
+          got.set(id, { seat: best, meta: r.data.meta, rules: r.data.rulesCheckedOn });
+        }
+        const rows: Strip['rows'] = [];
+        let meta: Strip['meta'] = null;
+        let rulesCheckedOn: string | null = null;
+        let failed: string | null = null;
+        for (const rid of STRIP_REGIONS) {
+          const g = got.get(rid);
+          if (typeof g === 'string') failed = g;
+          else if (g) {
+            meta = meta ?? g.meta;
+            rulesCheckedOn = rulesCheckedOn ?? g.rules;
+            if (g.seat) rows.push({ seat: g.seat, region: rid });
+          }
+        }
+        if (rows.length || got.size === STRIP_REGIONS.length) setStrip({ rows, meta, rulesCheckedOn, error: !rows.length ? failed : null });
+      }),
+    );
     return () => {
       live = false;
     };
@@ -105,16 +126,32 @@ export default function HomeClient() {
   return (
     <div className="a-pg">
       <div className="a-body">
-        <span className="a-eb">Plan a trip</span>
-        <h1 className="a-hd">
-          Tell us where.
-          <br />
-          <em>We find the seat.</em>
-        </h1>
-        <p className="a-lead">One sentence is enough. We read it, look at cached award seats, and show which of your cards can pay.</p>
+        <div className="a-hero">
+          {[0, 1].map(side => (
+            <div key={side} className={`a-hero-fl a-hero-${side ? 'r' : 'l'}`} aria-label={side ? undefined : 'Example seats we saw'}>
+              {(strip?.rows ?? []).filter((_, i) => i % 2 === side).map(({ seat: s }, k) => (
+                <Link key={s.id} href={`/flights?${new URLSearchParams({ o: s.origin, d: s.dest, from: s.date, to: s.date, cabin: s.cabin, n: '1' })}`} className={`a-gl a-hero-card a-hero-c${k}`}>
+                  <span className="a-cap">{cityOf(s.origin)} → {cityOf(s.dest)}</span>
+                  <span className="a-big">{fmt(s.miles)} <small>pts</small></span>
+                  <span className="a-mu">{dateShort(s.date)} · {programmeName(s.programme_id)}</span>
+                  <SeenStamp iso={s.updated_at} />
+                </Link>
+              ))}
+            </div>
+          ))}
+          <div className="a-hero-mid">
+            <span className="a-eb">Plan a trip</span>
+            <h1 className="a-hd">
+              Tell us where.
+              <br />
+              <em>We find the seat.</em>
+            </h1>
+            <p className="a-lead">One sentence is enough. We read it, look at cached award seats, and show which of your cards can pay.</p>
+          </div>
+        </div>
 
         <form
-          className="a-r a-rw"
+          className="a-r a-rw a-hero-form"
           onSubmit={e => {
             e.preventDefault();
             submit();
@@ -329,6 +366,17 @@ export default function HomeClient() {
             </div>
           </div>
         </div>
+
+        {w.ready && <CardsHub cardIds={w.profile.cardIds} />}
+
+        <section className="a-c" aria-label="Everything in Card Mafia">
+          <h2 className="a-sec">Everything in one place</h2>
+          <div className="a-g4 a-quick">
+            {QUICK.map(([href, title, hint]) => (
+              <Link key={href} href={href} className="a-gl a-home-card"><b>{title}</b><span className="a-mu">{hint}</span></Link>
+            ))}
+          </div>
+        </section>
 
         <DataFoot extra={<span className="a-cap">Search works without an account. Wallet, Trips and Alerts need a sign-in.</span>} />
       </div>

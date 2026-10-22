@@ -1,5 +1,22 @@
 @import './tokens.css';
 
+/* FlightLoader: a plane taking off along an arc. Used for every loading state. */
+.fl{display:grid;justify-items:center;gap:10px;color:var(--color-text-muted);padding:24px 0}
+.fl-sky{position:relative;width:240px;height:90px;color:var(--color-primary)}
+.fl-lg .fl-sky{width:360px;height:135px}
+.fl-sm .fl-sky{width:150px;height:56px}
+.fl-arc{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
+.fl-plane{position:absolute;left:0;top:0;width:26px;height:26px;margin:-13px 0 0 -13px;offset-path:path("M8 72 C 70 72, 100 24, 228 18");offset-rotate:auto;offset-distance:0%;color:var(--color-text);animation:fl-fly 2.6s cubic-bezier(.55,0,.35,1) infinite}
+.fl-lg .fl-plane{width:38px;height:38px;margin:-19px 0 0 -19px;offset-path:path("M12 108 C 105 108, 150 36, 342 27")}
+.fl-sm .fl-plane{width:18px;height:18px;margin:-9px 0 0 -9px;offset-path:path("M5 45 C 44 45, 63 15, 143 11")}
+.fl-cloud{position:absolute;height:10px;border-radius:99px;background:currentColor;opacity:.18}
+.fl-c1{width:46px;top:22px;left:60%;animation:fl-drift 5.2s linear infinite}
+.fl-c2{width:30px;top:50px;left:25%;animation:fl-drift 7s linear infinite -2s}
+.fl-label{font-size:14px;letter-spacing:.02em}
+@keyframes fl-fly{0%{offset-distance:0%;opacity:0}10%{opacity:1}85%{opacity:1}100%{offset-distance:100%;opacity:0}}
+@keyframes fl-drift{from{transform:translateX(40px);opacity:0}20%{opacity:.18}to{transform:translateX(-60px);opacity:0}}
+@media(prefers-reduced-motion:reduce){.fl-plane{animation:none;offset-distance:55%}.fl-cloud{animation:none}}
+
 /* Fonts are self-hosted. The ext files carry the rupee sign (U+20B9), so both subsets are declared. */
 @font-face{font-family:"Bricolage Grotesque";font-style:normal;font-weight:400 800;font-display:swap;src:url("/fonts/BricolageGrotesque-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:"Bricolage Grotesque";font-style:normal;font-weight:400 800;font-display:swap;src:url("/fonts/BricolageGrotesque-normal-ext.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}

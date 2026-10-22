@@ -30,7 +30,7 @@ export default function SessionGate({ children }: { children: ReactNode }) {
       // shortcut: a saved login from an earlier browser session is ended here and the device-only profile stays; upgrade if the cookie moves server-side.
       if (user && !isLive()) await sb.auth.signOut({ scope: 'local' });
       if (cancelled) return;
-      if (protectedPath && (!user || !isLive())) router.replace(`/signin?next=${encodeURIComponent(path)}`);
+      if (protectedPath && (!user || !isLive())) router.replace(`/start?next=${encodeURIComponent(path)}`);
       else setReady(true);
     })();
     return () => { cancelled = true; };
