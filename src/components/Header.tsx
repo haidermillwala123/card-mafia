@@ -2,21 +2,60 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 import { useUser } from '@/lib/auth';
 import Ic from './app/Icons';
 import ThemeToggle from './ThemeToggle';
 
-const LINKS = [
+// The trip comes first: Home, Search, Plan, Trips. Everything about cards and points sits in one menu, the rest in another.
+const MAIN = [
   { href: '/home', label: 'Home' },
   { href: '/flights', label: 'Search' },
   { href: '/plan', label: 'Plan' },
-  { href: '/wallet', label: 'Wallet' },
-  { href: '/transfers', label: 'Transfers' },
-  { href: '/earn', label: 'Earn' },
   { href: '/trips', label: 'Trips' },
-  { href: '/alerts', label: 'Alerts' },
-  { href: '/learn', label: 'Learn' },
 ];
+const GROUPS = [
+  { label: 'Cards', items: [
+    { href: '/wallet', label: 'Wallet', hint: 'Your cards and balances' },
+    { href: '/transfers', label: 'Transfers', hint: 'Ratios, caps and routes' },
+    { href: '/earn', label: 'Earn', hint: 'How each card earns' },
+    { href: '/earn/calculator', label: 'Points calculator', hint: 'What your spend earns' },
+  ] },
+  { label: 'More', items: [
+    { href: '/alerts', label: 'Alerts', hint: 'Routes we watch for you' },
+    { href: '/learn', label: 'Learn', hint: 'Glossary and tools' },
+  ] },
+];
+
+function Group({ label, items, path }: { label: string; items: { href: string; label: string; hint: string }[]; path: string }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const here = items.some(i => path === i.href || path.startsWith(`${i.href}/`));
+  useEffect(() => {
+    if (!open) return;
+    const down = (e: MouseEvent) => { if (!ref.current?.contains(e.target as Node)) setOpen(false); };
+    const key = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
+    document.addEventListener('mousedown', down);
+    document.addEventListener('keydown', key);
+    return () => { document.removeEventListener('mousedown', down); document.removeEventListener('keydown', key); };
+  }, [open]);
+  return (
+    <div className="a-grp" ref={ref}>
+      <button type="button" className={`a-l${here ? ' a-on' : ''}`} aria-expanded={open} aria-haspopup="true" onClick={() => setOpen(o => !o)}>
+        {label}<i aria-hidden="true">▾</i>
+      </button>
+      {open && (
+        <div className="a-drop" role="menu">
+          {items.map(i => (
+            <Link key={i.href} href={i.href} role="menuitem" aria-current={path === i.href ? 'page' : undefined} onClick={() => setOpen(false)}>
+              <b>{i.label}</b><small>{i.hint}</small>
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 // The floating pill navigation from the v2 design. On a phone the links move to the bottom bar (MobileBar).
 export default function Header() {
@@ -30,11 +69,12 @@ export default function Header() {
           <span className="a-mk" aria-hidden="true" />
           Card Mafia
         </Link>
-        {LINKS.map(l => (
+        {MAIN.map(l => (
           <Link key={l.href} href={l.href} className={`a-l${on(l.href) ? ' a-on' : ''}`} aria-current={on(l.href) ? 'page' : undefined}>
             {l.label}
           </Link>
         ))}
+        {GROUPS.map(g => <Group key={g.label} label={g.label} items={g.items} path={path} />)}
         <ThemeToggle />
         <Link href={user ? '/account' : '/signin'} className="a-av" aria-label={user ? 'Account' : 'Sign in'}>
           <Ic name="user" />

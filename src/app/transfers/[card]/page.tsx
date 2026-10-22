@@ -91,7 +91,7 @@ export default async function CardTransfers({ params }: { params: Promise<{ card
                 const first = data.rules.find(x => x.id === r.hops[0].ruleId);
                 return (
                   <tr key={r.programme}>
-                    <td><b>{name(r.programme)}</b>{r.hops.every(h => h.routeConfirmedOn) && <> <span className="tag tag-ok">Route seen working</span></>}</td>
+                    <td><b>{name(r.programme)}</b>{r.hops.every(h => h.routeConfirmedOn) && <></>}</td>
                     <td className="n">{n(Math.floor(1000 / r.pointsPerMile))}</td>
                     <td className="n">{r.pointsPerMile}:1</td>
                     <td><PathChain nodes={[r.hops[0].from, ...r.hops.map(h => h.to)].map(name)} ratios={r.hops.map(h => `${h.ratio_in}:${h.ratio_out}`)} /></td>

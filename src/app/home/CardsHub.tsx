@@ -66,7 +66,7 @@ export default function CardsHub({ cardIds }: { cardIds: string[] }) {
           {rules.length === 0 ? <span className="a-mu">We found no transfer partners for this card.</span> : (
             <div className="cm-table-wrap">
               <table className="cm-table">
-                <thead><tr><th>Partner</th><th className="is-num">Ratio</th><th>Cap</th><th>Time</th><th>Route seen working</th></tr></thead>
+                <thead><tr><th>Partner</th><th className="is-num">Ratio</th><th>Cap</th><th>Time</th></tr></thead>
                 <tbody>
                   {rules.map(r => (
                     <tr key={r.to}>
@@ -74,7 +74,6 @@ export default function CardsHub({ cardIds }: { cardIds: string[] }) {
                       <td className="is-num is-mono">{r.ratio_in}:{r.ratio_out}</td>
                       <td>{r.monthly_cap ? `${fmt(r.monthly_cap)} a month` : r.annual_cap ? `${fmt(r.annual_cap)} a year` : NF}</td>
                       <td>{show(r.transfer_time)}</td>
-                      <td>{r.route_confirmed_on ?? <span className="a-mu">not yet confirmed</span>}</td>
                     </tr>
                   ))}
                 </tbody>

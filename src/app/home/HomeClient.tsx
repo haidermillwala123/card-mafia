@@ -17,13 +17,9 @@ import CardsHub from './CardsHub';
 import './home.css';
 
 const QUICK: [string, string, string][] = [
-  ['/flights', 'Search', 'Every route from India, cheapest first'],
-  ['/plan', 'Plan', 'Top 3 plans for a trip'],
-  ['/wallet', 'Wallet', 'Your cards and points'],
+  ['/earn/calculator', 'Points calculator', 'What your monthly spend earns'],
+  ['/earn', 'Earn rules', 'Filter 58 cards by how they earn'],
   ['/transfers', 'Transfers', 'Ratios, caps and indirect routes'],
-  ['/earn', 'Earn', 'How 58 cards earn, with a calculator'],
-  ['/trips', 'Trips', 'Saved plans'],
-  ['/alerts', 'Alerts', 'Routes we watch for you'],
   ['/learn', 'Learn', 'Glossary and tools'],
 ];
 
@@ -121,7 +117,6 @@ export default function HomeClient() {
   const points = w.profile.cardIds.reduce((s, id) => s + (w.profile.balances[id] ?? 0), 0);
   const latest = trips?.[0];
   const alert = alerts?.[0];
-  const dataAge = strip?.meta?.pulledAt ?? null;
 
   return (
     <div className="a-pg">
@@ -290,8 +285,8 @@ export default function HomeClient() {
           </Link>
         </div>
 
-        <div className="a-split" style={{ marginTop: 8 }}>
-          <div className="a-main a-gl">
+        {(!w.ready || w.hasCards) && <div style={{ marginTop: 8 }}>
+          <div className="a-gl">
             <h2 className="a-sec">What can my points buy?</h2>
             {!w.ready ? (
               <>
@@ -349,27 +344,12 @@ export default function HomeClient() {
             )}
           </div>
 
-          <div className="a-side a-c" style={{ gap: 16 }}>
-            <div className="a-gl">
-              <span className="a-cap">How it works</span>
-              {['Say where and when', 'See which cards can pay, and the path', 'Run the safety check before any transfer', 'Book on the airline site. We stop there.'].map((s, i) => (
-                <div className="a-step" key={s}>
-                  <span className="a-n">{i + 1}</span>
-                  <span>{s}</span>
-                </div>
-              ))}
-            </div>
-            <div className="a-gl">
-              <span className="a-cap">Data on this screen</span>
-              {dataAge ? <SeenStamp iso={dataAge} prefix="Seats seen" /> : <span className="a-mu">Seat age shows here once we have looked at seats for you.</span>}
-            </div>
-          </div>
-        </div>
+        </div>}
 
         {w.ready && <CardsHub cardIds={w.profile.cardIds} />}
 
-        <section className="a-c" aria-label="Everything in Card Mafia">
-          <h2 className="a-sec">Everything in one place</h2>
+        <section className="a-c" aria-label="Tools">
+          <h2 className="a-sec">Tools</h2>
           <div className="a-g4 a-quick">
             {QUICK.map(([href, title, hint]) => (
               <Link key={href} href={href} className="a-gl a-home-card"><b>{title}</b><span className="a-mu">{hint}</span></Link>
