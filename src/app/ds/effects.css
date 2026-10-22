@@ -7,9 +7,9 @@
 }
 [data-theme="light"]{
   --shadow-flat:none;
-  --shadow-raised:0 1px 2px rgba(28,26,23,.10),0 2px 8px rgba(28,26,23,.06);
-  --shadow-overlay:0 8px 24px rgba(28,26,23,.14);
-  --shadow-modal:0 20px 56px rgba(28,26,23,.22);
+  --shadow-raised:0 1px 3px rgba(26,43,73,.10),0 4px 14px rgba(26,43,73,.08);
+  --shadow-overlay:0 8px 28px rgba(26,43,73,.16);
+  --shadow-modal:0 24px 60px rgba(26,43,73,.24);
 }
 :root{
   --dur-instant:80ms; /* @kind other */

@@ -10,6 +10,7 @@ export type Pick = {
   miles: number; // miles a month if this card took all the spend
   gain: number; // extra miles a month on top of the cards already held
   programme: string | null; // the airline programme that gives the best rate for this card
+  perPoint: number; // airline miles one card point becomes at that rate (0.17 means about 6 points for 1 mile)
   wins: { cat: Cat; miles: number }[]; // the categories where it beats what is held, biggest first
 };
 
@@ -30,7 +31,7 @@ export function recommend(o: { cards: CalcCard[]; miles: MilesMap; spend: Spend;
     const rate = bestRate(card.card_id);
     const byCat: Partial<Record<Cat, number>> = {};
     for (const b of monthlyPoints(card, o.spend).byCategory) byCat[b.cat] = (byCat[b.cat] ?? 0) + b.points * rate.perPoint;
-    return { card, programme: rate.programme, byCat, total: Object.values(byCat).reduce((s, v) => s + (v ?? 0), 0) };
+    return { card, programme: rate.programme, perPoint: rate.perPoint, byCat, total: Object.values(byCat).reduce((s, v) => s + (v ?? 0), 0) };
   });
 
   // what the cards already held cover, category by category
@@ -42,7 +43,7 @@ export function recommend(o: { cards: CalcCard[]; miles: MilesMap; spend: Spend;
     .filter(r => !o.held.includes(r.card.card_id) && (o.fees[r.card.card_id] ?? 0) <= o.feeCap)
     .map<Pick>(r => {
       const wins = CATS.map(c => ({ cat: c, miles: Math.max(0, (r.byCat[c] ?? 0) - (base[c] ?? 0)) })).filter(w => w.miles > 0).sort((a, b) => b.miles - a.miles);
-      return { card: r.card, held: false, miles: r.total, gain: wins.reduce((s, w) => s + w.miles, 0), programme: r.programme, wins };
+      return { card: r.card, held: false, miles: r.total, gain: wins.reduce((s, w) => s + w.miles, 0), programme: r.programme, perPoint: r.perPoint, wins };
     })
     .filter(p => p.gain > 0)
     .sort((a, b) => b.gain - a.gain || (o.fees[a.card.card_id] ?? 0) - (o.fees[b.card.card_id] ?? 0));

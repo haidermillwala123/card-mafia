@@ -1,34 +1,34 @@
-/* Card Mafia colour tokens. Dark is the default theme (:root). Add data-theme="light" to any element to switch that subtree. */
+/* Card Mafia colour tokens. Light is the default theme (set on <html>); dark stays available (:root). Add data-theme="light" to any element to switch that subtree. */
 :root{
-  --c-background-light:#F3F2EE; --c-background-dark:#181614; /* Hangar Floor */
-  --c-surface-light:#FBFAF8; --c-surface-dark:#221F1C; /* Check-in Desk */
-  --c-surface-sunken-light:#E8E6E0; --c-surface-sunken-dark:#110F0E; /* Underfloor */
-  --c-border-light:#D3D0C8; --c-border-dark:#3A3631; /* Seam */
-  --c-border-strong-light:#85817A; --c-border-strong-dark:#8A8479; /* Rivet */
-  --c-text-light:#1C1A17; --c-text-dark:#EDEBE6; /* Ink */
-  --c-text-muted-light:#5A564F; --c-text-muted-dark:#AAA498; /* Pencil */
-  --c-inverse-surface-light:#1C1A17; --c-inverse-surface-dark:#EDEBE6; /* Night Shift */
-  --c-on-inverse-light:#EDEBE6; --c-on-inverse-dark:#1C1A17; /* Day Shift */
-  --c-logo-plate-light:#1C1A17; --c-logo-plate-dark:#0F0E0D; /* Vault Door */
-  --c-primary-light:#2A2D33; --c-primary-dark:#CDD1D6; /* Platinum */
-  --c-primary-hover-light:#12141A; --c-primary-hover-dark:#E6E9ED; /* Polished */
-  --c-on-primary-light:#F3F2EE; --c-on-primary-dark:#181614; /* Engraving */
-  --c-primary-tint-light:#E2E5E9; --c-primary-tint-dark:#2D3137; /* Brushed Steel */
-  --c-on-primary-tint-light:#1F2329; --c-on-primary-tint-dark:#E6E9ED; /* Etched */
-  --c-accent-light:#17505D; --c-accent-dark:#1F5967; /* Midnight Teal */
-  --c-accent-strong-light:#17505D; --c-accent-strong-dark:#7FC4CC; /* Runway Light */
-  --c-on-accent-fill-light:#F3F2EE; --c-on-accent-fill-dark:#EAF4F5; /* Chalk */
-  --c-accent-platinum-light:#C9CED4; --c-accent-platinum-dark:#C9CED4; /* Runway Platinum */
-  --c-accent-sand-light:#D8CDB9; --c-accent-sand-dark:#D8CDB9; /* Lounge Sand */
-  --c-accent-mist-light:#9CC7CB; --c-accent-mist-dark:#9CC7CB; /* Tarmac Mist */
-  --c-accent-steel-light:#8E98A4; --c-accent-steel-dark:#8E98A4; /* Steel Gate */
-  --c-on-accent-light:#14130F; --c-on-accent-dark:#14130F; /* Black Ink */
-  --c-success-light:#1D6A43; --c-success-dark:#6FCB9A; /* Cleared */
-  --c-success-tint-light:#DCEEE3; --c-success-tint-dark:#1F3A2C; /* Cleared Tint */
-  --c-warning-light:#85570A; --c-warning-dark:#E6B75D; /* Caution */
-  --c-warning-tint-light:#F5E7C8; --c-warning-tint-dark:#3D3015; /* Caution Tint */
-  --c-danger-light:#A1312D; --c-danger-dark:#F28C86; /* Blocked */
-  --c-danger-tint-light:#F5D9D6; --c-danger-tint-dark:#43211F; /* Blocked Tint */
+  --c-background-light:#FFFFFF; --c-background-dark:#181614; /* Hangar Floor */
+  --c-surface-light:#FFFFFF; --c-surface-dark:#221F1C; /* Check-in Desk */
+  --c-surface-sunken-light:#F2F5F9; --c-surface-sunken-dark:#110F0E; /* Underfloor */
+  --c-border-light:#E1E6ED; --c-border-dark:#3A3631; /* Seam */
+  --c-border-strong-light:#8794A6; --c-border-strong-dark:#8A8479; /* Rivet */
+  --c-text-light:#1A2B49; --c-text-dark:#EDEBE6; /* Ink */
+  --c-text-muted-light:#586A84; --c-text-muted-dark:#AAA498; /* Pencil */
+  --c-inverse-surface-light:#1A2B49; --c-inverse-surface-dark:#EDEBE6; /* Night Shift */
+  --c-on-inverse-light:#FFFFFF; --c-on-inverse-dark:#1C1A17; /* Day Shift */
+  --c-logo-plate-light:#1A2B49; --c-logo-plate-dark:#0F0E0D; /* Vault Door */
+  --c-primary-light:#0071EB; --c-primary-dark:#CDD1D6; /* Platinum */
+  --c-primary-hover-light:#005CC2; --c-primary-hover-dark:#E6E9ED; /* Polished */
+  --c-on-primary-light:#FFFFFF; --c-on-primary-dark:#181614; /* Engraving */
+  --c-primary-tint-light:#E5F0FD; --c-primary-tint-dark:#2D3137; /* Brushed Steel */
+  --c-on-primary-tint-light:#0B3F7E; --c-on-primary-tint-dark:#E6E9ED; /* Etched */
+  --c-accent-light:#0062CC; --c-accent-dark:#1F5967; /* Midnight Teal */
+  --c-accent-strong-light:#0062CC; --c-accent-strong-dark:#7FC4CC; /* Runway Light */
+  --c-on-accent-fill-light:#FFFFFF; --c-on-accent-fill-dark:#EAF4F5; /* Chalk */
+  --c-accent-platinum-light:#D5DBE5; --c-accent-platinum-dark:#C9CED4; /* Runway Platinum */
+  --c-accent-sand-light:#FBE3D5; --c-accent-sand-dark:#D8CDB9; /* Lounge Sand */
+  --c-accent-mist-light:#D4E7FB; --c-accent-mist-dark:#9CC7CB; /* Tarmac Mist */
+  --c-accent-steel-light:#B6C2D3; --c-accent-steel-dark:#8E98A4; /* Steel Gate */
+  --c-on-accent-light:#1A2B49; --c-on-accent-dark:#14130F; /* Black Ink */
+  --c-success-light:#1B7A4B; --c-success-dark:#6FCB9A; /* Cleared */
+  --c-success-tint-light:#DDF2E6; --c-success-tint-dark:#1F3A2C; /* Cleared Tint */
+  --c-warning-light:#8A5A00; --c-warning-dark:#E6B75D; /* Caution */
+  --c-warning-tint-light:#FFF1CC; --c-warning-tint-dark:#3D3015; /* Caution Tint */
+  --c-danger-light:#C0182D; --c-danger-dark:#F28C86; /* Blocked */
+  --c-danger-tint-light:#FDE0E3; --c-danger-tint-dark:#43211F; /* Blocked Tint */
 }
 :root,[data-theme="dark"]{color-scheme:dark;
   --background:var(--c-background-dark);

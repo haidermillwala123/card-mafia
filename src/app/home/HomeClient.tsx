@@ -130,46 +130,37 @@ export default function HomeClient() {
     <div className="a-pg">
       <Tour />
       <section className="hm-hero" aria-label="Plan a trip">
-        <div className="hm-slides" aria-hidden="true">
-          {CITIES.map((c, i) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img key={c.id} className="hm-slide" style={{ animationDelay: `${i * 7}s` }} src={`/cities/${c.id}-sm.webp`} srcSet={`/cities/${c.id}-sm.webp 1200w, /cities/${c.id}.webp 3840w`} sizes="100vw" alt="" loading={i === 0 ? "eager" : "lazy"} fetchPriority={i === 0 ? "high" : "auto"} decoding="async" />
-          ))}
-        </div>
-        <div className="hm-shade" />
-        <div className="hm-copy">
-          <h1>Where to next?</h1>
-          <p>Fly business class on your points.</p>
-          <form className="hm-search" onSubmit={e => { e.preventDefault(); submit(); }}>
-            <input type="text" value={text} onChange={e => setText(e.target.value)} placeholder="BOM to London, December, 2 people" aria-label="Describe your trip" maxLength={200} />
-            <button type="submit">Plan my trip</button>
-          </form>
-          {q && (
-            <div className="hm-q" role="group" aria-label="One more question">
-              <b>{q.text}</b>
-              <div>{q.options.map(o => <button key={o.label} type="button" onClick={() => answer(o)}>{o.label}</button>)}</div>
-            </div>
-          )}
-          <div className="hm-try">
-            {EXAMPLES.map(x => <button key={x} type="button" onClick={() => { setText(x); submit(x); }}>{x}</button>)}
-            <Link href="/flights">Browse every route</Link>
+        <h1>Discover trips you can pay for with points</h1>
+        <form className="hm-search" onSubmit={e => { e.preventDefault(); submit(); }}>
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+          <input type="text" value={text} onChange={e => setText(e.target.value)} placeholder="Where to? Try BOM to London, December" aria-label="Describe your trip" maxLength={200} />
+          <button type="submit">Search</button>
+        </form>
+        {q && (
+          <div className="hm-q" role="group" aria-label="One more question">
+            <b>{q.text}</b>
+            <div>{q.options.map(o => <button key={o.label} type="button" onClick={() => answer(o)}>{o.label}</button>)}</div>
           </div>
+        )}
+        <div className="hm-try">
+          {EXAMPLES.map(x => <button key={x} type="button" onClick={() => { setText(x); submit(x); }}>{x}</button>)}
         </div>
-        <Link className="hm-credit" href="/credits">Photos: Wikimedia Commons</Link>
       </section>
 
       <div className="a-body">
-        <section className="hm-dest" aria-label="Ideas for your next trip">
-          <h2>Ideas for your next trip</h2>
+        <section className="hm-dest" aria-label="Where to fly">
+          <div className="hm-dh"><h2>Where to fly</h2><Link href="/flights">See every route</Link></div>
           <div className="hm-tiles">
             {CITIES.map(c => (
               <Link key={c.id} className="hm-tile" href={`/flights?${new URLSearchParams({ o: home, d: c.d, from: addDaysIso(14, todayIso()), to: addDaysIso(150, todayIso()), cabin: "business", n: "1" })}`}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`/cities/${c.id}-sm.webp`} alt="" loading="lazy" decoding="async" />
-                <span><b>{c.name}</b><small>{c.sub}</small></span>
+                <img src={`/cities/${c.id}-sm.webp`} alt="" loading={c.id === "dubai" ? "eager" : "lazy"} decoding="async" />
+                <b>{c.name}</b>
+                <small>{c.sub}</small>
               </Link>
             ))}
           </div>
+          <Link className="hm-credit" href="/credits">Photos from Wikimedia Commons</Link>
         </section>
 
         <div className="a-g3" style={{ marginTop: 8 }}>

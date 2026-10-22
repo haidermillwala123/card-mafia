@@ -52,6 +52,21 @@ export default function RecommendClient({ cards, fees, programmes, miles }: Prop
   const [feeSet, setFeeSet] = useState(false);
   const [allAir, setAllAir] = useState(false);
   const [seeded, setSeeded] = useState(false);
+  const [fromStatement, setFromStatement] = useState(false);
+
+  // Spend worked out from a statement (cards/statement) fills the spending question, then moves on to "what you already have".
+  useEffect(() => {
+    try {
+      const s = sessionStorage.getItem('cm-spend');
+      if (!s) return;
+      sessionStorage.removeItem('cm-spend');
+      const o = JSON.parse(s) as Record<string, number>;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setRaw(Object.fromEntries(Object.entries(o).filter(([, v]) => v > 0).map(([k, v]) => [k, String(Math.round(v))])));
+      setFromStatement(true);
+      setStep(3);
+    } catch { /* nothing usable stored */ }
+  }, []);
 
   // Cards from the wallet are the starting point for "what you already have".
   useEffect(() => {
@@ -105,6 +120,7 @@ export default function RecommendClient({ cards, fees, programmes, miles }: Prop
       <div className="rw-tags">
         <span className={`rw-fee t-${feeTier(fees[top.card.card_id]).id}`}>{feeTier(fees[top.card.card_id]).label}</span>
         {top.programme && <span className="rw-chip">Best with {programmes.find(p => p.id === top.programme)?.name}</span>}
+        {top.perPoint > 0 && <span className="rw-chip">{top.perPoint >= 1 ? `1 point = ${Number(top.perPoint.toFixed(2))} ${Number(top.perPoint.toFixed(2)) === 1 ? 'mile' : 'miles'}` : `${Number((1 / top.perPoint).toFixed(1))} points = 1 mile`}</span>}
       </div>
       {top.wins.length > 0 && <p className="rw-why">Wins on {top.wins.slice(0, 3).map(x => CAT_LABEL[x.cat].toLowerCase()).join(', ')}.</p>}
       <div className="rw-links"><Link href={`/earn#${top.card.card_id}`}>How it earns</Link><Link href={`/transfers/${top.card.card_id}`}>Where points go</Link></div>
@@ -143,6 +159,7 @@ export default function RecommendClient({ cards, fees, programmes, miles }: Prop
               </div>
               <button type="button" className="rw-link" onClick={() => setMore(m => !m)}>{more ? 'Fewer categories' : 'More categories'}</button>
               {!spendAnswered && <p className="rw-note">Until you add yours we use ₹10,000 in each main category.</p>}
+              {fromStatement ? <p className="rw-note">Filled in from your statement.</p> : <Link className="rw-link" href="/cards/statement">Or fill this from a card statement</Link>}
             </>
           ))}
 

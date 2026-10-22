@@ -18,7 +18,7 @@
 
 @media (max-width:960px){.a-flights-fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:760px){
-  .a-flights-all,.a-flights-top{display:none}
+
   .a-flights-phone{display:flex}
   .a-flights-fields{grid-template-columns:minmax(0,1fr)}
 }
@@ -41,3 +41,34 @@
 @media (max-width:960px){.a-filters-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:760px){.a-filters-grid{grid-template-columns:minmax(0,1fr)}}
 .a-flights-top{align-items:start}
+
+/* Result cards, GetYourGuide style: photo on top, small grey place, bold title, price at the bottom right */
+.sc-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sc-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px 20px}
+.sc{position:relative;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:box-shadow .2s}
+.sc:hover{box-shadow:var(--shadow-raised)}
+.sc.is-picked{outline:2px solid var(--primary);outline-offset:-2px}
+.sc-img{position:relative;aspect-ratio:16/10;background:linear-gradient(135deg,var(--primary-tint),var(--surface-sunken));overflow:hidden;display:grid;place-items:center}
+.sc-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sc-code{font:800 44px var(--font-body);letter-spacing:.04em;color:var(--on-primary-tint);opacity:.7}
+.sc-pick{position:absolute;top:10px;right:10px;z-index:2;display:inline-flex;gap:6px;align-items:center;min-height:36px;padding:0 12px 0 8px;border-radius:999px;border:0;background:var(--surface);color:var(--text);font:600 13px var(--font-body);box-shadow:0 1px 4px rgba(0,0,0,.25);cursor:pointer}
+.sc-pick span{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--surface-sunken);font-weight:700}
+.sc-pick[aria-pressed=true]{background:var(--primary);color:var(--on-primary)}
+.sc-pick[aria-pressed=true] span{background:rgba(255,255,255,.25)}
+.sc-pick:disabled{opacity:.5;cursor:not-allowed}
+.sc-badge{position:absolute;left:10px;top:10px;padding:4px 10px;border-radius:6px;background:var(--text);color:var(--background);font:600 12px var(--font-body)}
+.sc-body{display:flex;flex-direction:column;gap:6px;padding:14px 16px 16px;flex:1}
+.sc-loc{font-size:13px;color:var(--text-muted)}
+.sc-title{margin:0;font:700 17px/1.3 var(--font-body)}
+.sc-title a{color:var(--text)}
+.sc-title a::after{content:"";position:absolute;inset:0;z-index:1}
+.sc-meta{font-size:14px;color:var(--text-muted)}
+.sc-pay{font-size:14px;color:var(--text)}
+.sc-foot{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding-top:10px}
+.sc-price{display:flex;flex-direction:column;align-items:flex-end;text-align:right}
+.sc-price b{font:700 20px var(--font-body);letter-spacing:-.02em}
+.sc-price small{font-size:12px;color:var(--text-muted)}
+.sc-more{position:relative;z-index:2;align-self:flex-start;background:none;border:0;padding:4px 0;color:var(--text);text-decoration:underline;font:600 13px var(--font-body);cursor:pointer}
+.sc .a-flights-det{position:relative;z-index:2}
+@media (max-width:1000px){.sc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.sc-grid{grid-template-columns:1fr}}

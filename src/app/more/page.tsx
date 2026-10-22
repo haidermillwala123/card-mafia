@@ -7,6 +7,7 @@ export const metadata: Metadata = { title: 'Menu', robots: { index: false } };
 const SECTIONS = [
   { title: 'Cards', rows: [
     { href: '/cards/recommend', label: 'Best card for you', hint: 'From what you spend' },
+    { href: '/cards/statement', label: 'From your statement', hint: 'Upload a PDF or paste' },
     { href: '/earn', label: 'Best way to earn', hint: 'Filter 58 cards' },
     { href: '/wallet', label: 'Wallet', hint: 'Your cards and balances' },
     { href: '/transfers', label: 'Transfers', hint: 'Ratios, caps and routes' },

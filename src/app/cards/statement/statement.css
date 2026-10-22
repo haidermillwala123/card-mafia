@@ -1,0 +1,40 @@
+/* Statement to card: add it, see the spend, see the best card for each kind of spend. GetYourGuide-style cards and pills. */
+.st{display:flex;flex-direction:column;gap:20px}
+.st-in{display:flex;flex-direction:column;gap:16px;align-items:flex-start;max-width:640px}
+.st-drop{position:relative;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center;width:100%;min-height:160px;padding:24px;border:2px dashed var(--border-strong);border-radius:12px;background:var(--surface-sunken);cursor:pointer;text-align:center;transition:border-color .15s,background .15s}
+.st-drop input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.st-drop b{font:600 17px var(--font-body)}
+.st-drop small,.st-fine{color:var(--text-muted)}
+.st-drop.over,.st-drop.has{border-color:var(--primary);background:var(--primary-tint)}
+.st-pw{display:flex;flex-direction:column;gap:6px;width:100%;font:600 14px var(--font-body)}
+.st-pw input,.st-pw textarea{width:100%;padding:12px 14px;border-radius:8px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font:400 15px var(--font-body)}
+.st-pw textarea{font-family:var(--font-mono);font-size:13px;line-height:1.6;resize:vertical}
+.st-fine{margin:0;font-size:14px}
+.st-sum,.st-best{display:flex;flex-direction:column;gap:16px;padding:24px;border:1px solid var(--border);border-radius:12px;background:var(--surface)}
+.st-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.st-head h2{margin:0;font:700 26px var(--font-body);letter-spacing:-.02em}
+.st-head p{margin:4px 0 0;color:var(--text-muted)}
+.st-link{align-self:flex-start;background:none;border:0;padding:0;color:var(--text);text-decoration:underline;font:600 14px var(--font-body);cursor:pointer}
+.st-bars{display:grid;gap:10px}
+.st-bar{position:relative;display:grid;grid-template-columns:minmax(120px,200px) 1fr auto;gap:12px;align-items:center;font-size:14px}
+.st-bar i{height:10px;border-radius:999px;background:var(--primary)}
+.st-bar b{font-variant-numeric:tabular-nums}
+.st-lines{display:flex;flex-direction:column;border-top:1px solid var(--border);max-height:420px;overflow:auto}
+.st-line{display:grid;grid-template-columns:22px minmax(0,1fr) 190px auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.st-line input{width:18px;height:18px;accent-color:var(--primary)}
+.st-d{display:flex;flex-direction:column;min-width:0;overflow-wrap:anywhere}
+.st-d small{color:var(--text-muted)}
+.st-sel .cm-control{min-height:40px}
+.st-air{min-width:230px}
+.st-cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.st-cat{display:flex;flex-direction:column;gap:10px;padding:16px;border:1px solid var(--border);border-radius:12px}
+.st-cat>div:first-child{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.st-cat small{color:var(--text-muted)}
+.st-pick{display:flex;flex-direction:column;gap:2px}
+.st-k{font:600 12px var(--font-body);color:var(--accent-strong)}
+.st-pick b{font:700 17px var(--font-body)}
+.st-m{color:var(--text)!important;font-weight:600}
+.st-mine{padding-top:8px;border-top:1px solid var(--border)}
+.st-up{margin:0;padding:14px 16px;border-radius:8px;background:var(--primary-tint);color:var(--on-primary-tint)}
+@media (max-width:760px){.st-line{grid-template-columns:22px 1fr auto}.st-sel{grid-column:2/-1}.st-bar{grid-template-columns:1fr auto}.st-bar i{grid-column:1/-1;order:3}}
+@media (prefers-reduced-motion:reduce){.st-drop{transition:none}}

@@ -1,0 +1,88 @@
+/* The GetYourGuide look, as an override layer: white, navy text, one blue action colour, flat sticky header, plain sentence-case labels,
+   12px cards with a hairline border, pill buttons. Loaded last so it wins over the earlier shell rules. Reference: GetYourGuide on Mobbin. */
+:root,[data-theme]{--font-display:var(--font-body)}
+body{background:var(--background)}
+
+/* Header: flat white bar, logo left, menus beside it, account on the right */
+header{position:sticky;top:0;z-index:60;background:var(--background);border-bottom:1px solid var(--border)}
+.a-nav{margin:0 auto;width:100%;max-width:1240px;border:0;border-radius:0;background:transparent;padding:10px 24px;gap:2px;justify-content:flex-start}
+.a-nav .a-lg{font:800 20px var(--font-body);letter-spacing:-.04em;color:var(--text);margin-right:18px}
+.a-nav .a-mk{width:28px;height:28px;border-radius:8px;background:#FF5533}
+.a-nav a.a-l,.a-nav button.a-l{font:600 15px var(--font-body);color:var(--text);padding:10px 14px;border-radius:999px}
+.a-nav a.a-l:hover,.a-nav button.a-l:hover{background:var(--surface-sunken);color:var(--text)}
+.a-nav a.a-l.a-on::after,.a-nav button.a-l.a-on::after{left:14px;right:14px;bottom:-11px;width:auto;height:2px;margin:0;border-radius:2px;background:var(--text)}
+.a-nav .icon-btn{margin-left:auto}
+.a-nav .a-av{border-color:var(--border);color:var(--text)}
+.a-nav .a-np{height:44px;padding:0 20px;font-weight:600}
+.a-drop{border-radius:12px;box-shadow:var(--shadow-overlay);left:0;transform:none}
+
+/* Labels and headings: plain, sentence case, no eyebrows */
+.a-eb{display:none}
+.a-cap{font:500 13px var(--font-body);letter-spacing:0;text-transform:none;color:var(--text-muted)}
+.a-hd{font-size:36px;line-height:1.1;letter-spacing:-.025em}
+.a-hd.a-sm{font-size:30px}
+.a-hd em{color:inherit}
+.a-sec{font-size:22px;font-weight:700;letter-spacing:-.01em}
+.a-lead{font-size:16px}
+.a-mrow small,.nxt span{font-family:var(--font-body);letter-spacing:0;text-transform:none;font-size:13px}
+
+/* Cards, buttons, controls */
+.a-gl{border-radius:12px;box-shadow:none}
+.a-gl .a-big{font-size:32px;letter-spacing:-.025em}
+.a-home-card:hover{box-shadow:var(--shadow-raised);border-color:var(--border-strong)}
+.a-cta{height:48px;padding:0 26px;background:var(--primary);color:var(--on-primary)}
+.a-cta .a-ar{display:none}
+.a-pg{padding-bottom:24px}
+.a-body{padding-top:32px}
+.cm-btn--primary{background:var(--primary);color:var(--on-primary)}
+.cm-btn--secondary{border-color:var(--border-strong)}
+.a-foot{border-top-color:var(--border)}
+.cm-table th{font-family:var(--font-body);letter-spacing:0;text-transform:none;font-size:13px}
+
+/* Where next: calm pills, not mono */
+.nxt a{border-color:var(--border);font-weight:600}
+.nxt a:hover{background:var(--surface-sunken);color:var(--text)}
+
+.cm-note{border-radius:12px}
+
+/* Filter pills (GetYourGuide's filter row), shared by Search and any list */
+.fm{position:relative}
+.fm-pill{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font:600 14px var(--font-body);cursor:pointer;white-space:nowrap}
+.fm-pill i{font-style:normal;font-size:10px;color:var(--text-muted)}
+.fm-pill:hover{background:var(--surface-sunken)}
+.fm-pill.is-on{background:var(--text);color:var(--background);border-color:var(--text)}
+.fm-pill.is-on i{color:inherit}
+.fm-pop{position:absolute;z-index:30;top:calc(100% + 8px);left:0;min-width:250px;max-height:340px;overflow:auto;padding:8px;border-radius:12px;border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow-overlay)}
+.fm-pop.wide{overflow:visible;min-width:300px}
+.fm-opt{display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;cursor:pointer;font:500 15px var(--font-body)}
+.fm-opt:hover{background:var(--surface-sunken)}
+.fm-opt input{width:18px;height:18px;accent-color:var(--primary)}
+.fm-opt small{margin-left:auto;color:var(--text-muted)}
+.fm-form{display:grid;gap:6px;padding:6px}
+.fm-l{font:600 13px var(--font-body);color:var(--text)}
+.fm-in{min-height:44px;padding:0 14px;border-radius:8px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font:inherit}
+.fm-ctl{border:1px solid var(--border-strong);border-radius:8px}
+.fm-n{color:var(--text-muted)}
+.fb{display:flex;flex-direction:column;gap:10px}
+.fb-row{display:flex;flex-wrap:wrap;gap:8px}
+.fb-status{display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:var(--text-muted);font-size:14px}
+.fb-chip{display:inline-flex;gap:8px;align-items:center;border:0;border-radius:999px;background:var(--text);color:var(--background);padding:6px 12px;font:600 13px var(--font-body);cursor:pointer}
+.fb-chip i{font-style:normal;opacity:.8}
+.fb-reset{background:none;border:0;color:var(--text);text-decoration:underline;font:600 14px var(--font-body);cursor:pointer}
+.seg{display:inline-flex;border:1px solid var(--border-strong);border-radius:999px;padding:3px;background:var(--surface)}
+.seg button{border:0;background:transparent;color:var(--text);font:600 14px var(--font-body);padding:6px 16px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--text);color:var(--background)}
+
+/* Aliases some page stylesheets reference, so text on dark pills and badges always has the right colour */
+:root,[data-theme]{--color-bg:var(--background);--color-surface-2:var(--surface-sunken)}
+
+/* Earn list: same pills and plain headers as the Search filters */
+.ef-pill{font-weight:600;background:var(--surface)}
+.ef-pill.is-on{background:var(--text);color:var(--background);border-color:var(--text)}
+.ef-pill.is-on i{color:inherit}
+.ef-tag{background:var(--text);color:var(--background);outline:0;font-weight:600}
+.ef-tag i{color:inherit;opacity:.8}
+.ef-th,.ef-facts dt,.ef-head small{text-transform:none;letter-spacing:0;font-size:13px}
+.ef-table,.ef-row{border-radius:12px}
+.ef-chip[aria-pressed=true]{background:var(--text);color:var(--background)}
+.ef-tier{text-transform:none;letter-spacing:0;font-size:12px}

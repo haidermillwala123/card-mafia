@@ -4,6 +4,8 @@
 import Link from 'next/link';
 import { Fragment, type ReactNode, useState } from 'react';
 import { SeenStamp, Tag } from '@/components/app/ui';
+import { cityOf } from '@/lib/airports';
+import { cityPhoto } from '@/lib/photos';
 import type { SeatView } from '@/lib/app/api';
 import { CABIN_LABEL, dateShort, duration, fmt, inr, isStale, timeLabel, valuePerPoint } from '@/lib/app/format';
 
@@ -85,39 +87,41 @@ export const PickBox = ({ r, picked, locked, onPick }: { r: SeatView } & PickPro
 
 export const checkoutHref = (id: string, n: number) => `/flights/checkout?id=${encodeURIComponent(id)}&n=${n}`;
 
-export function SeatCard({ r, n, fare, selected, ...pick }: { r: SeatView; n: number; fare: number | null; selected: boolean } & PickProps) {
+export function SeatCard({ r, n, fare, ...pick }: { r: SeatView; n: number; fare: number | null; selected: boolean } & PickProps) {
+  const [open, setOpen] = useState(false);
+  const photo = cityPhoto(r.dest);
   const full = pick.locked && !pick.picked;
-  // whole card toggles the pick; links, buttons and the details summary keep their own click
-  const toggle = (e: React.MouseEvent) => {
-    if ((e.target as HTMLElement).closest("a,button,input,label,summary,details")) return;
-    if (!full) pick.onPick(r.id);
-  };
+  const day = new Date(`${r.date}T00:00:00Z`).toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });
   return (
-    <article className={`a-gl a-flights-card${selected ? " a-sel" : ""}${pick.picked ? " a-picked" : ""}`} onClick={toggle}>
-      <div className={dimmed(r) ? "a-flights-dim" : undefined}>
-        <div className="a-r">
-          <span className="a-cap a-g">{dateShort(r.date)} · {r.programme_name}</span>
-          <Tag kind="premium">{CABIN_LABEL[r.cabin] ?? r.cabin}</Tag>
-        </div>
-        <div className="a-big">
-          {fmt(r.miles)} <small>pts + <Taxes r={r} /></small>
-        </div>
-        <div className="a-dsh" />
-        <div className="a-kv"><span>Pay with</span><b><PaidBy r={r} /></b></div>
-        <ShortText r={r} />
-        <div className="a-kv"><span>Seats</span><b>{seatsLabel(r)}</b></div>
-        <div className="a-kv"><span>Stops</span><b>{stopsLabel(r)}</b></div>
-        {r.airline && <div className="a-kv"><span>Airline</span><b>{r.airline}</b></div>}
-        {fare ? <div className="a-kv"><span>Value</span><b><Vpp r={r} fare={fare} /></b></div> : null}
-        <SeenStamp iso={r.updated_at} />
-        {dimmed(r) && <span className="a-cap">{isStale(r.updated_at) ? "Seen over a day ago, check before you transfer." : "Your cards cannot pay for this yet."}</span>}
+    <article className={`sc${pick.picked ? " is-picked" : ""}`}>
+      <div className="sc-img">
+        {photo
+          // eslint-disable-next-line @next/next/no-img-element
+          ? <img src={`/cities/${photo}-sm.webp`} alt="" loading="lazy" decoding="async" />
+          : <span className="sc-code" aria-hidden="true">{r.dest}</span>}
+        <button type="button" className="sc-pick" aria-pressed={pick.picked} disabled={full} onClick={() => pick.onPick(r.id)}
+          aria-label={`${pick.picked ? "Remove from compare" : "Add to compare"}: ${dateShort(r.date)} ${r.programme_name}`}>
+          <span aria-hidden="true">{pick.picked ? "✓" : "+"}</span>{pick.picked ? "Added" : "Compare"}
+        </button>
+        {r.direct && <span className="sc-badge">Direct</span>}
       </div>
-      <details className="a-flights-more"><summary>All details</summary><SeatDetails r={r} /></details>
-      <div className="a-r a-rw">
-        <PickBox r={r} {...pick} />
-        {full && <span className="a-cap">3 picked already</span>}
-        <span className="a-g" />
-        <Link className="cm-btn cm-btn--primary cm-btn--sm a-pb" href={checkoutHref(r.id, n)}>Check out</Link>
+      <div className="sc-body">
+        <span className="sc-loc">{cityOf(r.origin)} to {cityOf(r.dest)}</span>
+        <h3 className="sc-title"><Link href={checkoutHref(r.id, n)}>{r.programme_name}, {day}</Link></h3>
+        <span className="sc-meta">{[CABIN_LABEL[r.cabin] ?? r.cabin, r.direct ? null : stopsLabel(r), r.seats === null ? null : `${r.seats} ${r.seats === 1 ? "seat" : "seats"} left`, r.airline].filter(Boolean).join(" · ")}</span>
+        <span className="sc-pay"><PaidBy r={r} /></span>
+        <ShortText r={r} />
+        <div className="sc-foot">
+          <SeenStamp iso={r.updated_at} />
+          <div className="sc-price">
+            <small>From</small>
+            <b>{fmt(r.miles)} pts</b>
+            <small>+ <Taxes r={r} /></small>
+            {fare ? <small><Vpp r={r} fare={fare} /></small> : null}
+          </div>
+        </div>
+        <button type="button" className="sc-more" aria-expanded={open} onClick={() => setOpen(o => !o)}>{open ? "Hide details" : "All details"}</button>
+        {open && <SeatDetails r={r} />}
       </div>
     </article>
   );

@@ -18,14 +18,14 @@ export const metadata: Metadata = {
   twitter: { card: 'summary_large_image' },
 };
 
-export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#181614' };
+export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#ffffff' };
 
-// Sets the saved theme before first paint. Dark is the default.
+// Sets the saved theme before first paint. Light is the default.
 const THEME = `try{var t=localStorage.getItem('cm-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" data-theme="dark" suppressHydrationWarning>
+    <html lang="en-IN" data-theme="light" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME }} />
         <link rel="preload" href="/fonts/BricolageGrotesque-normal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />

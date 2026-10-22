@@ -26,8 +26,7 @@ type State = { status: 'idle' } | { status: 'loading' } | { status: 'error'; err
 const CABINS = Object.keys(CABIN_LABEL) as Cabin[];
 const AIRLINE_PROGRAMMES = (programmesJson.programmes as { id: string; name: string; kind: string }[]).filter(p => p.kind === 'airline').sort((a, b) => a.name.localeCompare(b.name));
 const OTHER = AIRPORTS.filter(a => !INDIAN.includes(a.i));
-const PAGE = 50;
-const PHONE_PAGE = 30;
+const PAGE = 24;
 const IATA = /^[A-Z]{3}$/;
 
 export default function FlightsClient({ initial }: { initial: InitialParams }) {
@@ -50,7 +49,7 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
   const [route, setRoute] = useState<string | null>(null);
   const [picks, setPicks] = useState<string[]>([]);
   const [shown, setShown] = useState(PAGE);
-  const [shownPhone, setShownPhone] = useState(PHONE_PAGE);
+  const [view, setView] = useState<'cards' | 'table'>('cards');
   const [watch, setWatch] = useState<{ kind: 'idle' | 'busy' | 'ok' | 'signin' | 'error'; error?: string }>({ kind: 'idle' });
   const [quota, setQuota] = useState<QuotaResponse | null>(null);
   const token = useRef(0);
@@ -82,7 +81,6 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
     setPicks([]);
     setFilters(EMPTY);
     setShown(PAGE);
-    setShownPhone(PHONE_PAGE);
     setWatch({ kind: 'idle' });
     const r = await searchSeats({
       origins, dests, from, to, cabin, travellers: n,
@@ -130,7 +128,6 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
   const fareNum = Number(fare.replace(/,/g, '')) || null;
 
   const pick = (id: string) => setPicks(p => (p.includes(id) ? p.filter(x => x !== id) : p.length < 3 ? [...p, id] : p));
-  const top = rows.slice(0, 3);
   const dest = d === '' ? '' : GROUPS.find(g => g.id === d)?.label ?? d;
 
   // programme x month grid for the chosen route
@@ -276,7 +273,7 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
                   {routes.map(([k, r]) => {
                     const bad = r.reach !== null && !payable(r);
                     return (
-                      <button key={k} type="button" aria-pressed={route === k} className={`a-gl a-flights-route${route === k ? ' a-sel' : ''}${bad ? ' a-u' : ''}`} onClick={() => { setRoute(route === k ? null : k); setShown(PAGE); setShownPhone(PHONE_PAGE); }}>
+                      <button key={k} type="button" aria-pressed={route === k} className={`a-gl a-flights-route${route === k ? ' a-sel' : ''}${bad ? ' a-u' : ''}`} onClick={() => { setRoute(route === k ? null : k); setShown(PAGE); }}>
                         <span className="a-cap">{r.origin} → {r.dest}</span>
                         <span className="a-big">{fmt(r.miles)} <small>pts</small></span>
                         <span className="a-mu">Cheapest in {monthLabel(r.date.slice(0, 7))} · {r.programme_name}</span>
@@ -313,7 +310,7 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
 
             {routeRows.length > 0 && (
               <>
-                <SeatFilters rows={routeRows} f={filters} setF={f => { setFilters(f); setShown(PAGE); setShownPhone(PHONE_PAGE); }} shown={rows.length} />
+                <SeatFilters rows={routeRows} f={filters} setF={f => { setFilters(f); setShown(PAGE); }} shown={rows.length} />
                 <div className="a-r a-rw">
                   <span className="a-cap a-g">Pick up to 3 to compare</span>
                   {comparable ? (
@@ -332,25 +329,25 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
                 {watch.kind === 'signin' && <Note kind="info" title="Sign in to watch a route.">Search works without an account, alerts need one. <Link href="/signin">Sign in</Link></Note>}
                 {watch.kind === 'error' && <Note kind="danger" title="We could not watch that route.">{watch.error}</Note>}
 
-                <div className="a-g3 a-flights-top">
-                  {top.map((r, i) => (
-                    <SeatCard key={r.id} r={r} n={done.sub.n} fare={fareNum} selected={picks.length ? picks.includes(r.id) : i === 0} picked={picks.includes(r.id)} locked={picks.length >= 3} onPick={pick} />
-                  ))}
+                <div className="sc-head">
+                  <span className="a-cap">{done.sub.reachOnly ? "Seats your cards can pay for" : "All seats"}</span>
+                  <div className="seg" role="group" aria-label="View">
+                    <button type="button" aria-pressed={view === "cards"} onClick={() => setView("cards")}>Cards</button>
+                    <button type="button" aria-pressed={view === "table"} onClick={() => setView("table")}>Table</button>
+                  </div>
                 </div>
 
-                <div className="a-gl a-flights-all">
-                  <div className="a-r"><h2 className="a-sec a-g">All rows</h2><Tag kind="outline" plain>Best for your cards first</Tag></div>
-                  <SeatTable rows={rows.slice(0, shown)} n={done.sub.n} fare={fareNum} picks={picks} onPick={pick} />
-                  {rows.length > shown && <button type="button" className="cm-btn cm-btn--secondary a-pb" style={{ alignSelf: 'center' }} onClick={() => setShown(s => s + PAGE)}>Show more ({fmt(rows.length - shown)} left)</button>}
-                  {rows.length === 0 && <span className="a-mu">No rows match these filters. Press Clear filters.</span>}
-                </div>
-
-                <div className="a-flights-phone">
-                  {rows.slice(0, shownPhone).map((r, i) => (
-                    <SeatCard key={r.id} r={r} n={done.sub.n} fare={fareNum} selected={picks.length ? picks.includes(r.id) : i === 0} picked={picks.includes(r.id)} locked={picks.length >= 3} onPick={pick} />
-                  ))}
-                  {rows.length > shownPhone && <button type="button" className="cm-btn cm-btn--secondary a-pb" onClick={() => setShownPhone(s => s + PHONE_PAGE)}>Show more ({fmt(rows.length - shownPhone)} left)</button>}
-                </div>
+                {view === "cards" ? (
+                  <div className="sc-grid">
+                    {rows.slice(0, shown).map((r, i) => (
+                      <SeatCard key={r.id} r={r} n={done.sub.n} fare={fareNum} selected={picks.length ? picks.includes(r.id) : i === 0} picked={picks.includes(r.id)} locked={picks.length >= 3} onPick={pick} />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="a-gl a-flights-all"><SeatTable rows={rows.slice(0, shown)} n={done.sub.n} fare={fareNum} picks={picks} onPick={pick} /></div>
+                )}
+                {rows.length > shown && <button type="button" className="cm-btn cm-btn--secondary a-pb" style={{ alignSelf: "center" }} onClick={() => setShown(x => x + PAGE)}>Show more ({fmt(rows.length - shown)} left)</button>}
+                {rows.length === 0 && <p className="a-mu">No seats match these filters. Use Reset all above.</p>}
               </>
             )}
           </>
