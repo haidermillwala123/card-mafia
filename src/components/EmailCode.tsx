@@ -35,9 +35,12 @@ export default function EmailCode({ meta, onVerified, intro, sendLabel = 'Send t
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(clean) || clean.length > 254) return setErr('We could not read that address. Check for a typo.');
     setBusy(true);
     setErr('');
-    const { error } = await sb!.auth.signInWithOtp({ email: clean, options: { shouldCreateUser: true, data: { first_name: meta?.first_name?.slice(0, 60), last_name: meta?.last_name?.slice(0, 60) } } });
+    const res = await fetch('/api/auth/code', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: clean }) }).catch(() => null);
     setBusy(false);
-    if (error) return setErr(/rate|seconds|too many/i.test(error.message) ? 'Too many codes sent. Try again in a few minutes.' : 'We could not send the code. Check the address and try again.');
+    if (!res?.ok) {
+      const j = await res?.json().catch(() => null);
+      return setErr(j?.error ?? 'We could not send the code. Check the address and try again.');
+    }
     setEmail(clean);
     setStage('otp');
     setWait(30);
@@ -46,7 +49,9 @@ export default function EmailCode({ meta, onVerified, intro, sendLabel = 'Send t
   async function verify(code: string) {
     setBusy(true);
     setErr('');
-    const { error } = await sb!.auth.verifyOtp({ email, token: code, type: 'email' });
+    const res = await fetch('/api/auth/code/verify', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email, code, meta: { first_name: meta?.first_name?.slice(0, 60), last_name: meta?.last_name?.slice(0, 60) } }) }).catch(() => null);
+    const j = res?.ok ? await res.json().catch(() => null) : null;
+    const { error } = j?.token_hash ? await sb!.auth.verifyOtp({ token_hash: j.token_hash, type: 'magiclink' }) : { error: true };
     if (error) {
       setBusy(false);
       setState('err');
@@ -63,7 +68,7 @@ export default function EmailCode({ meta, onVerified, intro, sendLabel = 'Send t
   }
 
   const type = (i: number, el: HTMLInputElement) => {
-    el.value = el.value.replace(/\D/g, '').slice(-1);
+    el.value = el.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(-1);
     if (el.value && boxes.current[i + 1]) boxes.current[i + 1]!.focus();
     const code = boxes.current.map(b => b?.value ?? '').join('');
     if (code.length === 6) void verify(code);
@@ -93,10 +98,10 @@ export default function EmailCode({ meta, onVerified, intro, sendLabel = 'Send t
       <p className="muted">Sent to <b style={{ color: 'var(--color-text)' }}>{email}</b>. It expires in 10 minutes.</p>
       <div className={'otp ' + state} role="group" aria-label="Six-digit code">
         {Array.from({ length: 6 }, (_, k) => (
-          <input key={k} ref={el => { boxes.current[k] = el; }} inputMode="numeric" maxLength={1} aria-label={`Digit ${k + 1}`} autoComplete={k ? 'off' : 'one-time-code'} autoFocus={k === 0} disabled={busy}
+          <input key={k} ref={el => { boxes.current[k] = el; }} inputMode="text" autoCapitalize="characters" autoCorrect="off" spellCheck={false} maxLength={1} aria-label={`Digit ${k + 1}`} autoComplete={k ? 'off' : 'one-time-code'} autoFocus={k === 0} disabled={busy}
             onChange={e => type(k, e.target)} onKeyDown={e => { if (e.key === 'Backspace' && !e.currentTarget.value && k) boxes.current[k - 1]?.focus(); }}
             onPaste={e => {
-              const d = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+              const d = e.clipboardData.getData('text').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
               if (!d) return;
               e.preventDefault();
               [...d].forEach((ch, j) => { if (boxes.current[j]) boxes.current[j]!.value = ch; });
