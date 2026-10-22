@@ -26,6 +26,19 @@ test('keeps spend lines and drops payments, fees and interest', () => {
   assert.equal(p.to, '2026-10-24');
 });
 
+test('reads PDF text where rows run together and columns follow the amount', () => {
+  const flat = 'Statement Date: 20/10/2026 Total Dues 12,345.00 Domestic Transactions '
+    + '12/10/2026| 14:32 SWIGGY BANGALORE + 12 C 1,245.00 l 14/10/2026| 21:15 AMAZON PAY INDIA MUMBAI + 23 C 2,300.50 l '
+    + '15/10/2026| 09:05 INDIAN OIL FUEL STATION + 30 C 3,000.00 l 18/10/2026| 19:40 PAYMENT RECEIVED THANK YOU C 25,000.00 Cr '
+    + '23/10/2026| 11:00 AIRBNB LONDON USD 120.00 C 9,980.00 l';
+  const p = parseStatementText(flat);
+  assert.equal(p.txns.length, 4);
+  assert.equal(p.skipped, 1);
+  assert.equal(p.txns[0].amount, 1245);
+  assert.equal(p.txns[3].amount, 9980);
+  assert.equal(p.txns[3].cat, 'international');
+});
+
 test('sorts merchants into spend categories', () => {
   const by = Object.fromEntries(parseStatementText(text).txns.map(t => [t.desc.split(' ')[0], t.cat]));
   assert.equal(by.SWIGGY, 'dining');

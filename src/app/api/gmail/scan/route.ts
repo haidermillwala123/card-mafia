@@ -22,7 +22,7 @@ export async function POST(req: Request) {
   const auth = { authorization: `Bearer ${token}` };
 
   try {
-    const q = `from:(${SENDER_DOMAINS.join(' OR ')}) newer_than:2y (balance OR points OR miles OR avios)`;
+    const q = `from:(${SENDER_DOMAINS.join(' OR ')}) newer_than:2y (balance OR points OR miles OR avios OR dollars)`;
     const list = await fetch(`${API}?${new URLSearchParams({ q, maxResults: String(MAX_MAIL) })}`, { headers: auth });
     if (!list.ok) return Response.json({ error: 'Google would not let us read your mail. Connect again.' }, { status: 502 });
     const ids = ((await list.json()) as { messages?: { id: string }[] }).messages?.map(m => m.id) ?? [];

@@ -39,6 +39,7 @@ const DOMAINS: [string, Sender][] = [
   ['saudia.com', { kind: 'programme', programmeId: 'saudia-alfursan' }],
   ['ana.co.jp', { kind: 'programme', programmeId: 'ana-mileage-club' }],
   ['jal.com', { kind: 'programme', programmeId: 'jal-mileage-bank' }],
+  ['ghadiscovery.com', { kind: 'programme', programmeId: 'gha-discovery' }],
 ];
 
 export const SENDER_DOMAINS = DOMAINS.map(d => d[0]);
@@ -57,6 +58,9 @@ const PATTERNS: RegExp[] = [
   new RegExp(String.raw`balance(?: of| is| as on [^\d\n]{0,20})?[^\d\n]{0,30}?${NUM}\s*${UNIT}`, 'i'),
   new RegExp(String.raw`${NUM}\s*${UNIT}\s*(?:are |is |remain |remaining )?(?:available|in your account|as your balance|closing balance)`, 'i'),
   new RegExp(String.raw`(?:you have|your account has|you currently have)\s*${NUM}\s*${UNIT}`, 'i'),
+  // GHA DISCOVERY writes balances as "D$ 45.50": small and with cents, which the whole-number patterns above miss
+  /(?:balance|available)[^\d\n]{0,30}?D\$\s*(\d[\d,]*)(?:\.\d+)?/i,
+  /D\$\s*(\d[\d,]*)(?:\.\d+)?\s*(?:available|balance|in your account)/i,
 ];
 
 export function extractBalance(text: string): number | null {

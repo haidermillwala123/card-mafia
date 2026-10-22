@@ -13,6 +13,11 @@ const BY_AIRPORT: Record<string, string> = {
   DPS: 'bali',
   MLE: 'maldives',
   HND: 'japan', NRT: 'japan', KIX: 'japan', NGO: 'japan', FUK: 'japan', CTS: 'japan',
+  HKG: 'hongkong', DOH: 'doha', MCT: 'muscat', KUL: 'kualalumpur', FCO: 'rome', CIA: 'rome', MXP: 'milan', LIN: 'milan',
+  AMS: 'amsterdam', FRA: 'frankfurt', BER: 'berlin', BCN: 'barcelona', ATH: 'athens', VIE: 'vienna', PRG: 'prague', BUD: 'budapest',
+  CPH: 'copenhagen', ARN: 'stockholm', HEL: 'helsinki', DUB: 'dublin', YYZ: 'toronto', SFO: 'sanfrancisco', LAX: 'losangeles',
+  MEX: 'mexicocity', GIG: 'rio', CPT: 'capetown', CAI: 'cairo', RUH: 'riyadh', TBS: 'tbilisi', MRU: 'mauritius', SEZ: 'seychelles',
+  CMB: 'colombo', KTM: 'kathmandu', PBH: 'paro', REP: 'angkor', TPE: 'taipei', PVG: 'shanghai', SHA: 'shanghai', MEL: 'melbourne', AKL: 'auckland',
 };
 
 export const cityPhoto = (iata: string): string | null => BY_AIRPORT[iata] ?? null;

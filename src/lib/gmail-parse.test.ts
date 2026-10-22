@@ -35,6 +35,15 @@ test('names the card when the email does, and prefers the longer name', () => {
   assert.equal(c?.cardId, null);
 });
 
+test('reads GHA DISCOVERY dollars, including small amounts with cents', () => {
+  assert.equal(extractBalance('Your DISCOVERY Dollars balance: D$ 45.50'), 45);
+  assert.equal(extractBalance('D$ 1,250.00 available to spend'), 1250);
+  assert.equal(extractBalance('You earned D$ 12.00 on your stay'), null);
+  const f = parseEmail({ from: 'GHA DISCOVERY <hello@mail.ghadiscovery.com>', subject: 'Your D$ statement', date: '2026-10-01', text: 'Balance: D$ 80.25' }, cards);
+  assert.equal(f?.programmeId, 'gha-discovery');
+  assert.equal(f?.balance, 80);
+});
+
 test('keeps the newest email per source', () => {
   const mk = (date: string, balance: number) => ({ key: 'programme:krisflyer', kind: 'programme' as const, bank: null, programmeId: 'krisflyer', cardId: null, balance, date, subject: '', from: '' });
   assert.equal(newestPerKey([mk('2026-01-01', 10), mk('2026-09-01', 99), mk('2026-05-01', 50)])[0].balance, 99);

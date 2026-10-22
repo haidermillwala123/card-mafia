@@ -393,6 +393,11 @@
    "bank": "rbl"
   },
   {
+   "id": "gha-discovery",
+   "name": "GHA DISCOVERY",
+   "kind": "hotel"
+  },
+  {
    "id": "rbl-insignia-preferred-pts",
    "name": "RBL Insignia Preferred reward points",
    "kind": "bank",

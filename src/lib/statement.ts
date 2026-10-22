@@ -48,7 +48,47 @@ function isoDate(line: string): { iso: string; rest: string } | null {
   return null;
 }
 
+// Second reader for PDFs whose text does not come out one transaction per line: rows run together, or columns such as reward points
+// and an "l" marker sit after the amount. It cuts the text at every date and reads the first amount of each piece.
+const DATE_ANY = /\b\d{1,2}[\/\-.]\d{1,2}[\/\-.]\d{2,4}\b|\b\d{1,2}[ \-][A-Za-z]{3}[a-z]*[ \-,]+\d{2,4}\b/g;
+const AMOUNT_ANY = /(?:(?:₹|\bRs\.?|\bINR|\bC)\s*)?(\d{1,3}(?:,\d{2,3})*\.\d{2}|\d+\.\d{2})(?:\s*(Cr|CR|cr|Dr|DR|dr)\b)?/g;
+const HEADER = /(statement|due date|billing|payment due|total dues|minimum|credit limit|available|opening|closing|previous|bill date|page \d|customer|reward points|summary|gstin|address)/i;
+
+function parseRecords(text: string): Parsed {
+  const flat = text.replace(/\s+/g, ' ');
+  const starts = [...flat.matchAll(DATE_ANY)].map(m => m.index!);
+  const txns: Txn[] = [];
+  let skipped = 0;
+  starts.forEach((s, i) => {
+    const rec = flat.slice(s, starts[i + 1] ?? flat.length);
+    const d = isoDate(rec);
+    if (!d) return;
+    const body = d.rest.replace(/^[\s|]*(?:\d{1,2}:\d{2}(?::\d{2})?)?[\s|]*/, '');
+    let a: RegExpExecArray | null = null;
+    AMOUNT_ANY.lastIndex = 0;
+    while ((a = AMOUNT_ANY.exec(body))) {
+      // an amount written in a foreign currency ("USD 120.00") is followed by its rupee amount, which is the one that counts
+      if (!CURRENCY.test(body.slice(Math.max(0, a.index - 5), a.index))) break;
+    }
+    if (!a) return;
+    const amount = Number(a[1].replace(/,/g, ''));
+    const desc = body.slice(0, a.index).replace(/[|]+/g, ' ').replace(/\s[+-]?\d{1,6}\s*$/, '').replace(/\s+/g, ' ').trim();
+    if (!Number.isFinite(amount) || amount <= 0 || desc.length > 120 || (desc.match(/[A-Za-z]/g) ?? []).length < 3 || HEADER.test(desc)) return;
+    if (/^cr$/i.test(a[2] ?? '') || NOT_SPEND.test(desc)) { skipped++; return; }
+    txns.push({ date: d.iso, desc: desc.slice(0, 80), amount, ...categorize(desc) });
+  });
+  const dates = txns.map(t => t.date).sort();
+  return { txns, skipped, from: dates[0] ?? null, to: dates[dates.length - 1] ?? null };
+}
+
 export function parseStatementText(text: string): Parsed {
+  const byLine = parseLines(text);
+  if (byLine.txns.length >= 3) return byLine;
+  const byRecord = parseRecords(text);
+  return byRecord.txns.length > byLine.txns.length ? byRecord : byLine;
+}
+
+function parseLines(text: string): Parsed {
   const txns: Txn[] = [];
   let skipped = 0;
   for (const raw of text.split(/\r?\n/)) {
