@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { loadEarn } from '@/app/earn/data';
 import RecommendClient from './RecommendClient';
-import './recommend.css';
+import '../../earn/calc.css';
 
 export const metadata: Metadata = {
   title: 'Best credit card for you: points and miles from your own spending',

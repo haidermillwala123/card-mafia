@@ -1,0 +1,43 @@
+/* Unity: the points calculator's design language, applied to every page so the product feels like one thing.
+   Soft teal atmosphere behind each page, big display titles, rounded 24px surfaces, pill controls, airy tables and rows.
+   Loaded last (see index.css) so it wins over the older shell and component rules. */
+
+/* 1. One atmosphere: a quiet teal glow at the top of every page */
+main{position:relative;isolation:isolate}
+main::before{content:"";position:absolute;left:0;right:0;top:-30px;height:440px;z-index:-1;pointer-events:none;background:radial-gradient(ellipse closest-side at 26% 34%,color-mix(in srgb,var(--accent) 30%,transparent) 0%,transparent 100%)}
+
+.a-pg{background:transparent}
+
+/* 2. Display titles, the way the calculator sets them */
+.t-h1{font-size:clamp(40px,6vw,72px);line-height:1;letter-spacing:-.045em;font-weight:700}
+.t-h2{font-size:clamp(26px,3vw,34px);line-height:1.1;letter-spacing:-.03em;font-weight:700}
+.t-h3{letter-spacing:-.02em}
+.a-hd{font-size:clamp(36px,5.5vw,64px);line-height:1.02;letter-spacing:-.04em}
+.a-hd.a-sm{font-size:clamp(34px,5vw,56px)}
+.a-sec{font-size:26px;letter-spacing:-.025em}
+.a-body{gap:28px}
+
+/* 3. Soft, rounded surfaces */
+.a-gl,.card,.note,.rules-group{border-radius:24px}
+.a-gl{padding:24px}
+.table-wrap,.earn-scroll,.cm-table-wrap{border-radius:24px}
+.a-gl .a-big{letter-spacing:-.035em}
+
+/* 4. Pill buttons and generous controls */
+.cm-btn,.btn,.a-cta{border-radius:999px}
+.cm-btn,.btn{min-height:48px;height:auto;padding-inline:24px}
+.cm-btn--sm{min-height:40px;padding-inline:16px}
+.cm-control{border-radius:16px;min-height:52px}
+.cm-control select{height:calc(52px - 3px)}
+.a-cta{height:52px}
+
+/* 5. Tables breathe */
+.data th,.data td,.earn-table th,.earn-table td,.cm-table th,.cm-table td{padding-block:14px}
+
+/* 6. Section rhythm on the older container pages */
+.container.stack{--stack:28px}
+
+@media (max-width:760px){
+  main::before{height:320px}
+  .a-gl{padding:20px}
+}

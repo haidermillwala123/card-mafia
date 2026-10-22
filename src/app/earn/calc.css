@@ -1,8 +1,8 @@
 /* Points calculator: one flowing page. A huge live total, airy spend groups with sliders, and a result card that follows you. */
 .cx{display:flex;flex-direction:column;gap:40px;overflow-x:clip}
 
-.cx-hero{position:relative;display:flex;flex-direction:column;gap:6px;padding:48px 0 8px;isolation:isolate}
-.cx-hero::before{content:"";position:absolute;inset:-70px -6% auto -6%;height:420px;z-index:-1;pointer-events:none;background:radial-gradient(ellipse closest-side at 32% 48%,color-mix(in srgb,var(--accent) 42%,transparent) 0%,transparent 100%)}
+.cx-hero{position:relative;display:flex;flex-direction:column;gap:6px;padding:24px 0 8px;isolation:isolate}
+.cx-hero::before{content:"";position:absolute;inset:-70px -6% auto 0;height:420px;z-index:-1;pointer-events:none;background:radial-gradient(ellipse closest-side at 32% 48%,color-mix(in srgb,var(--accent) 42%,transparent) 0%,transparent 100%)}
 .cx-lead{margin:0;font:500 17px var(--font-body);color:var(--text-muted)}
 .cx-total{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;font-family:var(--font-display);color:var(--text)}
 .cx-total .cx-cur{font-size:clamp(28px,4vw,44px);font-weight:600;color:var(--text-muted)}
@@ -89,3 +89,35 @@
   .cx-amt input{width:84px}
 }
 @media (prefers-reduced-motion:reduce){.cx-range::-webkit-slider-thumb,.cx-amt,.cx-chip{transition:none}}
+
+/* ---- shared by "Best card for you": option tiles, tags, reasons, side cards ---- */
+.cx-soft{font-size:clamp(44px,7vw,84px)!important;color:var(--text-muted);letter-spacing:-.04em}
+.cx-sub-h{margin:22px 0 12px;font:600 15px var(--font-body);color:var(--text)}
+.cx-note{margin:0;font-size:14px;color:var(--text-muted)}
+.cx-note a{color:var(--accent-strong);text-decoration:underline;text-underline-offset:3px}
+.cx-opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.cx-opt{display:flex;flex-direction:column;gap:4px;text-align:left;padding:20px 22px;border-radius:24px;border:1.5px solid var(--border-strong);background:transparent;color:var(--text);font:inherit;cursor:pointer;transition:border-color .15s,background .15s}
+.cx-opt b{font:650 18px var(--font-display)}
+.cx-opt small{color:var(--text-muted);font-size:14px}
+.cx-opt:hover{border-color:var(--text-muted)}
+.cx-opt[aria-pressed="true"]{border-color:var(--accent-strong);background:color-mix(in srgb,var(--accent) 22%,transparent)}
+.cx-tags{display:flex;flex-wrap:wrap;gap:8px}
+.cx-tag{padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.14);font:500 13px var(--font-body);color:#EAF4F5}
+.cx-reasons{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px;color:rgba(234,244,245,.9);font-size:15px;line-height:1.45}
+.cx-reasons li{position:relative;padding-left:18px}
+.cx-reasons li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:#7FC4CC}
+.cx-side{display:flex;flex-direction:column;gap:8px;padding:22px 24px;border-radius:28px;border:1px solid var(--border);background:var(--surface)}
+.cx-kicker{font:600 13px var(--font-body);color:var(--accent-strong)}
+.cx-side h4{margin:0;font:700 20px/1.2 var(--font-display);letter-spacing:-.02em;color:var(--text)}
+.cx-side h4 small{display:block;margin-top:2px;font:500 14px var(--font-body);color:var(--text-muted);letter-spacing:0}
+.cx-side p{margin:0;color:var(--text-muted);font-size:15px}
+.cx-routes{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.cx-routes li{display:flex;flex-direction:column;gap:2px}
+.cx-routes b{font:600 15px var(--font-body);color:var(--text)}
+.cx-routes span{font-size:14px;color:var(--text-muted)}
+.cx-flag{display:flex;flex-direction:column;gap:10px;align-items:flex-start;padding:20px 22px;border-radius:24px;border:1.5px solid var(--warning);background:color-mix(in srgb,var(--warning) 12%,transparent);color:var(--text)}
+.cx-flag p{margin:0;font-size:15px;color:var(--text-muted)}
+@media (max-width:980px){
+  .cx-opts{grid-template-columns:1fr}
+  .cx-out .cx-side,.cx-out .cx-flag,.cx-out .cx-tags,.cx-out .cx-reasons{display:none}
+}
