@@ -1,23 +1,18 @@
 import type { Metadata } from 'next';
-import Breadcrumbs from '@/components/Breadcrumbs';
-import { BANKS } from '@/lib/engine/data';
-import { getData } from '@/lib/engine/load';
-import PlanFlow from './PlanFlow';
+import PlanBoard from './PlanBoard';
 
 export const metadata: Metadata = {
-  title: 'Build an award-flight plan',
-  description: 'Type your trip and the cards you hold. Card Mafia finds the cheapest points path to a Qsuite seat and checks it before you transfer.',
+  title: 'Your plan',
+  description: 'Up to three ways to pay for an award seat with your cards, built from cached seat data and checked transfer rules.',
   alternates: { canonical: '/plan' },
+  robots: { index: false },
 };
 
-export default async function PlanPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
-  const { q } = await searchParams;
-  const { data } = await getData();
-  const cards = data.cards.map(c => ({ id: c.id, name: c.name, bankId: c.bank, bankName: BANKS.find(b => b.id === c.bank)?.name ?? c.bank }));
-  return (
-    <>
-      <Breadcrumbs trail={[{ name: 'Build a plan', href: '/plan' }]} />
-      <PlanFlow cards={cards} initialQuery={(q ?? '').slice(0, 700)} />
-    </>
-  );
+type Params = { o?: string; d?: string; from?: string; to?: string; cabin?: string; n?: string };
+
+// Next 16: searchParams is a Promise. The board fills any missing value from the person's profile.
+export default async function PlanPage({ searchParams }: { searchParams: Promise<Params> }) {
+  const p = await searchParams;
+  const one = (v: unknown) => (typeof v === 'string' ? v.slice(0, 40) : undefined);
+  return <PlanBoard o={one(p.o)} d={one(p.d)} from={one(p.from)} to={one(p.to)} cabin={one(p.cabin)} n={one(p.n)} />;
 }

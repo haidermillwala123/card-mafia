@@ -1,0 +1,118 @@
+/* Card Mafia colour tokens. Dark is the default theme (:root). Add data-theme="light" to any element to switch that subtree. */
+:root{
+  --c-background-light:#F3F2EE; --c-background-dark:#181614; /* Hangar Floor */
+  --c-surface-light:#FBFAF8; --c-surface-dark:#221F1C; /* Check-in Desk */
+  --c-surface-sunken-light:#E8E6E0; --c-surface-sunken-dark:#110F0E; /* Underfloor */
+  --c-border-light:#D3D0C8; --c-border-dark:#3A3631; /* Seam */
+  --c-border-strong-light:#85817A; --c-border-strong-dark:#8A8479; /* Rivet */
+  --c-text-light:#1C1A17; --c-text-dark:#EDEBE6; /* Ink */
+  --c-text-muted-light:#5A564F; --c-text-muted-dark:#AAA498; /* Pencil */
+  --c-inverse-surface-light:#1C1A17; --c-inverse-surface-dark:#EDEBE6; /* Night Shift */
+  --c-on-inverse-light:#EDEBE6; --c-on-inverse-dark:#1C1A17; /* Day Shift */
+  --c-logo-plate-light:#1C1A17; --c-logo-plate-dark:#0F0E0D; /* Vault Door */
+  --c-primary-light:#2A2D33; --c-primary-dark:#CDD1D6; /* Platinum */
+  --c-primary-hover-light:#12141A; --c-primary-hover-dark:#E6E9ED; /* Polished */
+  --c-on-primary-light:#F3F2EE; --c-on-primary-dark:#181614; /* Engraving */
+  --c-primary-tint-light:#E2E5E9; --c-primary-tint-dark:#2D3137; /* Brushed Steel */
+  --c-on-primary-tint-light:#1F2329; --c-on-primary-tint-dark:#E6E9ED; /* Etched */
+  --c-accent-light:#17505D; --c-accent-dark:#1F5967; /* Midnight Teal */
+  --c-accent-strong-light:#17505D; --c-accent-strong-dark:#7FC4CC; /* Runway Light */
+  --c-on-accent-fill-light:#F3F2EE; --c-on-accent-fill-dark:#EAF4F5; /* Chalk */
+  --c-accent-platinum-light:#C9CED4; --c-accent-platinum-dark:#C9CED4; /* Runway Platinum */
+  --c-accent-sand-light:#D8CDB9; --c-accent-sand-dark:#D8CDB9; /* Lounge Sand */
+  --c-accent-mist-light:#9CC7CB; --c-accent-mist-dark:#9CC7CB; /* Tarmac Mist */
+  --c-accent-steel-light:#8E98A4; --c-accent-steel-dark:#8E98A4; /* Steel Gate */
+  --c-on-accent-light:#14130F; --c-on-accent-dark:#14130F; /* Black Ink */
+  --c-success-light:#1D6A43; --c-success-dark:#6FCB9A; /* Cleared */
+  --c-success-tint-light:#DCEEE3; --c-success-tint-dark:#1F3A2C; /* Cleared Tint */
+  --c-warning-light:#85570A; --c-warning-dark:#E6B75D; /* Caution */
+  --c-warning-tint-light:#F5E7C8; --c-warning-tint-dark:#3D3015; /* Caution Tint */
+  --c-danger-light:#A1312D; --c-danger-dark:#F28C86; /* Blocked */
+  --c-danger-tint-light:#F5D9D6; --c-danger-tint-dark:#43211F; /* Blocked Tint */
+}
+:root,[data-theme="dark"]{color-scheme:dark;
+  --background:var(--c-background-dark);
+  --surface:var(--c-surface-dark);
+  --surface-sunken:var(--c-surface-sunken-dark);
+  --border:var(--c-border-dark);
+  --border-strong:var(--c-border-strong-dark);
+  --text:var(--c-text-dark);
+  --text-muted:var(--c-text-muted-dark);
+  --inverse-surface:var(--c-inverse-surface-dark);
+  --on-inverse:var(--c-on-inverse-dark);
+  --logo-plate:var(--c-logo-plate-dark);
+  --primary:var(--c-primary-dark);
+  --primary-hover:var(--c-primary-hover-dark);
+  --on-primary:var(--c-on-primary-dark);
+  --primary-tint:var(--c-primary-tint-dark);
+  --on-primary-tint:var(--c-on-primary-tint-dark);
+  --accent:var(--c-accent-dark);
+  --accent-strong:var(--c-accent-strong-dark);
+  --on-accent-fill:var(--c-on-accent-fill-dark);
+  --accent-platinum:var(--c-accent-platinum-dark);
+  --accent-sand:var(--c-accent-sand-dark);
+  --accent-mist:var(--c-accent-mist-dark);
+  --accent-steel:var(--c-accent-steel-dark);
+  --on-accent:var(--c-on-accent-dark);
+  --success:var(--c-success-dark);
+  --success-tint:var(--c-success-tint-dark);
+  --warning:var(--c-warning-dark);
+  --warning-tint:var(--c-warning-tint-dark);
+  --danger:var(--c-danger-dark);
+  --danger-tint:var(--c-danger-tint-dark);
+  --scrim:rgba(8,7,6,.72);
+}
+[data-theme="light"]{color-scheme:light;
+  --background:var(--c-background-light);
+  --surface:var(--c-surface-light);
+  --surface-sunken:var(--c-surface-sunken-light);
+  --border:var(--c-border-light);
+  --border-strong:var(--c-border-strong-light);
+  --text:var(--c-text-light);
+  --text-muted:var(--c-text-muted-light);
+  --inverse-surface:var(--c-inverse-surface-light);
+  --on-inverse:var(--c-on-inverse-light);
+  --logo-plate:var(--c-logo-plate-light);
+  --primary:var(--c-primary-light);
+  --primary-hover:var(--c-primary-hover-light);
+  --on-primary:var(--c-on-primary-light);
+  --primary-tint:var(--c-primary-tint-light);
+  --on-primary-tint:var(--c-on-primary-tint-light);
+  --accent:var(--c-accent-light);
+  --accent-strong:var(--c-accent-strong-light);
+  --on-accent-fill:var(--c-on-accent-fill-light);
+  --accent-platinum:var(--c-accent-platinum-light);
+  --accent-sand:var(--c-accent-sand-light);
+  --accent-mist:var(--c-accent-mist-light);
+  --accent-steel:var(--c-accent-steel-light);
+  --on-accent:var(--c-on-accent-light);
+  --success:var(--c-success-light);
+  --success-tint:var(--c-success-tint-light);
+  --warning:var(--c-warning-light);
+  --warning-tint:var(--c-warning-tint-light);
+  --danger:var(--c-danger-light);
+  --danger-tint:var(--c-danger-tint-light);
+  --scrim:rgba(28,26,23,.48);
+}
+/* Semantic aliases — re-declared on every theme scope so they resolve per theme */
+:root,[data-theme]{
+  --surface-page:var(--background);
+  --surface-card:var(--surface);
+  --surface-well:var(--surface-sunken);
+  --surface-selected:var(--primary-tint);
+  --surface-inverse:var(--inverse-surface);
+  --text-body:var(--text);
+  --text-secondary:var(--text-muted);
+  --text-on-primary:var(--on-primary);
+  --text-on-inverse:var(--on-inverse);
+  --line:var(--border);
+  --line-control:var(--border-strong);
+  --mark:var(--primary);
+  --verified:var(--accent-strong);
+  --verified-fill:var(--accent);
+  --best-path:var(--accent-mist);
+  --premium-cabin:var(--accent-sand);
+  --direct-path:var(--accent-steel);
+  --focus-ring:var(--accent-strong);
+  --irreversible:var(--danger);
+}

@@ -1,0 +1,4 @@
+/* Learn screen only. Shell classes come from ds/app.css. */
+.a-learn-card{color:inherit;transition:border-color var(--dur-fast) var(--ease-standard)}
+.a-learn-card:hover{border-color:var(--border-strong)}
+.a-learn-tip{height:auto;padding:0 2px;font:inherit;text-decoration:underline}

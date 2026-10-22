@@ -1,0 +1,5 @@
+.a-alerts-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.a-alerts-form .a-alerts-wide{grid-column:1/-1}
+.a-alerts-title{font:650 20px/1.2 var(--font-display);letter-spacing:-.015em}
+.a-alerts-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+@media (max-width:760px){.a-alerts-form{grid-template-columns:minmax(0,1fr)}}

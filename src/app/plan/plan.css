@@ -1,0 +1,7 @@
+/* Plan screen only. Shell classes come from ds/app.css. */
+.a-plan-h{margin:0}
+.a-plan-why{margin:0;font:var(--type-body)}
+.a-plan-note{color:var(--text-muted)}
+.a-plan-actions{margin-top:auto}
+.a-plan-actions>*{flex:1;justify-content:center}
+.a-plan-err{color:var(--text)}

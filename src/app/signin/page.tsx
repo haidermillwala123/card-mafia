@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Breadcrumbs from '@/components/Breadcrumbs';
 import SignIn from './SignIn';
 
 export const metadata: Metadata = {
@@ -9,10 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function SignInPage() {
-  return (
-    <>
-      <Breadcrumbs trail={[{ name: 'Sign in', href: '/signin' }]} />
-      <SignIn />
-    </>
-  );
+  return <SignIn />;
 }

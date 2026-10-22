@@ -1,36 +1,37 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import EmailCode from '@/components/EmailCode';
+import { Note } from '@/components/app/ui';
 import { pullProfile, useUser } from '@/lib/auth';
 import { saveProfile } from '@/lib/profile';
 
 export default function SignIn() {
   const router = useRouter();
   const user = useUser();
-  const [note, setNote] = useState('');
 
   async function done() {
     const p = await pullProfile();
     if (p) saveProfile(p);
-    setNote(p ? 'Signed in. Your saved setup is on this device.' : 'Signed in.');
-    router.push(p?.cardIds.length ? '/plan' : '/start');
+    router.push('/home');
   }
 
   return (
-    <div className="container flow">
-      <div className="stack" style={{ ['--stack' as string]: '20px', maxWidth: 520 }}>
-        <h1 className="t-h1">Sign in</h1>
-        <p className="t-lg muted">Use your email to get your saved cards and balances back on this device. New here? The same form creates your account.</p>
+    <div className="a-pg"><div className="a-body">
+      <span className="a-eb">Sign in</span>
+      <h1 className="a-hd a-sm">Sign in with<br /><em>an email code.</em></h1>
+      <p className="a-lead">Use your email to get your saved cards and balances back on this device. New here? The same form creates your account.</p>
+      <div style={{ maxWidth: 520 }}>
         {user ? (
-          <div className="note note-ok" role="status">You are signed in as {user.email}. <a href="/account">Open your account</a>.</div>
+          <Note kind="success" title={`You are signed in as ${user.email}.`}>
+            <Link href="/home" style={{ color: 'inherit', textDecoration: 'underline' }}>Go to home</Link>
+          </Note>
         ) : (
-          <EmailCode onVerified={done} />
+          <div className="a-gl"><EmailCode onVerified={done} /></div>
         )}
-        {note && <p className="t-sm muted" role="status">{note}</p>}
-        <p className="t-sm muted">No account is needed to use Card Mafia. Everything works without one.</p>
       </div>
-    </div>
+      <Note kind="info" title="Search works without an account.">Sign in only to save a wallet, trips or alerts.</Note>
+    </div></div>
   );
 }

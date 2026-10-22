@@ -1,0 +1,8 @@
+/* Home screen only. Shell classes come from ds/app.css. */
+.a-home-btn{border:0;cursor:pointer;font-family:inherit}
+.a-home-q{gap:12px}
+.a-home-q .a-r{gap:8px}
+.a-home-card{color:inherit;transition:border-color var(--dur-fast) var(--ease-standard)}
+.a-home-card:hover{border-color:var(--border-strong)}
+.a-home-row-main{min-width:0}
+.a-home-err{color:var(--text)}

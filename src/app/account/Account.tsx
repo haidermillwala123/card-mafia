@@ -1,110 +1,152 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import PlanPicker from '@/components/PlanPicker';
-import { Check, Warn } from '@/components/Icons';
-import { pushProfile, recordInterest, useUser, type Period, type Tier } from '@/lib/auth';
-import { EMPTY_PROFILE, loadProfile, saveProfile, type Profile } from '@/lib/profile';
+import Ic from '@/components/app/Icons';
+import { Note, Tag } from '@/components/app/ui';
+import { listAlerts, listWatches } from '@/lib/app/alerts';
+import { listTrips } from '@/lib/app/trips';
+import { useWallet } from '@/lib/app/wallet';
+import { recordInterest, type Period } from '@/lib/auth';
 import { supabase } from '@/lib/supabase';
+import './account.css';
 
-export default function Account({ programmeOfCard }: { programmeOfCard: Record<string, string> }) {
-  const user = useUser();
-  const [profile, setProfile] = useState<Profile>(EMPTY_PROFILE);
-  const [tier, setTier] = useState<Tier>('free');
+type Msg = { kind: 'success' | 'danger'; title: string; text?: string };
+
+export default function Account() {
+  const router = useRouter();
+  const { user, profile, update } = useWallet();
   const [period, setPeriod] = useState<Period>('yearly');
-  const [msg, setMsg] = useState<{ kind: 'ok' | 'bad'; text: string } | null>(null);
+  const [onList, setOnList] = useState(false);
+  const [msg, setMsg] = useState<Msg | null>(null);
   const [busy, setBusy] = useState(false);
-
-  useEffect(() => {
-    // Device storage and the account can only be read after mount: reading them during render would not match the server HTML.
-    /* eslint-disable react-hooks/set-state-in-effect */
-    const p = loadProfile();
-    if (p) {
-      setProfile(p);
-      setTier(p.plan);
-      setPeriod(p.period);
-    }
-    /* eslint-enable react-hooks/set-state-in-effect */
-  }, []);
 
   useEffect(() => {
     const sb = supabase();
     if (!user || !sb) return;
     sb.from('plan_interest').select('tier,billing_period').order('created_at', { ascending: false }).limit(1).then(({ data }) => {
       const row = data?.[0];
-      if (row) {
-        setTier(row.tier as Tier);
+      if (row?.tier === 'pro') {
+        setOnList(true);
         if (row.billing_period) setPeriod(row.billing_period as Period);
       }
     });
   }, [user]);
 
-  async function savePlan() {
+  async function joinList() {
+    if (!user) return;
     setBusy(true);
     setMsg(null);
-    const sb = supabase();
-    await sb?.from('plan_interest').delete().eq('user_id', user!.id);
-    const r = tier === 'pro' ? await recordInterest(tier, period) : 'saved';
-    const next = { ...profile, plan: tier, period };
-    saveProfile(next);
-    setProfile(next);
+    // Same as before: clear the earlier answer, then record the new one.
+    await supabase()?.from('plan_interest').delete().eq('user_id', user.id);
+    const r = await recordInterest('pro', period);
     setBusy(false);
-    setMsg(r === 'error' ? { kind: 'bad', text: 'We could not save that. Try again.' } : { kind: 'ok', text: tier === 'pro' ? 'You are on the Pro list. We will email you when it opens. Nothing was charged.' : 'You are on Free. Everything stays available.' });
+    if (r === 'error') return setMsg({ kind: 'danger', title: 'We could not save that.', text: 'Nothing was changed. Try again.' });
+    setOnList(true);
+    update({ ...profile, plan: 'pro', period });
+    setMsg({ kind: 'success', title: 'You are on the Pro list.', text: 'We will email you if Pro opens. Nothing was charged.' });
   }
 
-  async function saveSetup() {
+  async function leaveList() {
+    if (!user) return;
     setBusy(true);
     setMsg(null);
-    const ok = await pushProfile(profile, programmeOfCard);
+    const { error } = (await supabase()?.from('plan_interest').delete().eq('user_id', user.id)) ?? { error: true };
     setBusy(false);
-    setMsg(ok ? { kind: 'ok', text: 'Your setup is saved to your account.' } : { kind: 'bad', text: 'We could not save your setup. Try again.' });
+    if (error) return setMsg({ kind: 'danger', title: 'We could not save that.', text: 'Nothing was changed. Try again.' });
+    setOnList(false);
+    update({ ...profile, plan: 'free' });
+    setMsg({ kind: 'success', title: 'You are off the Pro list.', text: 'You stay on Free. Everything stays available.' });
+  }
+
+  async function exportData() {
+    setBusy(true);
+    setMsg(null);
+    try {
+      const [trips, watches, alerts] = await Promise.all([listTrips(), listWatches(), listAlerts(200)]);
+      const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), email: user?.email, profile, trips, watches, alerts }, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'card-mafia-data.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      setMsg({ kind: 'danger', title: 'We could not build the export.', text: 'Nothing was changed. Try again.' });
+    }
+    setBusy(false);
   }
 
   async function signOut() {
     await supabase()?.auth.signOut();
+    router.push('/home');
   }
 
-  if (user === undefined) return <div className="container flow stack" style={{ ['--stack' as string]: '16px' }}><h1 className="t-h1">Your account</h1><p className="muted" role="status"><span className="spin" /> Loading</p></div>;
+  const head = (
+    <>
+      <span className="a-eb">Account</span>
+      <h1 className="a-hd a-sm">You, your data,<br /><em>your plan.</em></h1>
+    </>
+  );
+
+  if (user === null && !supabase()) {
+    return <div className="a-pg"><div className="a-body">{head}<Note kind="info" title="Sign-in is not switched on for this copy.">Everything else works without an account.</Note></div></div>;
+  }
   if (!user) {
     return (
-      <div className="container flow stack" style={{ ['--stack' as string]: '16px', maxWidth: 520 }}>
-        <h1 className="t-h1">Your account</h1>
-        <p className="t-lg muted">Sign in with your email to see your saved setup and your plan choice. No account is needed to use Card Mafia.</p>
-        <div className="btn-row"><Link className="btn btn-primary" href="/signin">Sign in</Link><Link className="btn btn-secondary" href="/plan">Build a plan</Link></div>
-      </div>
+      <div className="a-pg"><div className="a-body">
+        {head}
+        <Note kind="info" title="You are not signed in.">
+          <Link href="/signin" style={{ color: 'inherit', textDecoration: 'underline' }}>Sign in with an email code</Link> to see your account. Search works without one.
+        </Note>
+      </div></div>
     );
   }
 
   return (
-    <div className="container flow">
-      <div className="stack" style={{ ['--stack' as string]: '28px', maxWidth: 760 }}>
-        <div>
-          <h1 className="t-h1">Your account</h1>
-          <p className="muted" style={{ marginTop: 8 }}>Signed in as <b style={{ color: 'var(--color-text)' }}>{user.email}</b></p>
+    <div className="a-pg"><div className="a-body">
+      {head}
+      {msg && <Note kind={msg.kind} title={msg.title}>{msg.text}</Note>}
+      <div className="a-g2" style={{ alignItems: 'start' }}>
+        <div className="a-gl a-sel">
+          <span className="a-cap">Signed in</span>
+          <div className="a-kv"><span>Email</span><b className="a-account-mono">{user.email}</b></div>
+          <div className="a-kv"><span>Plan</span><b>Free</b></div>
+          <span className="a-mu">Free covers search, compare and the calculator. Sign-in adds wallet, trips and alerts.</span>
+          <button type="button" className="cm-btn cm-btn--secondary cm-btn--sm a-pb" style={{ alignSelf: 'flex-start' }} onClick={signOut}>Sign out</button>
         </div>
 
-        {msg && <div className={msg.kind === 'ok' ? 'note note-ok' : 'note note-bad'} role="status">{msg.kind === 'ok' ? <Check /> : <Warn />}{msg.text}</div>}
-
-        <section className="card stack" style={{ ['--stack' as string]: '12px' }} aria-labelledby="setup-h">
-          <h2 id="setup-h" className="t-title">Saved setup</h2>
-          <p className="t-sm muted">
-            {profile.first ? `${profile.first} ${profile.last}`.trim() : 'No name yet'} · home airport {profile.airport || 'not set'} · {profile.cardIds.length} {profile.cardIds.length === 1 ? 'card' : 'cards'} on this device
-          </p>
-          <div className="btn-row">
-            <button type="button" className="btn btn-secondary" disabled={busy || !profile.first} onClick={saveSetup}>Save this device’s setup to my account</button>
-            <Link className="btn btn-ghost" href="/start">Edit setup</Link>
+        <div className="a-gl">
+          <div className="a-r"><span className="a-cap a-g">Pro</span><Tag kind="outline" plain>Preview</Tag></div>
+          <b className="a-t">Pro is not on sale yet.</b>
+          <span className="a-mu">We are still talking to people about what it should include. Nothing here is a promise of data access or a price.</span>
+          <div className="a-account-actions" role="group" aria-label="What would you pay for">
+            <button type="button" className={`a-pill${period === 'monthly' ? ' a-on' : ''}`} aria-pressed={period === 'monthly'} onClick={() => setPeriod('monthly')}>Monthly</button>
+            <button type="button" className={`a-pill${period === 'yearly' ? ' a-on' : ''}`} aria-pressed={period === 'yearly'} onClick={() => setPeriod('yearly')}>Yearly</button>
           </div>
-        </section>
+          <div className="a-account-actions">
+            <button type="button" className="cm-btn cm-btn--secondary cm-btn--sm a-pb" disabled={busy} onClick={joinList}>{onList ? 'Update what I would pay for' : 'Tell us what you would pay for'}</button>
+            {onList && <button type="button" className="cm-btn cm-btn--ghost cm-btn--sm" disabled={busy} onClick={leaveList}>Remove me from the list</button>}
+          </div>
+          <span className="a-mu">{onList ? 'You are on the Pro list. You will hear from us only if Pro opens.' : 'This only records your interest. No payment is taken.'}</span>
+        </div>
 
-        <section className="stack" style={{ ['--stack' as string]: '16px' }} aria-labelledby="plan-h">
-          <h2 id="plan-h" className="t-title">Your plan</h2>
-          <PlanPicker tier={tier} period={period} onTier={setTier} onPeriod={setPeriod} />
-          <div className="btn-row"><button type="button" className="btn btn-primary" disabled={busy} onClick={savePlan}>{tier === 'pro' ? 'Join the Pro list' : 'Stay on Free'}</button></div>
-        </section>
-
-        <div className="btn-row"><button type="button" className="btn btn-secondary" onClick={signOut}>Sign out</button></div>
+        <div className="a-gl">
+          <span className="a-cap">Your data</span>
+          <span className="a-mu">Your wallet, trips and alerts. Nothing else.</span>
+          <div className="a-account-actions">
+            <button type="button" className="cm-btn cm-btn--secondary cm-btn--sm a-pb" disabled={busy} onClick={exportData}>Export my data</button>
+          </div>
+          <span className="cm-stamp"><Ic name="lock" small />We never ask for bank logins or card numbers.</span>
+        </div>
       </div>
-    </div>
+      <div className="a-foot">
+        <Link className="a-cap" href="/privacy" style={{ color: 'var(--text-muted)' }}>Privacy</Link>
+        <Link className="a-cap" href="/about" style={{ color: 'var(--text-muted)' }}>About</Link>
+        <span className="a-g" />
+        <span className="a-cap">Card Mafia does not book flights and is not affiliated with banks or airlines.</span>
+      </div>
+    </div></div>
   );
 }

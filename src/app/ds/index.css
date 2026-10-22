@@ -1,0 +1,7 @@
+/* Card Mafia design system (from the Design system migration zip) plus the app shell classes (prefixed a-). */
+@import './colors.css';
+@import './typography.css';
+@import './spacing.css';
+@import './effects.css';
+@import './components.css';
+@import './app.css';
