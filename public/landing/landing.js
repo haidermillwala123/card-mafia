@@ -101,7 +101,7 @@ const fw = $('.foot-word');
 fw.innerHTML = [...fw.textContent].map((ch, i) => `<span style="--i:${i}">${ch === ' ' ? '&nbsp;' : ch}</span>`).join('');
 new IntersectionObserver(([e], o) => { if (e.isIntersecting) { fw.classList.add('in'); o.disconnect(); } }, { threshold: .35 }).observe(fw);
 
-const spy = $$('.nav nav a').map(a => ({ a, s: $(a.getAttribute('href')) }));
+const spy = $$('.nav nav a[href^="#"]').map(a => ({ a, s: $(a.getAttribute('href')) }));
 const progressBar = $('.progress i');
 function decorate(vh) {
   progressBar.style.setProperty('--p', prog.toFixed(4));

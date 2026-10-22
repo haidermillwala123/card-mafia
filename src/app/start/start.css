@@ -21,6 +21,18 @@
 .flight .cloud{position:absolute;left:0;height:12px;border-radius:999px;background:rgba(237,235,230,.08);opacity:0;transition:opacity .8s;animation:drift var(--d) linear infinite;animation-delay:var(--o)}
 @keyframes drift{from{transform:translateX(105cqw)}to{transform:translateX(-40cqw)}}
 .flight:is([data-s="2"],[data-s="3"],[data-s="4"],[data-s="5"],[data-s="6"]) .cloud{opacity:1}
+/* skylines sit on the ground line, behind the terminal: Dubai for takeoff, New York for landing */
+.skyline{position:absolute;left:0;bottom:20%;width:100%;height:48%;opacity:0;transition:opacity 1.4s var(--ease-ledger),transform 2.6s var(--ease-ledger)}
+.skyline .sk-base{fill:#262320}
+.skyline .sk-win{animation:twinkle 7s ease-in-out infinite}
+.skyline.dxb pattern rect{fill:#D8CDB9}
+.skyline.nyc pattern rect{fill:#9CC7CB}
+.skyline.nyc{transform:translateX(7%)}
+@keyframes twinkle{0%,100%{opacity:.3}50%{opacity:.6}}
+.flight:is([data-s="0"],[data-s="1"],[data-s="2"]) .skyline.dxb{opacity:1}
+.flight[data-s="3"] .skyline.dxb{opacity:.3;transform:translateX(-6%)}
+.flight[data-s="5"] .skyline.nyc{opacity:.35;transform:translateX(4%)}
+.flight:is([data-s="6"],[data-s="7"],[data-s="8"]) .skyline.nyc{opacity:1;transform:translateX(0)}
 .flight .ground{position:absolute;left:0;right:0;bottom:0;top:80%;background:var(--plate);border-top:1px solid var(--hair)}
 .flight .rw{position:absolute;left:0;right:0;top:34%;height:3px;overflow:hidden}
 .flight .dashes{display:block;width:200%;height:3px;background:repeating-linear-gradient(90deg,rgba(237,235,230,.32) 0 28px,transparent 28px 64px);animation:rwScroll var(--rw) linear infinite;animation-play-state:var(--rwp)}
