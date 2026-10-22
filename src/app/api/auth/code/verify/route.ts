@@ -55,5 +55,6 @@ export async function POST(req: Request) {
       await sendEmail(OWNER_EMAIL, 'New Card Mafia user', `<p>New user: ${who.replace(/[&<>]/g, '')}</p>`, `New user: ${who}`);
     });
   }
-  return Response.json({ token_hash: data.properties.hashed_token });
+  // A brand-new user gets a 'signup' token, an existing one 'magiclink'; the browser must exchange it as the same type.
+  return Response.json({ token_hash: data.properties.hashed_token, type: data.properties.verification_type });
 }

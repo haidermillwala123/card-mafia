@@ -53,7 +53,7 @@ export default function EmailCode({ meta, onVerified, intro, sendLabel = 'Send t
     const res = await fetch('/api/auth/code/verify', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email, code, meta: { first_name: meta?.first_name?.slice(0, 60), last_name: meta?.last_name?.slice(0, 60) } }) }).catch(() => null);
     const j = res?.ok ? await res.json().catch(() => null) : null;
     if (j?.token_hash) markLive(); // before verifyOtp, so the session gate does not read the new login as a stale one
-    const { error } = j?.token_hash ? await sb!.auth.verifyOtp({ token_hash: j.token_hash, type: 'magiclink' }) : { error: true };
+    const { error } = j?.token_hash ? await sb!.auth.verifyOtp({ token_hash: j.token_hash, type: j.type === 'signup' ? 'signup' : 'magiclink' }) : { error: true };
     if (error) {
       setBusy(false);
       setState('err');
