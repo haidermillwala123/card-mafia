@@ -18,10 +18,10 @@ import Tour from '@/components/Tour';
 import './home.css';
 
 const QUICK: [string, string, string][] = [
+  ['/cards/recommend', 'Best card for you', 'From what you spend each month'],
+  ['/trips/ideas', 'Trips you can take', 'Seats your points can pay for'],
   ['/earn/calculator', 'Points calculator', 'What your monthly spend earns'],
-  ['/earn', 'Earn rules', 'Filter 58 cards by how they earn'],
   ['/transfers', 'Transfers', 'Ratios, caps and indirect routes'],
-  ['/learn', 'Learn', 'Glossary and tools'],
 ];
 
 const EXAMPLES = ['DEL to Tokyo, business, 1 person', 'BLR to Doha, 2 people', 'BOM to Europe, first class'];

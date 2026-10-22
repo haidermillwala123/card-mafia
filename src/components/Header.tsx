@@ -7,23 +7,26 @@ import { useUser } from '@/lib/auth';
 import Ic from './app/Icons';
 import ThemeToggle from './ThemeToggle';
 
-// The trip comes first: Home, Search, Plan, Trips. Everything about cards and points sits in one menu, the rest in another.
-const MAIN = [
-  { href: '/home', label: 'Home' },
-  { href: '/flights', label: 'Search' },
-  { href: '/plan', label: 'Plan' },
-  { href: '/trips', label: 'Trips' },
-];
+// Two things: your cards and your trips. Settings and the rest sit under More.
+const MAIN = [{ href: '/home', label: 'Home' }];
 const GROUPS = [
   { label: 'Cards', items: [
+    { href: '/cards/recommend', label: 'Best card for you', hint: 'From what you spend' },
+    { href: '/earn', label: 'Best way to earn', hint: 'Filter 58 cards' },
     { href: '/wallet', label: 'Wallet', hint: 'Your cards and balances' },
     { href: '/transfers', label: 'Transfers', hint: 'Ratios, caps and routes' },
-    { href: '/earn', label: 'Earn', hint: 'How each card earns' },
     { href: '/earn/calculator', label: 'Points calculator', hint: 'What your spend earns' },
   ] },
+  { label: 'Trips', items: [
+    { href: '/flights', label: 'Search for trips', hint: 'Every seat from India' },
+    { href: '/trips/ideas', label: 'Trips you can take', hint: 'With the points you have' },
+    { href: '/trips', label: 'Upcoming trips', hint: 'Your saved plans' },
+    { href: '/plan', label: 'Plan a trip', hint: 'Top 3 plans' },
+  ] },
   { label: 'More', items: [
+    { href: '/account', label: 'Profile settings', hint: 'Your details and data' },
     { href: '/alerts', label: 'Alerts', hint: 'Routes we watch for you' },
-    { href: '/learn', label: 'Learn', hint: 'Glossary and tools' },
+    { href: '/learn', label: 'Glossary and guides', hint: 'Terms and tools' },
     { href: '/home?tour=1', label: 'Take the tour', hint: 'Where everything is' },
   ] },
 ];
