@@ -140,12 +140,12 @@ function loop() {
 
   // path chapter: counter, bar and hop chips follow scroll
   const pr = ps.getBoundingClientRect(), pp = mobile() ? clamp(1 - pr.top / vh * .6) : clamp(-pr.top / (pr.height - vh));
-  const k = ease(clamp((pp - .12) / .6)), val = 280000 - 140000 * k;
+  const t = clamp((pp - .06) / .86), k = t * t * (3 - 2 * t), val = 280000 - 140000 * k;
   $('#hopN').textContent = fmt(val);
   $('#hopBar').style.transform = `scaleX(${val / 280000})`;
   $('#saveN').textContent = fmt(280000 - val);
-  $('#save').classList.toggle('on', k > .95);
-  const lit = Math.floor(clamp((pp - .1) / .55) * 4.999);
+  $('#save').classList.toggle('on', k > .97);
+  const lit = Math.floor(t * 4.999);
   hopLis.forEach((li, i) => li.classList.toggle('on', i < lit));
   requestAnimationFrame(loop);
 }

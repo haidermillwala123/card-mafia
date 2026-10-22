@@ -65,7 +65,7 @@ export default function Account({ programmeOfCard }: { programmeOfCard: Record<s
     await supabase()?.auth.signOut();
   }
 
-  if (user === undefined) return <div className="container flow"><p className="muted" role="status"><span className="spin" /> Loading</p></div>;
+  if (user === undefined) return <div className="container flow stack" style={{ ['--stack' as string]: '16px' }}><h1 className="t-h1">Your account</h1><p className="muted" role="status"><span className="spin" /> Loading</p></div>;
   if (!user) {
     return (
       <div className="container flow stack" style={{ ['--stack' as string]: '16px', maxWidth: 520 }}>

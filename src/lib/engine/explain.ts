@@ -18,6 +18,13 @@ export function explainFallback(p: Plan, name: Name): string {
   return `${moves ? `Move ${moves}.` : 'None of your cards reaches this seat.'} That lands ${fmt(p.milesCovered)} of the ${fmt(p.milesNeeded)} miles needed on ${p.seat.flights.join(', ')}, ${qs}.${gap}`;
 }
 
+// Every number in an AI sentence must appear in the facts it was written from (commas ignored, so 1,40,000 equals 140000).
+export function numbersMatch(text: string, facts: unknown): boolean {
+  const nums = (s: string) => (s.replace(/(?<=\d),(?=\d)/g, '').match(/\d+(?:\.\d+)?/g) ?? []).map(Number);
+  const allowed = new Set(nums(JSON.stringify(facts)));
+  return nums(text).every(n => allowed.has(n));
+}
+
 // What Claude is allowed to see: facts the rules produced, nothing else.
 export const factsFor = (p: Plan, name: Name) => ({
   kind: p.kind,

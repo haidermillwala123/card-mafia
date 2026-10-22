@@ -3,7 +3,7 @@ import { BANKS } from '@/lib/engine/data';
 import { combine, pointsFor, reachable, type Data, type Hop, type Reach } from '@/lib/engine/engine';
 import { getData } from '@/lib/engine/load';
 import { readJson } from '@/lib/guard';
-import { Slug } from '@/lib/schemas';
+import { firstIssue, Slug } from '@/lib/schemas';
 
 const Pts = z.number().int().min(0).max(1000000000);
 const Body = z.discriminatedUnion('mode', [
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
   const g = await readJson(req);
   if (!g.ok) return g.res;
   const body = Body.safeParse(g.body);
-  if (!body.success) return Response.json({ error: 'Check the numbers and try again.' }, { status: 400 });
+  if (!body.success) return Response.json({ error: firstIssue(body.error, 'Check the numbers and try again.') + ' Modes: forward {cardId, points, direct}; reverse {target, miles, direct}; pool {target, miles, direct, rows: [{cardId, balance}]}.' }, { status: 400 });
   const { data } = await getData();
   const b = body.data;
 

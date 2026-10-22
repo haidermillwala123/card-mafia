@@ -3,6 +3,12 @@ import { z } from 'zod';
 // Ids are short slugs. Capping and shaping them means a request cannot carry a long or odd string into lookups, logs or prompts.
 export const Slug = z.string().regex(/^[a-z0-9-]{1,64}$/);
 
+// Names the first field that failed, so a client sees what to fix instead of a generic message.
+export function firstIssue(err: z.ZodError, lead: string): string {
+  const i = err.issues[0];
+  return i ? `${lead} Problem with ${i.path.join('.') || 'the request body'}: ${i.message}.` : lead;
+}
+
 // Shared by /api/plan and /api/explain. Route files may only export HTTP handlers, so the schema lives here.
 export const PlanBody = z.object({
   trip: z.object({

@@ -34,6 +34,7 @@ export default function PlanFlow({ cards, initialQuery }: { cards: CardOpt[]; in
   const [form, setForm] = useState<Form>({ month: '', travellers: 1, origin: 'DEL', dest: 'US', qsuite: true, fare: '', rows: [] });
   const [showForm, setShowForm] = useState(false);
   const [notes, setNotes] = useState<string[]>([]);
+  const [asks, setAsks] = useState<ParsedTrip['ambiguous']>([]);
   const [via, setVia] = useState<'claude' | 'rules' | null>(null);
   const [busy, setBusy] = useState<'read' | 'plan' | null>(null);
   const [error, setError] = useState('');
@@ -83,6 +84,7 @@ export default function PlanFlow({ cards, initialQuery }: { cards: CardOpt[]; in
         rows: p.cardIds.length ? p.cardIds.map(id => ({ cardId: id, balance: p.balances[id] ? String(p.balances[id]) : '' })) : f.rows,
       }));
       setNotes(p.notes);
+      setAsks(p.ambiguous ?? []);
       setVia(body.via);
       setShowForm(true);
     } catch (e) {
@@ -96,6 +98,7 @@ export default function PlanFlow({ cards, initialQuery }: { cards: CardOpt[]; in
   const problems: string[] = [];
   if (!form.rows.length) problems.push('Add at least one card.');
   else if (form.rows.some(r => !Number(r.balance))) problems.push('Add a balance for every card.');
+  if (asks.length) problems.push('Choose which amount you meant for the balance we asked about.');
   if (!form.month) problems.push('Pick a month.');
 
   async function build() {
@@ -181,10 +184,24 @@ export default function PlanFlow({ cards, initialQuery }: { cards: CardOpt[]; in
               <div className="stack settle" style={{ ['--stack' as string]: '20px' }}>
                 {(notes.length > 0 || via) && (
                   <div className="note note-info" role="status"><Info /><div>
-                    <b>Check what we read.</b>{via === 'claude' ? ' Claude read your sentence.' : ' We read your sentence with fixed rules.'} Fix anything below before you build the plan.
+                    <b>Check what we read.</b>{via === 'claude' ? ' AI read your sentence.' : <> <b>Plain-rules mode:</b> AI was not used to read your sentence, so fixed rules did.</>} Fix anything below before you build the plan.
                     {notes.length > 0 && <ul style={{ marginTop: 6 }}>{notes.map(x => <li key={x}>{x}</li>)}</ul>}
                   </div></div>
                 )}
+
+                {asks.map(a => (
+                  <div key={a.cardId} className="note note-warn" role="alert"><Warn /><div>
+                    <b>Which did you mean?</b> You wrote “{a.raw}” for {label(a.cardId)}. It could be either amount, and a wrong guess breaks every step after it.
+                    <div className="btn-row" style={{ marginTop: 8 }}>
+                      {a.options.map(o => (
+                        <button key={o} type="button" className="btn btn-secondary"
+                          onClick={() => { setForm(f => ({ ...f, rows: f.rows.map(x => (x.cardId === a.cardId ? { ...x, balance: String(o) } : x)) })); setAsks(s => s.filter(x => x.cardId !== a.cardId)); }}>
+                          {n(o)} points
+                        </button>
+                      ))}
+                    </div>
+                  </div></div>
+                ))}
 
                 <fieldset style={{ border: 0, padding: 0, margin: 0 }}>
                   <legend className="t-title" style={{ marginBottom: 4 }}>Your cards</legend>
@@ -312,8 +329,12 @@ export default function PlanFlow({ cards, initialQuery }: { cards: CardOpt[]; in
                       ))}
                   </div>
                   <p className="why t-lg">{words[i] ?? <><span className="skeleton" /><span className="skeleton" /></>}</p>
+                  {p.kind === 'best_path' && p.directPoints !== null && p.directPoints !== p.sourcePointsTotal && (
+                    <p className="t-sm muted" style={{ marginTop: 8 }}>For comparison, the direct route for this seat costs {n(p.directPoints)} points.</p>
+                  )}
                   <div className="stamps">
                     <span className={p.safety.rules.state === 'unverified' ? 'tag tag-warn' : 'tag tag-ok'}>{p.safety.rules.state === 'unverified' ? 'Ratios unverified' : 'Route confirmed'}</span>
+                    <span className="tag tag-warn">Sample ratios</span>
                     <span className="tag">Rules checked {day(p.safety.rules.checkedOn)}</span>
                     {p.transfers.length > 0 && <span className={p.safety.cap.ok && p.safety.cap.monthsNeeded <= 1 ? 'tag tag-ok' : 'tag tag-bad'}>{p.safety.cap.ok && p.safety.cap.monthsNeeded <= 1 ? 'Cap OK' : `Cap: ${p.safety.cap.monthsNeeded} months`}</span>}
                     {p.valuePerPoint !== null && <span className="tag">₹{p.valuePerPoint} per point</span>}
@@ -332,7 +353,7 @@ export default function PlanFlow({ cards, initialQuery }: { cards: CardOpt[]; in
               );
             })}
           </div>
-          <p className="t-sm muted">{wordsVia === 'claude' ? 'Explanations written by Claude from the numbers above.' : 'Explanations written from the numbers above.'} The numbers come from fixed rules, not from AI.</p>
+          <p className="t-sm muted">{wordsVia === 'claude' ? 'Explanations written by AI from the numbers above.' : <><b>Plain-rules mode:</b> explanations written by fixed rules from the numbers above.</>} The numbers come from fixed rules, not from AI.</p>
           <div className="btn-row"><button type="button" className="btn btn-secondary" onClick={() => go('trip')}><Back /> Change trip or cards</button></div>
         </div>
       </div>
@@ -353,7 +374,7 @@ export default function PlanFlow({ cards, initialQuery }: { cards: CardOpt[]; in
           <div className="stack" style={{ ['--stack' as string]: '20px' }}>
             <h1 className="t-h1">Before you transfer</h1>
             <ul className="checks" aria-label="Pre-transfer check">
-              <li className={s.rules.state === 'unverified' ? 'warn' : 'ok'}>{s.rules.state === 'unverified' ? <Warn /> : <Check />}<span>Ratio and cap checked against public sources, not yet against the bank portal. Match each hop on the portal.</span><span className="val">{day(s.rules.checkedOn)}</span></li>
+              <li className={s.rules.state === 'unverified' ? 'warn' : 'ok'}>{s.rules.state === 'unverified' ? <Warn /> : <Check />}<span>Sample ratio and cap, from public sources, not yet matched to the bank portal. Match each hop on the portal.</span><span className="val">{day(s.rules.checkedOn)}</span></li>
               <li className={s.cap.ok && s.cap.monthsNeeded <= 1 ? 'ok' : 'bad'}>{s.cap.ok && s.cap.monthsNeeded <= 1 ? <Check /> : <Warn />}<span>{s.cap.ok && s.cap.monthsNeeded <= 1 ? 'Within the cap we know about. We cannot see what you already used this period, so check your bank app.' : `This needs ${s.cap.monthsNeeded} months at the monthly cap.`}</span><span className="val">{capNote}</span></li>
               <li className={s.seatAgeMinutes > 60 ? 'warn' : 'ok'}>{s.seatAgeMinutes > 60 ? <Warn /> : <Check />}<span>Seat data age. A seat can be gone by now.</span><span className="val">{ageText(s.seatAgeMinutes)}</span></li>
               <li className={s.aircraft.fit === 'all' && s.aircraft.listVerified ? 'ok' : 'warn'}>{s.aircraft.fit === 'all' && s.aircraft.listVerified ? <Check /> : <Warn />}<span>{s.aircraft.type}: {s.aircraft.fit === 'all' ? 'fitted with Qsuite' : 'only part of this fleet has Qsuite'}. {s.aircraft.listVerified ? '' : 'Our aircraft list is not yet verified.'}</span><span className="val">{s.aircraft.type}</span></li>

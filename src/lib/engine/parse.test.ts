@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { amountOf, parseTrip } from './parse.ts';
+import { numbersMatch } from './explain.ts';
 
 const cards = JSON.parse(readFileSync(new URL('../../data/cards.json', import.meta.url), 'utf8')).cards;
 const NOW = new Date('2026-10-21T13:00:00Z');
@@ -42,9 +43,37 @@ test('a party size is not read as a balance', () => {
   assert.equal(p.travellers, 2);
 });
 
+test('"12L" asks which amount instead of guessing', () => {
+  const p = parseTrip('Infinia 12L, US in October', NOW, cards);
+  assert.deepEqual(p.balances, {});
+  assert.deepEqual(p.ambiguous, [{ cardId: 'hdfc-infinia', raw: '12L', options: [120000, 1200000] }]);
+  assert.deepEqual(parseTrip('Infinia 12 lakh, US in October', NOW, cards).balances, { 'hdfc-infinia': 1200000 });
+});
+
 test('an unreadable sentence asks instead of guessing', () => {
   const p = parseTrip('take me somewhere nice', NOW, cards);
   assert.deepEqual(p.dests, []);
   assert.equal(p.month, null);
   assert.ok(p.notes.length >= 3);
+});
+
+test('places and cards we do not cover get a note, never a silent swap', () => {
+  const p = parseTrip('Seattle to Mumbai business, Chase Sapphire Reserve 90k and Amex Gold 60k, December', NOW, cards);
+  assert.deepEqual(p.cardIds, []);
+  assert.ok(p.notes.some(n => /cannot plan Seattle/.test(n)));
+  assert.ok(p.notes.some(n => /do not cover/.test(n)));
+  assert.ok(!p.notes.some(n => /Tell us a US city/.test(n)), 'one place note, not two');
+});
+
+test('a month that has already started is flagged, and partners count as two travellers', () => {
+  const p = parseTrip('Infinia 1.2L, US in Oct 2026 with my husband', NOW, cards);
+  assert.ok(p.notes.some(n => /already started/.test(n)));
+  assert.equal(p.travellers, 2);
+  assert.equal(parseTrip('family of 4 to the US in March', NOW, cards).travellers, 4);
+});
+
+test('AI sentences may only use numbers that are in the facts', () => {
+  const facts = { milesNeeded: 140000, transfers: [{ points: 120000, ratios: '1:1' }], date: '2027-10-03', valuePerPoint: 1.63 };
+  assert.ok(numbersMatch('Move 1,20,000 points at 1:1 for the 1,40,000 miles on 3 Oct 2027, worth ₹1.63 a point.', facts));
+  assert.ok(!numbersMatch('Move 1,20,000 points to cover 1,60,000 miles.', facts));
 });

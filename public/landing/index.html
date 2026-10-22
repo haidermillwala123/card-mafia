@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en-IN" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Card Mafia: verified award-flight plans</title>
-<meta name="description" content="Turn a trip goal into a verified award-flight plan for Indian premium cardholders. Map the cheapest points path and check it before any transfer.">
+<title>Card Mafia: award-flight plans for Indian cards</title>
+<meta name="description" content="Turn a trip goal into an award-flight plan for Indian premium cardholders. Map the cheapest points path and check ratios, caps and seat age before any transfer.">
 <link rel="canonical" href="__SITE__/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Card Mafia">
-<meta property="og:title" content="Card Mafia: verified award-flight plans">
-<meta property="og:description" content="Turn a trip goal into a verified award-flight plan for Indian premium cardholders, before any points transfer.">
+<meta property="og:title" content="Card Mafia: award-flight plans for Indian cards">
+<meta property="og:description" content="Turn a trip goal into an award-flight plan for Indian premium cardholders, with the safety checks done before any points transfer.">
 <meta property="og:url" content="__SITE__/">
 <meta property="og:image" content="__SITE__/opengraph-image">
 <meta name="twitter:card" content="summary_large_image">
@@ -20,25 +20,26 @@
 <link rel="stylesheet" href="/landing/landing.css">
 </head>
 <body class="lp">
+<a class="skip" href="#main">Skip to content</a>
 <canvas id="globe" aria-hidden="true"></canvas>
 <div class="vignette" aria-hidden="true"></div>
 <div class="progress" aria-hidden="true"><i></i></div>
 
 <header class="nav">
   <a class="wordmark" href="/"><i></i>Card Mafia</a>
-  <nav aria-label="Primary"><a href="#seat">Seat</a><a href="#cards">Cards</a><a href="#path">Path</a><a href="#check">Safety check</a><a href="/calculator">Calculator</a></nav>
+  <nav aria-label="Primary"><a href="#seat">Seat</a><a href="#cards">Cards</a><a href="#path">Path</a><a href="#check">Safety check</a></nav>
   <button class="themebtn" type="button" data-themebtn aria-label="Switch to light mode"><svg class="i-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2z"/></svg></button>
-  <a class="navcta" href="/start">Set up</a>
+  <a class="navcta" href="/plan">Start planning</a>
 </header>
 
-<main>
+<main id="main">
   <section class="hero" id="top">
     <div class="wrap">
       <span class="eyebrow">For Indian premium cardholders</span>
-      <h1 class="mega">Turn a trip goal into a <em>verified</em> award plan.</h1>
+      <h1 class="mega">Turn a trip goal into a <em>checked</em> award plan.</h1>
       <p class="lede">Tell us where you want to go and which cards you hold. We find the seat, map the cheapest path, and check every ratio and cap before you move a single point.</p>
       <div class="cta-row"><a class="btn pri" href="/plan"><span>Start planning</span><span class="arr"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="btn ghost" href="#path">See a sample path</a></div>
-      <div class="facts"><div><b data-count="58">58</b><small>Indian cards mapped</small></div><div><b data-count="814">814</b><small>Transfer pairs</small></div><div><b>21 Oct 2026</b><small>Rules last verified</small></div></div>
+      <div class="facts"><div><b data-count="58">58</b><small>Indian cards mapped</small></div><div><b data-count="814">814</b><small>Transfer pairs</small></div><div><b>21 Oct 2026</b><small>Rules last checked</small></div></div>
     </div>
     <div class="cue" aria-hidden="true"><span></span>Scroll</div>
     <div class="hint" aria-hidden="true">Drag the globe</div>
@@ -67,14 +68,14 @@
                 <p class="p-via">via Doha, 2 flights</p>
                 <dl class="p-grid">
                   <div><dt>Traveller</dt><dd>Sample Traveller</dd></div>
-                  <div><dt>Date</dt><dd>12 Dec 2026</dd></div>
+                  <div><dt>Date</dt><dd>3 Oct 2027</dd></div>
                   <div><dt>Boards</dt><dd>02:35</dd></div>
                   <div><dt>Gate</dt><dd>14</dd></div>
                   <div class="wide"><dt>Paid with</dt><dd>1,40,000 points</dd></div>
                 </dl>
                 <div class="p-perf" aria-hidden="true"></div>
-                <div class="p-stub"><svg id="bars" viewBox="0 0 280 56" preserveAspectRatio="none" aria-hidden="true"></svg><small>Seat verified 21 Oct 2026</small></div>
-                <div class="p-stamp" aria-hidden="true">Verified</div>
+                <div class="p-stub"><svg id="bars" viewBox="0 0 280 56" preserveAspectRatio="none" aria-hidden="true"></svg><small>Sample seat, 21 Oct 2026</small></div>
+                <div class="p-stamp" aria-hidden="true">Sample</div>
               </div>
             </div>
           </div>
@@ -85,7 +86,7 @@
 
   <section class="hscroll" id="cards">
     <div class="pin">
-      <div class="wrap head"><span class="eyebrow">Step 1 · Your cards</span><h2 class="big">Bring the cards you <em>already hold.</em></h2><p class="lede">Each card moves points differently. Here is how six of them reach KrisFlyer today. Ratios from our transfer map, verified 21 Oct 2026.</p></div>
+      <div class="wrap head"><span class="eyebrow">Step 1 · Your cards</span><h2 class="big">Bring the cards you <em>already hold.</em></h2><p class="lede">Each card moves points differently. Here is how six of them reach KrisFlyer today. Ratios from our transfer map, checked 21 Oct 2026.</p></div>
       <div class="track" id="track">
         <article class="tile"><div class="tile-top"><span>HDFC</span><span>Infinia</span></div><div class="ratio">1:1</div><p>to KrisFlyer</p><dl><dt>Programmes reached</dt><dd>22</dd><dt>Monthly cap</dt><dd>1,50,000 points</dd></dl></article>
         <article class="tile hot"><div class="tile-top"><span>Axis</span><span>Olympus</span></div><div class="ratio">1:4</div><p>to KrisFlyer</p><dl><dt>Programmes reached</dt><dd>27</dd><dt>Transfer time</dt><dd>Up to 1 day</dd></dl></article>
@@ -122,13 +123,13 @@
       <div>
         <span class="eyebrow">Step 3 · Before you transfer</span>
         <h2 class="big">Transfers cannot be undone. <em>So we check first.</em></h2>
-        <p class="lede">Four checks run before the transfer button is ever shown. If one fails, you see why, not a generic warning.</p>
+        <p class="lede">Four checks run before you move a single point. If one fails, you see why, not a generic warning.</p>
       </div>
       <div class="checks shell"><div class="core">
         <ul id="checks">
-          <li><span class="tick"></span><div><b>Ratio verified</b><small>Rules last verified 21 Oct 2026</small></div></li>
+          <li><span class="tick"></span><div><b>Ratio checked</b><small>Rules last checked 21 Oct 2026</small></div></li>
           <li><span class="tick"></span><div><b>Cap respected</b><small>Cap: 1,50,000 points a month on this card</small></div></li>
-          <li><span class="tick"></span><div><b>Seat still there</b><small>Seats checked 3 h ago</small></div></li>
+          <li><span class="tick"></span><div><b>Seat age shown</b><small>Every plan says how old its seat data is</small></div></li>
           <li><span class="tick"></span><div><b>Name format matches</b><small>Frequent flyer name equals passport name</small></div></li>
         </ul>
         <div class="verdict" id="verdict">No loose ends.</div>
@@ -148,8 +149,8 @@
   <section class="final" id="start">
     <div class="wrap">
       <h2 class="mega">Know the path <em>before</em> you move the points.</h2>
-      <div class="cta-row"><a class="btn pri" href="/plan"><span>Start planning</span><span class="arr"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="btn ghost" href="/calculator">See plans</a></div>
-      <p class="fine">Seats checked 3 h ago. Confirm on the airline site before you transfer. Prototype: all figures marked sample are illustrative.</p>
+      <div class="cta-row"><a class="btn pri" href="/plan"><span>Start planning</span><span class="arr"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="btn ghost" href="#path">See a sample path</a></div>
+      <p class="fine">Demo seats are a labelled sample. Confirm on the airline site before you transfer. Prototype: all figures marked sample are illustrative.</p>
     </div>
   </section>
 </main>
@@ -159,12 +160,12 @@
     <div class="foot-grid">
       <div class="foot-brand">
         <a class="wordmark" href="#top"><i></i>Card Mafia</a>
-        <p>Verified award-flight plans for Indian premium cardholders.</p>
+        <p>Award-flight plans for Indian premium cardholders.</p>
         <button class="themebtn pill" type="button" data-themebtn aria-label="Switch to light mode"><svg class="i-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2z"/></svg><span class="t-light">Light mode</span><span class="t-dark">Dark mode</span></button>
       </div>
       <nav aria-label="Plan"><h3>Plan</h3><a href="#seat">The seat</a><a href="#cards">Your cards</a><a href="#path">The path</a><a href="#check">Safety check</a></nav>
-      <nav aria-label="Get started"><h3>Get started</h3><a href="/plan">Start planning</a><a href="/calculator">Points calculator</a><a href="/transfers">Transfer explorer</a><a href="/rules">Rules and sources</a><a href="/pricing">Free and Pro</a><a href="/start">Set up your cards</a><a href="/signin">Sign in</a></nav>
-      <div class="foot-facts"><h3>The data</h3><p><b>58</b>Indian cards mapped</p><p><b>814</b>Transfer pairs</p><p><b>150</b>Airports on the globe</p><p class="small">Rules last verified 21 Oct 2026</p></div>
+      <nav aria-label="Get started"><h3>Get started</h3><a href="/plan">Start planning</a><a href="/rules">Transfer rules</a><a href="/about">About</a><a href="/privacy">Privacy</a></nav>
+      <div class="foot-facts"><h3>The data</h3><p><b>58</b>Indian cards mapped</p><p><b>814</b>Transfer pairs</p><p><b>150</b>Airports on the globe</p><p class="small">Rules last checked 21 Oct 2026</p></div>
     </div>
     <p class="foot-word" aria-hidden="true">Card Mafia</p>
     <div class="foot-bar">

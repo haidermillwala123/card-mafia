@@ -59,8 +59,8 @@ export default async function CardTransfers({ params }: { params: Promise<{ card
         <section aria-labelledby="air-h" className="stack">
           <h2 id="air-h" className="t-h2">Airline programmes</h2>
           {air.length === 0 ? <p className="muted">No airline route in our rules yet.</p> : (
-            <div className="table-wrap"><table className="data">
-              <thead><tr><th>Programme</th><th className="n">1,000 points =</th><th className="n">Rate</th><th>Path</th><th>Cap and time</th></tr></thead>
+            <div className="table-wrap"><table className="data" aria-label="Airline programmes this card reaches">
+              <thead><tr><th scope="col">Programme</th><th scope="col" className="n">1,000 points =</th><th scope="col" className="n">Rate</th><th scope="col">Path</th><th scope="col">Cap and time</th></tr></thead>
               <tbody>{air.map(r => {
                 const first = data.rules.find(x => x.id === r.hops[0].ruleId);
                 return (
@@ -80,8 +80,8 @@ export default async function CardTransfers({ params }: { params: Promise<{ card
         {hotels.length > 0 && (
           <section aria-labelledby="hotel-h" className="stack">
             <h2 id="hotel-h" className="t-h2">Hotel and loyalty programmes</h2>
-            <div className="table-wrap"><table className="data">
-              <thead><tr><th>Programme</th><th className="n">Rate</th><th>Time</th></tr></thead>
+            <div className="table-wrap"><table className="data" aria-label="Hotel and loyalty programmes this card reaches">
+              <thead><tr><th scope="col">Programme</th><th scope="col" className="n">Rate</th><th scope="col">Time</th></tr></thead>
               <tbody>{hotels.map(h => <tr key={h.id}><td><b>{name(h.to)}</b></td><td className="n">{h.ratio_in}:{h.ratio_out}</td><td className="t-sm">{h.transfer_time ?? 'not found'}</td></tr>)}</tbody>
             </table></div>
           </section>

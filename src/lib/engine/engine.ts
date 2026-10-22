@@ -104,6 +104,8 @@ export type Plan = {
   valuePerPoint: number | null;
   positioning: { seat: Seat | null; milesNeeded: number | null };
   newCard: NewCard | null;
+  // points the cheapest direct (single-hop) route would cost for the whole seat; null if no held card has one
+  directPoints: number | null;
   risks: string[];
   safety: Safety;
 };
@@ -207,6 +209,11 @@ export function allocate(sources: Source[], miles: number): { transfers: Transfe
   return { transfers, shortfall: Math.max(0, remaining) };
 }
 
+function directPointsFor(data: Data, holdings: Holdings, target: string, miles: number): number | null {
+  const costs = sourcesFor(data, holdings, target, true).map(s => hopsFor(s.rules, miles)[0].points_in);
+  return costs.length ? Math.min(...costs) : null;
+}
+
 function newCardFor(data: Data, holdings: Holdings, target: string, shortfall: number): NewCard | null {
   let pick: NewCard | null = null;
   let pickCost = Infinity;
@@ -227,10 +234,12 @@ function newCardFor(data: Data, holdings: Holdings, target: string, shortfall: n
 function safetyFor(data: Data, seat: Seat, transfers: Transfer[], now: Date, fit: 'all' | 'some' | null): Safety {
   const hops = transfers.flatMap(t => t.hops);
   const unverified = hops.length === 0 || hops.some(h => !h.routeConfirmedOn);
-  const worst = transfers.reduce(
-    (w, t) => (!t.cap.ok || t.cap.monthsNeeded > w.monthsNeeded ? { limit: t.cap.limit, period: t.cap.period, monthsNeeded: t.cap.monthsNeeded, needed: t.sourcePoints } : w),
-    { limit: null as number | null, period: null as 'month' | 'year' | null, monthsNeeded: 1, needed: 0 },
-  );
+  // the cap that is most used, so the screen can say "X of Y a month" even when every cap is fine
+  const used = (t: Transfer) => (t.cap.limit ? t.sourcePoints / t.cap.limit : -1);
+  const tight = transfers.reduce<Transfer | null>((w, t) => (!w || used(t) > used(w) ? t : w), null);
+  const worst = tight && tight.cap.limit
+    ? { limit: tight.cap.limit, period: tight.cap.period, monthsNeeded: tight.cap.monthsNeeded, needed: tight.sourcePoints }
+    : { limit: null as number | null, period: null as 'month' | 'year' | null, monthsNeeded: 1, needed: 0 };
   return {
     rules: { state: unverified ? 'unverified' : 'route-confirmed', checkedOn: data.rulesCheckedOn },
     cap: { ok: transfers.every(t => t.cap.ok), ...worst },
@@ -305,7 +314,7 @@ export function buildPlans(data: Data, trip: Trip, holdings: Holdings, now = new
       seat: o.seat, qsuiteFit: fit, transfers: o.transfers, milesNeeded: miles, milesCovered: miles - o.shortfall, shortfallMiles: o.shortfall,
       sourcePointsTotal: o.total, taxesInr,
       valuePerPoint: trip.cashFareInr && o.total ? valuePerPoint(trip.cashFareInr, taxesInr, o.total) : null,
-      positioning: positioning(o.seat), newCard, risks: risksFor(data, o.seat, o.transfers, safety, fit, o.shortfall, trip.travellers), safety,
+      positioning: positioning(o.seat), newCard, directPoints: directPointsFor(data, holdings, o.seat.programme, miles), risks: risksFor(data, o.seat, o.transfers, safety, fit, o.shortfall, trip.travellers), safety,
     };
   };
 

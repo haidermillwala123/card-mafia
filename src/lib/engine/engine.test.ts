@@ -54,6 +54,14 @@ test('allocation spends the cheapest chain first and reports the shortfall', () 
   assert.equal(shortfall, 10000);
 });
 
+test('safety check shows cap used even when within the cap, and the direct route cost', () => {
+  const best = buildPlans(data, trip, demo, NOW).plans[0];
+  assert.equal(best.safety.cap.limit, 150000);
+  assert.equal(best.safety.cap.period, 'month');
+  assert.equal(best.safety.cap.needed, 120000);
+  assert.equal(best.directPoints, 280000);
+});
+
 test('demo journey: Infinia plus Amex covers a Qsuite seat on the best path', () => {
   const res = buildPlans(data, trip, demo, NOW);
   const best = res.plans[0];
