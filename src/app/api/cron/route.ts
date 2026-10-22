@@ -2,6 +2,7 @@
 // Protected by CRON_SECRET: Vercel sends "Authorization: Bearer <CRON_SECRET>" itself when that env var exists.
 import { emailConfigured, seatAlertEmail, sendEmail } from '@/lib/email';
 import { getData } from '@/lib/engine/load';
+import { sendOwnerDigest } from '@/lib/owner-digest';
 import { pullRoutes, SeatsError } from '@/lib/seats/client';
 import { decorate } from '@/lib/seats/reach';
 import { windowFor, withInr } from '@/lib/seats/search';
@@ -129,7 +130,9 @@ export async function GET(req: Request) {
 
     const quota = await store.quotaToday();
     await store.finishRun(runId, { calls_used: calls, rows_written: written, pairs: pulled, errors: errors.length ? errors : null, quota_remaining: DAILY_CAP - quota });
-    return Response.json({ ok: true, calls, rowsWritten: written, groups: pulled.length, watches: watches.length, alerted, emailed, errors });
+    // The owner's daily summary of new users and activity. A failure here must not fail the run.
+    const digest = emailConfigured() ? await sendOwnerDigest().catch(() => 'failed' as const) : 'not-configured';
+    return Response.json({ ok: true, calls, rowsWritten: written, groups: pulled.length, watches: watches.length, alerted, emailed, digest, errors });
   } catch (e) {
     const msg = e instanceof Error ? e.message : 'failed';
     await store.finishRun(runId, { calls_used: calls, rows_written: written, errors: [...errors, msg] });

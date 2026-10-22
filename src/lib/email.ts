@@ -9,7 +9,10 @@ const gmail = () => {
   return user && pass ? { user, pass } : null;
 };
 
-export const emailConfigured = () => Boolean(gmail() || (process.env.RESEND_API_KEY?.trim() && process.env.ALERT_FROM?.trim()));
+// Where owner notifications (new users, the daily summary) go.
+export const OWNER_EMAIL = process.env.OWNER_EMAIL?.trim() || 'millwalahaider2005@gmail.com';
+
+export const emailConfigured =() => Boolean(gmail() || (process.env.RESEND_API_KEY?.trim() && process.env.ALERT_FROM?.trim()));
 
 export async function sendEmail(to: string, subject: string, html: string, text: string): Promise<'sent' | 'not-configured' | 'failed'> {
   if (!emailConfigured()) return 'not-configured';

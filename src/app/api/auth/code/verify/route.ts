@@ -1,7 +1,8 @@
 // Checks a sign-in code. On success returns a one-time token hash that the browser exchanges for a Supabase session.
 import { timingSafeEqual } from 'node:crypto';
 import { z } from 'zod';
-import { emailConfigured, sendEmail, welcomeEmail } from '@/lib/email';
+import { after } from 'next/server';
+import { emailConfigured, OWNER_EMAIL, sendEmail, welcomeEmail } from '@/lib/email';
 import { readJson } from '@/lib/guard';
 import { CODE_RE, hashCode } from '@/lib/login-code';
 import { SITE_URL } from '@/lib/site';
@@ -47,7 +48,12 @@ export async function POST(req: Request) {
   const u = data.user;
   if (u && !u.last_sign_in_at && Date.now() - new Date(u.created_at).getTime() < 5 * 60 * 1000 && emailConfigured()) {
     const mail = welcomeEmail(meta?.first_name || '', SITE_URL);
-    void sendEmail(email, mail.subject, mail.html, mail.text);
+    // after(): the emails finish after the response, and the serverless function is not frozen before they leave
+    after(async () => {
+      await sendEmail(email, mail.subject, mail.html, mail.text);
+      const who = `${email}${meta?.first_name ? ` (${meta.first_name} ${meta.last_name ?? ''})`.trimEnd() : ''}`;
+      await sendEmail(OWNER_EMAIL, 'New Card Mafia user', `<p>New user: ${who.replace(/[&<>]/g, '')}</p>`, `New user: ${who}`);
+    });
   }
   return Response.json({ token_hash: data.properties.hashed_token });
 }
