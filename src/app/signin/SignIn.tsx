@@ -14,7 +14,8 @@ export default function SignIn() {
   async function done() {
     const p = await pullProfile();
     if (p) saveProfile(p);
-    router.push('/home');
+    const next = new URLSearchParams(window.location.search).get('next');
+    router.push(next && /^\/[^/\\]/.test(next) ? next : '/home');
   }
 
   return (

@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 
 const TOOLS = [
   { href: '/transfers', cap: 'Transfer explorer', title: 'Which card reaches which programme', body: 'Pick a card and see every partner, its ratio and when we last checked.', icon: 'badge' as const, note: 'Dated from bank pages' },
+  { href: '/earn', cap: 'Earn', title: 'How to earn points on every card', body: 'Base rates, accelerated categories, caps and exclusions for 58 cards, plus a monthly spend ranking.', icon: 'badge' as const, note: 'Sourced and dated' },
   { href: '/calculator', cap: 'Calculator', title: 'What is a point worth?', body: 'Type a cash fare, taxes and points. We show the value per point.', icon: 'shield' as const, note: 'Maths done in code' },
   { href: '/rules', cap: 'Rules', title: 'Ratios, caps and transfer times', body: 'Every rule links to the bank page it came from, with the date we checked it.', icon: 'badge' as const, note: 'Checked on bank portals' },
 ];

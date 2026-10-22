@@ -1,0 +1,4 @@
+/* Hand-off: the copy panel and the saved-trip line. */
+.a-checkout-copy{display:flex;flex-direction:column;gap:10px}
+.a-checkout-copy .a-kv b{word-break:break-word}
+.a-checkout-saved{font:500 14px var(--font-body)}

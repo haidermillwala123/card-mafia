@@ -1,0 +1,34 @@
+/* Elevation and motion */
+:root,[data-theme="dark"]{
+  --shadow-flat:none;
+  --shadow-raised:0 1px 2px rgba(0,0,0,.50),0 2px 8px rgba(0,0,0,.35);
+  --shadow-overlay:0 8px 24px rgba(0,0,0,.55);
+  --shadow-modal:0 20px 56px rgba(0,0,0,.65);
+}
+[data-theme="light"]{
+  --shadow-flat:none;
+  --shadow-raised:0 1px 2px rgba(28,26,23,.10),0 2px 8px rgba(28,26,23,.06);
+  --shadow-overlay:0 8px 24px rgba(28,26,23,.14);
+  --shadow-modal:0 20px 56px rgba(28,26,23,.22);
+}
+:root{
+  --dur-instant:80ms; /* @kind other */
+  --dur-fast:150ms; /* @kind other */
+  --dur-base:240ms; /* @kind other */
+  --dur-slow:400ms; /* @kind other */
+  --dur-playful:600ms; /* @kind other */
+  --ease-standard:cubic-bezier(0.2,0,0,1); /* @kind other */
+  --ease-enter:cubic-bezier(0,0,0.2,1); /* @kind other */
+  --ease-exit:cubic-bezier(0.4,0,1,1); /* @kind other */
+  --ease-ledger:cubic-bezier(0.22,1.15,0.36,1); /* @kind other */
+}
+@media (prefers-reduced-motion:reduce){:root{
+  --dur-instant:1ms; /* @kind other */
+  --dur-fast:1ms; /* @kind other */
+  --dur-base:1ms; /* @kind other */
+  --dur-slow:1ms; /* @kind other */
+  --dur-playful:1ms; /* @kind other */
+}}
+@keyframes cm-ledger-land{0%{transform:scale(1.35) rotate(-8deg);opacity:0}60%{opacity:1}100%{transform:scale(1) rotate(0);opacity:1}}
+@keyframes cm-enter-up{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
+@keyframes cm-fade-in{from{opacity:0}to{opacity:1}}

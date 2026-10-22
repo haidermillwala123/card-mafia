@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Arrow, Lock } from './Icons';
 import { supabase } from '@/lib/supabase';
+import { markLive } from './SessionGate';
 
 type Props = {
   meta?: { first_name?: string; last_name?: string };
@@ -51,6 +52,7 @@ export default function EmailCode({ meta, onVerified, intro, sendLabel = 'Send t
     setErr('');
     const res = await fetch('/api/auth/code/verify', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email, code, meta: { first_name: meta?.first_name?.slice(0, 60), last_name: meta?.last_name?.slice(0, 60) } }) }).catch(() => null);
     const j = res?.ok ? await res.json().catch(() => null) : null;
+    if (j?.token_hash) markLive(); // before verifyOtp, so the session gate does not read the new login as a stale one
     const { error } = j?.token_hash ? await sb!.auth.verifyOtp({ token_hash: j.token_hash, type: 'magiclink' }) : { error: true };
     if (error) {
       setBusy(false);
@@ -82,7 +84,7 @@ export default function EmailCode({ meta, onVerified, intro, sendLabel = 'Send t
           <label htmlFor="ec-email">Email</label>
           <input id="ec-email" type="email" inputMode="email" autoComplete="email" maxLength={254} placeholder="you@example.com" value={email}
             onChange={e => { setEmail(e.target.value); setErr(''); }} onKeyDown={e => e.key === 'Enter' && send()} />
-          <span className="help">We email a six-digit code. There is no password.</span>
+          <span className="help">We email a six-character code. There is no password.</span>
           {err && <span className="err" role="alert">{err}</span>}
         </div>
         <div className="btn-row">
@@ -96,7 +98,7 @@ export default function EmailCode({ meta, onVerified, intro, sendLabel = 'Send t
   return (
     <div className="stack" style={{ ['--stack' as string]: '14px' }}>
       <p className="muted">Sent to <b style={{ color: 'var(--color-text)' }}>{email}</b>. It expires in 10 minutes.</p>
-      <div className={'otp ' + state} role="group" aria-label="Six-digit code">
+      <div className={'otp ' + state} role="group" aria-label="Six-character code">
         {Array.from({ length: 6 }, (_, k) => (
           <input key={k} ref={el => { boxes.current[k] = el; }} inputMode="text" autoCapitalize="characters" autoCorrect="off" spellCheck={false} maxLength={1} aria-label={`Digit ${k + 1}`} autoComplete={k ? 'off' : 'one-time-code'} autoFocus={k === 0} disabled={busy}
             onChange={e => type(k, e.target)} onKeyDown={e => { if (e.key === 'Backspace' && !e.currentTarget.value && k) boxes.current[k - 1]?.focus(); }}

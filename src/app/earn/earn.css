@@ -1,0 +1,33 @@
+/* Earn screen only. Tokens and shell classes come from globals.css. */
+.earn-grid{display:grid;gap:var(--space-md);grid-template-columns:1fr}
+@media(min-width:640px){.earn-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:960px){.earn-grid{grid-template-columns:repeat(3,1fr)}}
+.earn-rank{display:grid;gap:12px;margin-block:12px}
+.earn-rank__head{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.earn-rank__n{font:700 22px/1 var(--font-display);color:var(--color-accent-strong);min-width:28px}
+.earn-rank__num{grid-column:1/-1;display:grid;gap:2px}
+@media(min-width:640px){.earn-rank__head{grid-template-columns:auto 1fr auto}.earn-rank__num{grid-column:auto;text-align:right}}
+.earn-rank .card{display:grid;gap:8px}
+.earn-jump{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:14px}
+.earn-card{display:grid;gap:14px;min-width:0;scroll-margin-top:16px}
+.earn-card__head{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between}
+.earn-tags{display:flex;flex-wrap:wrap;gap:6px}
+.earn-tags .tag{white-space:normal}
+.earn-best{margin:0}
+.earn-h{font:650 15px/1.3 var(--font-display);margin:0 0 4px}
+.earn-dl{display:grid;gap:10px;grid-template-columns:1fr}
+@media(min-width:768px){.earn-dl{grid-template-columns:1fr 1fr}}
+.earn-dl dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-muted)}
+.earn-dl dd{margin:0;overflow-wrap:anywhere}
+.earn-scroll{overflow-x:auto;border:var(--border-hairline) solid var(--color-border);border-radius:var(--radius-sm)}
+.earn-scroll:focus-visible{outline:2px solid var(--color-accent-strong);outline-offset:2px}
+.earn-table{width:100%;min-width:640px;border-collapse:collapse;font-size:14px}
+.earn-table th,.earn-table td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:var(--border-hairline) solid var(--color-border);font-weight:400}
+.earn-table thead th{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-muted);font-weight:600}
+.earn-table tbody th{font-weight:600}
+.earn-table tr:last-child>*{border-bottom:0}
+.earn-cols{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:768px){.earn-cols{grid-template-columns:1fr 1fr}}
+.earn-list{display:grid;gap:6px;padding-left:18px;list-style:disc}
+.earn-flags{display:flex;flex-wrap:wrap;gap:6px 16px;padding-left:0}
+.earn-flags li::before{content:"Note: ";font-weight:600}

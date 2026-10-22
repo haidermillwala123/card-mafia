@@ -6,9 +6,27 @@ import PathChain from '@/components/PathChain';
 import { BANKS } from '@/lib/engine/data';
 import { reachable } from '@/lib/engine/engine';
 import { getData } from '@/lib/engine/load';
+import { safeUrl } from '@/lib/safe-url';
+import limitsFile from '@/data/transfer_limits.json';
+import indirectFile from '@/data/indirect_routes.json';
 
 export const revalidate = 300;
 const n = (x: number) => x.toLocaleString('en-IN');
+
+type Src = { url: string; type: string; date: string };
+type Lim = {
+  currency: string | null; last_verified: string; confidence: string | null;
+  fees: { joining: string | null; annual: string | null; source: string | null };
+  limits: { daily: string | null; weekly: string | null; monthly: string | null; annual: string | null };
+  min_transfer: string | null; multiple_of: string | null; transfer_fee: string | null; per_partner: string | null;
+  notes: string | null; conflicts: string[]; sources: Src[];
+};
+type Route = { via: string; to: string; leg1: string; leg2: string; effective: string; cost: number; time: string; caps: string[]; notes: string[]; direct: string | null; beats_direct: boolean | null };
+const LIM = limitsFile as unknown as { cards: Record<string, Lim> };
+const IND = indirectFile as unknown as { last_verified: string; source_url: string; cards: Record<string, Route[]> };
+const MAX_ROUTES = 12;
+const day = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+const nf = (v: string | null) => v ?? <span className="muted">not found</span>;
 
 export async function generateStaticParams() {
   const { data } = await getData();
@@ -44,6 +62,14 @@ export default async function CardTransfers({ params }: { params: Promise<{ card
   const air = reachable(data, card.id, 10000000);
   const hotels = data.rules.filter(r => r.from === card.programme && data.programmes.find(p => p.id === r.to)?.kind === 'hotel');
   const siblings = data.cards.filter(c => c.bank === card.bank && c.id !== card.id);
+  const lim = LIM.cards[card.id];
+  const eligible = (IND.cards[card.id] ?? []).filter(r => r.beats_direct !== false)
+    .sort((a, b) => Number(b.beats_direct === true) - Number(a.beats_direct === true) || a.cost - b.cost);
+  const routes = eligible.slice(0, MAX_ROUTES);
+  const limitRows: [string, string | null][] = [
+    ['Daily cap', lim?.limits.daily ?? null], ['Weekly cap', lim?.limits.weekly ?? null], ['Monthly cap', lim?.limits.monthly ?? null], ['Annual cap', lim?.limits.annual ?? null],
+    ['Minimum transfer', lim?.min_transfer ?? null], ['Transfer in multiples of', lim?.multiple_of ?? null], ['Transfer fee', lim?.transfer_fee ?? null], ['Fee or cap per partner', lim?.per_partner ?? null],
+  ];
 
   return (
     <>
@@ -86,6 +112,61 @@ export default async function CardTransfers({ params }: { params: Promise<{ card
             </table></div>
           </section>
         )}
+
+        <section aria-labelledby="lim-h" className="stack">
+          <h2 id="lim-h" className="t-h2">Limits and fees</h2>
+          {!lim ? <p className="muted">No limits research for this card yet. Every limit is not found.</p> : (
+            <>
+              <p className="muted measure">
+                Verified {day(lim.last_verified)}.{lim.confidence ? <> Confidence <span className={`tag ${lim.confidence === 'high' ? 'tag-ok' : lim.confidence === 'low' ? 'tag-warn' : ''}`}>{lim.confidence}</span>.</> : ' Confidence not stated.'} “Not found” means no figure turned up in the sources. It does not mean there is no limit.
+              </p>
+              <div className="table-wrap"><table className="data" aria-label="Transfer limits and fees">
+                <thead><tr><th scope="col">Item</th><th scope="col">What the sources say</th></tr></thead>
+                <tbody>
+                  <tr><td><b>Joining fee</b></td><td>{nf(lim.fees.joining)}</td></tr>
+                  <tr><td><b>Annual fee</b></td><td>{nf(lim.fees.annual)}{lim.fees.source && <div className="t-sm muted">Source: {lim.fees.source}</div>}</td></tr>
+                  {limitRows.map(([k, v]) => <tr key={k}><td><b>{k}</b></td><td>{nf(v)}</td></tr>)}
+                </tbody>
+              </table></div>
+              {lim.notes && <details><summary>Notes from the research</summary><p className="t-sm measure" style={{ marginTop: 8 }}>{lim.notes}</p></details>}
+              {lim.conflicts.length > 0 && (
+                <div className="note note-warn"><div><b>Sources disagree.</b><ul>{lim.conflicts.map((c, i) => <li key={i}>{c}</li>)}</ul></div></div>
+              )}
+              {lim.sources.length > 0 && (
+                <div>
+                  <h3 className="t-title">Sources</h3>
+                  <ul className="t-sm">{lim.sources.map((s, i) => {
+                    const href = safeUrl(s.url);
+                    return <li key={i}>{href ? <a href={href} rel="noopener noreferrer" target="_blank">{s.url}</a> : s.url} <span className="muted">({s.type}, {s.date})</span></li>;
+                  })}</ul>
+                </div>
+              )}
+            </>
+          )}
+        </section>
+
+        <section aria-labelledby="ind-h" className="stack">
+          <h2 id="ind-h" className="t-h2">Indirect routes</h2>
+          {routes.length === 0 ? <p className="muted">No indirect route in the research that beats a direct one or fills a gap.</p> : (
+            <>
+              <p className="muted measure">
+                Two transfers through an intermediate programme. Shown when the chain beats the direct rate or the card has no direct route. Best {routes.length} of {eligible.length}, best first. Composed from points.casa pair ratios, checked {day(IND.last_verified)}; the research gives no confidence grade for routes. <a href={safeUrl(IND.source_url)} rel="noopener noreferrer" target="_blank">Source</a>. Each leg is a separate transfer and cannot be reversed.
+              </p>
+              <div className="table-wrap"><table className="data" aria-label="Indirect routes this card can use">
+                <thead><tr><th scope="col">Destination</th><th scope="col">Path and leg ratios</th><th scope="col" className="n">Effective</th><th scope="col">Direct</th><th scope="col">Caps and time</th></tr></thead>
+                <tbody>{routes.map(r => (
+                  <tr key={`${r.via}-${r.to}`}>
+                    <td><b>{r.to}</b></td>
+                    <td><PathChain nodes={[name(card.programme), r.via, r.to]} ratios={[r.leg1, r.leg2]} /></td>
+                    <td className="n">{r.effective}</td>
+                    <td className="t-sm">{r.direct ? <>{r.direct} <span className="tag tag-ok">Chain is cheaper</span></> : <span className="muted">no direct route found</span>}</td>
+                    <td className="t-sm">{r.caps.length ? r.caps.join('; ') : <span className="muted">cap not found</span>}<div className="muted">{r.time}</div>{r.notes.map((t, i) => <div key={i} className="muted">{t}</div>)}</td>
+                  </tr>
+                ))}</tbody>
+              </table></div>
+            </>
+          )}
+        </section>
 
         {siblings.length > 0 && (
           <section aria-labelledby="sib-h" className="stack">

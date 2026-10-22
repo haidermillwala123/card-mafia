@@ -1,0 +1,3020 @@
+{
+ "note": "From the awardscope research run. null means NOT FOUND, never \"no limit\". Each item keeps its source and confidence.",
+ "last_verified": "2026-10-21",
+ "cards": {
+  "amex-plat-travel": {
+   "research_name": "Amex Platinum Travel",
+   "match_pct": 100,
+   "currency": "Membership Rewards points",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": null,
+    "annual": "Rs 5,000 + applicable taxes (first year and second year onwards)",
+    "source": "https://www.americanexpress.com/in/credit-cards/platinum-travel-credit-card/"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": null,
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "Not found on official pages. T&C: transfers go to the Cardmember's own enrolled partner account only, subject to partner rules; list and conversion levels at Amex sole discretion, change without notice; transfers irreversible (official FAQ). points.casa ratios (time 0 to 4 hours): KrisFlyer 2:1, Marriott 1:1, Hilton 2:3, Virgin Atlantic 5:4, Qatar 2:1, BA 2:1, Asia Miles 2:1. Secondary magnify.club (2026-08-18) shows per-partner 'points in' blocks that may indicate minimum units: Hilton 1,000 to 1,500; Marriott 100 to 100; Virgin 800 to 640; Asia Miles 800 to 400; BA 1,200 to 600; Qatar 500 to 250; KrisFlyer 800 to 400. Unverified as limits. Secondary cardbuzz.co (2026-10-07) says Marriott 1,000-point increments. Conflicts with magnify (100). Whether supplementary cardholders can transfer: T&C say supplementary card points accrue to the Basic Card account; transfer rights for supplementary not stated.",
+   "conflicts": [
+    "Partner list/ratios: points.casa and magnify (7 partners) vs pointswallah (KrisFlyer, Maharaja, Flying Blue, BA, Marriott) vs cardbuzz (Marriott, Accor). Unresolved.",
+    "Milestones: official Rs 4 lakh / Rs 7 lakh vs older secondary Rs 1.9 lakh / Rs 4 lakh.",
+    "Marriott minimum: cardbuzz 1,000 increments vs magnify 100 block."
+   ],
+   "group_notes": {
+    "currency": "Membership Rewards (MR) points, shared across all Amex India cards",
+    "applications": "Official Amex India card pages (fetched 2026-10-21) show: 'We are temporarily pausing the acceptance of new card applications in India as we make planned updates to our technology platforms for domestic card issuing operations.' Seen on Platinum Travel, Platinum Reserve, SmartEarn, Gold, and the all-cards page. Existing cardholders not stated as affected.",
+    "transferPageNote": "Amex official MR pages (T&C PDF and /en-in/benefits/rewards/membership-rewards/) state no daily/weekly/monthly/annual transfer cap, no minimum, no multiple and no transfer fee. The live transfer page https://global.americanexpress.com/rewards/transfer returned empty content to the fetcher (login/JS page), so limits there are NOT verified. All transferLimits numeric fields are null = not found.",
+    "ratioConflict": "points.casa (pc-gap-edges.json) lists per card: Hilton Honors 2:3, KrisFlyer 2:1, Marriott Bonvoy 1:1, Virgin Atlantic 5:4, Qatar Privilege Club 2:1, British Airways 2:1, Asia Miles 2:1 (Centurion/Reserve/Platinum/Gold/MRCC/SmartEarn/Platinum Travel all same; Platinum has no Virgin... see per-card). Secondary magnify.club (2026-08-18) agrees with these 7 partners and ratios. Secondary pointswallah.com (updated 2026-08-21) instead lists KrisFlyer, Air India Maharaja Club, Flying Blue, British Airways, Marriott only (4 airlines + 1 hotel) and does not mention Virgin, Hilton, Qatar or Asia Miles. Secondary cardbuzz.co (2026-10-07) lists Marriott 1:1 and Accor 3:1 only. No official bank page listing partners/ratios was fetchable. Sources conflict; unresolved.",
+    "partnerChanges": "Secondary livefromalounge.com: Virgin Atlantic moved 2:1 to 5:4 and Hilton Honors moved 1:0.9 to 1:1.5 (article date shown only as relative). Secondary livefromalounge.com (indexed title): Etihad Guest dropped from Amex India MR as of 1 July 2026. Secondary magnify.club: Emirates Skywards suspended since 28 May 2025; Club Vistara gone after Air India merger. points.casa bonus fields: Hilton 50% bonus valid until 2026-04-23 (expired); Asia Miles 25% bonus 2025-11-16 to 2025-12-31 (expired)."
+   },
+   "sources": [
+    {
+     "url": "https://www.americanexpress.com/content/dam/amex/en-in/benefits/membership-rewards-terms.pdf",
+     "type": "official",
+     "date": "date not shown in PDF; fetched 2026-10-21"
+    },
+    {
+     "url": "https://www.americanexpress.com/en-in/benefits/rewards/membership-rewards/",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://magnify.club/guides/amex-india-transfer-partners/",
+     "type": "secondary",
+     "date": "2026-08-18"
+    },
+    {
+     "url": "https://www.cardbuzz.co/blogs/amex-membership-rewards-guide-india-2026-ea894b9a-970b-5b9a-a355-8b41d8528dcc",
+     "type": "secondary",
+     "date": "2026-10-07"
+    },
+    {
+     "url": "https://livefromalounge.com/american-express-membership-rewards-gets-a-rare-rerating-in-india-with-better-transfers-to-virgin-atlantic-and-hilton-honors/",
+     "type": "secondary",
+     "date": "2026 (exact date not captured)"
+    }
+   ]
+  },
+  "amex-mrcc": {
+   "research_name": "Amex MRCC",
+   "match_pct": 100,
+   "currency": "Membership Rewards points",
+   "last_verified": "2026-10-21",
+   "confidence": "low",
+   "fees": {
+    "joining": "Rs 1,000 + GST (secondary: rewardmatrix.in, cardmaven)",
+    "annual": "Rs 4,500 + GST from second year (secondary; Rs 4,500 per cardbuzz and cardadvisor)",
+    "source": "https://www.rewardmatrix.in/credit-cards/reviews/amex-mrcc"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": null,
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "No MRCC-specific official page fetchable (/in/credit-cards/membership-rewards-credit-card/ returned 404). Same shared MR transfer rules and ratio notes as Platinum Travel: see groupNotes. points.casa lists for MRCC: BA 2:1, Hilton 2:3, Virgin 5:4, KrisFlyer 2:1, Marriott 1:1, Qatar 2:1, Asia Miles 2:1. Secondary cardbuzz says MRCC benefit text lists KrisFlyer as partner.",
+   "conflicts": [
+    "No official card page fetched; fee, welcome and milestones are secondary only.",
+    "Cardadvisor (secondary): SmartEarn, MRCC and Gold paused for new applicants since March 2025. Official pages show pause banner without date."
+   ],
+   "group_notes": {
+    "currency": "Membership Rewards (MR) points, shared across all Amex India cards",
+    "applications": "Official Amex India card pages (fetched 2026-10-21) show: 'We are temporarily pausing the acceptance of new card applications in India as we make planned updates to our technology platforms for domestic card issuing operations.' Seen on Platinum Travel, Platinum Reserve, SmartEarn, Gold, and the all-cards page. Existing cardholders not stated as affected.",
+    "transferPageNote": "Amex official MR pages (T&C PDF and /en-in/benefits/rewards/membership-rewards/) state no daily/weekly/monthly/annual transfer cap, no minimum, no multiple and no transfer fee. The live transfer page https://global.americanexpress.com/rewards/transfer returned empty content to the fetcher (login/JS page), so limits there are NOT verified. All transferLimits numeric fields are null = not found.",
+    "ratioConflict": "points.casa (pc-gap-edges.json) lists per card: Hilton Honors 2:3, KrisFlyer 2:1, Marriott Bonvoy 1:1, Virgin Atlantic 5:4, Qatar Privilege Club 2:1, British Airways 2:1, Asia Miles 2:1 (Centurion/Reserve/Platinum/Gold/MRCC/SmartEarn/Platinum Travel all same; Platinum has no Virgin... see per-card). Secondary magnify.club (2026-08-18) agrees with these 7 partners and ratios. Secondary pointswallah.com (updated 2026-08-21) instead lists KrisFlyer, Air India Maharaja Club, Flying Blue, British Airways, Marriott only (4 airlines + 1 hotel) and does not mention Virgin, Hilton, Qatar or Asia Miles. Secondary cardbuzz.co (2026-10-07) lists Marriott 1:1 and Accor 3:1 only. No official bank page listing partners/ratios was fetchable. Sources conflict; unresolved.",
+    "partnerChanges": "Secondary livefromalounge.com: Virgin Atlantic moved 2:1 to 5:4 and Hilton Honors moved 1:0.9 to 1:1.5 (article date shown only as relative). Secondary livefromalounge.com (indexed title): Etihad Guest dropped from Amex India MR as of 1 July 2026. Secondary magnify.club: Emirates Skywards suspended since 28 May 2025; Club Vistara gone after Air India merger. points.casa bonus fields: Hilton 50% bonus valid until 2026-04-23 (expired); Asia Miles 25% bonus 2025-11-16 to 2025-12-31 (expired)."
+   },
+   "sources": [
+    {
+     "url": "https://www.americanexpress.com/content/dam/amex/en-in/benefits/membership-rewards-terms.pdf",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://magnify.club/guides/amex-india-transfer-partners/",
+     "type": "secondary",
+     "date": "2026-08-18"
+    },
+    {
+     "url": "https://www.cardbuzz.co/blogs/amex-membership-rewards-guide-india-2026-ea894b9a-970b-5b9a-a355-8b41d8528dcc",
+     "type": "secondary",
+     "date": "2026-10-07"
+    }
+   ]
+  },
+  "amex-gold": {
+   "research_name": "Amex Gold",
+   "match_pct": 100,
+   "currency": "Membership Rewards points",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": null,
+    "annual": "First year Rs 1,000 + taxes; second year onwards Rs 4,500 + taxes (official cross-sell block on Platinum Reserve page; secondary sources describe Rs 1,000 + GST joining and Rs 4,500 annual)",
+    "source": "https://www.americanexpress.com/in/credit-cards/platinum-reserve-credit-card/"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": null,
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "Not found. Shared MR rules; see groupNotes. points.casa lists for Gold: KrisFlyer 2:1, Qatar 2:1, Virgin 5:4, Marriott 1:1, BA 2:1, Asia Miles 2:1, Hilton 2:3. Official Gold page is a charge-card page: https://www.americanexpress.com/in/charge-cards/gold-card/.",
+   "conflicts": [
+    "Official T&C PDF still states fuel cap of 5,000 MR/month for Gold, but the same PDF and the Gold page also state no MR on fuel from 2025-06-12. Treat fuel as no earn.",
+    "Monthly bonus mechanic: official cross-sell says 1,000 MR on 6 txns Rs 1,000+; cardbuzz attributes 4 txns Rs 1,500+ to MRCC. Different cards.",
+    "Gold welcome spend condition unresolved."
+   ],
+   "group_notes": {
+    "currency": "Membership Rewards (MR) points, shared across all Amex India cards",
+    "applications": "Official Amex India card pages (fetched 2026-10-21) show: 'We are temporarily pausing the acceptance of new card applications in India as we make planned updates to our technology platforms for domestic card issuing operations.' Seen on Platinum Travel, Platinum Reserve, SmartEarn, Gold, and the all-cards page. Existing cardholders not stated as affected.",
+    "transferPageNote": "Amex official MR pages (T&C PDF and /en-in/benefits/rewards/membership-rewards/) state no daily/weekly/monthly/annual transfer cap, no minimum, no multiple and no transfer fee. The live transfer page https://global.americanexpress.com/rewards/transfer returned empty content to the fetcher (login/JS page), so limits there are NOT verified. All transferLimits numeric fields are null = not found.",
+    "ratioConflict": "points.casa (pc-gap-edges.json) lists per card: Hilton Honors 2:3, KrisFlyer 2:1, Marriott Bonvoy 1:1, Virgin Atlantic 5:4, Qatar Privilege Club 2:1, British Airways 2:1, Asia Miles 2:1 (Centurion/Reserve/Platinum/Gold/MRCC/SmartEarn/Platinum Travel all same; Platinum has no Virgin... see per-card). Secondary magnify.club (2026-08-18) agrees with these 7 partners and ratios. Secondary pointswallah.com (updated 2026-08-21) instead lists KrisFlyer, Air India Maharaja Club, Flying Blue, British Airways, Marriott only (4 airlines + 1 hotel) and does not mention Virgin, Hilton, Qatar or Asia Miles. Secondary cardbuzz.co (2026-10-07) lists Marriott 1:1 and Accor 3:1 only. No official bank page listing partners/ratios was fetchable. Sources conflict; unresolved.",
+    "partnerChanges": "Secondary livefromalounge.com: Virgin Atlantic moved 2:1 to 5:4 and Hilton Honors moved 1:0.9 to 1:1.5 (article date shown only as relative). Secondary livefromalounge.com (indexed title): Etihad Guest dropped from Amex India MR as of 1 July 2026. Secondary magnify.club: Emirates Skywards suspended since 28 May 2025; Club Vistara gone after Air India merger. points.casa bonus fields: Hilton 50% bonus valid until 2026-04-23 (expired); Asia Miles 25% bonus 2025-11-16 to 2025-12-31 (expired)."
+   },
+   "sources": [
+    {
+     "url": "https://www.americanexpress.com/content/dam/amex/en-in/benefits/membership-rewards-terms.pdf",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://www.americanexpress.com/in/charge-cards/gold-card/",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    }
+   ]
+  },
+  "amex-smartearn": {
+   "research_name": "Amex SmartEarn",
+   "match_pct": 100,
+   "currency": "Membership Rewards points",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": null,
+    "annual": "Rs 495 + applicable taxes; renewal waived on Rs 40,000+ eligible spend in previous year",
+    "source": "https://www.americanexpress.com/in/credit-cards/smart-earn-credit-card/"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": null,
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "Not found. Shared MR rules; see groupNotes. points.casa for SmartEarn: BA 2:1, Marriott 1:1, Qatar 2:1, KrisFlyer 2:1, Hilton 2:3, Virgin 5:4, Asia Miles 2:1. Whether SmartEarn is MR-transfer eligible per official page not stated on the card page.",
+   "conflicts": [
+    "Official card-page footnote puts Amazon in 5X (cap 250/month). Official shopping page (shopping.html) text per search summary says 10X on Flipkart and Amazon; secondary great.cards and cardexpress say Amazon 5X. Not re-verified against shopping.html in this run. Official card page treated as authoritative for Amazon 5X."
+   ],
+   "group_notes": {
+    "currency": "Membership Rewards (MR) points, shared across all Amex India cards",
+    "applications": "Official Amex India card pages (fetched 2026-10-21) show: 'We are temporarily pausing the acceptance of new card applications in India as we make planned updates to our technology platforms for domestic card issuing operations.' Seen on Platinum Travel, Platinum Reserve, SmartEarn, Gold, and the all-cards page. Existing cardholders not stated as affected.",
+    "transferPageNote": "Amex official MR pages (T&C PDF and /en-in/benefits/rewards/membership-rewards/) state no daily/weekly/monthly/annual transfer cap, no minimum, no multiple and no transfer fee. The live transfer page https://global.americanexpress.com/rewards/transfer returned empty content to the fetcher (login/JS page), so limits there are NOT verified. All transferLimits numeric fields are null = not found.",
+    "ratioConflict": "points.casa (pc-gap-edges.json) lists per card: Hilton Honors 2:3, KrisFlyer 2:1, Marriott Bonvoy 1:1, Virgin Atlantic 5:4, Qatar Privilege Club 2:1, British Airways 2:1, Asia Miles 2:1 (Centurion/Reserve/Platinum/Gold/MRCC/SmartEarn/Platinum Travel all same; Platinum has no Virgin... see per-card). Secondary magnify.club (2026-08-18) agrees with these 7 partners and ratios. Secondary pointswallah.com (updated 2026-08-21) instead lists KrisFlyer, Air India Maharaja Club, Flying Blue, British Airways, Marriott only (4 airlines + 1 hotel) and does not mention Virgin, Hilton, Qatar or Asia Miles. Secondary cardbuzz.co (2026-10-07) lists Marriott 1:1 and Accor 3:1 only. No official bank page listing partners/ratios was fetchable. Sources conflict; unresolved.",
+    "partnerChanges": "Secondary livefromalounge.com: Virgin Atlantic moved 2:1 to 5:4 and Hilton Honors moved 1:0.9 to 1:1.5 (article date shown only as relative). Secondary livefromalounge.com (indexed title): Etihad Guest dropped from Amex India MR as of 1 July 2026. Secondary magnify.club: Emirates Skywards suspended since 28 May 2025; Club Vistara gone after Air India merger. points.casa bonus fields: Hilton 50% bonus valid until 2026-04-23 (expired); Asia Miles 25% bonus 2025-11-16 to 2025-12-31 (expired)."
+   },
+   "sources": [
+    {
+     "url": "https://www.americanexpress.com/in/credit-cards/smart-earn-credit-card/",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://www.americanexpress.com/content/dam/amex/en-in/benefits/membership-rewards-terms.pdf",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    }
+   ]
+  },
+  "amex-plat": {
+   "research_name": "Amex Platinum",
+   "match_pct": 100,
+   "currency": "Membership Rewards points",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": null,
+    "annual": "Rs 66,000 + applicable taxes",
+    "source": "https://www.americanexpress.com/in/charge-cards/platinum-card/"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": null,
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "Not found. Shared MR rules; see groupNotes. points.casa for Platinum: Qatar 2:1, KrisFlyer 2:1, Marriott 1:1, Asia Miles 2:1, BA 2:1, Hilton 2:3, Virgin 5:4. This is the Platinum Charge card (Amex Platinum), distinct from Platinum Travel and Platinum Reserve.",
+   "conflicts": [
+    "Cardadvisor (secondary) says Platinum Charge and Platinum Reserve closed again to new applicants in August 2026. Official pages show only generic pause banner.",
+    "Fuel row in T&C PDF (5 MR per Rs 100) is older text; whether still current not confirmed on the Platinum card page."
+   ],
+   "group_notes": {
+    "currency": "Membership Rewards (MR) points, shared across all Amex India cards",
+    "applications": "Official Amex India card pages (fetched 2026-10-21) show: 'We are temporarily pausing the acceptance of new card applications in India as we make planned updates to our technology platforms for domestic card issuing operations.' Seen on Platinum Travel, Platinum Reserve, SmartEarn, Gold, and the all-cards page. Existing cardholders not stated as affected.",
+    "transferPageNote": "Amex official MR pages (T&C PDF and /en-in/benefits/rewards/membership-rewards/) state no daily/weekly/monthly/annual transfer cap, no minimum, no multiple and no transfer fee. The live transfer page https://global.americanexpress.com/rewards/transfer returned empty content to the fetcher (login/JS page), so limits there are NOT verified. All transferLimits numeric fields are null = not found.",
+    "ratioConflict": "points.casa (pc-gap-edges.json) lists per card: Hilton Honors 2:3, KrisFlyer 2:1, Marriott Bonvoy 1:1, Virgin Atlantic 5:4, Qatar Privilege Club 2:1, British Airways 2:1, Asia Miles 2:1 (Centurion/Reserve/Platinum/Gold/MRCC/SmartEarn/Platinum Travel all same; Platinum has no Virgin... see per-card). Secondary magnify.club (2026-08-18) agrees with these 7 partners and ratios. Secondary pointswallah.com (updated 2026-08-21) instead lists KrisFlyer, Air India Maharaja Club, Flying Blue, British Airways, Marriott only (4 airlines + 1 hotel) and does not mention Virgin, Hilton, Qatar or Asia Miles. Secondary cardbuzz.co (2026-10-07) lists Marriott 1:1 and Accor 3:1 only. No official bank page listing partners/ratios was fetchable. Sources conflict; unresolved.",
+    "partnerChanges": "Secondary livefromalounge.com: Virgin Atlantic moved 2:1 to 5:4 and Hilton Honors moved 1:0.9 to 1:1.5 (article date shown only as relative). Secondary livefromalounge.com (indexed title): Etihad Guest dropped from Amex India MR as of 1 July 2026. Secondary magnify.club: Emirates Skywards suspended since 28 May 2025; Club Vistara gone after Air India merger. points.casa bonus fields: Hilton 50% bonus valid until 2026-04-23 (expired); Asia Miles 25% bonus 2025-11-16 to 2025-12-31 (expired)."
+   },
+   "sources": [
+    {
+     "url": "https://www.americanexpress.com/content/dam/amex/en-in/benefits/membership-rewards-terms.pdf",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://www.americanexpress.com/in/charge-cards/platinum-card/",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    }
+   ]
+  },
+  "amex-platinum-reserve": {
+   "research_name": "Amex Platinum Reserve",
+   "match_pct": 100,
+   "currency": "Membership Rewards points",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": null,
+    "annual": "Rs 10,000 + applicable taxes (first year and second year onwards); renewal fully waived on Rs 10 lakh spend in preceding membership year",
+    "source": "https://www.americanexpress.com/in/credit-cards/platinum-reserve-credit-card/"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": null,
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "Not found. Official benefits page says points can be transferred to airline and hotel programmes like Marriott Bonvoy, Hilton Honors and more. points.casa for Reserve: KrisFlyer 2:1, BA 2:1, Qatar 2:1, Marriott 1:1, Virgin 5:4, Hilton 2:3, Asia Miles 2:1.",
+   "conflicts": [
+    "Cardadvisor (secondary) says Reserve closed to new applicants in August 2026; official shows pause banner."
+   ],
+   "group_notes": {
+    "currency": "Membership Rewards (MR) points, shared across all Amex India cards",
+    "applications": "Official Amex India card pages (fetched 2026-10-21) show: 'We are temporarily pausing the acceptance of new card applications in India as we make planned updates to our technology platforms for domestic card issuing operations.' Seen on Platinum Travel, Platinum Reserve, SmartEarn, Gold, and the all-cards page. Existing cardholders not stated as affected.",
+    "transferPageNote": "Amex official MR pages (T&C PDF and /en-in/benefits/rewards/membership-rewards/) state no daily/weekly/monthly/annual transfer cap, no minimum, no multiple and no transfer fee. The live transfer page https://global.americanexpress.com/rewards/transfer returned empty content to the fetcher (login/JS page), so limits there are NOT verified. All transferLimits numeric fields are null = not found.",
+    "ratioConflict": "points.casa (pc-gap-edges.json) lists per card: Hilton Honors 2:3, KrisFlyer 2:1, Marriott Bonvoy 1:1, Virgin Atlantic 5:4, Qatar Privilege Club 2:1, British Airways 2:1, Asia Miles 2:1 (Centurion/Reserve/Platinum/Gold/MRCC/SmartEarn/Platinum Travel all same; Platinum has no Virgin... see per-card). Secondary magnify.club (2026-08-18) agrees with these 7 partners and ratios. Secondary pointswallah.com (updated 2026-08-21) instead lists KrisFlyer, Air India Maharaja Club, Flying Blue, British Airways, Marriott only (4 airlines + 1 hotel) and does not mention Virgin, Hilton, Qatar or Asia Miles. Secondary cardbuzz.co (2026-10-07) lists Marriott 1:1 and Accor 3:1 only. No official bank page listing partners/ratios was fetchable. Sources conflict; unresolved.",
+    "partnerChanges": "Secondary livefromalounge.com: Virgin Atlantic moved 2:1 to 5:4 and Hilton Honors moved 1:0.9 to 1:1.5 (article date shown only as relative). Secondary livefromalounge.com (indexed title): Etihad Guest dropped from Amex India MR as of 1 July 2026. Secondary magnify.club: Emirates Skywards suspended since 28 May 2025; Club Vistara gone after Air India merger. points.casa bonus fields: Hilton 50% bonus valid until 2026-04-23 (expired); Asia Miles 25% bonus 2025-11-16 to 2025-12-31 (expired)."
+   },
+   "sources": [
+    {
+     "url": "https://www.americanexpress.com/in/benefits/platinum-reserve-card/",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://www.americanexpress.com/content/dam/amex/en-in/benefits/membership-rewards-terms.pdf",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    }
+   ]
+  },
+  "amex-centurion": {
+   "research_name": "Amex Centurion",
+   "match_pct": 100,
+   "currency": "Membership Rewards points",
+   "last_verified": "2026-10-21",
+   "confidence": "low",
+   "fees": {
+    "joining": "Rs 7,00,000 + 18% GST (secondary, effective 2021-01-19; cardadvisor cites Centurion_MITC.pdf)",
+    "annual": "Rs 2,75,000 + 18% GST (secondary, as of 2026-09-25)",
+    "source": "https://cardadvisor.in/cards/amex-centurion"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": null,
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "Not found. Invitation-only; no official Centurion card page fetchable (404). Centurion is not in the official MR T&C earn table, so its official MR earn is not confirmed. points.casa for Centurion: BA 2:1, Asia Miles 2:1, KrisFlyer 2:1, Marriott 1:1, Hilton 2:3 (no bonus listed), Qatar 2:1, Virgin 5:4.",
+   "conflicts": [
+    "Earn rate sources conflict (1 per Rs 50 vs 6 per Rs 200); neither is official.",
+    "Cardadvisor notes Mumbai Centurion Lounge closed 2026-07-01."
+   ],
+   "group_notes": {
+    "currency": "Membership Rewards (MR) points, shared across all Amex India cards",
+    "applications": "Official Amex India card pages (fetched 2026-10-21) show: 'We are temporarily pausing the acceptance of new card applications in India as we make planned updates to our technology platforms for domestic card issuing operations.' Seen on Platinum Travel, Platinum Reserve, SmartEarn, Gold, and the all-cards page. Existing cardholders not stated as affected.",
+    "transferPageNote": "Amex official MR pages (T&C PDF and /en-in/benefits/rewards/membership-rewards/) state no daily/weekly/monthly/annual transfer cap, no minimum, no multiple and no transfer fee. The live transfer page https://global.americanexpress.com/rewards/transfer returned empty content to the fetcher (login/JS page), so limits there are NOT verified. All transferLimits numeric fields are null = not found.",
+    "ratioConflict": "points.casa (pc-gap-edges.json) lists per card: Hilton Honors 2:3, KrisFlyer 2:1, Marriott Bonvoy 1:1, Virgin Atlantic 5:4, Qatar Privilege Club 2:1, British Airways 2:1, Asia Miles 2:1 (Centurion/Reserve/Platinum/Gold/MRCC/SmartEarn/Platinum Travel all same; Platinum has no Virgin... see per-card). Secondary magnify.club (2026-08-18) agrees with these 7 partners and ratios. Secondary pointswallah.com (updated 2026-08-21) instead lists KrisFlyer, Air India Maharaja Club, Flying Blue, British Airways, Marriott only (4 airlines + 1 hotel) and does not mention Virgin, Hilton, Qatar or Asia Miles. Secondary cardbuzz.co (2026-10-07) lists Marriott 1:1 and Accor 3:1 only. No official bank page listing partners/ratios was fetchable. Sources conflict; unresolved.",
+    "partnerChanges": "Secondary livefromalounge.com: Virgin Atlantic moved 2:1 to 5:4 and Hilton Honors moved 1:0.9 to 1:1.5 (article date shown only as relative). Secondary livefromalounge.com (indexed title): Etihad Guest dropped from Amex India MR as of 1 July 2026. Secondary magnify.club: Emirates Skywards suspended since 28 May 2025; Club Vistara gone after Air India merger. points.casa bonus fields: Hilton 50% bonus valid until 2026-04-23 (expired); Asia Miles 25% bonus 2025-11-16 to 2025-12-31 (expired)."
+   },
+   "sources": [
+    {
+     "url": "https://cardadvisor.in/cards/amex-centurion",
+     "type": "secondary",
+     "date": "2026-09-25"
+    },
+    {
+     "url": "https://www.americanexpress.com/content/dam/amex/en-in/benefits/membership-rewards-terms.pdf",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    }
+   ]
+  },
+  "axis-magnus": {
+   "research_name": "Axis Magnus",
+   "match_pct": 100,
+   "currency": "EDGE Reward Points (EDGE Rewards)",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": null,
+    "annual": "12500 + taxes (waived on spend of 25 lakh in preceding card anniversary year)",
+    "source": "https://www.axis.bank.in/cards/credit-card/axis-bank-magnus-credit-card (official, fetched 2026-10-21). Joining fee not found on a page read."
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": "Group A 100000 + Group B 400000 = 500000 EDGE Reward Points per calendar year per Customer ID (pc-gap-edges.json: A 100000, B 400000)"
+   },
+   "min_transfer": "300 EDGE Reward Points",
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": "Miles & More extra cap 200,000 M&M miles/yr; at 5:2 the 400000 Group B limit gives 160000 M&M miles so cap cannot bite (magnify Group C article, secondary). Ratios 5:2 for most partners; 5:1 for BA, Finnair, Lotusmiles, Accor, Asia Miles, Qatar (pc-gap-edges.json).",
+   "notes": "Group assignment per pc-gap-edges axisGroup field. Cap amounts from secondary source only; no official table read. No daily/weekly/monthly cap found. Transfer fee not found. Official Magnus page says 'Earn 2 partner miles for every 5 EDGE Reward points across 20 travel partners'. Official Magnus page banner lists T&C updates w.e.f. 1 Jul 2026 and 28 Aug 2026 which were not read (content of those changes unknown).",
+   "conflicts": [
+    "Annual fee: paisabazaar (older, secondary) and official page both show INR 12,500 for Magnus; INR 30,000 applies to Magnus for Burgundy only. No conflict with official.",
+    "Cap amounts only from secondary source (magnify)."
+   ],
+   "group_notes": {
+    "sharedTransferRules": {
+     "scope": "Caps are per calendar year (reset 1 Jan), per Customer ID, set by the highest Axis card variant held (not per card). Counted in source EDGE Reward Points / EDGE Miles. Source: magnify.club, dated updated 2026-09-23 (secondary). Old official PDF text (Apr 2024) confirms two groups and per-customer-ID capping but the extracted text showed no amounts.",
+     "minTransfer": "500 EDGE Miles; 300 EDGE Reward Points. Max = balance available. Source official: https://www.axisbank.com/miles-transfer (FAQ 2; page not updated for Sept 2026 changes, shows old partner list).",
+     "transferMethod": "Login to Travel EDGE (Axis mobile app or traveledge.axis.bank.in) > Points/Miles Transfer; first time 'Link Member'; OTP on registered mobile. Source official: https://www.axisbank.com/miles-transfer",
+     "fee": "No transfer fee found on any source read. Value null, not found.",
+     "multipleOf": "not found on any source read.",
+     "daily_weekly_monthly": "No daily/weekly/monthly transfer cap found in any source read. Only calendar-year caps.",
+     "milesAndMoreExtraCap": "Sept 2026: Lufthansa Miles & More sits in Group B but has its own cap of 2,00,000 Miles & More miles per calendar year, min 3,000 miles per transfer (Travel EDGE terms clause 2.2, as quoted by magnify.club, secondary: https://magnify.club/guides/axis-group-c-points-transfer/). Consistent with max_source_points in pc-gap-edges.json (Burgundy 250,000 pts at 5:4; Olympus 50,000 at 1:4; Horizon 200,000 at 1:1).",
+     "timeline": "2 Apr 2026: Accor, Marriott, Qatar removed; BA, Finnair, Vietnam added as Group A at worse ratios; Orchid, Radisson added to Group B (cardtrail, secondary). Jul 2026: Qatar back (magnify, secondary). Sep 2026: Accor back at reduced ratios, Cathay added to Group A, Hilton and Miles & More added to Group B, Flying Blue / Air India / Qantas moved B to A (magnify, secondary, https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/). Cardtrail says Apr 2026 change was made with no 30-day notice.",
+     "expiry": "Official MITC (https://www.axis.bank.in/docs/default-source/default-document-library/mitc-credit-cards.pdf, PDF text extraction is garbled) says: 'Effective 1st Oct 2025, the bank shall forfeit any unredeemed EDGE REWARD Points/Miles 30 days after [text lost in extraction] more than 90 days.' Trigger condition not readable. No general points validity period found.",
+     "ratiosSource": "Ratios and capping amounts in pc-gap-edges.json were used as given. Official transfer-ratio table at https://www.axisbank.com/miles-transfer agrees on base ratios: Burgundy Private and Magnus for Burgundy 5 pts = 4 partner pts; Reserve and Magnus 5 = 2; Horizon 1 EM = 1; Olympus 1 EM = 4; Atlas 1 EM = 2; Select/Privilege/Rewards 10 = 1 (5 = 1 for ITC, SpiceJet, AirAsia). Sept 2026 Group A reduced ratios (BA, Finnair, Vietnam, Accor, Cathay, Qatar) are in pc-gap-edges and cardtrail/magnify only; official page is older."
+    },
+    "annualCapsByCardSecondary": {
+     "source": "https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/ (secondary, modified 2026-09-23)",
+     "table": {
+      "Magnus Burgundy": {
+       "A": 200000,
+       "B": 800000,
+       "total": 1000000
+      },
+      "Olympus": {
+       "A": 150000,
+       "B": 600000,
+       "total": 750000
+      },
+      "Magnus": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Reserve": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Select": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Privilege": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Horizon": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Atlas": {
+       "A": 30000,
+       "B": 120000,
+       "total": 150000
+      }
+     }
+    }
+   },
+   "sources": [
+    {
+     "url": "https://www.axisbank.com/miles-transfer",
+     "type": "official",
+     "date": "fetched 2026-10-21; older partner list"
+    },
+    {
+     "url": "https://www.axis.bank.in/cards/credit-card/axis-bank-magnus-credit-card",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/",
+     "type": "secondary",
+     "date": "2026-09-23"
+    },
+    {
+     "url": "https://cardtrail.in/news/axis-bank-miles-transfer-partners-2026/",
+     "type": "secondary",
+     "date": "2026-04 (event 2 Apr 2026)"
+    }
+   ]
+  },
+  "axis-atlas": {
+   "research_name": "Axis Atlas",
+   "match_pct": 100,
+   "currency": "EDGE Miles (1 EDGE Mile = INR 1 per official T&C)",
+   "last_verified": "2026-10-21",
+   "confidence": "high",
+   "fees": {
+    "joining": "5000",
+    "annual": "5000 (2nd year onwards); + GST",
+    "source": "https://www.axis.bank.in/cards/credit-card/axis-bank-atlas-credit-card (official, fetched 2026-10-21)"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": "Group A 30000 + Group B 120000 = 150000 EDGE Miles per calendar year per Customer ID"
+   },
+   "min_transfer": "500 EDGE Miles",
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": "Ratio 1:2 for most partners; Group A newer partners (BA, Finnair, Lotusmiles, Accor, Asia Miles, Qatar) 2 EM = 1 partner pt; Miles & More 1:1 with group B cap 120000 (pc-gap-edges.json). Cap cannot reach M&M 200,000 miles limit.",
+   "notes": "Official transfer page lists Atlas 1 EM = 2 partner points. Group A/B cap amounts from secondary source only. Cardadvisor says Atlas closed to new applicants (secondary, no Axis announcement). Sept 2026 move of Flying Blue, Air India (Maharaja), Qantas from Group B to Group A cut the usable cap for those partners from 120000 to 30000 (pc-gap-edges shows them in A).",
+   "conflicts": [
+    "Cardadvisor describes milestone miles as cumulative with different tier figures; official T&C used instead: 2500 / +2500 / +5000.",
+    "Closed to new applicants per cardadvisor (secondary); Axis page still shows fees and Apply content."
+   ],
+   "group_notes": {
+    "sharedTransferRules": {
+     "scope": "Caps are per calendar year (reset 1 Jan), per Customer ID, set by the highest Axis card variant held (not per card). Counted in source EDGE Reward Points / EDGE Miles. Source: magnify.club, dated updated 2026-09-23 (secondary). Old official PDF text (Apr 2024) confirms two groups and per-customer-ID capping but the extracted text showed no amounts.",
+     "minTransfer": "500 EDGE Miles; 300 EDGE Reward Points. Max = balance available. Source official: https://www.axisbank.com/miles-transfer (FAQ 2; page not updated for Sept 2026 changes, shows old partner list).",
+     "transferMethod": "Login to Travel EDGE (Axis mobile app or traveledge.axis.bank.in) > Points/Miles Transfer; first time 'Link Member'; OTP on registered mobile. Source official: https://www.axisbank.com/miles-transfer",
+     "fee": "No transfer fee found on any source read. Value null, not found.",
+     "multipleOf": "not found on any source read.",
+     "daily_weekly_monthly": "No daily/weekly/monthly transfer cap found in any source read. Only calendar-year caps.",
+     "milesAndMoreExtraCap": "Sept 2026: Lufthansa Miles & More sits in Group B but has its own cap of 2,00,000 Miles & More miles per calendar year, min 3,000 miles per transfer (Travel EDGE terms clause 2.2, as quoted by magnify.club, secondary: https://magnify.club/guides/axis-group-c-points-transfer/). Consistent with max_source_points in pc-gap-edges.json (Burgundy 250,000 pts at 5:4; Olympus 50,000 at 1:4; Horizon 200,000 at 1:1).",
+     "timeline": "2 Apr 2026: Accor, Marriott, Qatar removed; BA, Finnair, Vietnam added as Group A at worse ratios; Orchid, Radisson added to Group B (cardtrail, secondary). Jul 2026: Qatar back (magnify, secondary). Sep 2026: Accor back at reduced ratios, Cathay added to Group A, Hilton and Miles & More added to Group B, Flying Blue / Air India / Qantas moved B to A (magnify, secondary, https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/). Cardtrail says Apr 2026 change was made with no 30-day notice.",
+     "expiry": "Official MITC (https://www.axis.bank.in/docs/default-source/default-document-library/mitc-credit-cards.pdf, PDF text extraction is garbled) says: 'Effective 1st Oct 2025, the bank shall forfeit any unredeemed EDGE REWARD Points/Miles 30 days after [text lost in extraction] more than 90 days.' Trigger condition not readable. No general points validity period found.",
+     "ratiosSource": "Ratios and capping amounts in pc-gap-edges.json were used as given. Official transfer-ratio table at https://www.axisbank.com/miles-transfer agrees on base ratios: Burgundy Private and Magnus for Burgundy 5 pts = 4 partner pts; Reserve and Magnus 5 = 2; Horizon 1 EM = 1; Olympus 1 EM = 4; Atlas 1 EM = 2; Select/Privilege/Rewards 10 = 1 (5 = 1 for ITC, SpiceJet, AirAsia). Sept 2026 Group A reduced ratios (BA, Finnair, Vietnam, Accor, Cathay, Qatar) are in pc-gap-edges and cardtrail/magnify only; official page is older."
+    },
+    "annualCapsByCardSecondary": {
+     "source": "https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/ (secondary, modified 2026-09-23)",
+     "table": {
+      "Magnus Burgundy": {
+       "A": 200000,
+       "B": 800000,
+       "total": 1000000
+      },
+      "Olympus": {
+       "A": 150000,
+       "B": 600000,
+       "total": 750000
+      },
+      "Magnus": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Reserve": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Select": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Privilege": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Horizon": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Atlas": {
+       "A": 30000,
+       "B": 120000,
+       "total": 150000
+      }
+     }
+    }
+   },
+   "sources": [
+    {
+     "url": "https://www.axisbank.com/miles-transfer",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://www.axis.bank.in/docs/default-source/default-document-library/credit-cards/terms-and-conditions-of-features-of-axis-bank-atlas-credit-card.pdf",
+     "type": "official",
+     "date": "fetched 2026-10-21; no transfer cap text found"
+    },
+    {
+     "url": "https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/",
+     "type": "secondary",
+     "date": "2026-09-23"
+    },
+    {
+     "url": "https://cardadvisor.in/articles/axis-edge-rewards-guide-2026",
+     "type": "secondary",
+     "date": "2026-09-25 re-check"
+    }
+   ]
+  },
+  "axis-magnus-burgundy": {
+   "research_name": "Axis Magnus Burgundy",
+   "match_pct": 100,
+   "currency": "EDGE Reward Points (EDGE Rewards)",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "30000 + GST (cardexpress, secondary)",
+    "annual": "30000 + taxes, waived on spend of 30 lakh in preceding year (official)",
+    "source": "https://www.axis.bank.in/cards/credit-card/axis-bank-magnus-credit-card ; https://cardexpress.in/reviews/axis-magnus-burgundy"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": "Group A 200000 + Group B 800000 = 1000000 EDGE Reward Points per calendar year per Customer ID"
+   },
+   "min_transfer": "300 EDGE Reward Points",
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": "Ratio 5:4 for most partners; 5:2 for BA, Finnair, Lotusmiles, Accor, Asia Miles, Qatar. Miles & More alone capped at 200,000 M&M miles = 250,000 pts at 5:4 (pc-gap-edges max_source_points 250000). Magnify lists Magnus for Burgundy among cards where the M&M cap bites before Group B.",
+   "notes": "Official Magnus page: Burgundy holders earn 'up to 4 partner miles for every 5 EDGE Reward points across 20 travel partners'. Cap amounts secondary only. Official page banner says Magnus for Burgundy T&C will be updated w.e.f. 28 Aug 2026 (change content not read).",
+   "conflicts": [
+    "Paisabazaar says 5:4, cardtrail says Burgundy gets 5:2 'better ratio' for BA Avios; resolved: official page 5:4 base, pc-gap-edges 5:4 base and 5:2 for BA/Finnair/Lotusmiles/Accor/Asia Miles/Qatar.",
+    "Official page (Magnus) ratio text for Burgundy is from a Magnus product page, not a Burgundy-specific page."
+   ],
+   "group_notes": {
+    "sharedTransferRules": {
+     "scope": "Caps are per calendar year (reset 1 Jan), per Customer ID, set by the highest Axis card variant held (not per card). Counted in source EDGE Reward Points / EDGE Miles. Source: magnify.club, dated updated 2026-09-23 (secondary). Old official PDF text (Apr 2024) confirms two groups and per-customer-ID capping but the extracted text showed no amounts.",
+     "minTransfer": "500 EDGE Miles; 300 EDGE Reward Points. Max = balance available. Source official: https://www.axisbank.com/miles-transfer (FAQ 2; page not updated for Sept 2026 changes, shows old partner list).",
+     "transferMethod": "Login to Travel EDGE (Axis mobile app or traveledge.axis.bank.in) > Points/Miles Transfer; first time 'Link Member'; OTP on registered mobile. Source official: https://www.axisbank.com/miles-transfer",
+     "fee": "No transfer fee found on any source read. Value null, not found.",
+     "multipleOf": "not found on any source read.",
+     "daily_weekly_monthly": "No daily/weekly/monthly transfer cap found in any source read. Only calendar-year caps.",
+     "milesAndMoreExtraCap": "Sept 2026: Lufthansa Miles & More sits in Group B but has its own cap of 2,00,000 Miles & More miles per calendar year, min 3,000 miles per transfer (Travel EDGE terms clause 2.2, as quoted by magnify.club, secondary: https://magnify.club/guides/axis-group-c-points-transfer/). Consistent with max_source_points in pc-gap-edges.json (Burgundy 250,000 pts at 5:4; Olympus 50,000 at 1:4; Horizon 200,000 at 1:1).",
+     "timeline": "2 Apr 2026: Accor, Marriott, Qatar removed; BA, Finnair, Vietnam added as Group A at worse ratios; Orchid, Radisson added to Group B (cardtrail, secondary). Jul 2026: Qatar back (magnify, secondary). Sep 2026: Accor back at reduced ratios, Cathay added to Group A, Hilton and Miles & More added to Group B, Flying Blue / Air India / Qantas moved B to A (magnify, secondary, https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/). Cardtrail says Apr 2026 change was made with no 30-day notice.",
+     "expiry": "Official MITC (https://www.axis.bank.in/docs/default-source/default-document-library/mitc-credit-cards.pdf, PDF text extraction is garbled) says: 'Effective 1st Oct 2025, the bank shall forfeit any unredeemed EDGE REWARD Points/Miles 30 days after [text lost in extraction] more than 90 days.' Trigger condition not readable. No general points validity period found.",
+     "ratiosSource": "Ratios and capping amounts in pc-gap-edges.json were used as given. Official transfer-ratio table at https://www.axisbank.com/miles-transfer agrees on base ratios: Burgundy Private and Magnus for Burgundy 5 pts = 4 partner pts; Reserve and Magnus 5 = 2; Horizon 1 EM = 1; Olympus 1 EM = 4; Atlas 1 EM = 2; Select/Privilege/Rewards 10 = 1 (5 = 1 for ITC, SpiceJet, AirAsia). Sept 2026 Group A reduced ratios (BA, Finnair, Vietnam, Accor, Cathay, Qatar) are in pc-gap-edges and cardtrail/magnify only; official page is older."
+    },
+    "annualCapsByCardSecondary": {
+     "source": "https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/ (secondary, modified 2026-09-23)",
+     "table": {
+      "Magnus Burgundy": {
+       "A": 200000,
+       "B": 800000,
+       "total": 1000000
+      },
+      "Olympus": {
+       "A": 150000,
+       "B": 600000,
+       "total": 750000
+      },
+      "Magnus": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Reserve": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Select": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Privilege": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Horizon": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Atlas": {
+       "A": 30000,
+       "B": 120000,
+       "total": 150000
+      }
+     }
+    }
+   },
+   "sources": [
+    {
+     "url": "https://www.axisbank.com/miles-transfer",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://www.axis.bank.in/cards/credit-card/axis-bank-magnus-credit-card",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/",
+     "type": "secondary",
+     "date": "2026-09-23"
+    },
+    {
+     "url": "https://magnify.club/guides/axis-group-c-points-transfer/",
+     "type": "secondary",
+     "date": "2026-09"
+    },
+    {
+     "url": "https://cardexpress.in/reviews/axis-magnus-burgundy",
+     "type": "secondary",
+     "date": "updated 2026-07"
+    }
+   ]
+  },
+  "axis-privilege": {
+   "research_name": "Axis Privilege",
+   "match_pct": 100,
+   "currency": "EDGE Reward Points (EDGE Rewards)",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "NIL (limited period offer on Amex network; fee table on page)",
+    "annual": "1500; reversed on achieving spend of 5 lakh in previous anniversary year. Fee table shows NIL (limited period on Amex network).",
+    "source": "https://www.axis.bank.in/cards/credit-card/privilege-credit-card-with-unlimited-benefits (official, fetched 2026-10-21); the Visa/Mastercard joining fee not found"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": "Group A 100000 + Group B 400000 = 500000 EDGE Reward Points per calendar year per Customer ID"
+   },
+   "min_transfer": "300 EDGE Reward Points",
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": "10:1 for most partners; 5:1 for AirAsia and SpiceJet (ITC listed on official page, no longer a partner per cardtrail). Group B limit 400000 at 10:1 gives 40000 M&M miles so M&M cap not reached.",
+   "notes": "Cap amounts secondary only.",
+   "conflicts": [
+    "Fee table on the fetched page says NIL for limited period on Amex network while the milestone text says annual fee INR 1500 is reversed; cardtrail lists Privilege fee INR 1,500 (secondary). Network-specific fees not resolved."
+   ],
+   "group_notes": {
+    "sharedTransferRules": {
+     "scope": "Caps are per calendar year (reset 1 Jan), per Customer ID, set by the highest Axis card variant held (not per card). Counted in source EDGE Reward Points / EDGE Miles. Source: magnify.club, dated updated 2026-09-23 (secondary). Old official PDF text (Apr 2024) confirms two groups and per-customer-ID capping but the extracted text showed no amounts.",
+     "minTransfer": "500 EDGE Miles; 300 EDGE Reward Points. Max = balance available. Source official: https://www.axisbank.com/miles-transfer (FAQ 2; page not updated for Sept 2026 changes, shows old partner list).",
+     "transferMethod": "Login to Travel EDGE (Axis mobile app or traveledge.axis.bank.in) > Points/Miles Transfer; first time 'Link Member'; OTP on registered mobile. Source official: https://www.axisbank.com/miles-transfer",
+     "fee": "No transfer fee found on any source read. Value null, not found.",
+     "multipleOf": "not found on any source read.",
+     "daily_weekly_monthly": "No daily/weekly/monthly transfer cap found in any source read. Only calendar-year caps.",
+     "milesAndMoreExtraCap": "Sept 2026: Lufthansa Miles & More sits in Group B but has its own cap of 2,00,000 Miles & More miles per calendar year, min 3,000 miles per transfer (Travel EDGE terms clause 2.2, as quoted by magnify.club, secondary: https://magnify.club/guides/axis-group-c-points-transfer/). Consistent with max_source_points in pc-gap-edges.json (Burgundy 250,000 pts at 5:4; Olympus 50,000 at 1:4; Horizon 200,000 at 1:1).",
+     "timeline": "2 Apr 2026: Accor, Marriott, Qatar removed; BA, Finnair, Vietnam added as Group A at worse ratios; Orchid, Radisson added to Group B (cardtrail, secondary). Jul 2026: Qatar back (magnify, secondary). Sep 2026: Accor back at reduced ratios, Cathay added to Group A, Hilton and Miles & More added to Group B, Flying Blue / Air India / Qantas moved B to A (magnify, secondary, https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/). Cardtrail says Apr 2026 change was made with no 30-day notice.",
+     "expiry": "Official MITC (https://www.axis.bank.in/docs/default-source/default-document-library/mitc-credit-cards.pdf, PDF text extraction is garbled) says: 'Effective 1st Oct 2025, the bank shall forfeit any unredeemed EDGE REWARD Points/Miles 30 days after [text lost in extraction] more than 90 days.' Trigger condition not readable. No general points validity period found.",
+     "ratiosSource": "Ratios and capping amounts in pc-gap-edges.json were used as given. Official transfer-ratio table at https://www.axisbank.com/miles-transfer agrees on base ratios: Burgundy Private and Magnus for Burgundy 5 pts = 4 partner pts; Reserve and Magnus 5 = 2; Horizon 1 EM = 1; Olympus 1 EM = 4; Atlas 1 EM = 2; Select/Privilege/Rewards 10 = 1 (5 = 1 for ITC, SpiceJet, AirAsia). Sept 2026 Group A reduced ratios (BA, Finnair, Vietnam, Accor, Cathay, Qatar) are in pc-gap-edges and cardtrail/magnify only; official page is older."
+    },
+    "annualCapsByCardSecondary": {
+     "source": "https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/ (secondary, modified 2026-09-23)",
+     "table": {
+      "Magnus Burgundy": {
+       "A": 200000,
+       "B": 800000,
+       "total": 1000000
+      },
+      "Olympus": {
+       "A": 150000,
+       "B": 600000,
+       "total": 750000
+      },
+      "Magnus": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Reserve": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Select": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Privilege": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Horizon": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Atlas": {
+       "A": 30000,
+       "B": 120000,
+       "total": 150000
+      }
+     }
+    }
+   },
+   "sources": [
+    {
+     "url": "https://www.axisbank.com/miles-transfer",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/",
+     "type": "secondary",
+     "date": "2026-09-23"
+    }
+   ]
+  },
+  "axis-select": {
+   "research_name": "Axis Select",
+   "match_pct": 100,
+   "currency": "EDGE Reward Points (EDGE Rewards)",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "3000 (NIL for Burgundy)",
+    "annual": "3000 from 2nd year (NIL for Burgundy)",
+    "source": "https://www.axis.bank.in/cards/credit-card/axis-bank-select-credit-card (official, fetched 2026-10-21)"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": "Group A 100000 + Group B 400000 = 500000 EDGE Reward Points per calendar year per Customer ID"
+   },
+   "min_transfer": "300 EDGE Reward Points",
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": "10:1 for most partners; 5:1 for AirAsia, SpiceJet (pc-gap-edges.json; official transfer page).",
+   "notes": "Cap amounts secondary only.",
+   "conflicts": [],
+   "group_notes": {
+    "sharedTransferRules": {
+     "scope": "Caps are per calendar year (reset 1 Jan), per Customer ID, set by the highest Axis card variant held (not per card). Counted in source EDGE Reward Points / EDGE Miles. Source: magnify.club, dated updated 2026-09-23 (secondary). Old official PDF text (Apr 2024) confirms two groups and per-customer-ID capping but the extracted text showed no amounts.",
+     "minTransfer": "500 EDGE Miles; 300 EDGE Reward Points. Max = balance available. Source official: https://www.axisbank.com/miles-transfer (FAQ 2; page not updated for Sept 2026 changes, shows old partner list).",
+     "transferMethod": "Login to Travel EDGE (Axis mobile app or traveledge.axis.bank.in) > Points/Miles Transfer; first time 'Link Member'; OTP on registered mobile. Source official: https://www.axisbank.com/miles-transfer",
+     "fee": "No transfer fee found on any source read. Value null, not found.",
+     "multipleOf": "not found on any source read.",
+     "daily_weekly_monthly": "No daily/weekly/monthly transfer cap found in any source read. Only calendar-year caps.",
+     "milesAndMoreExtraCap": "Sept 2026: Lufthansa Miles & More sits in Group B but has its own cap of 2,00,000 Miles & More miles per calendar year, min 3,000 miles per transfer (Travel EDGE terms clause 2.2, as quoted by magnify.club, secondary: https://magnify.club/guides/axis-group-c-points-transfer/). Consistent with max_source_points in pc-gap-edges.json (Burgundy 250,000 pts at 5:4; Olympus 50,000 at 1:4; Horizon 200,000 at 1:1).",
+     "timeline": "2 Apr 2026: Accor, Marriott, Qatar removed; BA, Finnair, Vietnam added as Group A at worse ratios; Orchid, Radisson added to Group B (cardtrail, secondary). Jul 2026: Qatar back (magnify, secondary). Sep 2026: Accor back at reduced ratios, Cathay added to Group A, Hilton and Miles & More added to Group B, Flying Blue / Air India / Qantas moved B to A (magnify, secondary, https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/). Cardtrail says Apr 2026 change was made with no 30-day notice.",
+     "expiry": "Official MITC (https://www.axis.bank.in/docs/default-source/default-document-library/mitc-credit-cards.pdf, PDF text extraction is garbled) says: 'Effective 1st Oct 2025, the bank shall forfeit any unredeemed EDGE REWARD Points/Miles 30 days after [text lost in extraction] more than 90 days.' Trigger condition not readable. No general points validity period found.",
+     "ratiosSource": "Ratios and capping amounts in pc-gap-edges.json were used as given. Official transfer-ratio table at https://www.axisbank.com/miles-transfer agrees on base ratios: Burgundy Private and Magnus for Burgundy 5 pts = 4 partner pts; Reserve and Magnus 5 = 2; Horizon 1 EM = 1; Olympus 1 EM = 4; Atlas 1 EM = 2; Select/Privilege/Rewards 10 = 1 (5 = 1 for ITC, SpiceJet, AirAsia). Sept 2026 Group A reduced ratios (BA, Finnair, Vietnam, Accor, Cathay, Qatar) are in pc-gap-edges and cardtrail/magnify only; official page is older."
+    },
+    "annualCapsByCardSecondary": {
+     "source": "https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/ (secondary, modified 2026-09-23)",
+     "table": {
+      "Magnus Burgundy": {
+       "A": 200000,
+       "B": 800000,
+       "total": 1000000
+      },
+      "Olympus": {
+       "A": 150000,
+       "B": 600000,
+       "total": 750000
+      },
+      "Magnus": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Reserve": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Select": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Privilege": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Horizon": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Atlas": {
+       "A": 30000,
+       "B": 120000,
+       "total": 150000
+      }
+     }
+    }
+   },
+   "sources": [
+    {
+     "url": "https://www.axisbank.com/miles-transfer",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/",
+     "type": "secondary",
+     "date": "2026-09-23"
+    }
+   ]
+  },
+  "axis-horizon": {
+   "research_name": "Axis Horizon",
+   "match_pct": 100,
+   "currency": "EDGE Miles (1 EDGE Mile = INR 1 per official page)",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "3000 (Nil for customers with a Burgundy Savings Account opened on or after 1 Jul 2026)",
+    "annual": "3000 (same Burgundy exception)",
+    "source": "https://www.axis.bank.in/cards/credit-card/axis-horizon-credit-card (official, fetched 2026-10-21)"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": "Group A 100000 + Group B 400000 = 500000 EDGE Miles per calendar year per Customer ID; Miles & More alone 200,000 M&M miles (= 200000 EM at 1:1)"
+   },
+   "min_transfer": "500 EDGE Miles",
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": "1:1 for most partners; 2 EM = 1 partner pt for BA, Finnair, Lotusmiles, Accor, Asia Miles, Qatar (pc-gap-edges.json). Magnify lists Horizon among cards where the M&M cap bites.",
+   "notes": "Official transfer page lists Horizon 1 EM = 1 partner point. Cap amounts secondary only.",
+   "conflicts": [
+    "Cardtrail (secondary) states Horizon fee INR 3,000 - agrees with official."
+   ],
+   "group_notes": {
+    "sharedTransferRules": {
+     "scope": "Caps are per calendar year (reset 1 Jan), per Customer ID, set by the highest Axis card variant held (not per card). Counted in source EDGE Reward Points / EDGE Miles. Source: magnify.club, dated updated 2026-09-23 (secondary). Old official PDF text (Apr 2024) confirms two groups and per-customer-ID capping but the extracted text showed no amounts.",
+     "minTransfer": "500 EDGE Miles; 300 EDGE Reward Points. Max = balance available. Source official: https://www.axisbank.com/miles-transfer (FAQ 2; page not updated for Sept 2026 changes, shows old partner list).",
+     "transferMethod": "Login to Travel EDGE (Axis mobile app or traveledge.axis.bank.in) > Points/Miles Transfer; first time 'Link Member'; OTP on registered mobile. Source official: https://www.axisbank.com/miles-transfer",
+     "fee": "No transfer fee found on any source read. Value null, not found.",
+     "multipleOf": "not found on any source read.",
+     "daily_weekly_monthly": "No daily/weekly/monthly transfer cap found in any source read. Only calendar-year caps.",
+     "milesAndMoreExtraCap": "Sept 2026: Lufthansa Miles & More sits in Group B but has its own cap of 2,00,000 Miles & More miles per calendar year, min 3,000 miles per transfer (Travel EDGE terms clause 2.2, as quoted by magnify.club, secondary: https://magnify.club/guides/axis-group-c-points-transfer/). Consistent with max_source_points in pc-gap-edges.json (Burgundy 250,000 pts at 5:4; Olympus 50,000 at 1:4; Horizon 200,000 at 1:1).",
+     "timeline": "2 Apr 2026: Accor, Marriott, Qatar removed; BA, Finnair, Vietnam added as Group A at worse ratios; Orchid, Radisson added to Group B (cardtrail, secondary). Jul 2026: Qatar back (magnify, secondary). Sep 2026: Accor back at reduced ratios, Cathay added to Group A, Hilton and Miles & More added to Group B, Flying Blue / Air India / Qantas moved B to A (magnify, secondary, https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/). Cardtrail says Apr 2026 change was made with no 30-day notice.",
+     "expiry": "Official MITC (https://www.axis.bank.in/docs/default-source/default-document-library/mitc-credit-cards.pdf, PDF text extraction is garbled) says: 'Effective 1st Oct 2025, the bank shall forfeit any unredeemed EDGE REWARD Points/Miles 30 days after [text lost in extraction] more than 90 days.' Trigger condition not readable. No general points validity period found.",
+     "ratiosSource": "Ratios and capping amounts in pc-gap-edges.json were used as given. Official transfer-ratio table at https://www.axisbank.com/miles-transfer agrees on base ratios: Burgundy Private and Magnus for Burgundy 5 pts = 4 partner pts; Reserve and Magnus 5 = 2; Horizon 1 EM = 1; Olympus 1 EM = 4; Atlas 1 EM = 2; Select/Privilege/Rewards 10 = 1 (5 = 1 for ITC, SpiceJet, AirAsia). Sept 2026 Group A reduced ratios (BA, Finnair, Vietnam, Accor, Cathay, Qatar) are in pc-gap-edges and cardtrail/magnify only; official page is older."
+    },
+    "annualCapsByCardSecondary": {
+     "source": "https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/ (secondary, modified 2026-09-23)",
+     "table": {
+      "Magnus Burgundy": {
+       "A": 200000,
+       "B": 800000,
+       "total": 1000000
+      },
+      "Olympus": {
+       "A": 150000,
+       "B": 600000,
+       "total": 750000
+      },
+      "Magnus": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Reserve": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Select": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Privilege": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Horizon": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Atlas": {
+       "A": 30000,
+       "B": 120000,
+       "total": 150000
+      }
+     }
+    }
+   },
+   "sources": [
+    {
+     "url": "https://www.axisbank.com/miles-transfer",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/",
+     "type": "secondary",
+     "date": "2026-09-23"
+    },
+    {
+     "url": "https://magnify.club/guides/axis-group-c-points-transfer/",
+     "type": "secondary",
+     "date": "2026-09"
+    },
+    {
+     "url": "https://cardtrail.in/news/axis-bank-miles-transfer-partners-2026/",
+     "type": "secondary",
+     "date": "2026-04"
+    }
+   ]
+  },
+  "axis-olympus": {
+   "research_name": "Axis Olympus",
+   "match_pct": 100,
+   "currency": "EDGE Miles",
+   "last_verified": "2026-10-21",
+   "confidence": "low",
+   "fees": {
+    "joining": "20000 (cardtrail, secondary)",
+    "annual": "20000 (cardadvisor, cardtrail, secondary); GST extra, ~23,600 incl GST per cardadvisor",
+    "source": "https://cardadvisor.in/articles/axis-bank-olympus-credit-card-review-2026 ; https://cardtrail.in/cards/axis-bank-olympus-credit-card/. No official Olympus page found: axis.bank.in olympus URLs return 404."
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": "Group A 150000 + Group B 600000 = 750000 EDGE Miles per calendar year per Customer ID (cardadvisor also states up to 7.5 lakh EDGE Miles a year)"
+   },
+   "min_transfer": "500 EDGE Miles",
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": "1:4 for most partners; 1:2 for BA, Finnair, Lotusmiles, Accor, Asia Miles, Qatar. Miles & More alone capped at 200,000 M&M miles = 50,000 EDGE Miles at 1:4 (pc-gap-edges max_source_points 50000; Axis terms clause 2.2 per magnify).",
+   "notes": "Official transfer page lists Olympus 1 EM = 4 partner points. Invite-only / no public application per cardadvisor.",
+   "conflicts": [
+    "Fee waiver: cardtrail says waived on INR 15L spend; cardadvisor says no waiver threshold.",
+    "Earn: cardtrail lists 2% base and up to 5%; cardadvisor and finanjo list 1 EM per INR 100 domestic, 2 intl. Cardadvisor used.",
+    "Welcome: cardtrail adds 2,500 EDGE Miles, cardadvisor lists voucher only.",
+    "No official Olympus card page found."
+   ],
+   "group_notes": {
+    "sharedTransferRules": {
+     "scope": "Caps are per calendar year (reset 1 Jan), per Customer ID, set by the highest Axis card variant held (not per card). Counted in source EDGE Reward Points / EDGE Miles. Source: magnify.club, dated updated 2026-09-23 (secondary). Old official PDF text (Apr 2024) confirms two groups and per-customer-ID capping but the extracted text showed no amounts.",
+     "minTransfer": "500 EDGE Miles; 300 EDGE Reward Points. Max = balance available. Source official: https://www.axisbank.com/miles-transfer (FAQ 2; page not updated for Sept 2026 changes, shows old partner list).",
+     "transferMethod": "Login to Travel EDGE (Axis mobile app or traveledge.axis.bank.in) > Points/Miles Transfer; first time 'Link Member'; OTP on registered mobile. Source official: https://www.axisbank.com/miles-transfer",
+     "fee": "No transfer fee found on any source read. Value null, not found.",
+     "multipleOf": "not found on any source read.",
+     "daily_weekly_monthly": "No daily/weekly/monthly transfer cap found in any source read. Only calendar-year caps.",
+     "milesAndMoreExtraCap": "Sept 2026: Lufthansa Miles & More sits in Group B but has its own cap of 2,00,000 Miles & More miles per calendar year, min 3,000 miles per transfer (Travel EDGE terms clause 2.2, as quoted by magnify.club, secondary: https://magnify.club/guides/axis-group-c-points-transfer/). Consistent with max_source_points in pc-gap-edges.json (Burgundy 250,000 pts at 5:4; Olympus 50,000 at 1:4; Horizon 200,000 at 1:1).",
+     "timeline": "2 Apr 2026: Accor, Marriott, Qatar removed; BA, Finnair, Vietnam added as Group A at worse ratios; Orchid, Radisson added to Group B (cardtrail, secondary). Jul 2026: Qatar back (magnify, secondary). Sep 2026: Accor back at reduced ratios, Cathay added to Group A, Hilton and Miles & More added to Group B, Flying Blue / Air India / Qantas moved B to A (magnify, secondary, https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/). Cardtrail says Apr 2026 change was made with no 30-day notice.",
+     "expiry": "Official MITC (https://www.axis.bank.in/docs/default-source/default-document-library/mitc-credit-cards.pdf, PDF text extraction is garbled) says: 'Effective 1st Oct 2025, the bank shall forfeit any unredeemed EDGE REWARD Points/Miles 30 days after [text lost in extraction] more than 90 days.' Trigger condition not readable. No general points validity period found.",
+     "ratiosSource": "Ratios and capping amounts in pc-gap-edges.json were used as given. Official transfer-ratio table at https://www.axisbank.com/miles-transfer agrees on base ratios: Burgundy Private and Magnus for Burgundy 5 pts = 4 partner pts; Reserve and Magnus 5 = 2; Horizon 1 EM = 1; Olympus 1 EM = 4; Atlas 1 EM = 2; Select/Privilege/Rewards 10 = 1 (5 = 1 for ITC, SpiceJet, AirAsia). Sept 2026 Group A reduced ratios (BA, Finnair, Vietnam, Accor, Cathay, Qatar) are in pc-gap-edges and cardtrail/magnify only; official page is older."
+    },
+    "annualCapsByCardSecondary": {
+     "source": "https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/ (secondary, modified 2026-09-23)",
+     "table": {
+      "Magnus Burgundy": {
+       "A": 200000,
+       "B": 800000,
+       "total": 1000000
+      },
+      "Olympus": {
+       "A": 150000,
+       "B": 600000,
+       "total": 750000
+      },
+      "Magnus": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Reserve": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Select": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Privilege": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Horizon": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Atlas": {
+       "A": 30000,
+       "B": 120000,
+       "total": 150000
+      }
+     }
+    }
+   },
+   "sources": [
+    {
+     "url": "https://www.axisbank.com/miles-transfer",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/",
+     "type": "secondary",
+     "date": "2026-09-23"
+    },
+    {
+     "url": "https://magnify.club/guides/axis-group-c-points-transfer/",
+     "type": "secondary",
+     "date": "2026-09"
+    },
+    {
+     "url": "https://cardadvisor.in/articles/axis-bank-olympus-credit-card-review-2026",
+     "type": "secondary",
+     "date": "2026-09-26"
+    }
+   ]
+  },
+  "axis-reserve": {
+   "research_name": "Axis Reserve",
+   "match_pct": 100,
+   "currency": "EDGE Reward Points (EDGE Rewards)",
+   "last_verified": "2026-10-21",
+   "confidence": "low",
+   "fees": {
+    "joining": "50000",
+    "annual": "50000; waived at INR 35 lakh annual spend (cardadvisor, secondary)",
+    "source": "https://www.axis.bank.in/offers-rewards/axis-edge-rewards/credit-card (official listing: Joining Fee 50,000, Annual Fee 50,000; 15,000 EDGE Reward Points on activation) ; waiver from https://cardadvisor.in/cards/axis-reserve"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": "Group A 100000 + Group B 400000 = 500000 EDGE Reward Points per calendar year per Customer ID"
+   },
+   "min_transfer": "300 EDGE Reward Points",
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": "5:2 for most partners; 5:1 for BA, Finnair, Lotusmiles, Accor, Asia Miles, Qatar (pc-gap-edges.json). Official transfer page lists Reserve 5 = 2.",
+   "notes": "Invite-only per cardadvisor. Official Reserve page at axis.bank.in/cards/credit-card/reserve-credit-card returned a page with no readable card content. Cap amounts secondary only.",
+   "conflicts": [
+    "No official page with earn rates found; earn and waiver from one secondary source."
+   ],
+   "group_notes": {
+    "sharedTransferRules": {
+     "scope": "Caps are per calendar year (reset 1 Jan), per Customer ID, set by the highest Axis card variant held (not per card). Counted in source EDGE Reward Points / EDGE Miles. Source: magnify.club, dated updated 2026-09-23 (secondary). Old official PDF text (Apr 2024) confirms two groups and per-customer-ID capping but the extracted text showed no amounts.",
+     "minTransfer": "500 EDGE Miles; 300 EDGE Reward Points. Max = balance available. Source official: https://www.axisbank.com/miles-transfer (FAQ 2; page not updated for Sept 2026 changes, shows old partner list).",
+     "transferMethod": "Login to Travel EDGE (Axis mobile app or traveledge.axis.bank.in) > Points/Miles Transfer; first time 'Link Member'; OTP on registered mobile. Source official: https://www.axisbank.com/miles-transfer",
+     "fee": "No transfer fee found on any source read. Value null, not found.",
+     "multipleOf": "not found on any source read.",
+     "daily_weekly_monthly": "No daily/weekly/monthly transfer cap found in any source read. Only calendar-year caps.",
+     "milesAndMoreExtraCap": "Sept 2026: Lufthansa Miles & More sits in Group B but has its own cap of 2,00,000 Miles & More miles per calendar year, min 3,000 miles per transfer (Travel EDGE terms clause 2.2, as quoted by magnify.club, secondary: https://magnify.club/guides/axis-group-c-points-transfer/). Consistent with max_source_points in pc-gap-edges.json (Burgundy 250,000 pts at 5:4; Olympus 50,000 at 1:4; Horizon 200,000 at 1:1).",
+     "timeline": "2 Apr 2026: Accor, Marriott, Qatar removed; BA, Finnair, Vietnam added as Group A at worse ratios; Orchid, Radisson added to Group B (cardtrail, secondary). Jul 2026: Qatar back (magnify, secondary). Sep 2026: Accor back at reduced ratios, Cathay added to Group A, Hilton and Miles & More added to Group B, Flying Blue / Air India / Qantas moved B to A (magnify, secondary, https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/). Cardtrail says Apr 2026 change was made with no 30-day notice.",
+     "expiry": "Official MITC (https://www.axis.bank.in/docs/default-source/default-document-library/mitc-credit-cards.pdf, PDF text extraction is garbled) says: 'Effective 1st Oct 2025, the bank shall forfeit any unredeemed EDGE REWARD Points/Miles 30 days after [text lost in extraction] more than 90 days.' Trigger condition not readable. No general points validity period found.",
+     "ratiosSource": "Ratios and capping amounts in pc-gap-edges.json were used as given. Official transfer-ratio table at https://www.axisbank.com/miles-transfer agrees on base ratios: Burgundy Private and Magnus for Burgundy 5 pts = 4 partner pts; Reserve and Magnus 5 = 2; Horizon 1 EM = 1; Olympus 1 EM = 4; Atlas 1 EM = 2; Select/Privilege/Rewards 10 = 1 (5 = 1 for ITC, SpiceJet, AirAsia). Sept 2026 Group A reduced ratios (BA, Finnair, Vietnam, Accor, Cathay, Qatar) are in pc-gap-edges and cardtrail/magnify only; official page is older."
+    },
+    "annualCapsByCardSecondary": {
+     "source": "https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/ (secondary, modified 2026-09-23)",
+     "table": {
+      "Magnus Burgundy": {
+       "A": 200000,
+       "B": 800000,
+       "total": 1000000
+      },
+      "Olympus": {
+       "A": 150000,
+       "B": 600000,
+       "total": 750000
+      },
+      "Magnus": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Reserve": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Select": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Privilege": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Horizon": {
+       "A": 100000,
+       "B": 400000,
+       "total": 500000
+      },
+      "Atlas": {
+       "A": 30000,
+       "B": 120000,
+       "total": 150000
+      }
+     }
+    }
+   },
+   "sources": [
+    {
+     "url": "https://www.axisbank.com/miles-transfer",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://magnify.club/guides/axis-bank-group-a-group-b-transfer-partners/",
+     "type": "secondary",
+     "date": "2026-09-23"
+    },
+    {
+     "url": "https://cardadvisor.in/cards/axis-reserve",
+     "type": "secondary",
+     "date": "2026-10-11"
+    }
+   ]
+  },
+  "hdfc-diners": {
+   "research_name": "HDFC Diners Club Black",
+   "match_pct": 100,
+   "currency": "HDFC Bank Reward Points (RP)",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "Diners Club Black Metal Edition: Rs 10,000 + taxes. Original (non-metal) Diners Black: Rs 10,000 + taxes",
+    "annual": "Metal Edition: Rs 10,000 + taxes, waived on Rs 8 lakh spend in 12 months. Non-metal Diners Black: Rs 10,000 + taxes, waived on Rs 5 lakh spend",
+    "source": "https://www.hdfc.bank.in/credit-cards/diners-club-black-metal-edition-credit-card ; https://www.hdfc.bank.in/credit-cards/diners-club-black-credit-card (official product pages, fetched 2026-10-21)"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "Flights+hotels SmartBuy redemption: 75,000 RP per calendar month (official, Diners Black T&C dated 19 Aug 2024, w.e.f. 1 Jan 2023). Airmiles-transfer cap: no official text found; secondary cardadvisor says 75,000 RP per month for partner transfers (behind login, uncitable).",
+    "annual": null
+   },
+   "min_transfer": "1,000 RP (secondary: cardadvisor only)",
+   "multiple_of": "1,000 RP; Club ITC 200 (secondary: cardadvisor only)",
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "Not found (official): daily, weekly, annual caps; transfer fee; primary-card-only rule. Official page lists airmile conversion 'Up to 1.0 airmile' per RP (consistent with 1:1 KrisFlyer in edges file). Transfer is irreversible once initiated (secondary: cardadvisor). 2026: SmartBuy cap structure changed 1 Jul 2026 (brand-voucher sub-cap 3,000 RP/month); no 2026 transfer-cap change found. Diners Black T&C on the HDFC site (19 Aug 2024) predates 2026; mark as older than 2026. Separate 2022-era: 70% of booking value max payable in points on SmartBuy flights/hotels (official SmartBuy T&C Oct 2026).",
+   "conflicts": [
+    "SmartBuy overall cap for non-metal Diners Black: official SmartBuy T&C Oct 2026 says 7,500 RP/month; secondary cardinsider/cardexpress give 7,500 for Diners Black and 10,000 for Metal (agree); cardadvisor text gives 10,000 for Diners Black without distinguishing metal; cardtrail (Apr 2026) says 5,000 bonus points/month for most cards (disagrees, treat as stale).",
+    "Transfer cap 75,000 RP/month for Diners Black is from cardadvisor (secondary, behind login). Official Diners Black T&C (2024) states 75,000 only for SmartBuy flights+hotels redemption and is silent on airmiles.",
+    "Card list name 'HDFC Diners Club Black' covers two products (Metal Edition, now sold; original non-metal Diners Black). Metal Edition is the one open to new applicants per cardexpress (secondary)."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/cards/credit-cards/diners-club-black-metal-edition-credit-card/redemption-value.pdf",
+     "type": "official",
+     "date": "19 Aug 2024 (older than 2026)"
+    },
+    {
+     "url": "https://cardadvisor.in/articles/hdfc-reward-points-transfer-guide",
+     "type": "secondary",
+     "date": "Updated 25 Sep 2026"
+    },
+    {
+     "url": "https://www.hdfc.bank.in/credit-cards/diners-club-black-metal-edition-credit-card",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    }
+   ]
+  },
+  "hdfc-diners-privilege": {
+   "research_name": "HDFC Diners Privilege",
+   "match_pct": 100,
+   "currency": "HDFC Bank Reward Points (RP)",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "Rs 1,000 + taxes",
+    "annual": "Rs 1,000 + taxes, waived on Rs 3 lakh annual spend",
+    "source": "https://www.hdfc.bank.in/credit-cards/diners-privilege-credit-card"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": null,
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "Not found. Official Diners Privilege page and 2026 FAQ/T&C (June 2026) list no airmiles-transfer cap and no airmiles row in the redemption table (only SmartBuy flights/hotels Rs 0.5, catalogue up to Rs 0.35, restaurants Rs 0.50, cashback up to Rs 0.20). Edges file lists KrisFlyer 2:1 only; the bank page does not state the airmile ratio, so unverified on the bank page. Diners Privilege is not named in cardadvisor's list of cards eligible for the 22-partner transfer menu (Infinia, Diners Club Black, Regalia Gold).",
+   "conflicts": [
+    "2 Apr 2026 FAQ title 'diners-privilege-update'; a mid-2026 update (lounge access spend-based from 1 Jul 2026) is official. No conflict found on earn."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.hdfc.bank.in/credit-cards/diners-privilege-credit-card",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/cards/credit-cards/diners-privilege-credit-card/pdf/diners-privilege-tnc-2026.pdf",
+     "type": "official",
+     "date": "June 2026"
+    },
+    {
+     "url": "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/cards/credit-cards/diners-privilege-credit-card/pdf/diners-privilege-update-faq-and-tnc.pdf",
+     "type": "official",
+     "date": "2 Apr 2026 (lounge/spend update)"
+    }
+   ]
+  },
+  "hdfc-infinia": {
+   "research_name": "HDFC Infinia",
+   "match_pct": 100,
+   "currency": "HDFC Bank Reward Points (RP)",
+   "last_verified": "2026-10-21",
+   "confidence": "high",
+   "fees": {
+    "joining": "Infinia Metal: Rs 12,500 + taxes. Original Infinia: Rs 10,000 + taxes",
+    "annual": "Infinia Metal: Rs 12,500 + taxes, waived on Rs 10 lakh spend in preceding 12 months. Original Infinia: Rs 10,000 + taxes, waived on Rs 8 lakh",
+    "source": "https://www.hdfc.bank.in/credit-cards/infinia-credit-card ; MITC 17 Oct 2026"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "1,50,000 RP per calendar month combined for SmartBuy flights, hotels AND airmiles transfer (official Infinia Rewards T&C clause 12c, effective 1 Jan 2023, T&C also carries a 1 Jul 2026 entry). Same cap is on the Infinia product page: 'redemption capped at 1.5 lakh reward points per month for Flights, Hotel Bookings and airmiles'.",
+    "annual": null
+   },
+   "min_transfer": "1,000 RP (secondary: cardadvisor)",
+   "multiple_of": "1,000 RP; Club ITC 200 (secondary: cardadvisor)",
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "Official: cashback against statement balance capped at 50,000 RP per calendar month; Apple products: 1 product per calendar quarter; Tanishq vouchers: 50,000 RP per calendar quarter; up to 70% of travel bookings payable in points. Not found: daily, weekly, annual caps; transfer fee; primary-only rule. Secondary angelone.in (31 Jan 2026) and cardtrail report 'five redemptions per calendar month' from 1 Feb 2026, a Rs 2,00,000 per statement-cycle redemption figure and a 50,000 RP monthly cashback ceiling; the 5-times-per-month rule is not in the official Infinia Rewards T&C fetched, so unconfirmed. Edges file: ratios 1:1 (KrisFlyer, Finnair, Flying Blue, IHG, Lotusmiles, SpiceClub, Wyndham, AirAsia, Radisson) and 2:1 (others); a 25% bonus on Asia Miles and a Maharaja Club tiered bonus are listed in the edges file. Eligibility change: from 1 Apr 2026 continued Infinia access needs Rs 18 lakh card spend or Rs 50 lakh relationship value per financial year (MITC).",
+   "conflicts": [
+    "Redemption cap: official Infinia T&C = 1,50,000 RP/month for flights+hotels+airmiles. Secondary cardadvisor transfer guide quotes 'up to 75,000 points' flights/hotels and a separate transfer cap of 1,50,000 for Infinia; the 75,000 figure matches the Diners Black cap, not Infinia. Official source wins.",
+    "Redemption frequency 'five per month' (angelone, cardtrail) not in official Infinia T&C fetched.",
+    "Secondary sources disagree on whether the Jan 2026 voucher cut from 5X to 3X was kept; the official SmartBuy T&C of Oct 2026 shows 5X for Infinia vouchers, so it was rolled back.",
+    "angelone says 50,000 RP monthly 'against the statement balance' (matches official cashback cap); its 'Rs 2,00,000 per statement cycle' is a redemption figure also appearing as the max earn per cycle (2,00,000 RP) in the official T&C; interpretation uncertain."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/cards/credit-cards/infinia-credit-card/rewards-points-program-terms-and-conditions.pdf",
+     "type": "official",
+     "date": "includes entries to 1 Jul 2026"
+    },
+    {
+     "url": "https://www.hdfc.bank.in/credit-cards/infinia-credit-card",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://www.angelone.in/news/stocks/hdfc-bank-credit-card-reward-points-revised-effective-february-1-2026",
+     "type": "secondary",
+     "date": "31 Jan 2026"
+    },
+    {
+     "url": "https://cardadvisor.in/articles/hdfc-reward-points-transfer-guide",
+     "type": "secondary",
+     "date": "Updated 25 Sep 2026"
+    }
+   ]
+  },
+  "hdfc-regalia-gold": {
+   "research_name": "HDFC Regalia Gold",
+   "match_pct": 100,
+   "currency": "HDFC Bank Reward Points (RP)",
+   "last_verified": "2026-10-21",
+   "confidence": "high",
+   "fees": {
+    "joining": "Rs 2,500 + taxes",
+    "annual": "Rs 2,500 + taxes, waived on Rs 4 lakh spend in a year",
+    "source": "https://www.hdfc.bank.in/credit-cards/regalia-gold-credit-card ; MITC 17 Oct 2026"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "50,000 RP per month for redemption against miles transfer on SmartBuy (official Regalia Gold 5X Reward Points T&C PDF). Official page also: SmartBuy flights/hotels capped at 50,000 RP per month and cashback at 50,000 RP per month.",
+    "annual": null
+   },
+   "min_transfer": "1,000 RP (secondary: cardadvisor)",
+   "multiple_of": "1,000 RP; Club ITC 200 (secondary: cardadvisor)",
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "Not found: daily, weekly, annual caps; transfer fee; primary-only rule. Official page: airmile conversion up to 0.5 airmiles per RP (edges file ratios 2:1 or 3:1 per partner, consistent with 2:1 for most). 2026 change: base earn cut from 4 RP/Rs 150 to 5 RP/Rs 200 effective 15 May 2026 (HDFC T&C for BizPower/Regalia Gold, LFAL Apr 2026; cardadvisor).",
+   "conflicts": [
+    "SmartBuy monthly earn cap for Regalia Gold is 4,000 RP per secondary sources (cardadvisor, LFAL); the official SmartBuy T&C names 'Regalia, Diners Privilege, BizPower' at 4,000 but does not name Regalia Gold.",
+    "Official redemption cap text for flights/hotels (50,000 RP) comes from the Regalia Gold product page; the separate miles-transfer cap sentence (50,000 RP per month) sits only in the 5X Reward Points T&C PDF."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/cards/credit-cards/regalia-gold-credit-card/pdfs/regalia-gold-credit-card-reward-points-t-and-cs.pdf",
+     "type": "official",
+     "date": "undated, current on site 2026-10-21"
+    },
+    {
+     "url": "https://www.hdfc.bank.in/credit-cards/regalia-gold-credit-card",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://cardadvisor.in/articles/hdfc-reward-points-transfer-guide",
+     "type": "secondary",
+     "date": "Updated 25 Sep 2026"
+    }
+   ]
+  },
+  "hdfc-biz-black": {
+   "research_name": "HDFC Biz Black",
+   "match_pct": 100,
+   "currency": "HDFC Bank Reward Points (RP)",
+   "last_verified": "2026-10-21",
+   "confidence": "high",
+   "fees": {
+    "joining": "Rs 10,000 + taxes (Biz Black Metal Edition)",
+    "annual": "Rs 10,000 + taxes, waived on Rs 7.5 lakh spend in an anniversary year",
+    "source": "https://www.hdfc.bank.in/business-credit-cards/biz-black-credit-card"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "SmartBuy flights+hotels redemption capped at 75,000 RP per calendar month; cashback against statement capped at 50,000 RP per calendar month (official BizBlack Metal RP T&C). Airmiles-transfer cap: not found.",
+    "annual": null
+   },
+   "min_transfer": null,
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "Official page: airmiles conversion up to 1 airmile per RP ('1000 RP = up to 1000 Airmiles') via Netbanking; consistent with 1:1 KrisFlyer in edges file. Min 2,500 RP for statement-balance cashback. Not found: daily/weekly/annual caps, transfer fee, primary-only rule, per-partner caps. Biz Black is not in cardadvisor's list of cards with the full partner menu; edges file shows only KrisFlyer 1:1.",
+   "conflicts": [
+    "LFAL (1 Jul 2026) and cardinsider list BizBlack Metal's SmartBuy overall cap as 7,500 RP/month; the official SmartBuy T&C (Oct 2026) and the product page say 10,000 RP/month. Official wins.",
+    "Accelerated 5X rate: page says '5X'; T&C example computes 25 RP per Rs 150."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/cards/business-credit-cards/biz-black/pdfs/biz-black-rp-t-and-c-updated.pdf",
+     "type": "official",
+     "date": "undated, linked from live page 2026-10-21"
+    },
+    {
+     "url": "https://www.hdfc.bank.in/business-credit-cards/biz-black-credit-card",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    }
+   ]
+  },
+  "hdfc-biz-power": {
+   "research_name": "HDFC Biz Power",
+   "match_pct": 100,
+   "currency": "HDFC Bank Reward Points (RP)",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "Rs 2,500 + taxes",
+    "annual": "Rs 2,500 + taxes, waived on Rs 4 lakh spend in an anniversary year (12 billing cycles)",
+    "source": "https://www.hdfc.bank.in/business-credit-cards/biz-power-credit-card"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": null,
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "Not found. Official Biz Power page: airmiles conversion up to 0.5 airmile per RP ('1000 RP = up to 500 Airmiles'), consistent with 2:1 KrisFlyer in edges file. No monthly airmiles-transfer cap in the page or the May 2026 T&C PDF. A Bajaj Finserv Markets page (secondary, unfetched in full) reportedly says redemptions are limited to five per calendar month from 1 Feb 2026; not confirmed by HDFC. 2026 change: base earn 5 RP/Rs 200 from 15 May 2026; fair-usage cap on IT/GST transactions (first 2 each per billing cycle earn RP).",
+   "conflicts": [
+    "Bajaj Finserv (secondary) says 5 redemptions per calendar month; no HDFC text found.",
+    "Edges file lists Biz Power 3:1 on several partners (Aeroplan, Etihad, Marriott etc.); the bank page only states the 0.5 airmile maximum, so partner-level 3:1 is not verifiable from the bank page."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.hdfc.bank.in/business-credit-cards/biz-power-credit-card",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/cards/business-credit-cards/biz-power/pdfs/biz-power-tnc.pdf",
+     "type": "official",
+     "date": "effective 15 May 2026"
+    }
+   ]
+  },
+  "hdfc-regalia": {
+   "research_name": "HDFC Regalia",
+   "match_pct": 100,
+   "currency": "HDFC Bank Reward Points (RP)",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "Rs 2,500 + taxes",
+    "annual": "Rs 2,500 + taxes; waiver on Rs 3 lakh spend (MITC row for Regalia/Regalia Activ/Business Regalia/Diners Club Premium)",
+    "source": "https://www.hdfc.bank.in/credit-cards/regalia-credit-card ; MITC 17 Oct 2026"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "SmartBuy flights+hotels redemption capped at 50,000 RP per calendar month (official product page). Airmiles-transfer cap: not found.",
+    "annual": null
+   },
+   "min_transfer": null,
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "Official page: airmiles conversion up to 0.5 airmile per RP (consistent with 2:1 KrisFlyer in edges file). Not found: daily/weekly/annual, fee, primary-only rule. Not verified that Regalia is still on sale; the product page remains live on 2026-10-21.",
+   "conflicts": [
+    "The 5x label on the Regalia page vs hotels 10X in the shared SmartBuy column; the SmartBuy T&C column (Oct 2026) is the more recent."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.hdfc.bank.in/credit-cards/regalia-credit-card",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    }
+   ]
+  },
+  "hdfc-corporate-premium": {
+   "research_name": "HDFC Corporate Premium",
+   "match_pct": 100,
+   "currency": "HDFC Bank Reward Points (RP)",
+   "last_verified": "2026-10-21",
+   "confidence": "low",
+   "fees": {
+    "joining": "Nil (official page: 'Joining/Renewal Membership Fee: Nil')",
+    "annual": "Nil",
+    "source": "https://www.hdfc.bank.in/commercial-credit-cards/corporate-premium-credit-card"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": null,
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "Not found. Official page: RP redeemable against flights, hotels, products/vouchers or airmiles; frequent flyer registration needed before airmiles redemption. The page does not state an airmile ratio or any cap. Edges file lists KrisFlyer 1:1; not verifiable on the bank page. Page states 1 RP = Rs 0.30 on flights/hotels via SmartBuy Corporate portal, which is far below 1 airmile per RP economics, so the 1:1 edge is unverified.",
+   "conflicts": [
+    "Fee: official page Nil; BankBazaar (secondary) lists Rs 999 joining and annual; cardinsider (secondary) says no fee. Official wins.",
+    "Lounge: official 5 domestic per quarter + 6 international per year (Priority Pass) vs BankBazaar 20 domestic per year (secondary).",
+    "Monthly cap: official page says maximum 10,000 per statement cycle; one aggregator reports 1,000 (secondary)."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.hdfc.bank.in/commercial-credit-cards/corporate-premium-credit-card",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    }
+   ]
+  },
+  "hsbc-premier": {
+   "research_name": "HSBC Premier",
+   "match_pct": 100,
+   "currency": "HSBC Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "high",
+   "fees": {
+    "joining": "INR 12,000 (paid after card activation)",
+    "annual": "Waived for HSBC Qualified Premier customers; INR 20,000 if the Premier relationship criteria are not met",
+    "source": "https://www.hsbc.co.in/content/dam/hsbc/in/documents/premier_cc_tariff_mitc.pdf"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": null,
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "HSBC Rewards T&C (official) lists partner ratios and turnaround days but states NO daily/weekly/monthly/annual cap, minimum, multiple or transfer fee. Absence in the T&C is not an explicit 'no limit' statement. Transfers are done only in the HSBC India Mobile Banking app; supplementary cardholders are excluded from the programme; redemption cannot be cancelled/reversed once accepted. Premier points do not expire. Ratios in T&C match pc-gap-edges.json for all pairs in the edges file. T&C lists Shangri-La Circle 5:1 which is not in the edges file. Turnaround: Air India Maharaja Club 5 days, Hainan 5 days, JAL 10 days, others instant to 1 day. Edges file shows a Marriott 40% bonus (10 Nov-10 Dec 2025) and Accor 50% bonus (15-21 Dec 2025): both expired promos, not re-verified. Secondary source cardadvisor.in says TravelOne has no annual cap on partner transfers (about TravelOne, not Premier). 2026 devaluation/cap change for Premier: not found.",
+   "conflicts": [],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.hsbc.co.in/content/dam/hsbc/in/documents/hsbc-rewards-tcs.pdf",
+     "type": "official",
+     "date": "footer copyright 2025; undated; fetched 2026-10-21"
+    },
+    {
+     "url": "https://www.hsbc.co.in/credit-cards/products/premier/",
+     "type": "official",
+     "date": "fetched 2026-10-21; says points convert to air miles and hotel points at 1:1 in the app"
+    }
+   ]
+  },
+  "hsbc-travel-one": {
+   "research_name": "HSBC TravelOne",
+   "match_pct": 100,
+   "currency": "HSBC Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "high",
+   "fees": {
+    "joining": "INR 4,999",
+    "annual": "INR 4,999; reversed if spend exceeds INR 8,00,000 in the anniversary year",
+    "source": "https://www.hsbc.co.in/credit-cards/products/travelone/ and https://www.hsbc.co.in/content/dam/hsbc/in/documents/most-important-terms-and-conditions.pdf"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": null,
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "HSBC Rewards T&C (official) gives ratios and turnaround only; no cap, minimum, multiple or fee is stated. Secondary (cardadvisor.in review 2026, as of Aug-Oct 2026) says 'no annual cap on partner transfers' and instant app conversions; this matches the T&C silence but is not an explicit bank statement. Primary cardholders only (supplementary cardholders excluded). T&C: 1:1 redemption of points is offered for select airmiles and hotel programmes for TravelOne (the 1:1 Travel with Points / Apple option is stated only for Prive and Premier). Ratios match pc-gap-edges.json. Shangri-La Circle 5:1 in T&C is absent from edges. Edges file shows expired Marriott 40% (Nov-Dec 2025) and Accor 50% (Dec 2025) bonuses. 2026 cap/devaluation: none found; cardadvisor describes HSBC as adding benefits (10,000-point milestone).",
+   "conflicts": [
+    "Utilities/fuel: HSBC T&C TravelOne exclusion list omits utilities (4900) and fuel MCCs; cardadvisor review says utilities, fuel, insurance, education, government, rent and wallet loads earn nothing. Official T&C governs; not resolved.",
+    "HSBC product page says 'earn double reward points' on flights/aggregators/forex, T&C says 4 per INR 100 (2 base + 2 accelerated): consistent, wording only."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.hsbc.co.in/content/dam/hsbc/in/documents/hsbc-rewards-tcs.pdf",
+     "type": "official",
+     "date": "undated, copyright 2025; fetched 2026-10-21"
+    },
+    {
+     "url": "https://cardadvisor.in/articles/hsbc-travelone-credit-card-review-2026",
+     "type": "secondary",
+     "date": "2026 (page as of Aug-Oct 2026)"
+    }
+   ]
+  },
+  "hsbc-visa-platinum": {
+   "research_name": "HSBC VisaPlatinum",
+   "match_pct": 100,
+   "currency": "HSBC Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "high",
+   "fees": {
+    "joining": "INR 0",
+    "annual": "INR 0",
+    "source": "https://www.hsbc.co.in/credit-cards/products/visa-platinum/"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": null,
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "HSBC Rewards T&C lists Visa Platinum / RuPay Platinum ratios (matches edges file): Maharaja 2:1, AirAsia 1:2, Flying Blue 2:1, BA 2:1, Etihad 2:1, Infinity MileageLands 2:1, Fortune Wings 4:1, JAL 2:1, KrisFlyer 2:1, Qantas 2:1, Qatar 2:1, Royal Orchid 2:1, Miles&Smiles 4:1, United MileagePlus 3:1, Lotusmiles 2:1; hotels Accor/IHG/Marriott/Wyndham 2:1, Shangri-La 10:1 (edges file labels this 'Golden Circle 10:1'). No cap, minimum, multiple or fee stated. Primary cardholders only. In T&C the 1:1 redemption is stated only for Prive/Premier/TravelOne, not Platinum. Edges file shows expired Marriott 40% and Accor 40% bonuses (Nov-Dec 2025).",
+   "conflicts": [],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.hsbc.co.in/content/dam/hsbc/in/documents/hsbc-rewards-tcs.pdf",
+     "type": "official",
+     "date": "undated, copyright 2025; fetched 2026-10-21"
+    }
+   ]
+  },
+  "indusind-legend": {
+   "research_name": "IndusInd Legend",
+   "match_pct": 100,
+   "currency": "IndusInd Reward Points (IndusMoments)",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "INR 5,000 (MITC table; actual fee conveyed at application)",
+    "annual": "NIL",
+    "source": "https://www.indusind.bank.in/content/dam/indusind-corporate/schedule-of-charges/credit-cards/MITC_Premium.pdf"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "KrisFlyer: max 10,000 RP per calendar month. Maharaja Club: max 25,000 RP per calendar month.",
+    "annual": null
+   },
+   "min_transfer": "500 Reward Points",
+   "multiple_of": "100 Reward Points",
+   "transfer_fee": "Reward redemption fee INR 100 for 'all other category' redemption (INR 149 for cash credit) w.e.f. 1 Apr 2025 per MITC; whether airline-miles fall under 'other category' is not named explicitly",
+   "per_partner": "KrisFlyer 4:1 (400 RP = 100 miles); Maharaja Club 4:1 (400 RP = 100 points)",
+   "notes": "Legend product page links to the 400x100 KrisFlyer and Maharaja pages, so the ratio-and-cap pages are card-linked. Redemption via indusmoments.com or phone banking 1860 267 7777. Bank may change conversion rate without notice. Club Vistara redemption ended 31 Oct 2024; InterMiles ended 21 Jan 2025. Edges file shows a tiered Maharaja bonus (10%-40%+, 'up to 2 Lakh bonus'): validity dates not verified here. Primary-only restriction: not stated.",
+   "conflicts": [
+    "Lounge access discontinued 7 Mar 2025 (not transfer-related).",
+    "Search aggregators disagreed on joining fee (INR 5,000 vs lifetime free); official MITC lists joining INR 5,000, annual NIL."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.indusind.bank.in/in/en/personal/krisflyer-redemption-on-airlines-400x100.html",
+     "type": "official",
+     "date": "undated; fetched 2026-10-21"
+    },
+    {
+     "url": "https://www.indusind.bank.in/in/en/personal/redemption-on-airlines-maharaja-points400x100.html",
+     "type": "official",
+     "date": "undated; fetched 2026-10-21"
+    },
+    {
+     "url": "https://www.indusind.bank.in/in/en/personal/cards/credit-card/legend-credit-card.html",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    }
+   ]
+  },
+  "indusind-celesta": {
+   "research_name": "IndusInd Celesta",
+   "match_pct": 100,
+   "currency": "IndusInd Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "low",
+   "fees": {
+    "joining": "INR 25,000 (MITC table)",
+    "annual": "INR 5,000",
+    "source": "https://www.indusind.bank.in/content/dam/indusind-corporate/schedule-of-charges/credit-cards/MITC_Premium.pdf"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "KrisFlyer 2:1 page: max 10,000 RP per calendar month (page does not name cards; matched by ratio from edges file)",
+    "annual": null
+   },
+   "min_transfer": "500 Reward Points",
+   "multiple_of": "100 Reward Points",
+   "transfer_fee": "INR 100 other-category redemption fee per MITC (airline-miles scope inferred, not named)",
+   "per_partner": "KrisFlyer 2:1 (from edges file; bank 200x100 page shows 200 RP = 100 miles)",
+   "notes": "The Celesta bank page has no redemption links; the 200x100 page is linked from the Pioneer Heritage page, so applicability to Celesta is a ratio match only. Celesta MITC listing is an Amex card. Also: Celesta page announces spend-based domestic lounge gating from July 2026 quarter (not transfer related).",
+   "conflicts": [
+    "Earn rate: BankBazaar (secondary) shows 0.7 per INR 100 domestic and international; cardadvisor shows 1 domestic / 3 international. Bank page gives no rate. Unresolved.",
+    "Celesta is not shown in the IndusInd main credit card navigation (2026); may be legacy/invite-only. Status not confirmed."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.indusind.bank.in/in/en/personal/krisflyer-redemption-on-airlines-200x100.html",
+     "type": "official",
+     "date": "undated; fetched 2026-10-21"
+    },
+    {
+     "url": "https://www.indusind.bank.in/in/en/personal/cards/credit-card/celesta-credit-card.html",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    }
+   ]
+  },
+  "indusind-crest": {
+   "research_name": "IndusInd Crest",
+   "match_pct": 100,
+   "currency": "IndusInd Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "low",
+   "fees": {
+    "joining": "INR 75,000 (MITC table)",
+    "annual": "INR 10,000",
+    "source": "https://www.indusind.bank.in/content/dam/indusind-corporate/schedule-of-charges/credit-cards/MITC_Premium.pdf"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "KrisFlyer 2:1 page: max 10,000 RP per calendar month (page does not name cards; ratio match)",
+    "annual": null
+   },
+   "min_transfer": "500 Reward Points",
+   "multiple_of": "100 Reward Points",
+   "transfer_fee": "INR 100 other-category redemption fee per MITC (scope inferred)",
+   "per_partner": "KrisFlyer 2:1 (edges file)",
+   "notes": "Crest page states cash redemption max 10,000 RP per calendar month (effective 1 Sep 2024). Crest bank page has no redemption links. Applicability of the 200x100 page is a ratio match only.",
+   "conflicts": [
+    "Forex markup: official MITC lists reduced rates for Legend, Indulge, Tiger etc. but not Crest (default 3.5%); cardadvisor states 1.8% for Crest.",
+    "Earn rate is from a secondary source only; BankBazaar-type lists use 0.7 per INR 100 on revision categories only."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.indusind.bank.in/in/en/personal/krisflyer-redemption-on-airlines-200x100.html",
+     "type": "official",
+     "date": "undated; fetched 2026-10-21"
+    },
+    {
+     "url": "https://www.indusind.bank.in/in/en/personal/cards/credit-card/crest-credit-card.html",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    }
+   ]
+  },
+  "indusind-indulge": {
+   "research_name": "IndusInd Indulge",
+   "match_pct": 100,
+   "currency": "IndusInd Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "low",
+   "fees": {
+    "joining": "INR 75,000 (MITC table)",
+    "annual": "INR 10,000",
+    "source": "https://www.indusind.bank.in/content/dam/indusind-corporate/schedule-of-charges/credit-cards/MITC_Premium.pdf"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "KrisFlyer 2:1 page: max 10,000 RP/month; Maharaja Club 2:1 page: max 25,000 RP/month (pages do not name cards; ratio match)",
+    "annual": null
+   },
+   "min_transfer": "500 Reward Points",
+   "multiple_of": "100 Reward Points",
+   "transfer_fee": "INR 100 other-category redemption fee per MITC (scope inferred)",
+   "per_partner": "KrisFlyer 2:1, Maharaja Club 2:1 (edges file; bank 200x100 pages)",
+   "notes": "Edges file shows a tiered Maharaja bonus 'up to 2 Lakh bonus' (validity not verified). Bank Indulge page: four complimentary international lounge visits per quarter from 13 Mar 2025; domestic lounge gating from Jul 2026 quarter.",
+   "conflicts": [
+    "Base earn: 1.5 per INR 100 (bank blurb) vs 1 per INR 100 (cardadvisor). Unresolved."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.indusind.bank.in/in/en/personal/krisflyer-redemption-on-airlines-200x100.html",
+     "type": "official",
+     "date": "undated; fetched 2026-10-21"
+    },
+    {
+     "url": "https://www.indusind.bank.in/in/en/personal/redemption-on-airlines-maharaja-points200x100.html",
+     "type": "official",
+     "date": "undated; fetched 2026-10-21"
+    }
+   ]
+  },
+  "indusind-heritage": {
+   "research_name": "IndusInd Heritage",
+   "match_pct": 100,
+   "currency": "IndusInd Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "INR 1,00,000 (MITC table; secondary BankBazaar/older listing: INR 90,000 + GST)",
+    "annual": "INR 25,000 (secondary: reversed on INR 10 lakh annual spend)",
+    "source": "https://www.indusind.bank.in/content/dam/indusind-corporate/schedule-of-charges/credit-cards/MITC_Premium.pdf"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "50,000 RP per calendar month across all redemption options (cash credit, e-vouchers, others incl. airmiles). Within that, KrisFlyer 10,000 RP/month and Maharaja Club 25,000 RP/month on the 2:1 pages linked from the Heritage page.",
+    "annual": null
+   },
+   "min_transfer": "500 Reward Points",
+   "multiple_of": "100 Reward Points",
+   "transfer_fee": "MITC: redemption fee not applicable to Pioneer Heritage",
+   "per_partner": "KrisFlyer 2:1, Maharaja Club 2:1 (edges file and bank 200x100 pages linked from Heritage product page)",
+   "notes": "Heritage T&C: https://www.indusind.bank.in/in/en/personal/tnc-pioneer-heritage-rewards-program.html. Edges file tiered Maharaja bonus not verified. Cardadvisor says cash-credit cap 30,000 RP/month (secondary, differs from bank's 50,000 overall).",
+   "conflicts": [
+    "Joining fee: official MITC table INR 1,00,000 vs secondary INR 90,000 + GST (older)."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.indusind.bank.in/in/en/personal/tnc-pioneer-heritage-rewards-program.html",
+     "type": "official",
+     "date": "undated; fetched 2026-10-21"
+    },
+    {
+     "url": "https://www.indusind.bank.in/in/en/personal/krisflyer-redemption-on-airlines-200x100.html",
+     "type": "official",
+     "date": "undated"
+    },
+    {
+     "url": "https://www.indusind.bank.in/in/en/personal/redemption-on-airlines-maharaja-points200x100.html",
+     "type": "official",
+     "date": "undated"
+    }
+   ]
+  },
+  "indusind-pinnacle": {
+   "research_name": "IndusInd Pinnacle",
+   "match_pct": 100,
+   "currency": "IndusInd Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "INR 15,000 (INR 5,000 for existing Pinnacle Grande / Pioneer Legacy customers per MITC footnote)",
+    "annual": "NIL",
+    "source": "https://www.indusind.bank.in/content/dam/indusind-corporate/schedule-of-charges/credit-cards/MITC_Premium.pdf"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "KrisFlyer 2:1 page: max 10,000 RP/month; Maharaja 2:1 page: max 25,000 RP/month (pages do not name cards; ratio match)",
+    "annual": null
+   },
+   "min_transfer": "500 Reward Points (Pinnacle rewards T&C)",
+   "multiple_of": "100 Reward Points",
+   "transfer_fee": "INR 100 other-category redemption fee per MITC (scope inferred)",
+   "per_partner": "KrisFlyer 2:1, Maharaja Club 2:1 (edges file)",
+   "notes": "Pinnacle T&C: https://www.indusind.bank.in/in/en/personal/tnc-pinnacle-rewards-program.html : minimum 500 RP for cash credit and airline miles; cash redemption max 7,500 RP per calendar month from 1 Sep 2024. Pinnacle page is pinnacle-world-credit-card.html. Edges file Maharaja bonus not verified.",
+   "conflicts": [
+    "Paisabazaar vs cardadvisor differ on whether 2.5X applies to online travel (paisabazaar 1.5 on travel; cardadvisor excludes travel from 2.5)."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.indusind.bank.in/in/en/personal/tnc-pinnacle-rewards-program.html",
+     "type": "official",
+     "date": "undated"
+    },
+    {
+     "url": "https://www.indusind.bank.in/in/en/personal/krisflyer-redemption-on-airlines-200x100.html",
+     "type": "official",
+     "date": "undated"
+    }
+   ]
+  },
+  "indusind-pioneer-private": {
+   "research_name": "IndusInd Pioneer Private",
+   "match_pct": 100,
+   "currency": "IndusInd Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "low",
+   "fees": {
+    "joining": "NIL (MITC table)",
+    "annual": "INR 25,000 (secondary cardadvisor: waived at INR 10 lakh spend; MITC mentions INR 50,000 annual fee on downgrade from Pioneer Private status)",
+    "source": "https://www.indusind.bank.in/content/dam/indusind-corporate/schedule-of-charges/credit-cards/MITC_Premium.pdf"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": "500 Reward Points (1:1 pages)",
+   "multiple_of": "100 Reward Points",
+   "transfer_fee": "MITC: redemption fee not applicable to Pioneer Private",
+   "per_partner": "KrisFlyer 1:1, Maharaja Club 1:1 (edges file; bank 100x100 pages)",
+   "notes": "The 100x100 KrisFlyer and Maharaja pages state no monthly cap (unlike the 400x100/200x100 pages), but those pages do not name cards, so the mapping to Pioneer Private is by ratio only. No cap statement found: do not treat as confirmed unlimited. Edges file shows tiered Maharaja bonus (not verified). Official Pioneer Private rewards T&C URL not located (guessed URLs returned 404).",
+   "conflicts": [
+    "Card is invite-only, tied to Pioneer Private banking tier; status not independently confirmed."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.indusind.bank.in/in/en/personal/krisflyer-redemption-on-airlines-100x100.html",
+     "type": "official",
+     "date": "undated"
+    },
+    {
+     "url": "https://www.indusind.bank.in/in/en/personal/redemption-on-airlines-maharaja-points100x100.html",
+     "type": "official",
+     "date": "undated"
+    }
+   ]
+  },
+  "indusind-tiger": {
+   "research_name": "IndusInd Tiger",
+   "match_pct": 100,
+   "currency": "IndusInd Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "NIL",
+    "annual": "NIL",
+    "source": "https://www.indusind.bank.in/content/dam/indusind-corporate/schedule-of-charges/credit-cards/MITC_Premium.pdf"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "KrisFlyer: max 10,000 RP per calendar month (400x120 page linked from Tiger page). Maharaja Club: no monthly cap stated on the 100x100 page linked from Tiger page.",
+    "annual": null
+   },
+   "min_transfer": "500 Reward Points",
+   "multiple_of": "100 Reward Points",
+   "transfer_fee": "INR 100 other-category redemption fee per MITC (scope inferred; INR 149 for cash)",
+   "per_partner": "KrisFlyer 4:1 (400 RP = 100 miles); Maharaja Club 1:1 (100 RP = 100 points)",
+   "notes": "Tiger bank page: cash redemption max 5,000 RP/month, 1 RP = INR 0.40 cash (https://www.indusind.bank.in/in/en/personal/cash-credit-tiger.html). Secondary book1a.com says KrisFlyer is 1:1 and another says Maharaja cap 25,000 RP/month: not matching the Tiger-linked bank pages.",
+   "conflicts": [
+    "KrisFlyer ratio: Tiger-linked bank page 4:1; book1a.com (secondary) 1:1. Bank page followed, edges file agrees with 4:1.",
+    "Maharaja cap: no cap on bank page; a secondary source says 25,000 RP/month."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.indusind.bank.in/in/en/personal/krisflyer-redemption-on-airlines-400x120.html",
+     "type": "official",
+     "date": "undated"
+    },
+    {
+     "url": "https://www.indusind.bank.in/in/en/personal/redemption-on-airlines-maharaja-points100x100.html",
+     "type": "official",
+     "date": "undated"
+    },
+    {
+     "url": "https://www.indusind.bank.in/in/en/personal/cards/credit-card/tiger-credit-card.html",
+     "type": "official",
+     "date": "fetched 2026-10-21"
+    },
+    {
+     "url": "https://cardadvisor.in/cards/indusind-tiger",
+     "type": "secondary",
+     "date": "as of 28 Sep 2026"
+    }
+   ]
+  },
+  "kotak-air-plus": {
+   "research_name": "Kotak Air Plus",
+   "match_pct": 100,
+   "currency": "Air Miles",
+   "last_verified": "2026-10-21",
+   "confidence": "high",
+   "fees": {
+    "joining": "INR 3,000 + GST",
+    "annual": "INR 3,000 + GST (waiver: 'Not Available' per bank page)",
+    "source": "https://www.kotak.bank.in/en/personal-banking/cards/credit-cards/kotak-air-plus-credit-card/faqs.html"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": "1,000 Air Miles",
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "Bank FAQ and T&C PDF both state 'No max capping on transferring Air Miles to partner Hotel & Airline Partners' (so daily/weekly/monthly/annual = no limit stated by bank). No transfer fee found (FAQ says no charges on redemption of Air Miles is stated for Air/Air+ Prime pages; not found on Air+ page). Transfers via Kotak Unbox. Official T&C PDF (2025 mailer, undated inside) ratios: Air Canada, Air France, British Airways, Cathay Pacific, Etihad, Qatar, United 2:1; Accor 2:1; Marriott 3:1. Bank FAQ page (Jun 2026 banner) adds Accor ALL 2:1, Marriott Bonvoy 3:1, Air India Maharaja Club 2:1, Singapore KrisFlyer 2:1. Air India/KrisFlyer are on the FAQ but not in the PDF table (minor conflict). pc-gap-edges.json lists Flying Blue, Aeroplan, BA, Etihad, MileagePlus, Qatar, Asia Miles, Maharaja Club all 2:1, Accor 2:1, Marriott 3:1, and does not list KrisFlyer. Primary-card-only for transfer: not found. No 2026 cap change found. Secondary (book1a.com) says no cap for Air+, one third-party guide's 1 lakh/yr cap applies to the base Kotak Air card (see that card).",
+   "conflicts": [
+    "Air India and KrisFlyer appear on bank FAQ ratio list but not in bank T&C PDF table; edges file omits KrisFlyer.",
+    "Air Plus Prime is a newer variant (launched ~May 2026 per secondary cardinsider/cardadvisor); Air Plus still listed on bank site."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://images.kotak.com/bank/mailers/2025/files/DetailedT&CKotakAir+CreditCard.pdf",
+     "type": "official",
+     "date": "2025 mailer path; no date shown in text"
+    },
+    {
+     "url": "https://www.kotak.bank.in/en/personal-banking/cards/credit-cards/kotak-air-plus-credit-card/faqs.html",
+     "type": "official",
+     "date": "live page 2026-10-21; site banner dated Jun 2026"
+    }
+   ]
+  },
+  "kotak-solitaire": {
+   "research_name": "Kotak Solitaire",
+   "match_pct": 100,
+   "currency": "Air Miles",
+   "last_verified": "2026-10-21",
+   "confidence": "high",
+   "fees": {
+    "joining": "Nil",
+    "annual": "Nil (INR 25,000 + GST charged if downgraded from Kotak Solitaire Program)",
+    "source": "https://www.kotak.bank.in/content/dam/Kotak/detailed-tc-kotak-solitaire-cc.pdf"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": "2,000 Air Miles",
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "Bank T&C: 'No max capping on transferring Air Miles to partner Hotels & Airlines'. Ratios (bank T&C): Etihad, Qatar, British Airways, United MileagePlus, Cathay Pacific, Air France-KLM Flying Blue, Accor Live Limitless 2:1; Marriott Bonvoy 3:1; Air India 1:1. Matches pc-gap-edges.json (edges also show a bonus promo valid to 2026-06-30 / 30% bonus labelled from a CSV; not verified on bank page, expired or undated). Transfer fee not found. Primary-only not found (lounge benefit covers add-ons). T&C PDF has no visible date.",
+   "conflicts": [
+    "Invitation/program card. Third-party sources mention a relationship threshold; not verified on bank page."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.kotak.bank.in/content/dam/Kotak/detailed-tc-kotak-solitaire-cc.pdf",
+     "type": "official",
+     "date": "undated, fetched 2026-10-21"
+    }
+   ]
+  },
+  "kotak-air": {
+   "research_name": "Kotak Air",
+   "match_pct": 100,
+   "currency": "Air Miles",
+   "last_verified": "2026-10-21",
+   "confidence": "high",
+   "fees": {
+    "joining": "INR 999 + GST",
+    "annual": "INR 999 + GST",
+    "source": "https://www.kotak.bank.in/content/dam/Kotak/files/key-fact-statement/Key-fact-statement-kfs-kotak-air-cc.pdf"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": "1 Lakh (1,00,000) Air Miles per card account per calendar year"
+   },
+   "min_transfer": "1,000 Air Miles",
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "Bank FAQ: 'Transfer of Air Miles per card account is capped at 1 Lakh Air Miles in a calendar year'. This cap is NOT stated for Air+, Air+ Prime or Solitaire (those say no max cap). Bank FAQ: no charges on redemption of Air Miles. Ratios per pc-gap-edges.json (bank page ratio table not retrieved): Accor, Asia Miles, BA, Flying Blue, MileagePlus, Qatar 2:1; Maharaja Club 3:1; Marriott 3:1. Primary-only for transfer not found.",
+   "conflicts": [
+    "Annual fee waiver: bank KFS (version KFSA12032026, dated 12 Mar 2026) lists waiver at INR 2.5 Lakh retail spends; bank product page says 'Condition for waiver of Annual Fees: Not Available'.",
+    "Joining fee: product page headline says 'No Joining Fee!' but fee table and FAQ say INR 999 + GST."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.kotak.bank.in/en/personal-banking/cards/credit-cards/kotak-air-credit-card/faqs.html",
+     "type": "official",
+     "date": "live page 2026-10-21"
+    },
+    {
+     "url": "https://www.kotak.bank.in/en/personal-banking/cards/credit-cards/kotak-air-credit-card/fees-and-charges.html",
+     "type": "official",
+     "date": "live page 2026-10-21"
+    }
+   ]
+  },
+  "kotak-air-plus-prime": {
+   "research_name": "Kotak Air Plus Prime",
+   "match_pct": 100,
+   "currency": "Air Miles",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "INR 3,000 + GST",
+    "annual": "INR 3,000 + GST; waiver on annual retail spends of INR 4,00,000",
+    "source": "https://www.kotak.bank.in/en/personal-banking/cards/credit-cards/kotak-air-plus-prime-credit-card/fees-and-charges.html"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": "1,000 Air Miles, applicable for each transfer every time",
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "Bank FAQ: 'No max capping on transferring Air Miles to partner Hotel & Airline Partners'. No transfer fee stated; FAQ says no charges on redemption of Air Miles. Ratios taken from pc-gap-edges.json (bank ratio table not retrieved on the Prime page): Etihad, Flying Blue, Maharaja Club, MileagePlus, Qatar, Accor, Aeroplan, Asia Miles, BA 2:1; Marriott 3:1. Launched about May 2026 per secondary sources. Primary-only for transfer not found.",
+   "conflicts": [
+    "Secondary source (paisabazaar, via search snippet) says Air India is added as a partner; not verified on bank page."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.kotak.bank.in/en/personal-banking/cards/credit-cards/kotak-air-plus-prime-credit-card/faqs.html",
+     "type": "official",
+     "date": "live page 2026-10-21"
+    },
+    {
+     "url": "https://cardinsider.com/blog/kotak-mahindra-bank-launches-kotak-air-plus-prime-cashback-plus-prime-credit-cards/",
+     "type": "secondary",
+     "date": "May 2026 (launch, per search snippet)"
+    }
+   ]
+  },
+  "rbl-nova": {
+   "research_name": "RBL Nova",
+   "match_pct": 100,
+   "currency": "RBL Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": null,
+    "annual": "INR 12,500 (secondary; GST extra, waiver at INR 10,00,000 annual spend per same source)",
+    "source": "https://cardadvisor.in/articles/rbl-nova-credit-card-review-2026"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "Max 2 transfer requests per cardholder per month",
+    "annual": null
+   },
+   "min_transfer": "No minimum points requirement",
+   "multiple_of": "Multiples of the conversion ratio (2 points for Nova)",
+   "transfer_fee": "None stated for Nova: RBL Schedule of Charges exempts Nova from the INR 99 + GST reward redemption fee; Miles Transfer T&C levies INR 99 + tax only on World Safari Plus",
+   "per_partner": "Up to 50,000 Reward Points per request",
+   "notes": "Official RBL Miles Transfer Programme T&C (no date visible): ratio 2 points : 1 partner mile for Nova. Primary cardmember only; add-on not eligible. Account must be active, not blocked, no overdue balance. Transfers irreversible. TAT per partner: Air India Maharaja Club up to 10 working days; IndiGo BluChip, ShebaMiles, SpiceClub, Air Arabia, Orchid, Radisson, Lotusmiles, Qatar Privilege Club up to 1 working day; AirAsia, Club ITC, Philippine Mabuhay Miles up to 10 working days. Partner list (12): Air India Maharaja Club, IndiGo BluChip, AirAsia Rewards, Ethiopian ShebaMiles, SpiceJet SpiceClub, Air Arabia Air Rewards, Club ITC, Orchid Rewards, Radisson Rewards, Vietnam Airlines Lotusmiles, Philippine Mabuhay Miles, Qatar Privilege Club. Transfer ratio is product-specific, not partner-specific (bank). Lotusmiles for Nova 2:1, valid from 4 Sep 2026 (Vietnam Airlines notice). Nova to IndiGo had a 100% bonus per edges file (dates not verified). Conversion ratios can change without notice (bank).",
+   "conflicts": [
+    "CardAdvisor (secondary) lists Singapore KrisFlyer as a Nova transfer partner; RBL Miles Transfer T&C partner list has no KrisFlyer.",
+    "Nova annual fee not found on bank page; INR 12,500 is from secondary only.",
+    "Bank page says '12 points per INR 200 on flights & hotel stays'; waiver and portal-only gating only confirmed by secondary."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://webassets.rbl.bank.in/document/credit-cards/rbl-miles-transfer-programme.pdf",
+     "type": "official",
+     "date": "undated, fetched 2026-10-21"
+    },
+    {
+     "url": "https://webassets.rbl.bank.in/document/Credit%20Cards/CardsScheduleCharges.pdf",
+     "type": "official",
+     "date": "undated, fetched 2026-10-21"
+    },
+    {
+     "url": "https://enews.vietnamairlines.com/2026/07/chuyen-doi-diem-thuong-rbl-bank-en/",
+     "type": "secondary",
+     "date": "2026-07 (partner notice)"
+    },
+    {
+     "url": "https://www.rbl.bank.in/personal-banking/cards/credit-cards/nova-credit-card",
+     "type": "official",
+     "date": "live page 2026-10-21"
+    }
+   ]
+  },
+  "rbl-lumiere": {
+   "research_name": "RBL Lumiere",
+   "match_pct": 100,
+   "currency": "RBL Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": null,
+    "annual": "INR 50,000 + 18% GST",
+    "source": "https://webassets.rbl.bank.in/document/credit-cards/tnc-lumiere-credit-card.pdf"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "Max 2 transfer requests per cardholder per month",
+    "annual": null
+   },
+   "min_transfer": "No minimum points requirement",
+   "multiple_of": "Multiples of the conversion ratio (1 point for Lumiere)",
+   "transfer_fee": "None stated for Lumiere (exempt from INR 99 + GST redemption fee per Schedule of Charges)",
+   "per_partner": "Up to 50,000 Reward Points per request",
+   "notes": "Ratio 1 point : 1 partner mile (RBL Miles Transfer T&C and Lumiere T&C). Primary only. Lumiere T&C processing: 3 business days, up to 15 business days; Miles Transfer T&C: usually 3, up to 10 business days. Lumiere T&C partner list (older): Air Asia, Air India, Qatar Airways, Club ITC. Miles Transfer T&C lists 12 partners (see RBL Nova card). Transfer only to cardholder's own account; name must match. Transfer via lumiere.rbl.bank.in or service team selectcircle@rbl.bank.in.",
+   "conflicts": [
+    "Lumiere T&C says no expiry; RBL Rewards portal T&C says 24-month expiry for cards generally (https://rblrewards.rbl.bank.in/tnc).",
+    "Lumiere T&C partner list (4) is older than Miles Transfer T&C list (12).",
+    "Fee waiver at INR 2 crore total relationship value is from secondary only; T&C mentions a 'TRV Based Annual Fee Waiver Program' without the amount."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://webassets.rbl.bank.in/document/credit-cards/tnc-lumiere-credit-card.pdf",
+     "type": "official",
+     "date": "undated"
+    },
+    {
+     "url": "https://webassets.rbl.bank.in/document/credit-cards/rbl-miles-transfer-programme.pdf",
+     "type": "official",
+     "date": "undated, fetched 2026-10-21"
+    }
+   ]
+  },
+  "rbl-world-safari-plus": {
+   "research_name": "RBL World Safari Plus",
+   "match_pct": 100,
+   "currency": "RBL Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": null,
+    "annual": "INR 6,000 + GST",
+    "source": "https://www.rbl.bank.in/personal-banking/cards/credit-cards/world-safari-plus-credit-card"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "Max 2 transfer requests per cardholder per month",
+    "annual": null
+   },
+   "min_transfer": "No minimum per bank Miles Transfer T&C; Vietnam Airlines notice says minimum 100 Reward Points for World Safari Plus",
+   "multiple_of": "Multiples of the conversion ratio (3 points); Vietnam Airlines notice (secondary) says multiples of 100 for Lotusmiles",
+   "transfer_fee": "INR 99 + applicable taxes per redemption request (Miles Transfer T&C: levied only on World Safari Plus)",
+   "per_partner": "Up to 50,000 Reward Points per request",
+   "notes": "Ratio 3 points : 1 partner mile (all partners; product-specific). Primary only. Account must be active, no overdue. Channels: rewards portal rblrewards.rbl.bank.in Miles Transfer, or RBL contact centre +91 22 6232 7777. Partner list (12) as listed under RBL Nova. Edges file shows ITC Club, AirAsia, IndiGo etc. 3:1. Edges file shows a 100% IndiGo BluChip bonus, dates not verified.",
+   "conflicts": [
+    "Bank page says 'Earn 2 Reward Points per INR 100 on domestic travel' and 'rewards up to 5%'; T&C says 5 per INR 100 only on rewards portal travel and 2 on other domestic travel.",
+    "Older/other World Safari pages quoted INR 3,000 fee (non-Plus); Plus page shows INR 6,000 + GST.",
+    "Minimum transfer: bank T&C none, Vietnam Airlines notice 100 points."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://webassets.rbl.bank.in/document/credit-cards/rbl-miles-transfer-programme.pdf",
+     "type": "official",
+     "date": "undated, fetched 2026-10-21"
+    },
+    {
+     "url": "https://enews.vietnamairlines.com/2026/07/chuyen-doi-diem-thuong-rbl-bank-en/",
+     "type": "secondary",
+     "date": "2026-07"
+    }
+   ]
+  },
+  "rbl-iglobe": {
+   "research_name": "RBL iGlobe",
+   "match_pct": 100,
+   "currency": "RBL Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": null,
+    "annual": "INR 3,000 + GST",
+    "source": "https://www.rbl.bank.in/personal-banking/cards/credit-cards/iglobe-credit-card"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "Max 2 transfer requests per cardholder per month",
+    "annual": null
+   },
+   "min_transfer": "No minimum per bank Miles Transfer T&C; Vietnam Airlines notice says minimum 100 Reward Points for iGlobe",
+   "multiple_of": "Multiples of the conversion ratio (4 points)",
+   "transfer_fee": null,
+   "per_partner": "Up to 50,000 Reward Points per request",
+   "notes": "Ratio 4 points : 1 partner mile. Primary only. Miles Transfer T&C says the INR 99 + taxes fee applies only to World Safari Plus, but Schedule of Charges applies INR 99 + GST reward redemption fee to all cards except Lumiere, Nova, Insignia and some others, which does not exempt iGlobe. Fee for iGlobe transfers therefore unclear. Card is for NRI customers; bill paid via SI from RBL NRE account. Partner list (12) as under RBL Nova; bank iGlobe page says 10+ partners (Air India, Qatar Airways, ITC).",
+   "conflicts": [
+    "Redemption fee applicability to iGlobe miles transfers differs between Miles Transfer T&C and Schedule of Charges.",
+    "Cardexpress (secondary) lists a free-annual-fee version; bank page says INR 3,000 + GST."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://webassets.rbl.bank.in/document/credit-cards/rbl-miles-transfer-programme.pdf",
+     "type": "official",
+     "date": "undated, fetched 2026-10-21"
+    },
+    {
+     "url": "https://webassets.rbl.bank.in/document/Credit%20Cards/CardsScheduleCharges.pdf",
+     "type": "official",
+     "date": "undated"
+    },
+    {
+     "url": "https://www.rbl.bank.in/personal-banking/cards/credit-cards/iglobe-credit-card",
+     "type": "official",
+     "date": "live page 2026-10-21"
+    }
+   ]
+  },
+  "rbl-insignia-preferred": {
+   "research_name": "RBL Insignia Preferred",
+   "match_pct": 100,
+   "currency": "RBL Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": null,
+    "annual": "INR 7,000 + GST; waived on INR 10 lacs spend in a membership year for later years; no fee for Insignia Preferred Banking customers",
+    "source": "https://www.rbl.bank.in/personal-banking/cards/credit-cards/insignia-preferred-banking-credit-card"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "Max 2 transfer requests per cardholder per month",
+    "annual": null
+   },
+   "min_transfer": "No minimum per bank Miles Transfer T&C; Vietnam Airlines notice says minimum 100 Reward Points for Insignia Preferred",
+   "multiple_of": "Multiples of the conversion ratio (3 points)",
+   "transfer_fee": "None stated (Schedule of Charges exempts Insignia cards from INR 99 + GST redemption fee)",
+   "per_partner": "Up to 50,000 Reward Points per request",
+   "notes": "Ratio 3 points : 1 partner mile. Primary only. Helpdesk insignia@rbl.bank.in, +91 22 6232 7777. Partner list (12) as under RBL Nova; bank Insignia page says 10+ partners (Air India, Qatar Airways, ITC Green).",
+   "conflicts": [
+    "Fuel surcharge cap: rbl.bank.in says INR 500/month; rblbank.com listing (secondary snippet) says INR 250/month."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://webassets.rbl.bank.in/document/credit-cards/rbl-miles-transfer-programme.pdf",
+     "type": "official",
+     "date": "undated, fetched 2026-10-21"
+    },
+    {
+     "url": "https://www.rbl.bank.in/personal-banking/cards/credit-cards/insignia-preferred-banking-credit-card",
+     "type": "official",
+     "date": "live page 2026-10-21"
+    }
+   ]
+  },
+  "icici-times-black": {
+   "research_name": "ICICI Times Black",
+   "match_pct": 100,
+   "currency": "ICICI Bank Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "low",
+   "fees": {
+    "joining": null,
+    "annual": "20000 + 18% GST (23600 all-in); waived at 25 lakh annual spend (excludes rent, government, education, EMI, fees). Joining fee not found.",
+    "source": "https://cardadvisor.in/cards/icici-times-black"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": "2000 per cardadvisor; Air India partner page (via search snippet) says Emeralde Private Metal and Times Black holders are excluded from the 2000 minimum",
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": "Air India Maharaja Club is ICICI's only airline partner (per cardadvisor)",
+   "notes": "Ratio 1:1 to Maharaja Club (matches points.casa). Credited in up to 5 working days. Transfer only to own Maharaja Club ID, irreversible (Air India partner page snippet). No daily/weekly/monthly/annual cap or transfer fee found in any source; the only cap seen (200000 points per bank partner) was a March 2025 Air India promo that has ended. Not confirmed from ICICI MITC (ICICI site fetch failed). Conflict: min 2000 (cardadvisor) vs excluded from min (Air India snippet).",
+   "conflicts": [
+    "Welcome benefit and exact milestone ladder differ between cardadvisor summary and body text (Klook Rs 10000 at Rs 2 lakh vs Tata CLiQ Rs 10000 at Rs 10 lakh); not resolved.",
+    "Minimum transfer conflict (see transferLimits.notes)."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://cardadvisor.in/cards/icici-times-black",
+     "type": "secondary",
+     "date": "2026-10-11"
+    },
+    {
+     "url": "https://www.airindia.com/in/en/maharaja-club/partner-offers/icici.html",
+     "type": "official",
+     "date": "not shown (seen only as search snippet; page fetch failed)"
+    }
+   ]
+  },
+  "icici-emeralde-private-metal": {
+   "research_name": "ICICI Emeralde Private Metal",
+   "match_pct": 100,
+   "currency": "ICICI Bank Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "12499 + GST (14749 all-in) per cardadvisor",
+    "annual": "12499 + GST (14749 all-in); waived at 10 lakh annual spend. Add-on cards 3500 + GST one-time from 15 Jan 2026.",
+    "source": "https://cardadvisor.in/cards/icici-emeralde-private"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": "2000 per cardadvisor; Air India snippet says Emeralde Private Metal and Times Black excluded from the 2000 minimum",
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": "Air India Maharaja Club only",
+   "notes": "1:1 to Maharaja Club (matches points.casa). Credited up to 5 working days. No cap or fee found; ICICI official page fetch failed so unverified against MITC. Same Air India promo cap (200000/bank, Mar 2025) has ended.",
+   "conflicts": [
+    "Earlier web search snippet quoted iShop 6X flights / 12X hotels; cardadvisor card page says 18X / 36X. Not resolved."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://cardadvisor.in/cards/icici-emeralde-private",
+     "type": "secondary",
+     "date": "2026-09-25"
+    },
+    {
+     "url": "https://www.airindia.com/in/en/maharaja-club/partner-offers/icici.html",
+     "type": "official",
+     "date": "not shown (search snippet only)"
+    }
+   ]
+  },
+  "icici-emeralde": {
+   "research_name": "ICICI Emeralde",
+   "match_pct": 100,
+   "currency": "ICICI Bank Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": null,
+    "annual": "12000 + 18% GST (14160 all-in); waived at 10 lakh annual spend. Joining fee not found.",
+    "source": "https://cardadvisor.in/cards/icici-emeralde"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": "2000 points (Air India snippet: all ICICI cardholders except Emeralde Private Metal and Times Black need minimum 2000)",
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": "Air India Maharaja Club only",
+   "notes": "6:1 to Maharaja Club (matches points.casa). Credited up to 5 working days. No cap or fee found. Not verified against ICICI MITC.",
+   "conflicts": [],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://cardadvisor.in/cards/icici-emeralde",
+     "type": "secondary",
+     "date": "2026-10-11"
+    },
+    {
+     "url": "https://www.airindia.com/in/en/maharaja-club/partner-offers/icici.html",
+     "type": "official",
+     "date": "not shown (search snippet only)"
+    }
+   ]
+  },
+  "yes-private": {
+   "research_name": "Yes Private",
+   "match_pct": 100,
+   "currency": "YES Rewardz (YES Reward Points)",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "50000 (non-waivable), plus GST",
+    "annual": "10000 + GST (11800 all-in) renewal; waived at 25 lakh annual spend",
+    "source": "https://cardadvisor.in/cards/yes-private"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "100000 points max per month per Paisabazaar (undated, applies to all YES cards; unverified)",
+    "annual": null
+   },
+   "min_transfer": "100 points per Paisabazaar (undated); cardadvisor says no minimum",
+   "multiple_of": null,
+   "transfer_fee": "cardadvisor: Rs 100 + GST per reward redemption request (from 15 Jun 2026) - not stated specifically for airline transfers; cardadvisor says this fee does not apply to Yes Private",
+   "per_partner": "Air India Maharaja Club only",
+   "notes": "Ratio conflict: cardinsider (22 Jul 2025, citing Air India launch) and points.casa say 6:1; cardadvisor says 8:1. Credited up to 7 working days (cardadvisor). Transfers via YES Rewardz portal. No official YES T&C fetched.",
+   "conflicts": [
+    "Transfer ratio 6:1 (cardinsider, points.casa) vs 8:1 (cardadvisor).",
+    "Redemption fee Rs 100 + GST: cardadvisor text on Private says not applicable; Prime page lists it as applying."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://cardinsider.com/blog/au-bank-yes-bank-indusind-join-air-india-maharaja-club-new-points-transfer-partners/",
+     "type": "secondary",
+     "date": "2025-07-22"
+    },
+    {
+     "url": "https://cardadvisor.in/cards/yes-private",
+     "type": "secondary",
+     "date": "2026-09-25"
+    },
+    {
+     "url": "https://www.paisabazaar.com/yes-bank/yes-bank-credit-card-reward-points/",
+     "type": "secondary",
+     "date": "unclear"
+    }
+   ]
+  },
+  "yes-marquee": {
+   "research_name": "Yes Marquee",
+   "match_pct": 100,
+   "currency": "YES Rewardz (YES Reward Points)",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "9999 + GST",
+    "annual": "4999 + GST (5899 all-in) renewal; waived at 10 lakh annual spend",
+    "source": "https://cardadvisor.in/cards/yes-marquee"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "100000 points max per month per Paisabazaar (undated, unverified)",
+    "annual": null
+   },
+   "min_transfer": "100 points per Paisabazaar (undated); cardadvisor says no minimum",
+   "multiple_of": null,
+   "transfer_fee": "Rs 100 + GST per reward redemption request from 15 Jun 2026 (cardadvisor); whether it applies to Air India transfer not stated",
+   "per_partner": "Air India Maharaja Club only (Club Vistara defunct)",
+   "notes": "Ratio conflict: 15:1 (cardinsider Jul 2025, points.casa) vs 10:1 (cardadvisor, which says YES publishes '1 Air Mile per 10 Reward Points'). Credited up to 7 working days. Redemption cap for portal flights/hotels 300000 points/month and 70% of invoice (not a transfer cap).",
+   "conflicts": [
+    "Transfer ratio 15:1 vs 10:1."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://cardinsider.com/blog/au-bank-yes-bank-indusind-join-air-india-maharaja-club-new-points-transfer-partners/",
+     "type": "secondary",
+     "date": "2025-07-22"
+    },
+    {
+     "url": "https://cardadvisor.in/cards/yes-marquee",
+     "type": "secondary",
+     "date": "2026-10-11"
+    }
+   ]
+  },
+  "yes-reserv": {
+   "research_name": "Yes Reserv",
+   "match_pct": 100,
+   "currency": "YES Rewardz (YES Reward Points)",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "2499 + GST (2949 all-in); waived on Rs 40000 spend in 30 days (cardadvisor)",
+    "annual": "2499 + GST (2949 all-in); waived at Rs 3 lakh annual spend",
+    "source": "https://cardadvisor.in/cards/yes-first-exclusive"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": "100000 points per Paisabazaar (undated, unverified)",
+    "annual": null
+   },
+   "min_transfer": "100 per Paisabazaar (undated); Air India snippet mentioned 2000 minimum and multiples of 15 for some variants (unverified, page fetch failed)",
+   "multiple_of": "15 for some variants per Air India snippet (unverified)",
+   "transfer_fee": "Rs 100 + GST per redemption request from 15 Jun 2026 (cardadvisor); applicability to transfers not stated",
+   "per_partner": "Air India Maharaja Club only",
+   "notes": "Ratio: 15:1 (cardinsider Jul 2025, points.casa) vs 10:1 (cardadvisor; a search summary of the Air India page also said 10:1). Card is the rebrand of YES First Exclusive. Portal redemption capped 200000 points/month and 70% of invoice from 1 Dec 2024.",
+   "conflicts": [
+    "Renamed: YES First Exclusive is now YES Bank RESERV; the old zero-forex card no longer exists under that name.",
+    "Transfer ratio 15:1 vs 10:1.",
+    "cardadvisor body text says online 24 per Rs 200 but its structured table shows 12 pts per Rs 100 - consistent; 'Other' row shows 6 pts/Rs100, consistent."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://cardinsider.com/blog/au-bank-yes-bank-indusind-join-air-india-maharaja-club-new-points-transfer-partners/",
+     "type": "secondary",
+     "date": "2025-07-22"
+    },
+    {
+     "url": "https://cardadvisor.in/cards/yes-first-exclusive",
+     "type": "secondary",
+     "date": "2026-10-11"
+    },
+    {
+     "url": "https://www.airindia.com/jp/en/maharaja-club/partner-offers/yes-bank-credit-cards.html",
+     "type": "official",
+     "date": "not shown (snippet only; fetch failed)"
+    }
+   ]
+  },
+  "au-zenith": {
+   "research_name": "AU Zenith",
+   "match_pct": 100,
+   "currency": "AU Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "low",
+   "fees": {
+    "joining": null,
+    "annual": "7999 + 18% GST (9439 all-in); waived at Rs 5 lakh annual spend",
+    "source": "https://cardadvisor.in/cards/au-zenith"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": null,
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": "Air India Maharaja Club (via AU Rewardz portal, Air Miles Redemption option; credited within 7 working days per Air India page snippet)",
+   "notes": "6:1 per cardinsider (Jul 2025) and points.casa. Cardadvisor card page lists no transfer partners for Zenith. No limits, minimum or fee found. Official AU or Air India page could not be fetched (timeout).",
+   "conflicts": [
+    "Devalued 1 Jan 2026; forex markup raised 1.99% to 3.49% on 1 Oct 2026. AU steering new applicants to Zenith+.",
+    "Point value Rs 0.25 per cardadvisor; AU's own Rs 1/pt claim is cited for Zenith+ only."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://cardinsider.com/blog/au-bank-yes-bank-indusind-join-air-india-maharaja-club-new-points-transfer-partners/",
+     "type": "secondary",
+     "date": "2025-07-22"
+    },
+    {
+     "url": "https://www.airindia.com/fr/en/maharaja-club/partner-offers/au-small-finance-bank-credit-cards.html",
+     "type": "official",
+     "date": "not shown (snippet only)"
+    }
+   ]
+  },
+  "au-zenith-plus": {
+   "research_name": "AU Zenith Plus",
+   "match_pct": 100,
+   "currency": "AU Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "low",
+   "fees": {
+    "joining": "4999 + 18% GST (5899 all-in) per cardadvisor/bankbazaar",
+    "annual": "4999 + GST (5899 all-in); waived at Rs 8 lakh spend in prior year",
+    "source": "https://cardadvisor.in/cards/au-zenith-plus"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": null,
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": "Air India Maharaja Club",
+   "notes": "1.5:1 per cardinsider (Jul 2025), equal to points.casa 3:2. Cardadvisor card page lists no transfer partners; an earlier search summary of cardadvisor said AU points do not convert at scale to airlines. No limits, minimum, or fee found. Air India/AU official pages not fetched.",
+   "conflicts": [
+    "Rs 1/pt AU valuation vs Rs 0.25/pt on other AU cards; if transfers at 1.5:1 apply, Rs 1/pt claim is inconsistent with Maharaja Point value but this is not stated by any source.",
+    "Lounge counts differ across sources (16+16 per cardadvisor vs 8+8 per pickmycard)."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://cardinsider.com/blog/au-bank-yes-bank-indusind-join-air-india-maharaja-club-new-points-transfer-partners/",
+     "type": "secondary",
+     "date": "2025-07-22"
+    },
+    {
+     "url": "https://www.airindia.com/fr/en/maharaja-club/partner-offers/au-small-finance-bank-credit-cards.html",
+     "type": "official",
+     "date": "not shown (snippet only)"
+    }
+   ]
+  },
+  "jupiter-edge-plus": {
+   "research_name": "Jupiter Edge Plus",
+   "match_pct": 100,
+   "currency": "Jewels",
+   "last_verified": "2026-10-21",
+   "confidence": "low",
+   "fees": {
+    "joining": "999 regular; Rs 0 on Jupiter's limited-period offer; CSB page shows 499 for first 2 lakh users",
+    "annual": "Nil (lifetime free per CSB and Jupiter)",
+    "source": "https://www.csb.bank.in/csb-bank-edge-credit-card"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": null,
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": null,
+   "notes": "No airline or hotel transfer program found in CSB page, Jupiter page, or cardadvisor (rewards redeemable in Jupiter app for vouchers, flights, gold, bill pay). points.casa edges list Maharaja Club 6:1 for this card; not confirmed by any source found. Not found.",
+   "conflicts": [
+    "CSB site says 10% shopping / 5% travel / 1% base; Jupiter page says 50% Jewels shopping / 25% flights / 5% other (Jewel at Rs 0.20 equals 10% / 5% / 1%) - consistent via Jewel value.",
+    "Joining fee: Rs 999 (KFS per search summary), Rs 499 (CSB page), Rs 0 (Jupiter limited offer).",
+    "Maharaja Club 6:1 in points.casa not corroborated; no transfer found."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.csb.bank.in/csb-bank-edge-credit-card",
+     "type": "official",
+     "date": "not shown"
+    },
+    {
+     "url": "https://jupiter.money/edge-plus-upi-rupay-credit-card/",
+     "type": "official",
+     "date": "not shown"
+    },
+    {
+     "url": "https://cardadvisor.in/cards/jupiter-edge",
+     "type": "secondary",
+     "date": "2026-10-05"
+    }
+   ]
+  },
+  "sbi-miles-elite": {
+   "research_name": "SBI Miles Elite",
+   "match_pct": 100,
+   "currency": "SBI Travel Credits",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "Rs 4,999 + taxes (KFS table lists 4,999 renewal/joining column and 4,999 annual column)",
+    "annual": "Rs 4,999 + taxes; waived on annual spends of Rs 15 Lakh or more in the preceding year",
+    "source": "https://www.sbicard.com/sbi-card-en/assets/docs/pdf/key-fact-statement.pdf"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": "1,000 Travel Credits (secondary only; Golden Circle/Shangri-La 1,200)",
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": "Ratios per official T&C. Airlines: Air Arabia AA Rewards 2:1; AirAsia Rewards 1:1; Air Canada Aeroplan 1:1; Air India (listed as 'Flying Returns') 1:1; British Airways 1:1; Cathay 1:1; Emirates Skywards 2:1; Ethiopian ShebaMiles 2:1; JAL Mileage Bank 2:1; Saudia AlFursan 2:1; SpiceJet SpiceClub 1:1; Thai Royal Orchid Plus 1:1; Turkish Miles&Smiles 2:1; United MileagePlus 2:1; Qantas 1:1; Vietnam Lotusmiles 1:1. Hotels: Accor ALL 2:1; IHG One Rewards 1:1; ITC Club 2:1; Jumeirah One 2:1; Orchid Rewards '1B:1' (as printed); Wyndham 1:1; Shangri-La Circle 6:1; Radisson 1:1.",
+   "notes": "Official T&C (rewards-program-TnC-miles.pdf, clause 2): bank states no daily/weekly/monthly/annual transfer cap and no transfer fee in this document; fields set to null (not found). Transfer only if primary cardholder, only to a partner account belonging to the cardholder. Requests processed within up to 21 days. All transfers final, cannot be reversed or refunded. SBI may suspend or terminate the transfer feature, and partner programmes may change, without notice. Statement: 'The conversion ratio of Travel Credits into Air MILES and Hotel Points will vary across airline and hotel partners.' Air India side: Air India partner page (airindia.com sbi-miles-travel-card) reportedly says credit in about two working days and own Maharaja Club account only; I could not open that page (blocked), so this is from a search-result summary only. No Air India per-year cap on bank transfers found for the Miles cards. Time-limited Air India 'Maharaja Club Points Plus' promo (6-31 Mar 2025, per Business Standard) had 5,000 min per bank and 200,000 max per bank partner; points.casa edge file shows a similar tiered bonus for 1-31 May 2026 with bonus_capping 200000 (bonus cap, not a transfer cap). Official page and T&C undated; PDF text was fetched 2026-10-21.",
+   "conflicts": [
+    "Foreign currency markup: KFS lists 1.99% for Miles Elite (official).",
+    "Secondary lists (Magnify) show Etihad and Flying Blue among partners; the official T&C partner list does not. Official list used.",
+    "Official T&C names Air India programme 'Flying Returns' while points.casa lists 'Maharaja Club'; same 1:1 ratio.",
+    "points.casa edge file has Maharaja Club tiered bonus valid 2026-05-01 to 2026-05-31 (expired as of 2026-10-21) and Asia Miles 25% bonus 2025-11-16 to 2025-12-31 (expired).",
+    "Official sbicard.com product page is JavaScript rendered and could not be read; fee and welcome figures come from the KFS PDF and secondary sources."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.sbicard.com/sbi-card-en/assets/docs/pdf/tnc/rewards-program-TnC-miles.pdf",
+     "type": "official",
+     "date": "not shown in document"
+    },
+    {
+     "url": "https://www.sbicard.com/sbi-card-en/assets/docs/pdf/tnc/sbi-card-miles-elite-tnc.pdf",
+     "type": "official",
+     "date": "not shown in document"
+    },
+    {
+     "url": "https://magnify.club/guides/transfer-points-air-india-maharaja-club/",
+     "type": "secondary",
+     "date": "2026 (exact date not shown)"
+    },
+    {
+     "url": "https://magnify.club/guides/sbi-miles-elite-credit-card-review/",
+     "type": "secondary",
+     "date": "2026-04-01"
+    },
+    {
+     "url": "https://www.business-standard.com/industry/news/air-india-maharaja-club-points-bonus-2025-125031300856_1.html",
+     "type": "secondary",
+     "date": "2025-03-13"
+    },
+    {
+     "url": "https://www.airindia.com/in/en/maharaja-club/partner-offers/sbi-miles-travel-card.html",
+     "type": "official",
+     "date": "not retrieved (search snippet only)"
+    }
+   ]
+  },
+  "sbi-miles-prime": {
+   "research_name": "SBI Miles Prime",
+   "match_pct": 100,
+   "currency": "SBI Travel Credits",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "Rs 2,999 + taxes (KFS)",
+    "annual": "Rs 2,999 + taxes; waived on annual spends of Rs 10 Lakh or more in the preceding year (KFS)",
+    "source": "https://www.sbicard.com/sbi-card-en/assets/docs/pdf/key-fact-statement.pdf"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": "1,000 Travel Credits (secondary only, Magnify)",
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": "Same partner table and ratios as SBI Miles Elite (official T&C covers Miles, Miles Prime and Miles Elite in one document); see Miles Elite entry. points.casa edge file matches (Maharaja Club 1:1, AA Rewards 2:1, Golden Circle 6:1 etc.).",
+   "notes": "No daily/weekly/monthly/annual cap, no fee stated in the official T&C (not found). Primary cardholder only; own partner account only; up to 21 days; final and irreversible; SBI may suspend the feature without notice. Air India partner page lists Miles, Miles PRIME and Miles ELITE as eligible (search-result summary, page not retrievable).",
+   "conflicts": [
+    "Foreign currency markup: KFS lists 2.5% for Miles Prime.",
+    "Prime welcome and milestone figures are from secondary/search-summary sources only."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.sbicard.com/sbi-card-en/assets/docs/pdf/tnc/rewards-program-TnC-miles.pdf",
+     "type": "official",
+     "date": "not shown in document"
+    },
+    {
+     "url": "https://magnify.club/guides/transfer-points-air-india-maharaja-club/",
+     "type": "secondary",
+     "date": "2026 (exact date not shown)"
+    },
+    {
+     "url": "https://www.airindia.com/in/en/maharaja-club/partner-offers/sbi-miles-travel-card.html",
+     "type": "official",
+     "date": "not retrieved (search snippet only)"
+    }
+   ]
+  },
+  "sbi-miles": {
+   "research_name": "SBI Miles",
+   "match_pct": 100,
+   "currency": "SBI Travel Credits",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "Rs 1,499 + taxes (KFS)",
+    "annual": "Rs 1,499 + taxes; waived on annual spends of Rs 6 Lakh or more in the preceding year (KFS)",
+    "source": "https://www.sbicard.com/sbi-card-en/assets/docs/pdf/key-fact-statement.pdf"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": "1,000 Travel Credits (secondary only, Magnify)",
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": "Same partner table and ratios as SBI Miles Elite; see that entry. points.casa edge file lists Maharaja Club 1:1 and 2:1 or 1:1 for others consistent with the official list.",
+   "notes": "No caps, no fee stated in official T&C (not found). Primary cardholder only; own account only; up to 21 days; final.",
+   "conflicts": [
+    "Foreign currency markup: KFS lists 3% for SBI Card Miles (the same KFS line also says 3.5% for all other cards).",
+    "Milestone bonus in credits for base Miles not found on an official page; secondary claim of ~Rs 1,500 value unverified."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.sbicard.com/sbi-card-en/assets/docs/pdf/tnc/rewards-program-TnC-miles.pdf",
+     "type": "official",
+     "date": "not shown in document"
+    },
+    {
+     "url": "https://magnify.club/guides/transfer-points-air-india-maharaja-club/",
+     "type": "secondary",
+     "date": "2026 (exact date not shown)"
+    }
+   ]
+  },
+  "sbi-aurum": {
+   "research_name": "SBI Aurum",
+   "match_pct": 100,
+   "currency": "AURUM Reward Points",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "Rs 9,999 + taxes (KFS)",
+    "annual": "Rs 9,999 + taxes; waived on annual spends of Rs 12 Lakh or more in the preceding year (KFS)",
+    "source": "https://www.sbicard.com/sbi-card-en/assets/docs/pdf/key-fact-statement.pdf"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": "500 AURUM Reward Points to Maharaja Club (secondary: Magnify; Air India Aurum partner page via search summary)",
+   "multiple_of": null,
+   "transfer_fee": null,
+   "per_partner": "Maharaja Club 5:1; Qatar Privilege Club 5:1; Club ITC 5:1; AirAsia 4:1 (points.casa edge file; Paisabazaar secondary agrees on AirAsia 4:1, ITC 5:1, Qatar 5:1). Air India Aurum partner page (search summary) states 5:1 and credit within 72 hours.",
+   "notes": "No cap or fee found. Official AURUM reward-portal T&C PDF says points 'cannot be ... transferred to any other customer loyalty program unless otherwise notified by SBICPSL' and that once exchanged for any partner loyalty program, points cannot be transferred back. Primary cardholder only for redemption. No official SBI document found listing the Aurum partner ratios or minimums. Air India page says conversion cannot be cancelled once initiated and goes to member's own Maharaja Club account (search summary only).",
+   "conflicts": [
+    "points.casa edge file tags SBI Aurum localCurrency 'sbi_travel_credits'; official T&C and SBI page call Aurum points 'AURUM Reward Points' (4 RP per Rs 100, 1 RP = Rs 0.25). Not Travel Credits.",
+    "points.casa fromValueINR 0.25 matches the bank's Rs 0.25 per point.",
+    "Official AURUM T&C says points are not transferable to other loyalty programmes 'unless otherwise notified', yet Air India partner page and points.casa list a 5:1 Maharaja Club conversion; no SBI document found notifying it.",
+    "points.casa edge: ratioMatch 'DIFF' for Aurum Maharaja Club (localRatio 1:1 on its side versus 5:1)."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.sbicard.com/sbi-card-en/assets/docs/pdf/tandc-aurum-reward-portal.pdf",
+     "type": "official",
+     "date": "not shown in document"
+    },
+    {
+     "url": "https://airindia.com/in/en/maharaja-club/partner-offers/sbi-aurum.html",
+     "type": "official",
+     "date": "not retrieved (search snippet only)"
+    },
+    {
+     "url": "https://magnify.club/guides/transfer-points-air-india-maharaja-club/",
+     "type": "secondary",
+     "date": "2026 (exact date not shown)"
+    },
+    {
+     "url": "https://www.paisabazaar.com/credit-card/compare-sbi-aurum-vs-hdfc-infinia/",
+     "type": "secondary",
+     "date": "not shown"
+    }
+   ]
+  },
+  "sbi-air-india-platinum": {
+   "research_name": "SBI Air India Platinum",
+   "match_pct": 100,
+   "currency": "SBI Reward Points (converts to Air India Maharaja Points)",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "Rs 1,499 + taxes (KFS)",
+    "annual": "Rs 1,499 + taxes (KFS)",
+    "source": "https://www.sbicard.com/sbi-card-en/assets/docs/pdf/key-fact-statement.pdf"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": "5,000 Reward Points",
+   "multiple_of": "5,000",
+   "transfer_fee": null,
+   "per_partner": "Air India Maharaja Club only: 1:1 (SBI FAQ; Air India page via search summary: '1 SBI Reward point is equal to 1 Maharaja Point').",
+   "notes": "SBI FAQ (official, undated): conversion by calling SBI Card helpline 1860 180 1290 or 39020202; minimum 5,000 points; multiples of 5,000; converted within 7 working days; converted points valid 12 months in Air India and lapse on last date of the 12th month; cannot be reversed. Rejected if first Air India flight activity pending (status 'Prospect'), Maharaja Club membership not enrolled, or membership number differs from the number embossed on the card; rejected points credited back within 5 working days. No daily/weekly/monthly/annual cap found. Another SBI T&C line says 'Minimums of 5,000 or 10,000 reward points are required for redemption' (Signature versus Platinum split not stated there). Cardholder-agreement T&C also say points cannot be transferred to another loyalty programme unless notified. Secondary (Magnify) lists Platinum min 5,000. Card closed to new applicants from 2024-10-10 (secondary, cardadvisor via search summary).",
+   "conflicts": [
+    "Air India 12-month validity of transferred points (SBI FAQ, official) versus 24-month inactivity expiry (Magnify, cardadvisor, secondary).",
+    "Minimum: FAQ says 5,000 in multiples of 5,000 (official); T&C line 'minimums of 5,000 or 10,000' (official, ambiguous). Magnify: Platinum 5,000, Signature 10,000.",
+    "points.casa edge file marks transfer time 'Up to 7 days'; SBI FAQ says 7 working days (consistent). Air India page via search summary says credit in about two working days for Miles cards only.",
+    "Card closed to new applicants 2024-10-10 (secondary); existing holders keep benefits. Earn on Air India spend cut w.e.f. 2025-03-31 (official T&C)."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.sbicard.com/sbi-card-en/assets/docs/pdf/personal/credit-cards/travel/air-india-reward-point-faq.pdf",
+     "type": "official",
+     "date": "not shown in document"
+    },
+    {
+     "url": "https://www.sbicard.com/sbi-card-en/assets/docs/pdf/ekit-tncs/Air-india-tnc.pdf",
+     "type": "official",
+     "date": "not shown (text refers to changes w.e.f. 31 Mar 2025)"
+    },
+    {
+     "url": "https://www.sbicard.com/sbi-card-en/assets/docs/pdf/personal/credit-cards/travel/air-india-enrollment-faq.pdf",
+     "type": "official",
+     "date": "not shown"
+    },
+    {
+     "url": "https://magnify.club/guides/transfer-points-air-india-maharaja-club/",
+     "type": "secondary",
+     "date": "2026 (exact date not shown)"
+    },
+    {
+     "url": "https://www.airindia.com/in/en/maharaja-club/partner-offers/sbi.html",
+     "type": "official",
+     "date": "not retrieved (search snippet only)"
+    }
+   ]
+  },
+  "sbi-air-india-signature": {
+   "research_name": "SBI Air India Signature",
+   "match_pct": 100,
+   "currency": "SBI Reward Points (converts to Air India Maharaja Points)",
+   "last_verified": "2026-10-21",
+   "confidence": "medium",
+   "fees": {
+    "joining": "Rs 4,999 + taxes (KFS)",
+    "annual": "Rs 4,999 + taxes (KFS); no spend-based waiver listed in KFS line",
+    "source": "https://www.sbicard.com/sbi-card-en/assets/docs/pdf/key-fact-statement.pdf"
+   },
+   "limits": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "annual": null
+   },
+   "min_transfer": "5,000 Reward Points per SBI FAQ (official); 10,000 per Magnify (secondary)",
+   "multiple_of": "5,000 (SBI FAQ)",
+   "transfer_fee": null,
+   "per_partner": "Air India Maharaja Club only: 1:1",
+   "notes": "Same SBI FAQ as Platinum: call helpline 1860 180 1290 or 39020202; min 5,000, multiples of 5,000; 7 working days; transferred points valid 12 months; irreversible; rejection if first Air India flight pending, membership not enrolled, or membership number mismatch. No daily/weekly/monthly/annual cap found. The Signature-specific minimum of 10,000 appears only in a secondary source. Card closed to new applicants from 2024-10-10 (secondary). Signature T&C document is titled 'MITC_TC_23FEB2026' in search result title (file name says 16JULY2025).",
+   "conflicts": [
+    "Minimum transfer: 5,000 (SBI FAQ, official) versus 10,000 (Magnify, secondary).",
+    "Air India 12-month validity (official) versus 24-month claims (secondary).",
+    "Closed to new applicants 2024-10-10 per cardadvisor (secondary); existing holders unaffected."
+   ],
+   "group_notes": null,
+   "sources": [
+    {
+     "url": "https://www.sbicard.com/sbi-card-en/assets/docs/pdf/personal/credit-cards/travel/air-india-reward-point-faq.pdf",
+     "type": "official",
+     "date": "not shown in document"
+    },
+    {
+     "url": "https://www.sbicard.com/sbi-card-en/assets/docs/pdf/Air-India-Signature-Combined-TC-16JULY2025.pdf",
+     "type": "official",
+     "date": "file name 16 Jul 2025; search-result title 23 Feb 2026"
+    },
+    {
+     "url": "https://www.sbicard.com/sbi-card-en/assets/docs/pdf/personal/credit-cards/travel/air-india-sbi-signature-tc.pdf",
+     "type": "official",
+     "date": "text refers to w.e.f. 31 Mar 2025"
+    },
+    {
+     "url": "https://magnify.club/guides/transfer-points-air-india-maharaja-club/",
+     "type": "secondary",
+     "date": "2026 (exact date not shown)"
+    }
+   ]
+  }
+ }
+}
