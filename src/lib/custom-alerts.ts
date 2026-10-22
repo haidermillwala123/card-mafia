@@ -1,6 +1,10 @@
 // What makes a custom alert fire. Pure functions: the daily job feeds them rows and today's date, and the Alerts page uses the same types.
 // Four kinds: a dated reminder (points expiry, annual fee, anything), a seat under a price, a change in a card's transfer rules, a balance target.
 
+// Custom alerts are in preview: only this account can create them. Everyone else sees "Coming soon". Remove the check to launch.
+export const CUSTOM_ALERTS_PREVIEW_EMAIL = 'millwalahaider2005@gmail.com';
+export const canUseCustomAlerts = (email?: string | null) => email?.toLowerCase() === CUSTOM_ALERTS_PREVIEW_EMAIL;
+
 export type CustomKind = 'reminder' | 'price' | 'rule' | 'balance';
 export type Repeat = 'none' | 'monthly' | 'yearly';
 

@@ -1,6 +1,6 @@
 // Custom alerts, from the browser: the person's own rows in custom_alerts (owner-only by row-level security).
 // The daily job in api/cron does the checking and the emailing; this file only reads, adds and stops them.
-import type { CustomAlert, CustomKind, Repeat } from '@/lib/custom-alerts';
+import { canUseCustomAlerts, type CustomAlert, type CustomKind, type Repeat } from '@/lib/custom-alerts';
 import { supabase } from '@/lib/supabase';
 
 export type NewCustom = {
@@ -24,6 +24,7 @@ export async function createCustom(a: NewCustom): Promise<CustomResult> {
   const sb = supabase();
   const { data: auth } = (await sb?.auth.getUser()) ?? { data: { user: null } };
   if (!sb || !auth.user) return { ok: false, error: 'Sign in to set an alert.', needsSignIn: true };
+  if (!canUseCustomAlerts(auth.user.email)) return { ok: false, error: 'Custom alerts are coming soon.' };
   const title = a.title.trim().slice(0, 120);
   if (!title) return { ok: false, error: 'Give the alert a name.' };
   const { data, error } = await sb.from('custom_alerts').insert({

@@ -16,7 +16,7 @@ import { bankName, CARDS, cardName, programmeName } from '@/lib/app/catalog';
 import { createCustom, listCustom, stopCustom } from '@/lib/app/custom-alerts';
 import { CABIN_LABEL, addDaysIso, ageLabel, dateShort, fmt, todayIso } from '@/lib/app/format';
 import { useUser } from '@/lib/auth';
-import type { CustomAlert, Repeat } from '@/lib/custom-alerts';
+import { canUseCustomAlerts, type CustomAlert, type Repeat } from '@/lib/custom-alerts';
 import programmesJson from '@/data/programmes.json';
 import { MAX_DAYS_OUT } from '@/lib/seats/sources';
 import './alerts.css';
@@ -104,7 +104,7 @@ export default function AlertsClient() {
 
   async function submit() {
     setFormErr('');
-    if (TYPES.find(t => t.id === type)?.soon) return;
+    if (TYPES.find(t => t.id === type)?.soon && !canUseCustomAlerts(user?.email)) return;
     const routeOk = () => {
       if (!dest) return 'Choose where you want to fly.';
       if (dest === origin) return 'Pick two different airports.';
@@ -183,6 +183,7 @@ export default function AlertsClient() {
     );
   }
 
+  const preview = canUseCustomAlerts(user.email);
   const isRoute = type === 'seat' || type === 'price';
   const isDate = type === 'expiry' || type === 'fee' || type === 'custom';
   const needsCard = type === 'fee' || type === 'rule' || type === 'balance';
@@ -194,8 +195,8 @@ export default function AlertsClient() {
       <section aria-label="What to be told about">
         <div className="a-alerts-types">
           {TYPES.map(t => (
-            <button key={t.id} type="button" className="a-alerts-type" aria-pressed={type === t.id} disabled={t.soon} onClick={() => !t.soon && pick(t.id)}>
-              <b>{t.title}{t.soon && <em className="a-alerts-soon">Coming soon</em>}</b><small>{t.sub}</small>
+            <button key={t.id} type="button" className="a-alerts-type" aria-pressed={type === t.id} disabled={t.soon && !preview} onClick={() => (!t.soon || preview) && pick(t.id)}>
+              <b>{t.title}{t.soon && <em className="a-alerts-soon">{preview ? 'Preview' : 'Coming soon'}</em>}</b><small>{t.sub}</small>
             </button>
           ))}
         </div>
