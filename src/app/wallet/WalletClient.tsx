@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Select from '@/components/Select';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Ic from '@/components/app/Icons';
 import { Note } from '@/components/app/ui';
@@ -33,7 +34,7 @@ export default function WalletClient() {
   const [raw, setRaw] = useState<Record<string, string>>({}); // text being typed, per programme
   const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'device' | 'error'>('idle');
   const [confirm, setConfirm] = useState<string | null>(null);
-  const picker = useRef<HTMLSelectElement>(null);
+  const picker = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (ready && new URLSearchParams(window.location.search).get('setup') === '1') picker.current?.focus();
@@ -104,16 +105,16 @@ export default function WalletClient() {
         <span className="a-cap">Add a card</span>
         <div className="a-wallet-picker">
           <label className="cm-field"><span className="cm-field__label">Bank</span>
-            <span className="cm-control"><select ref={picker} value={bank} onChange={e => { setBank(e.target.value); setCardId(''); }}>
+            <span className="cm-control"><Select ref={picker} value={bank} onChange={e => { setBank(e.target.value); setCardId(''); }}>
               <option value="">Choose a bank</option>
               {BANKS.map(b => <option key={b.id} value={b.id}>{bankName(b.id)}</option>)}
-            </select></span>
+            </Select></span>
           </label>
           <label className="cm-field"><span className="cm-field__label">Card</span>
-            <span className="cm-control"><select value={cardId} disabled={!bank} onChange={e => setCardId(e.target.value)}>
+            <span className="cm-control"><Select value={cardId} disabled={!bank} onChange={e => setCardId(e.target.value)}>
               <option value="">{bank ? (bankCards.length ? 'Choose a card' : 'No more cards for this bank') : 'Choose a bank first'}</option>
               {bankCards.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-            </select></span>
+            </Select></span>
           </label>
           <button type="button" className="cm-btn cm-btn--secondary a-pb" disabled={!cardId} onClick={addCard}>Add card</button>
         </div>

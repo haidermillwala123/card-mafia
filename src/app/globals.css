@@ -205,3 +205,34 @@ svg{max-width:100%;vertical-align:-3px}
 .skeleton+.skeleton{margin-top:8px;width:65%}
 .meter{height:6px;border-radius:3px;background:var(--color-surface-sunken);overflow:hidden}
 .meter i{display:block;height:100%;background:var(--color-accent-strong)}
+
+/* Select: styled listbox replacing the native dropdown */
+.sel{position:relative;width:100%;min-width:0}
+.sel-btn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:var(--layout-touch,44px);padding:10px 14px;background:var(--color-surface);color:var(--color-text);border:1px solid var(--color-border-strong);border-radius:12px;font:inherit;text-align:left;cursor:pointer;transition:border-color .15s,box-shadow .15s,background .15s}
+.sel-btn>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sel-btn svg{flex:none;color:var(--color-text-muted);transition:transform .15s}
+.sel-btn[aria-expanded=true] svg{transform:rotate(180deg)}
+.sel-btn:hover:not(:disabled){border-color:var(--color-primary)}
+.sel-btn:focus-visible,.sel-btn[aria-expanded=true]{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--color-primary) 28%,transparent)}
+.sel-btn.is-empty{color:var(--color-text-muted)}
+.sel-btn:disabled{opacity:.5;cursor:not-allowed}
+.sel-menu{position:absolute;z-index:60;left:0;right:0;top:calc(100% + 6px);max-height:288px;overflow:auto;padding:6px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:14px;box-shadow:0 18px 44px rgba(0,0,0,.45),0 2px 6px rgba(0,0,0,.25);animation:sel-in .12s ease-out;min-width:220px}
+.sel-menu.is-up{top:auto;bottom:calc(100% + 6px)}
+@keyframes sel-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.sel-group{padding:10px 10px 4px;font:600 11px/1 var(--font-body,inherit);letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-muted)}
+.sel-opt{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 10px;border-radius:9px;cursor:pointer;color:var(--color-text)}
+.sel-opt.is-hi{background:var(--color-primary-tint)}
+.sel-opt.is-on{font-weight:600}
+.sel-opt svg{color:var(--color-primary);flex:none}
+.cm-control:has(>.sel){padding:0;border:0;background:none;min-height:0}
+@media(prefers-reduced-motion:reduce){.sel-menu{animation:none}}
+
+/* Sign-in: centred card, bigger code boxes */
+.a-auth{display:grid;place-items:start center;padding:8px 0 24px}
+.a-auth-card{width:100%;max-width:440px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:20px;padding:28px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.a-auth-card .field input{border-radius:12px;min-height:48px}
+.a-auth-card .otp{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.a-auth-card .otp input{width:100%;min-width:0;height:56px;text-align:center;font:600 22px var(--font-display,inherit);border-radius:12px;background:var(--color-surface-sunken);color:var(--color-text);border:1px solid var(--color-border-strong)}
+.a-auth-card .otp input:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--color-primary) 28%,transparent)}
+.a-auth-card .otp.err input{border-color:var(--color-danger)}
+.a-auth-card .btn-primary{width:100%;justify-content:center}

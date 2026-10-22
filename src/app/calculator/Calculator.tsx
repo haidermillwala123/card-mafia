@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Select from '@/components/Select';
 import { useEffect, useRef, useState } from 'react';
 import PathChain from '@/components/PathChain';
 import { Close, Info, Warn } from '@/components/Icons';
@@ -102,7 +103,7 @@ export default function Calculator({ cards, airlines }: { cards: CardOpt[]; airl
   ));
   const targetField = (
     <div className="field"><label htmlFor="target">Programme</label>
-      <select id="target" value={target} onChange={e => setTarget(e.target.value)}>{airlines.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}</select></div>
+      <Select id="target" value={target} onChange={e => setTarget(e.target.value)}>{airlines.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}</Select></div>
   );
   const status = (c: { busy: boolean; error: string }) => (c.error ? <div className="note note-bad" role="alert"><Warn />{c.error}</div> : c.busy ? <p className="t-sm muted" role="status"><span className="spin" /> Calculating</p> : null);
   const capCell = (c: Cap, time: string | null) => (
@@ -124,7 +125,7 @@ export default function Calculator({ cards, airlines }: { cards: CardOpt[]; airl
         {tab === 'forward' && (
           <section className="stack settle" style={{ ['--stack' as string]: '16px' }} aria-label="Points to miles">
             <div className="grid-2">
-              <div className="field"><label htmlFor="card">Card</label><select id="card" value={cardId} onChange={e => setCardId(e.target.value)}>{cardOptions}</select></div>
+              <div className="field"><label htmlFor="card">Card</label><Select id="card" value={cardId} onChange={e => setCardId(e.target.value)}>{cardOptions}</Select></div>
               <div className="field"><label htmlFor="pts">Points on the card</label><input id="pts" inputMode="numeric" value={points ? n(num(points)) : ''} placeholder="For example 1,20,000" onChange={e => setPoints(digits(e.target.value))} />
                 <span className="btn-row" style={{ gap: 6 }}>{[50000, 100000, 150000, 500000].map(v => <button key={v} type="button" className="btn btn-secondary btn-sm" onClick={() => setPoints(String(v))}>{n(v)}</button>)}</span></div>
             </div>
@@ -192,10 +193,10 @@ export default function Calculator({ cards, airlines }: { cards: CardOpt[]; airl
                 </div>
               ))}
               <div className="field" style={{ marginTop: 16, maxWidth: 360 }}><label htmlFor="addp">Add a card</label>
-                <select id="addp" value="" onChange={e => e.target.value && setPool(x => [...x, { cardId: e.target.value, balance: '' }])}>
+                <Select id="addp" value="" onChange={e => e.target.value && setPool(x => [...x, { cardId: e.target.value, balance: '' }])}>
                   <option value="">Choose a card</option>
                   {cards.filter(c => !pool.some(p => p.cardId === c.id)).map(c => <option key={c.id} value={c.id}>{c.bankName.replace(/ Bank| Card/, '')} {c.name}</option>)}
-                </select></div>
+                </Select></div>
             </fieldset>
             {directToggle}
             {status(pooled)}

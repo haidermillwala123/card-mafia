@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Select from '@/components/Select';
 import { useEffect, useRef, useState } from 'react';
 import PathChain from '@/components/PathChain';
 import { Arrow, Back, Check, Clock, Close, Info, Lock, Warn } from '@/components/Icons';
@@ -223,14 +224,14 @@ export default function PlanFlow({ cards, initialQuery }: { cards: CardOpt[]; in
                   })}
                   <div className="field" style={{ marginTop: 16, maxWidth: 360 }}>
                     <label htmlFor="add-card">Add a card</label>
-                    <select id="add-card" value="" onChange={e => e.target.value && setForm(f => ({ ...f, rows: [...f.rows, { cardId: e.target.value, balance: '' }] }))}>
+                    <Select id="add-card" value="" onChange={e => e.target.value && setForm(f => ({ ...f, rows: [...f.rows, { cardId: e.target.value, balance: '' }] }))}>
                       <option value="">Choose a card</option>
                       {[...new Set(cards.map(c => c.bankId))].map(b => (
                         <optgroup key={b} label={cards.find(c => c.bankId === b)!.bankName}>
                           {cards.filter(c => c.bankId === b && !form.rows.some(r => r.cardId === c.id)).map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                         </optgroup>
                       ))}
-                    </select>
+                    </Select>
                   </div>
                 </fieldset>
 
@@ -238,13 +239,13 @@ export default function PlanFlow({ cards, initialQuery }: { cards: CardOpt[]; in
                   <legend className="t-title" style={{ marginBottom: 12 }}>The trip</legend>
                   <div className="grid-2">
                     <div className="field"><label htmlFor="origin">Starting airport</label>
-                      <select id="origin" value={form.origin} onChange={e => setForm(f => ({ ...f, origin: e.target.value }))}>{AIRPORTS.map(a => <option key={a}>{a}</option>)}</select></div>
+                      <Select id="origin" value={form.origin} onChange={e => setForm(f => ({ ...f, origin: e.target.value }))}>{AIRPORTS.map(a => <option key={a}>{a}</option>)}</Select></div>
                     <div className="field"><label htmlFor="dest">Going to</label>
-                      <select id="dest" value={form.dest} onChange={e => setForm(f => ({ ...f, dest: e.target.value }))}>{DESTS.map(d => <option key={d.value} value={d.value}>{d.label}</option>)}</select></div>
+                      <Select id="dest" value={form.dest} onChange={e => setForm(f => ({ ...f, dest: e.target.value }))}>{DESTS.map(d => <option key={d.value} value={d.value}>{d.label}</option>)}</Select></div>
                     <div className="field"><label htmlFor="month">Month</label>
                       <input id="month" type="month" value={form.month} onChange={e => setForm(f => ({ ...f, month: e.target.value }))} /></div>
                     <div className="field"><label htmlFor="pax">Travellers</label>
-                      <select id="pax" value={form.travellers} onChange={e => setForm(f => ({ ...f, travellers: Number(e.target.value) }))}>{[1, 2, 3, 4, 5, 6].map(x => <option key={x} value={x}>{x}</option>)}</select></div>
+                      <Select id="pax" value={form.travellers} onChange={e => setForm(f => ({ ...f, travellers: Number(e.target.value) }))}>{[1, 2, 3, 4, 5, 6].map(x => <option key={x} value={x}>{x}</option>)}</Select></div>
                   </div>
                   <label className="check-box" style={{ marginTop: 16 }}>
                     <input type="checkbox" checked={form.qsuite} onChange={e => setForm(f => ({ ...f, qsuite: e.target.checked }))} />

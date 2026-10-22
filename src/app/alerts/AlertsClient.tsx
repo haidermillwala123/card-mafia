@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Select from '@/components/Select';
 import { useCallback, useEffect, useState } from 'react';
 import Ic from '@/components/app/Icons';
 import { Note, SeenStamp, Tag } from '@/components/app/ui';
@@ -102,22 +103,22 @@ export default function AlertsClient() {
           <span className="a-cap">New alert</span>
           <div className="a-alerts-form">
             <label className="cm-field"><span className="cm-field__label">From</span>
-              <span className="cm-control"><select value={origin} onChange={e => setOrigin(e.target.value)}>
+              <span className="cm-control"><Select value={origin} onChange={e => setOrigin(e.target.value)}>
                 {INDIAN.map(i => <option key={i} value={i}>{label(i)}</option>)}
-              </select></span></label>
+              </Select></span></label>
             <label className="cm-field"><span className="cm-field__label">To</span>
-              <span className="cm-control"><select value={dest} onChange={e => setDest(e.target.value)}>
+              <span className="cm-control"><Select value={dest} onChange={e => setDest(e.target.value)}>
                 <option value="">Choose an airport</option>
                 {AIRPORTS.filter(a => a.i !== origin).map(a => <option key={a.i} value={a.i}>{label(a.i)}</option>)}
-              </select></span></label>
+              </Select></span></label>
             <label className="cm-field"><span className="cm-field__label">Leaving from</span>
               <span className="cm-control"><input type="date" min={min} max={max} value={from} onChange={e => setFrom(e.target.value)} /></span></label>
             <label className="cm-field"><span className="cm-field__label">Leaving by</span>
               <span className="cm-control"><input type="date" min={min} max={max} value={to} onChange={e => setTo(e.target.value)} /></span></label>
             <label className="cm-field a-alerts-wide"><span className="cm-field__label">Cabin</span>
-              <span className="cm-control"><select value={cabin} onChange={e => setCabin(e.target.value as Cabin)}>
+              <span className="cm-control"><Select value={cabin} onChange={e => setCabin(e.target.value as Cabin)}>
                 {CABINS.map(c => <option key={c} value={c}>{CABIN_LABEL[c]}</option>)}
-              </select></span></label>
+              </Select></span></label>
           </div>
           <label className="cm-switch"><span className="cm-check__label">Only seats my cards can pay for</span><input type="checkbox" checked={reachable} onChange={e => setReachable(e.target.checked)} /></label>
           <label className="cm-switch"><span className="cm-check__label">Email me when seats open</span><input type="checkbox" checked={email} onChange={e => setEmail(e.target.checked)} /></label>
