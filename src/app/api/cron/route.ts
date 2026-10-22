@@ -1,5 +1,6 @@
 // Daily job (Vercel Cron, Hobby plan = once a day): refresh the routes people searched or watch, then check every alert watch.
 // Protected by CRON_SECRET: Vercel sends "Authorization: Bearer <CRON_SECRET>" itself when that env var exists.
+import { timingSafeEqual } from 'node:crypto';
 import { type CustomAlert } from '@/lib/custom-alerts';
 import { runCustomAlerts } from '@/lib/custom-alerts-run';
 import { emailConfigured, seatAlertEmail, sendEmail } from '@/lib/email';
@@ -17,7 +18,9 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 const CALL_BUDGET = 300; // this run's share of the 1,000 daily calls; searches keep the rest
-const TIME_BUDGET_MS = 45000;
+const TIME_BUDGET_MS = 30000; // refreshing seats; the alert checks after it get the rest of the 60 seconds
+const DEADLINE_MS = 52000; // past this, stop starting new work so the run can close cleanly (finishRun) instead of being killed
+const BATCH = 400; // rows per run, oldest-checked first, so a large backlog is worked through across days instead of timing out
 
 type Watch = {
   id: string; user_id: string; origin_iata: string; dest_iata: string; depart_from: string; depart_to: string; cabin: Cabin;
@@ -26,7 +29,9 @@ type Watch = {
 
 export async function GET(req: Request) {
   const secret = process.env.CRON_SECRET?.trim();
-  if (!secret || req.headers.get('authorization') !== `Bearer ${secret}`) return Response.json({ error: 'Not allowed.' }, { status: 401 });
+  const sent = Buffer.from(req.headers.get('authorization') ?? '');
+  const want = Buffer.from(`Bearer ${secret ?? ''}`);
+  if (!secret || sent.length !== want.length || !timingSafeEqual(sent, want)) return Response.json({ error: 'Not allowed.' }, { status: 401 });
   if (!adminConfigured()) return Response.json({ error: 'SUPABASE_SERVICE_ROLE_KEY is not set.' }, { status: 503 });
 
   const started = Date.now();
@@ -39,10 +44,10 @@ export async function GET(req: Request) {
 
   try {
     const sb = admin();
-    const { data: watchRows } = await sb.from('alert_watches').select('*').eq('active', true);
+    const { data: watchRows } = await sb.from('alert_watches').select('*').eq('active', true).order('last_checked_at', { ascending: true, nullsFirst: true }).limit(BATCH);
     const watches = (watchRows ?? []) as Watch[];
     // Custom alerts live in their own table. If it is not there yet (migration not applied), carry on without them.
-    const customRes = await sb.from('custom_alerts').select('*').eq('active', true);
+    const customRes = await sb.from('custom_alerts').select('*').eq('active', true).order('last_fired_at', { ascending: true, nullsFirst: true }).limit(BATCH);
     const customRows = (customRes.error ? [] : customRes.data ?? []) as CustomAlert[];
     const pricePairs = customRows.filter(c => c.kind === 'price').flatMap(c => {
       const p = c.params as Record<string, string>;
@@ -106,6 +111,7 @@ export async function GET(req: Request) {
     let alerted = 0;
     let emailed = 0;
     for (const w of watches) {
+      if (Date.now() - started > DEADLINE_MS - 6000) { errors.push('Time ran out: the rest of the watches wait for tomorrow.'); break; }
       const win2 = windowFor(w.depart_from, w.depart_to);
       const rows = await store.read({ origins: [w.origin_iata], dests: [w.dest_iata], from: win2.from, to: win2.to, cabin: w.cabin });
       const { rows: priced } = await withInr(rows);
@@ -141,7 +147,7 @@ export async function GET(req: Request) {
     // 3. custom alerts: reminders, a seat under your price, changed transfer rules, balance targets. A failure here must not fail the run.
     let custom: { checked: number; fired: number; emailed: number; errors: string[] } = { checked: 0, fired: 0, emailed: 0, errors: [] };
     try {
-      custom = await runCustomAlerts({ sb, store, data, rows: customRows, today: new Date().toISOString().slice(0, 10), siteUrl: SITE_URL });
+      custom = await runCustomAlerts({ sb, store, data, rows: customRows, today: new Date().toISOString().slice(0, 10), siteUrl: SITE_URL, deadline: started + DEADLINE_MS });
     } catch (e) {
       custom.errors.push(e instanceof Error ? e.message : 'failed');
     }

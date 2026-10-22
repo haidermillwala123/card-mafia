@@ -50,6 +50,17 @@ test('finds the card a statement belongs to, preferring the longer name', () => 
   assert.equal(detectCard('Axis Bank Credit Card Statement', list).bank, 'axis');
 });
 
+test('drops credits and impossible dates, and does not stall on a huge line', () => {
+  const p = parseStatementText('01/01/2026 FOO STORE -100.00 02/01/2026 BAR STORE -2,000.00 03/01/2026 BAZ STORE 5.00');
+  assert.deepEqual(p.txns.map(t => t.amount), [5]);
+  assert.equal(parseStatementText('31/02/2026 SOME SHOP 500.00').txns.length, 0);
+  assert.equal(monthsCovered('bad', '2026-01-01'), 1);
+  assert.equal(monthlySpend([{ date: '', desc: '', amount: 600, cat: 'dining', foreign: false }], 0).dining, 600);
+  const t = Date.now();
+  parseStatementText('01/01/2026 FOO ' + '1'.repeat(200000));
+  assert.ok(Date.now() - t < 500);
+});
+
 test('sorts merchants into spend categories', () => {
   const by = Object.fromEntries(parseStatementText(text).txns.map(t => [t.desc.split(' ')[0], t.cat]));
   assert.equal(by.SWIGGY, 'dining');

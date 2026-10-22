@@ -3,6 +3,7 @@
 import { z } from 'zod';
 import { allow, categorizeWithClaude } from '@/lib/claude';
 import { clientKey, readJson } from '@/lib/guard';
+import { underDailyCap } from '@/lib/usage';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,6 +14,6 @@ export async function POST(req: Request) {
   if (!g.ok) return g.res;
   const body = Body.safeParse(g.body);
   if (!body.success) return Response.json({ error: 'Send up to 100 merchant names.' }, { status: 400 });
-  if (!allow(clientKey(req), 12)) return Response.json({ cats: body.data.descs.map(() => null) });
+  if (!allow(clientKey(req), 12) || !(await underDailyCap('categorize', clientKey(req), 60, 1500))) return Response.json({ cats: body.data.descs.map(() => null) });
   return Response.json({ cats: (await categorizeWithClaude(body.data.descs)) ?? body.data.descs.map(() => null) });
 }

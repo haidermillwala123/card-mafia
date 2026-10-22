@@ -3,6 +3,7 @@ import { buildPlans } from '@/lib/engine/engine';
 import { explainFallback } from '@/lib/engine/explain';
 import { getData } from '@/lib/engine/load';
 import { clientKey, readJson } from '@/lib/guard';
+import { underDailyCap } from '@/lib/usage';
 import { firstIssue, PlanBody } from '@/lib/schemas';
 
 // The plans are rebuilt here from the typed trip, so Claude only ever explains what the rules produced.
@@ -15,7 +16,7 @@ export async function POST(req: Request) {
   const name = (id: string) => data.programmes.find(p => p.id === id)?.name ?? id;
   const { plans } = buildPlans(data, body.data.trip, body.data.holdings, new Date());
   const fallback = plans.map(p => explainFallback(p, name));
-  if (!allow(clientKey(req))) return Response.json({ explanations: fallback, via: 'rules' });
+  if (!allow(clientKey(req)) || !(await underDailyCap('explain', clientKey(req), 200, 4000))) return Response.json({ explanations: fallback, via: 'rules' });
   const fromClaude = plans.length ? await explainWithClaude(plans, name) : null;
   return Response.json({ explanations: fromClaude ?? fallback, via: fromClaude ? 'claude' : 'rules' });
 }

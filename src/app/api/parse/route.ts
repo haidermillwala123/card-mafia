@@ -3,6 +3,7 @@ import { allow, parseWithClaude } from '@/lib/claude';
 import { data } from '@/lib/engine/data';
 import { parseTrip, reviewNotes, unsupportedNotes, type ParsedTrip } from '@/lib/engine/parse';
 import { clientKey, readJson } from '@/lib/guard';
+import { underDailyCap } from '@/lib/usage';
 
 const Body = z.object({ text: z.string().trim().min(3).max(700), homeAirport: z.string().regex(/^[A-Z]{3}$/).default('DEL') });
 
@@ -10,6 +11,7 @@ export async function POST(req: Request) {
   const g = await readJson(req);
   if (!g.ok) return g.res;
   if (!allow(clientKey(req))) return Response.json({ error: 'Too many requests. Wait a minute and try again.' }, { status: 429 });
+  if (!(await underDailyCap('parse', clientKey(req), 150, 3000))) return Response.json({ error: 'The daily limit for this was reached. Use the fields below, or try again tomorrow.' }, { status: 429 });
   const body = Body.safeParse(g.body);
   if (!body.success) return Response.json({ error: 'Write one sentence about your trip and cards.' }, { status: 400 });
   const { text, homeAirport } = body.data;

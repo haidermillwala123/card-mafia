@@ -22,8 +22,19 @@ test('months roll without skipping: 31 Jan plus a month is the end of February',
 
 test('after a one-off reminder it stops; a repeating one moves to the next date', () => {
   assert.deepEqual(afterReminder({ due_on: '2026-12-10', repeat: 'none' }, '2026-12-03'), { active: false, due_on: '2026-12-10', state: { firedFor: '2026-12-10' } });
-  assert.deepEqual(afterReminder({ due_on: '2026-12-10', repeat: 'yearly' }, '2026-12-03'), { active: true, due_on: '2027-12-10', state: {} });
-  assert.deepEqual(afterReminder({ due_on: '2026-12-10', repeat: 'monthly' }, '2026-12-03'), { active: true, due_on: '2027-01-10', state: {} });
+  assert.deepEqual(afterReminder({ due_on: '2026-12-10', repeat: 'yearly' }, '2026-12-03'), { active: true, due_on: '2027-12-10', state: { anchor: 10 } });
+  assert.deepEqual(afterReminder({ due_on: '2026-12-10', repeat: 'monthly' }, '2026-12-03'), { active: true, due_on: '2027-01-10', state: { anchor: 10 } });
+});
+
+test('a repeat keeps its day of the month: 31st stays 31st, 29 Feb comes back', () => {
+  let a = { due_on: '2027-01-31', repeat: 'monthly' as const, state: {} as Record<string, unknown> };
+  const seen: string[] = [];
+  for (let i = 0; i < 4; i++) { const r = afterReminder(a, '2027-01-01'); seen.push(r.due_on!); a = { ...a, due_on: r.due_on!, state: r.state }; }
+  assert.deepEqual(seen, ['2027-02-28', '2027-03-31', '2027-04-30', '2027-05-31']);
+  let y = { due_on: '2028-02-29', repeat: 'yearly' as const, state: {} as Record<string, unknown> };
+  const years: string[] = [];
+  for (let i = 0; i < 4; i++) { const r = afterReminder(y, '2028-01-01'); years.push(r.due_on!); y = { ...y, due_on: r.due_on!, state: r.state }; }
+  assert.deepEqual(years, ['2029-02-28', '2030-02-28', '2031-02-28', '2032-02-29']);
 });
 
 test('a repeating reminder the job missed for months skips old dates instead of firing a burst', () => {

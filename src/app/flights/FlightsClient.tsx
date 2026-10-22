@@ -174,14 +174,14 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
         <form className="a-gl a-flights-bar" onSubmit={e => { e.preventDefault(); void run(); }} aria-label="Search seats">
           <div className="a-flights-fields">
             <Field label="From">
-              <Select value={originStr} onChange={e => setO(e.target.value)}>
+              <Select aria-label="From" value={originStr} onChange={e => setO(e.target.value)}>
                 {!INDIAN.includes(originStr) && !OTHER.some(a => a.i === originStr) && <option value={originStr}>{originStr}</option>}
                 <optgroup label="India">{INDIAN.map(i => <option key={i} value={i}>{label(i)}</option>)}</optgroup>
                 <optgroup label="Other airports">{OTHER.map(a => <option key={a.i} value={a.i}>{label(a.i)}</option>)}</optgroup>
               </Select>
             </Field>
             <Field label="To">
-              <Select value={d} onChange={e => setD(e.target.value)}>
+              <Select aria-label="To" value={d} onChange={e => setD(e.target.value)}>
                 <optgroup label="Regions">{GROUPS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}</optgroup>
                 <optgroup label="Airports">{AIRPORTS.map(a => <option key={a.i} value={a.i}>{label(a.i)}</option>)}</optgroup>
               </Select>
@@ -193,19 +193,19 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
             <summary>More options <span>{CABIN_LABEL[cabin]} · {n} {n === 1 ? 'traveller' : 'travellers'}{prog ? ' · ' + (AIRLINE_PROGRAMMES.find(p => p.id === prog)?.name ?? '') : ''}{max ? ' · up to ' + max + ' pts' : ''}</span></summary>
           <div className="a-flights-fields">
             <Field label="Cabin">
-              <Select value={cabin} onChange={e => setCabin(e.target.value as Cabin)}>{CABINS.map(c => <option key={c} value={c}>{CABIN_LABEL[c]}</option>)}</Select>
+              <Select aria-label="Cabin" value={cabin} onChange={e => setCabin(e.target.value as Cabin)}>{CABINS.map(c => <option key={c} value={c}>{CABIN_LABEL[c]}</option>)}</Select>
             </Field>
             <Field label="Travellers">
-              <Select value={n} onChange={e => setN(Number(e.target.value))}>{[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => <option key={i} value={i}>{i}</option>)}</Select>
+              <Select aria-label="Travellers" value={n} onChange={e => setN(Number(e.target.value))}>{[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => <option key={i} value={i}>{i}</option>)}</Select>
             </Field>
             <Field label="Programme">
-              <Select value={prog} onChange={e => setProg(e.target.value)}>
+              <Select aria-label="Programme" value={prog} onChange={e => setProg(e.target.value)}>
                 <option value="">All programmes</option>
                 {AIRLINE_PROGRAMMES.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
               </Select>
             </Field>
             <Field label="Max points">
-              <input inputMode="numeric" placeholder="No limit" value={max} onChange={e => setMax(e.target.value.replace(/[^\d,]/g, ''))} />
+              <input aria-label="Max points" inputMode="numeric" placeholder="No limit" value={max} onChange={e => setMax(e.target.value.replace(/[^\d,]/g, ''))} />
             </Field>
           </div>
           </details>

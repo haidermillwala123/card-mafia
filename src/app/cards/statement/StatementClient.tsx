@@ -4,7 +4,7 @@
 // on each kind of spend, counting the cards they already hold. The statement is read in memory and never stored.
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import type { CalcEntry, MilesRate } from '@/app/earn/EarnCalculator';
 import Select from '@/components/Select';
 import { Note } from '@/components/app/ui';
@@ -114,50 +114,68 @@ export default function StatementClient({ cards, fees, programmes, miles }: Prop
   }, [cards, miles, spend, prog, fees, held]);
 
   // One card against a small basket (at most three), built greedily: add the card that lifts total monthly miles most, stop when the next one barely helps.
+  // A fair comparison only counts cards with a similar yearly fee to the statement's card (never under ₹5,000), or cards the person already holds.
+  // Without this rule the best card for a small spend is always the most expensive one, which is not advice anyone would trust.
+  const feeLimit = Math.max(fees[stmtCard] ?? 0, 5000);
+  const fair = useCallback((id: string) => id === stmtCard || held.includes(id) || (fees[id] ?? 0) <= feeLimit, [stmtCard, held, fees, feeLimit]);
+
+  // Built on the statement's own card when it is known, so the headline and the line verdicts below always agree.
+  // It starts from that card and adds up to two more, each only if it lifts total monthly miles by a real amount.
   const suggestion = useMemo(() => {
     if (!perCat.length) return null;
     const milesOf = (id: string, pc: (typeof perCat)[number]) => pc.picks.find(p => p.card.card_id === id)?.miles ?? 0;
-    const ids = [...new Set(perCat.flatMap(pc => pc.picks.slice(0, 8).map(p => p.card.card_id)))];
+    const ids = [...new Set([...(stmtCard ? [stmtCard] : []), ...perCat.flatMap(pc => pc.picks.filter(p => fair(p.card.card_id)).slice(0, 8).map(p => p.card.card_id))])];
     const score = (set: string[]) => perCat.reduce((s, pc) => s + Math.max(0, ...set.map(id => milesOf(id, pc))), 0);
-    const set: string[] = [];
-    let cur = 0;
+    const byId = (id: string) => cards.find(c => c.card_id === id)!;
+    let oneId = ids[0], oneScore = -1;
+    for (const id of ids) { const v = score([id]); if (v > oneScore) { oneScore = v; oneId = id; } }
+    if (!oneId || !byId(oneId)) return null;
+    const set: string[] = stmtCard ? [stmtCard] : [];
+    let cur = score(set);
+    const base = stmtCard ? cur : oneScore;
+    if (!stmtCard) { set.push(oneId); cur = oneScore; }
     while (set.length < 3) {
       let pick = '', top = cur;
       for (const id of ids) if (!set.includes(id)) { const v = score([...set, id]); if (v > top) { top = v; pick = id; } }
-      if (!pick || (set.length > 0 && top - cur < Math.max(300, cur * 0.08))) break;
+      if (!pick || top - cur < Math.max(300, cur * 0.08)) break;
       set.push(pick);
       cur = top;
     }
-    if (!set.length) return null;
-    const byId = (id: string) => cards.find(c => c.card_id === id)!;
-    const single = score([set[0]]);
     const covers = (id: string) => perCat.filter(pc => set.every(o => milesOf(o, pc) <= milesOf(id, pc))).map(pc => CAT_LABEL[pc.cat]);
     return {
-      one: byId(set[0]), oneMiles: single, oneFee: fees[set[0]] ?? 0,
+      current: stmtCard && byId(stmtCard) ? { card: byId(stmtCard), miles: base, fee: fees[stmtCard] ?? 0 } : null,
+      one: byId(oneId), oneMiles: oneScore, oneFee: fees[oneId] ?? 0,
       basket: set.map(id => ({ card: byId(id), covers: covers(id) })), basketMiles: cur, basketFee: set.reduce((s, id) => s + (fees[id] ?? 0), 0),
-      basketWins: set.length > 1 && cur >= single * 1.2,
+      basketWins: set.length > 1 && cur >= base * 1.2,
+      switchWins: !!stmtCard && oneId !== stmtCard && oneScore >= base * 1.15,
+      base,
     };
-  }, [perCat, cards, fees]);
-  // Line by line: what the statement's card earned against the best card for that kind of spend. Rates are per rupee over the whole statement, so caps are averaged in.
+  }, [perCat, cards, fees, stmtCard, fair]);
+  // Line by line: what the statement's card earned against the best fairly-priced card for that kind of spend. Rates are per rupee over the whole statement, so caps are averaged in.
   const verdicts = useMemo(() => {
     const out = new Map<number, { better: boolean; name: string; fee: string; gain: number; mine: number }>();
-    if (!rows || !stmtCard) return { out, total: 0, better: 0, counted: 0 };
-    let total = 0, better = 0, counted = 0;
+    if (!rows || !stmtCard) return { out, total: 0, better: 0, counted: 0, stretch: 0 };
+    let total = 0, better = 0, counted = 0, stretch = 0;
     rows.forEach((r, i) => {
       const pc = perCat.find(p => p.cat === r.cat);
-      if (!r.on || !pc || !pc.best || !pc.amount) return;
+      const bestFair = pc?.picks.find(p => fair(p.card.card_id));
+      if (!r.on || !pc || !bestFair || !pc.amount) return;
       const rate = (id: string) => (pc.picks.find(p => p.card.card_id === id)?.miles ?? 0) / pc.amount;
-      const mine = rate(stmtCard) * r.amount, top = rate(pc.best.card.card_id) * r.amount;
+      const mine = rate(stmtCard) * r.amount, top = rate(bestFair.card.card_id) * r.amount;
       const gain = top - mine;
       counted++;
-      const isBetter = pc.best.card.card_id !== stmtCard && gain >= Math.max(10, top * 0.1);
+      const isBetter = bestFair.card.card_id !== stmtCard && gain >= Math.max(10, top * 0.1);
       if (isBetter) { total += gain; better++; }
-      out.set(i, { better: isBetter, name: pc.best.card.name, fee: feeTier(fees[pc.best.card.card_id]).label, gain, mine });
+      const priciest = pc.picks[0];
+      if (priciest && !fair(priciest.card.card_id) && rate(priciest.card.card_id) * r.amount - mine >= Math.max(10, mine * 0.1)) stretch++;
+      out.set(i, { better: isBetter, name: bestFair.card.name, fee: feeTier(fees[bestFair.card.card_id]).label, gain, mine });
     });
-    return { out, total, better, counted };
-  }, [rows, perCat, stmtCard, fees]);
+    return { out, total, better, counted, stretch };
+  }, [rows, perCat, stmtCard, fees, fair]);
   const stmtName = cards.find(c => c.card_id === stmtCard)?.name;
-  const uplift = perCat.reduce((s, p) => s + Math.max(0, (p.best?.miles ?? 0) - (p.mine?.miles ?? 0)), 0);
+  // the per-kind table follows the same fairness rule once a statement card is known
+  const shownCat = useMemo(() => perCat.map(pc => ({ ...pc, best: stmtCard ? pc.picks.find(p => fair(p.card.card_id)) ?? pc.best : pc.best })), [perCat, stmtCard, fair]);
+  const uplift = shownCat.reduce((s, p) => s + Math.max(0, (p.best?.miles ?? 0) - (p.mine?.miles ?? 0)), 0);
 
   function useInRecommender() {
     try { sessionStorage.setItem('cm-spend', JSON.stringify(spend)); } catch { /* the recommender just starts empty */ }
@@ -216,7 +234,7 @@ export default function StatementClient({ cards, fees, programmes, miles }: Prop
             <div className="st-air">
               <Select value={stmtCard} onChange={e => { setStmtCard(e.target.value); setDetected(false); }}>
                 <option value="">Which card is this statement from?</option>
-                {cards.slice().sort((a, b) => a.name.localeCompare(b.name)).map(c => <option key={c.card_id} value={c.card_id}>{(c as CalcEntry).bank} {c.name}</option>)}
+                {cards.slice().sort((a, b) => `${(a as CalcEntry).bank} ${a.name}`.localeCompare(`${(b as CalcEntry).bank} ${b.name}`)).map(c => <option key={c.card_id} value={c.card_id}>{(c as CalcEntry).bank} {c.name}</option>)}
               </Select>
             </div>
             {stmtCard && (
@@ -240,7 +258,7 @@ export default function StatementClient({ cards, fees, programmes, miles }: Prop
                     <input type="checkbox" checked={r.on} onChange={e => setRows(rs => rs!.map((x, k) => (k === i ? { ...x, on: e.target.checked } : x)))} aria-label={`Count ${r.desc}`} />
                     <span className="st-d">{r.desc}<small>{r.date}{(() => { const v = verdicts.out.get(i); return v ? (v.better ? ` · ${v.name} (${v.fee}) would earn about ${fmt(Math.round(v.gain))} more miles` : ' · right card for this') : ''; })()}</small></span>
                     <div className="st-sel"><Select value={r.cat} onChange={e => setRows(rs => rs!.map((x, k) => (k === i ? { ...x, cat: e.target.value as Cat } : x)))}>{CATS.map(c => <option key={c} value={c}>{CAT_LABEL[c]}</option>)}</Select></div>
-                    <b>₹{fmt(r.amount)}</b>
+                    <b>₹{r.amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</b>
                   </div>
                 ))}
               </div>
@@ -251,17 +269,33 @@ export default function StatementClient({ cards, fees, programmes, miles }: Prop
             <section className="st-best" aria-label="What we suggest">
               <div className="st-head">
                 <div>
-                  <h2>{suggestion.basketWins ? `A basket of ${suggestion.basket.length} cards fits this spend` : 'One card fits this spend'}</h2>
+                  <h2>
+                    {suggestion.switchWins ? `${suggestion.one.name} suits this spend better than ${stmtName}`
+                      : suggestion.basketWins ? (suggestion.current ? `Keep ${stmtName} and add ${suggestion.basket.length - 1 === 1 ? 'one more card' : `${suggestion.basket.length - 1} more cards`}` : `A basket of ${suggestion.basket.length} cards fits this spend`)
+                        : suggestion.current ? `${stmtName} is the right card for this spend` : 'One card fits this spend'}
+                  </h2>
                   <p>
-                    {suggestion.basketWins
-                      ? `${suggestion.basket.length} cards earn about ${fmt(Math.round(suggestion.basketMiles - suggestion.oneMiles))} more miles a month than the best single card, for ₹${fmt(suggestion.basketFee - suggestion.oneFee)} more in yearly fees.`
-                      : suggestion.basket.length > 1
-                        ? `A second card would add only about ${fmt(Math.round(suggestion.basketMiles - suggestion.oneMiles))} miles a month, so one card is simpler.`
-                        : 'Nothing else adds enough to be worth a second card.'}
+                    {suggestion.switchWins
+                      ? `It earns about ${fmt(Math.round(suggestion.oneMiles - suggestion.base))} more miles a month than ${stmtName} on the same spend, for a ${feeTier(suggestion.oneFee).label.toLowerCase()} fee.`
+                      : suggestion.basketWins
+                        ? `Together they earn about ${fmt(Math.round(suggestion.basketMiles - suggestion.base))} more miles a month than ${suggestion.current ? stmtName : 'the best single card'} alone, for ₹${fmt(Math.max(0, suggestion.basketFee - (suggestion.current ? suggestion.current.fee : suggestion.oneFee)))} more in yearly fees.`
+                        : 'No card with a similar fee earns meaningfully more, and a second card would add very little.'}
+                    {verdicts.stretch > 0 ? ` On ${verdicts.stretch} ${verdicts.stretch === 1 ? 'line' : 'lines'} a card with a much higher yearly fee would earn more; we left those out.` : ''}
                   </p>
                 </div>
               </div>
               <div className="st-cats">
+                {suggestion.current && (
+                  <div className="st-cat">
+                    <div><b>Card on this statement</b><small>What you used</small></div>
+                    <div className="st-pick">
+                      <b>{suggestion.current.card.name}</b>
+                      <small>{suggestion.current.card.bank} · {feeTier(suggestion.current.fee).label}</small>
+                      <small className="st-m">+{fmt(Math.round(suggestion.current.miles))} miles a month on this spend</small>
+                    </div>
+                  </div>
+                )}
+                {(suggestion.switchWins || !suggestion.current) && (
                 <div className="st-cat">
                   <div><b>One card</b><small>Simplest</small></div>
                   <div className="st-pick">
@@ -271,9 +305,10 @@ export default function StatementClient({ cards, fees, programmes, miles }: Prop
                     <small className="st-m">+{fmt(Math.round(suggestion.oneMiles))} miles a month{held.includes(suggestion.one.card_id) ? ' · you hold this' : ''}</small>
                   </div>
                 </div>
-                {suggestion.basket.length > 1 && (
+                )}
+                {suggestion.basketWins && (
                   <div className="st-cat">
-                    <div><b>A basket of {suggestion.basket.length}</b><small>Best card for each use</small></div>
+                    <div><b>{suggestion.current ? 'Your card plus' : `A basket of ${suggestion.basket.length}`}</b><small>Best card for each use</small></div>
                     {suggestion.basket.map(b => (
                       <div className="st-pick" key={b.card.card_id}>
                         <b>{b.card.name}</b>
@@ -296,7 +331,7 @@ export default function StatementClient({ cards, fees, programmes, miles }: Prop
               <div className="st-air"><Select value={prog} onChange={e => setProg(e.target.value)}><option value="">Any airline</option>{programmes.map(p => <option key={p.id} value={p.id}>Miles on {p.name}</option>)}</Select></div>
             </div>
             <div className="st-cats">
-              {perCat.map(({ cat, amount, best, mine }) => (
+              {shownCat.map(({ cat, amount, best, mine }) => (
                 <div className="st-cat" key={cat}>
                   <div><b>{CAT_LABEL[cat]}</b><small>₹{fmt(amount)} a month</small></div>
                   {best ? (

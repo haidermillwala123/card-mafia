@@ -44,6 +44,20 @@ test('reads GHA DISCOVERY dollars, including small amounts with cents', () => {
   assert.equal(f?.balance, 80);
 });
 
+test('a bank address in the display name does not make a sender a bank', () => {
+  assert.equal(senderOf('"alerts@hdfcbank.net" <a@evil.example>'), null);
+  assert.equal(senderOf('a@hdfcbank.net@evil.example'), null);
+  assert.deepEqual(senderOf('a@hdfcbank.net'), { kind: 'bank', bank: 'hdfc' });
+});
+
+test('reads small balances and balances with a date, and never stalls on junk', () => {
+  assert.equal(extractBalance('Reward points balance: 12 points'), 12);
+  assert.equal(extractBalance('Balance as on 01/02/2026 is 5,000 points'), 5000);
+  const t = Date.now();
+  extractBalance(`balance ${'123,'.repeat(50000)}`);
+  assert.ok(Date.now() - t < 500);
+});
+
 test('keeps the newest email per source', () => {
   const mk = (date: string, balance: number) => ({ key: 'programme:krisflyer', kind: 'programme' as const, bank: null, programmeId: 'krisflyer', cardId: null, balance, date, subject: '', from: '' });
   assert.equal(newestPerKey([mk('2026-01-01', 10), mk('2026-09-01', 99), mk('2026-05-01', 50)])[0].balance, 99);

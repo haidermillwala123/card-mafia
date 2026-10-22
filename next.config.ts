@@ -21,8 +21,14 @@ const csp = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   outputFileTracingIncludes: { '/': ['./public/landing/index.html'] },
+  // "Cards" is a top-nav parent with no page of its own; send it to the first tool in the menu
+  async redirects() {
+    return [{ source: "/cards", destination: "/cards/recommend", permanent: false }];
+  },
   async headers() {
     return [
+      // city photos are replaced rarely; keep them a week in the browser, then refresh in the background
+      { source: "/cities/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" }] },
       // the two font files never change under the same name, so browsers keep them for 30 days
       { source: "/fonts/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=2592000, stale-while-revalidate=86400" }] },
       {

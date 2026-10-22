@@ -18,6 +18,8 @@ main{position:relative;z-index:1}
 .nav .wordmark i{width:22px;height:22px;border-radius:7px}
 .navcta{background:var(--primary);color:var(--on-primary);text-decoration:none;font:600 14px/1 var(--font-body);padding:11px 18px;border-radius:999px;transition:transform .4s var(--ease-spring)}
 .navcta:hover{background:var(--primary-hover);color:var(--on-primary);transform:scale(1.03)}
+.nav .wordmark,.navcta{white-space:nowrap}
+@media (max-width:520px){.nav{gap:12px;padding:6px 6px 6px 14px;max-width:calc(100vw - 20px)}.navcta{padding:10px 14px;font-size:13px}}
 
 .mega{font:700 clamp(40px,6.6vw,96px)/.98 var(--font-display);letter-spacing:-.032em;text-wrap:balance}
 .big{font:700 clamp(32px,4.6vw,64px)/1.04 var(--font-display);letter-spacing:-.03em;text-wrap:balance}

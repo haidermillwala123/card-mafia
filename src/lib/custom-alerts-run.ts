@@ -22,7 +22,7 @@ type Fire = { body: string; cta?: { label: string; href: string } };
 type Verdict = { fire?: Fire; patch?: { active?: boolean; due_on?: string | null; state?: Record<string, unknown> } };
 
 export async function runCustomAlerts(o: {
-  sb: ReturnType<typeof admin>; store: ReturnType<typeof getStore>; data: Data; rows: CustomAlert[]; today: string; siteUrl: string;
+  sb: ReturnType<typeof admin>; store: ReturnType<typeof getStore>; data: Data; rows: CustomAlert[]; today: string; siteUrl: string; deadline?: number;
 }): Promise<{ checked: number; fired: number; emailed: number; errors: string[] }> {
   const { sb, store, data, rows, today, siteUrl } = o;
   const res = { checked: rows.length, fired: 0, emailed: 0, errors: [] as string[] };
@@ -97,6 +97,7 @@ export async function runCustomAlerts(o: {
   }
 
   for (const a of rows) {
+    if (o.deadline && Date.now() > o.deadline) { res.errors.push('Time ran out: the rest of the custom alerts wait for tomorrow.'); break; }
     try {
       const v = await check(a);
       const patch: Record<string, unknown> = {};

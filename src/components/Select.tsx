@@ -13,6 +13,7 @@ type Props = {
   id?: string;
   disabled?: boolean;
   ref?: Ref<HTMLButtonElement>;
+  'aria-label'?: string;
 };
 
 const text = (n: ReactNode): string => Children.toArray(n).map(c => (typeof c === 'string' || typeof c === 'number' ? String(c) : '')).join('');
@@ -35,7 +36,7 @@ function parse(children: ReactNode): Group[] {
   return loose.length ? [{ label: '', opts: loose }, ...groups] : groups;
 }
 
-export default function Select({ value, onChange, children, id, disabled, ref }: Props) {
+export default function Select({ value, onChange, children, id, disabled, ref, 'aria-label': ariaLabel }: Props) {
   const groups = useMemo(() => parse(children), [children]);
   const flat = useMemo(() => groups.flatMap(g => g.opts), [groups]);
   const cur = String(value);
@@ -90,11 +91,10 @@ export default function Select({ value, onChange, children, id, disabled, ref }:
     }
   };
 
-  let idx = -1;
   return (
     <div className="sel" ref={root} onClick={e => e.preventDefault()}>
       <button type="button" id={id} ref={ref} className={'sel-btn' + (selected && selected.value !== '' ? '' : ' is-empty')} disabled={disabled}
-        role="combobox" aria-haspopup="listbox" aria-expanded={open} aria-controls={uid}
+        role="combobox" aria-haspopup="listbox" aria-expanded={open} aria-controls={uid} aria-label={ariaLabel}
         onClick={() => (open ? setOpen(false) : show())} onKeyDown={key}>
         <span>{selected?.label || '—'}</span>
         <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 8 5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -104,9 +104,8 @@ export default function Select({ value, onChange, children, id, disabled, ref }:
           {groups.map((g, gi) => (
             <div key={gi} role="group" aria-label={g.label || undefined}>
               {g.label && <div className="sel-group">{g.label}</div>}
-              {g.opts.map(o => {
-                idx += 1;
-                const i = idx;
+              {g.opts.map((o, oi) => {
+                const i = groups.slice(0, gi).reduce((s, x) => s + x.opts.length, 0) + oi;
                 return (
                   <div key={o.value + i} role="option" aria-selected={o.value === cur} data-hi={i === hi} className={'sel-opt' + (i === hi ? ' is-hi' : '') + (o.value === cur ? ' is-on' : '')}
                     onMouseEnter={() => setHi(i)} onClick={e => { e.preventDefault(); e.stopPropagation(); pick(o); }}>

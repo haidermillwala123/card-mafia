@@ -24,6 +24,7 @@ const NOT_SPEND = /(payment (received|thank)|thank you|refund|reversal|cashback|
 const MONTHS: Record<string, string> = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
 const pad = (n: string | number) => String(n).padStart(2, '0');
 const year = (y: string) => (y.length === 2 ? `20${y}` : y);
+const daysIn = (y: number, m: number) => new Date(Date.UTC(y, m, 0)).getUTCDate();
 
 const DATE_NUM = /^\s*(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{2,4})\b/;
 const DATE_TXT = /^\s*(\d{1,2})[ \-]([A-Za-z]{3})[a-z]*[ \-,]+(\d{2,4})\b/;
@@ -40,11 +41,11 @@ function isoDate(line: string): { iso: string; rest: string } | null {
   let m = line.match(DATE_NUM);
   if (m) {
     const [d, mo, y] = [Number(m[1]), Number(m[2]), year(m[3])];
-    if (d < 1 || d > 31 || mo < 1 || mo > 12) return null;
+    if (d < 1 || mo < 1 || mo > 12 || d > daysIn(Number(y), mo)) return null;
     return { iso: `${y}-${pad(mo)}-${pad(d)}`, rest: line.slice(m[0].length) };
   }
   m = line.match(DATE_TXT);
-  if (m && MONTHS[m[2].toLowerCase()]) return { iso: `${year(m[3])}-${MONTHS[m[2].toLowerCase()]}-${pad(m[1])}`, rest: line.slice(m[0].length) };
+  if (m && MONTHS[m[2].toLowerCase()] && Number(m[1]) >= 1 && Number(m[1]) <= daysIn(Number(year(m[3])), Number(MONTHS[m[2].toLowerCase()]))) return { iso: `${year(m[3])}-${MONTHS[m[2].toLowerCase()]}-${pad(m[1])}`, rest: line.slice(m[0].length) };
   return null;
 }
 
@@ -55,12 +56,12 @@ const AMOUNT_ANY = /(?:(?:₹|\bRs\.?|\bINR|\bC)\s*)?(\d{1,3}(?:,\d{2,3})*\.\d{2
 const HEADER = /(statement|due date|billing|payment due|total dues|minimum|credit limit|available|opening|closing|previous|bill date|page \d|customer|reward points|summary|gstin|address)/i;
 
 function parseRecords(text: string): Parsed {
-  const flat = text.replace(/\s+/g, ' ');
+  const flat = text.slice(0, 3_000_000).replace(/\s+/g, ' '); // a statement is far smaller; the cap keeps hostile input from stalling the regexes
   const starts = [...flat.matchAll(DATE_ANY)].map(m => m.index!);
   const txns: Txn[] = [];
   let skipped = 0;
   starts.forEach((s, i) => {
-    const rec = flat.slice(s, starts[i + 1] ?? flat.length);
+    const rec = flat.slice(s, Math.min(starts[i + 1] ?? flat.length, s + 600));
     const d = isoDate(rec);
     if (!d) return;
     const body = d.rest.replace(/^[\s|]*(?:\d{1,2}:\d{2}(?::\d{2})?)?[\s|]*/, '');
@@ -71,6 +72,7 @@ function parseRecords(text: string): Parsed {
       if (!CURRENCY.test(body.slice(Math.max(0, a.index - 5), a.index))) break;
     }
     if (!a) return;
+    if (body[a.index - 1] === '-') { skipped++; return; } // a minus sign means a credit, not spend
     const amount = Number(a[1].replace(/,/g, ''));
     const desc = body.slice(0, a.index).replace(/[|]+/g, ' ').replace(/\s[+-]?\d{1,6}\s*$/, '').replace(/\s+/g, ' ').trim();
     if (!Number.isFinite(amount) || amount <= 0 || desc.length > 120 || (desc.match(/[A-Za-z]/g) ?? []).length < 3 || HEADER.test(desc)) return;
@@ -93,7 +95,7 @@ function parseLines(text: string): Parsed {
   let skipped = 0;
   for (const raw of text.split(/\r?\n/)) {
     const line = raw.replace(/\s+/g, ' ').trim();
-    if (!line) continue;
+    if (!line || line.length > 400) continue; // real lines are short; a very long one is junk and slow to scan
     const d = isoDate(line);
     if (!d) continue;
     const a = d.rest.match(AMOUNT);
@@ -127,6 +129,7 @@ export function detectCard(text: string, cards: { id: string; bank: string; name
 export function monthsCovered(from: string | null, to: string | null): number {
   if (!from || !to) return 1;
   const days = (Date.parse(to) - Date.parse(from)) / 86400000 + 1;
+  if (!Number.isFinite(days)) return 1;
   return Math.max(1, Math.round((days / 30.44) * 10) / 10);
 }
 
@@ -134,6 +137,7 @@ export function monthsCovered(from: string | null, to: string | null): number {
 export function monthlySpend(txns: Txn[], months: number): Partial<Record<Cat, number>> {
   const out: Partial<Record<Cat, number>> = {};
   for (const t of txns) out[t.cat] = (out[t.cat] ?? 0) + t.amount;
-  for (const k of Object.keys(out) as Cat[]) out[k] = Math.round((out[k] ?? 0) / months);
+  const div = months > 0 ? months : 1;
+  for (const k of Object.keys(out) as Cat[]) out[k] = Math.round((out[k] ?? 0) / div);
   return out;
 }

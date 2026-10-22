@@ -139,7 +139,7 @@ export default function HomeClient() {
         <div className="hm-frame" aria-hidden="true">
           {HERO.map((c, i) => (
             // eslint-disable-next-line @next/next/no-img-element
-            <img key={c.id} className={`hm-ph hm-ph-${i}`} src={`/cities/${c.photo}.webp`} alt="" decoding="async" loading={i === 0 ? 'eager' : 'lazy'} />
+            <img key={c.id} className={`hm-ph hm-ph-${i}`} src={`/cities/${c.photo}.webp`} alt="" decoding="async" loading={i === 0 ? 'eager' : 'lazy'} fetchPriority={i === 0 ? 'high' : 'auto'} />
           ))}
           <i className="hm-shade" />
         </div>

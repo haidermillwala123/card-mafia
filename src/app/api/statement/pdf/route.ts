@@ -1,7 +1,9 @@
 // Reads the text out of an uploaded card statement PDF and returns the parsed spend lines. The file lives in memory for this request only:
 // it is never stored, and neither is its text. Card statements are usually password protected, so a password can be sent with the file.
 import { extractText, getDocumentProxy } from 'unpdf';
-import { sameOrigin } from '@/lib/guard';
+import { allow } from '@/lib/claude';
+import { clientKey, sameOrigin } from '@/lib/guard';
+import { underDailyCap } from '@/lib/usage';
 import cardsJson from '@/data/cards.json';
 import { detectCard, parseStatementText } from '@/lib/statement';
 
@@ -12,6 +14,8 @@ const MAX = 4 * 1024 * 1024; // the host caps request bodies at about 4.5 MB
 
 export async function POST(req: Request) {
   if (!sameOrigin(req)) return Response.json({ error: 'This request came from another site.' }, { status: 403 });
+  if (Number(req.headers.get('content-length') ?? 0) > MAX + 64 * 1024) return Response.json({ error: 'That PDF is over 4 MB. Paste the transactions instead.' }, { status: 413 });
+  if (!allow(clientKey(req), 10) || !(await underDailyCap('pdf', clientKey(req), 80, 2000))) return Response.json({ error: 'Too many statements read. Try again later, or paste the transactions.' }, { status: 429 });
   const form = await req.formData().catch(() => null);
   const file = form?.get('file');
   const password = String(form?.get('password') ?? '').slice(0, 100);
@@ -22,6 +26,7 @@ export async function POST(req: Request) {
 
   try {
     const pdf = await getDocumentProxy(bytes, password ? { password } : {});
+    if (pdf.numPages > 40) return Response.json({ error: 'That PDF has too many pages for a card statement. Paste the transactions instead.' }, { status: 422 });
     const { text, totalPages } = await extractText(pdf, { mergePages: true });
     const parsed = parseStatementText(text);
     if (!parsed.txns.length) return Response.json({ error: 'We read the PDF but found no transactions. Paste them instead.', pages: totalPages }, { status: 422 });

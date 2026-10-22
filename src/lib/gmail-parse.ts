@@ -45,12 +45,14 @@ const DOMAINS: [string, Sender][] = [
 export const SENDER_DOMAINS = DOMAINS.map(d => d[0]);
 
 export function senderOf(from: string): Sender | null {
-  const host = (from.match(/@([a-z0-9.-]+)/i)?.[1] ?? '').toLowerCase();
+  // only the real address counts: the one in <angle brackets>, or the whole header when it is a bare address. A display name like "x@hdfcbank.net" proves nothing.
+  const addr = from.match(/<([^<>]+)>\s*$/)?.[1] ?? from.trim();
+  const host = (addr.match(/^[^@\s"<>]+@([a-z0-9.-]+)$/i)?.[1] ?? '').toLowerCase();
   const hit = DOMAINS.filter(([d]) => host === d || host.endsWith(`.${d}`)).sort((a, b) => b[0].length - a[0].length)[0];
   return hit ? hit[1] : null;
 }
 
-const NUM = String.raw`([\d]{1,3}(?:,\d{2,3})+|\d{3,9})`;
+const NUM = String.raw`(?<![\d,.])([\d]{1,3}(?:,\d{2,3})+|\d{3,9})`;
 const UNIT = String.raw`(?:reward |edge |bonus |mr |membership rewards? |avios |skywards |krisflyer |flying blue |privilege club |maharaja )?(?:points?|miles|pts|avios|rps?)`;
 // Each pattern needs balance, available or closing next to the number, so "you earned 250 points" never counts.
 const PATTERNS: RegExp[] = [
@@ -58,13 +60,17 @@ const PATTERNS: RegExp[] = [
   new RegExp(String.raw`balance(?: of| is| as on [^\d\n]{0,20})?[^\d\n]{0,30}?${NUM}\s*${UNIT}`, 'i'),
   new RegExp(String.raw`${NUM}\s*${UNIT}\s*(?:are |is |remain |remaining )?(?:available|in your account|as your balance|closing balance)`, 'i'),
   new RegExp(String.raw`(?:you have|your account has|you currently have)\s*${NUM}\s*${UNIT}`, 'i'),
+  // "Balance as on 01/02/2026 is 5,000 points": the date sits between the word and the number
+  new RegExp(String.raw`balance as (?:on|of) \d{1,2}[/\-. ][A-Za-z0-9]{1,9}[/\-. ]\d{2,4},? (?:is |was |: ?)?${NUM}`, 'i'),
+  // small balances ("balance: 12 points") that the three-digit rule above skips; the unit is required
+  new RegExp(String.raw`balance[^\d\n]{0,30}?(?<![\d,.])(\d{1,2})\s*${UNIT}\b`, 'i'),
   // GHA DISCOVERY writes balances as "D$ 45.50": small and with cents, which the whole-number patterns above miss
   /(?:balance|available)[^\d\n]{0,30}?D\$\s*(\d[\d,]*)(?:\.\d+)?/i,
   /D\$\s*(\d[\d,]*)(?:\.\d+)?\s*(?:available|balance|in your account)/i,
 ];
 
 export function extractBalance(text: string): number | null {
-  const flat = text.replace(/\s+/g, ' ');
+  const flat = text.slice(0, 20000).replace(/\s+/g, ' '); // a balance sits near the top of an email; the cap keeps hostile text from stalling the regexes
   for (const re of PATTERNS) {
     const m = flat.match(re);
     if (!m) continue;

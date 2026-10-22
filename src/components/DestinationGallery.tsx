@@ -19,15 +19,15 @@ export default function DestinationGallery({ hrefFor, onPick }: Props) {
         const inner = (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`/cities/${c.photo}${c.shape === 'big' || c.shape === 'wide' ? '' : '-sm'}.webp`} alt="" loading={i < 3 ? 'eager' : 'lazy'} decoding="async" />
+            <img src={`/cities/${c.photo}-sm.webp`} alt="" width={1200} height={800} loading={i < 3 ? 'eager' : 'lazy'} decoding="async" />
             <span className="xg-more"><b>{c.name}</b><small>{c.country}</small><em>See seats</em></span>
           </>
         );
         return (
           <li key={c.id} className={`xg-card${c.shape ? ` xg-${c.shape}` : ''}`}>
             {hrefFor
-              ? <Link href={hrefFor(c)} className="xg-a" aria-label={`${c.name}, ${c.country}. See seats.`}>{inner}</Link>
-              : <button type="button" className="xg-a" onClick={() => onPick?.(c)} aria-label={`${c.name}, ${c.country}. Search seats.`}>{inner}</button>}
+              ? <Link href={hrefFor(c)} className="xg-a">{inner}</Link>
+              : <button type="button" className="xg-a" onClick={() => onPick?.(c)}>{inner}</button>}
           </li>
         );
       })}

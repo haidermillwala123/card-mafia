@@ -43,16 +43,17 @@ export function addDays(s: string, n: number): string {
 }
 
 // Same day next month or year, clamped (31 Jan + 1 month = 28 or 29 Feb), so a repeat never skips a month.
-export function addMonths(s: string, n: number): string {
+// `anchor` is the day the reminder was first set for, so a chain from the 31st goes 28 Feb, 31 Mar, 30 Apr and not 28 Feb, 28 Mar, 28 Apr.
+export function addMonths(s: string, n: number, anchor?: number): string {
   const d = parse(s);
-  const day = d.getUTCDate();
+  const day = anchor ?? d.getUTCDate();
   const t = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + n, 1));
   const last = new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth() + 1, 0)).getUTCDate();
   t.setUTCDate(Math.min(day, last));
   return iso(t);
 }
 
-export const nextDue = (due: string, repeat: Repeat): string | null => (repeat === 'monthly' ? addMonths(due, 1) : repeat === 'yearly' ? addMonths(due, 12) : null);
+export const nextDue = (due: string, repeat: Repeat, anchor?: number): string | null => (repeat === 'monthly' ? addMonths(due, 1, anchor) : repeat === 'yearly' ? addMonths(due, 12, anchor) : null);
 
 // A reminder is due once today reaches (date minus lead days), and only once per date.
 export function reminderDue(a: Pick<CustomAlert, 'due_on' | 'remind_days_before' | 'state'>, today: string): boolean {
@@ -62,12 +63,14 @@ export function reminderDue(a: Pick<CustomAlert, 'due_on' | 'remind_days_before'
 }
 
 // After a reminder fires: stop it, or roll it to the next date and clear the "already sent" mark.
-export function afterReminder(a: Pick<CustomAlert, 'due_on' | 'repeat'>, today: string): { active: boolean; due_on: string | null; state: Record<string, unknown> } {
+export function afterReminder(a: Pick<CustomAlert, 'due_on' | 'repeat'> & { state?: Record<string, unknown> }, today: string): { active: boolean; due_on: string | null; state: Record<string, unknown> } {
   if (!a.due_on) return { active: false, due_on: null, state: {} };
-  let next = nextDue(a.due_on, a.repeat);
+  // remember the day of the month it was first set for, so month-end clamping never sticks
+  const anchor = typeof a.state?.anchor === 'number' ? a.state.anchor : parse(a.due_on).getUTCDate();
+  let next = nextDue(a.due_on, a.repeat, anchor);
   // if the job missed a stretch, skip dates that are already behind us instead of firing a burst of old ones
-  while (next && next < today) next = nextDue(next, a.repeat);
-  return next ? { active: true, due_on: next, state: {} } : { active: false, due_on: a.due_on, state: { firedFor: a.due_on } };
+  while (next && next < today) next = nextDue(next, a.repeat, anchor);
+  return next ? { active: true, due_on: next, state: { anchor } } : { active: false, due_on: a.due_on, state: { firedFor: a.due_on } };
 }
 
 export const priceMet = (cheapest: number | null, max: number) => cheapest !== null && Number.isFinite(max) && max > 0 && cheapest <= max;

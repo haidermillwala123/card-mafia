@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { codeEmail, emailConfigured, sendEmail } from '@/lib/email';
 import { clientKey, readJson } from '@/lib/guard';
 import { ALPHABET, hashCode } from '@/lib/login-code';
+import { underDailyCap } from '@/lib/usage';
 import { admin, adminConfigured } from '@/lib/supabase-admin';
 
 export const dynamic = 'force-dynamic';
@@ -32,6 +33,8 @@ export async function POST(req: Request) {
   if (!body.success) return Response.json({ error: 'We could not read that address. Check for a typo.' }, { status: 400 });
   if (!adminConfigured() || !emailConfigured()) return Response.json({ error: 'Email sign-in is not switched on for this copy.' }, { status: 503 });
   if (ipLimited(clientKey(req))) return Response.json({ error: 'Too many codes requested. Try again in a few minutes.' }, { status: 429 });
+  // durable caps across all instances: per visitor per day, and for the whole app per day (protects the sender's reputation and mail quota)
+  if (!(await underDailyCap('authcode', clientKey(req), 40, 500))) return Response.json({ error: 'Too many codes requested today. Try again tomorrow.' }, { status: 429 });
 
   const { email } = body.data;
   const sb = admin();

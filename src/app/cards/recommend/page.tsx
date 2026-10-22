@@ -5,7 +5,7 @@ import RecommendClient from './RecommendClient';
 import '../../earn/calc.css';
 
 export const metadata: Metadata = {
-  title: 'Best credit card for you: points and miles from your own spending',
+  title: 'Best credit card for you: miles from your spending',
   description: 'Type what you spend in a month and get the three Indian premium cards that earn the most, with the reasons.',
   alternates: { canonical: '/cards/recommend' },
 };
