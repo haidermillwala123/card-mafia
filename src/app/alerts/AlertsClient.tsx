@@ -22,14 +22,15 @@ import { MAX_DAYS_OUT } from '@/lib/seats/sources';
 import './alerts.css';
 
 type Type = 'seat' | 'price' | 'expiry' | 'fee' | 'rule' | 'balance' | 'custom';
-const TYPES: { id: Type; title: string; sub: string }[] = [
+// `soon` types are built (the form, the daily check and the email all exist) but switched off on the page until they are launched.
+const TYPES: { id: Type; title: string; sub: string; soon?: boolean }[] = [
   { id: 'seat', title: 'Seats open', sub: 'A route gets award seats' },
-  { id: 'price', title: 'Seat under a price', sub: 'The cheapest seat drops to your points limit' },
-  { id: 'expiry', title: 'Points expire', sub: 'A nudge before a balance lapses' },
-  { id: 'fee', title: 'Annual fee due', sub: 'A nudge before a card renews' },
-  { id: 'rule', title: 'Transfer rules change', sub: 'Ratios or caps change on one of your cards' },
-  { id: 'balance', title: 'Balance target', sub: 'Your points reach a number' },
-  { id: 'custom', title: 'Anything else', sub: 'Your own reminder and date' },
+  { id: 'price', title: 'Seat under a price', sub: 'The cheapest seat drops to your points limit', soon: true },
+  { id: 'expiry', title: 'Points expire', sub: 'A nudge before a balance lapses', soon: true },
+  { id: 'fee', title: 'Annual fee due', sub: 'A nudge before a card renews', soon: true },
+  { id: 'rule', title: 'Transfer rules change', sub: 'Ratios or caps change on one of your cards', soon: true },
+  { id: 'balance', title: 'Balance target', sub: 'Your points reach a number', soon: true },
+  { id: 'custom', title: 'Anything else', sub: 'Your own reminder and date', soon: true },
 ];
 const KIND_TAG: Record<string, string> = { reminder: 'Reminder', price: 'Price', rule: 'Rule change', balance: 'Balance' };
 const CABINS: Cabin[] = ['economy', 'premium_economy', 'business', 'first'];
@@ -103,6 +104,7 @@ export default function AlertsClient() {
 
   async function submit() {
     setFormErr('');
+    if (TYPES.find(t => t.id === type)?.soon) return;
     const routeOk = () => {
       if (!dest) return 'Choose where you want to fly.';
       if (dest === origin) return 'Pick two different airports.';
@@ -192,8 +194,8 @@ export default function AlertsClient() {
       <section aria-label="What to be told about">
         <div className="a-alerts-types">
           {TYPES.map(t => (
-            <button key={t.id} type="button" className="a-alerts-type" aria-pressed={type === t.id} onClick={() => pick(t.id)}>
-              <b>{t.title}</b><small>{t.sub}</small>
+            <button key={t.id} type="button" className="a-alerts-type" aria-pressed={type === t.id} disabled={t.soon} onClick={() => !t.soon && pick(t.id)}>
+              <b>{t.title}{t.soon && <em className="a-alerts-soon">Coming soon</em>}</b><small>{t.sub}</small>
             </button>
           ))}
         </div>
