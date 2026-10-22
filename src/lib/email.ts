@@ -1,10 +1,28 @@
-// Alert emails through Resend. Server only. With no key set, nothing is sent and the caller is told so.
-const RESEND = 'https://api.resend.com/emails';
+// Emails for sign-in codes and alerts. Server only. Gmail (an app password) wins when set, because it can email anyone with no
+// domain; otherwise Resend, whose demo sender only reaches the account owner. With neither set, nothing is sent and the caller is told so.
+import nodemailer from 'nodemailer';
 
-export const emailConfigured = () => Boolean(process.env.RESEND_API_KEY?.trim() && process.env.ALERT_FROM?.trim());
+const RESEND = 'https://api.resend.com/emails';
+const gmail = () => {
+  const user = process.env.GMAIL_USER?.trim();
+  const pass = process.env.GMAIL_APP_PASSWORD?.replace(/\s/g, '');
+  return user && pass ? { user, pass } : null;
+};
+
+export const emailConfigured = () => Boolean(gmail() || (process.env.RESEND_API_KEY?.trim() && process.env.ALERT_FROM?.trim()));
 
 export async function sendEmail(to: string, subject: string, html: string, text: string): Promise<'sent' | 'not-configured' | 'failed'> {
   if (!emailConfigured()) return 'not-configured';
+  const g = gmail();
+  if (g) {
+    try {
+      const mail = nodemailer.createTransport({ service: 'gmail', auth: g });
+      await mail.sendMail({ from: `Card Mafia <${g.user}>`, to, subject, html, text });
+      return 'sent';
+    } catch {
+      return 'failed';
+    }
+  }
   try {
     const res = await fetch(RESEND, {
       method: 'POST',
