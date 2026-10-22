@@ -8,14 +8,18 @@ export type Profile = {
   bankIds: string[];
   cardIds: string[];
   balances: Record<string, number>; // points per card id
+  plan: 'free' | 'pro';
+  period: 'monthly' | 'yearly';
 };
+
+export const EMPTY_PROFILE: Profile = { first: '', last: '', dob: '', airport: '', cabin: 'business', bankIds: [], cardIds: [], balances: {}, plan: 'free', period: 'yearly' };
 
 const KEY = 'cm-profile';
 
 export function loadProfile(): Profile | null {
   try {
     const raw = localStorage.getItem(KEY);
-    return raw ? (JSON.parse(raw) as Profile) : null;
+    return raw ? { ...EMPTY_PROFILE, ...(JSON.parse(raw) as Partial<Profile>) } : null;
   } catch {
     return null;
   }

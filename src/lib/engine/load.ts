@@ -3,6 +3,7 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Card, Data, Programme, Rule } from './engine';
 import { data as files } from './data';
+import { safeUrl } from '../safe-url';
 
 export type Loaded = { data: Data; source: 'database' | 'files' };
 
@@ -46,7 +47,7 @@ async function fromDatabase(): Promise<Loaded | null> {
         merged.set(k, {
           id: r.id, from: r.from_programme_id, to: r.to_programme_id, cards: r.card_id ? [r.card_id] : undefined,
           ratio_in: Number(r.ratio_in), ratio_out: Number(r.ratio_out), monthly_cap: r.monthly_cap_points, annual_cap: r.annual_cap_points,
-          min_multiple: r.min_multiple, route_confirmed_on: r.route_confirmed_on, transfer_time: r.transfer_time_text, source_url: r.source_url ?? '', source_note: r.source_note ?? '',
+          min_multiple: r.min_multiple, route_confirmed_on: r.route_confirmed_on, transfer_time: r.transfer_time_text, source_url: safeUrl(r.source_url), source_note: r.source_note ?? '',
         });
       }
     }

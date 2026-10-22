@@ -16,6 +16,8 @@ export default function Footer() {
             <li><Link href="/plan">Build a plan</Link></li>
             <li><Link href="/calculator">Points calculator</Link></li>
             <li><Link href="/transfers">Transfer explorer</Link></li>
+            <li><Link href="/pricing">Free and Pro</Link></li>
+            <li><Link href="/signin">Sign in</Link></li>
             <li><Link href="/start">Set up your cards</Link></li>
             <li><Link href="/rules">Transfer rules and sources</Link></li>
           </ul>

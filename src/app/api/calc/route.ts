@@ -2,17 +2,21 @@ import { z } from 'zod';
 import { BANKS } from '@/lib/engine/data';
 import { combine, pointsFor, reachable, type Data, type Hop, type Reach } from '@/lib/engine/engine';
 import { getData } from '@/lib/engine/load';
+import { readJson } from '@/lib/guard';
+import { Slug } from '@/lib/schemas';
 
 const Pts = z.number().int().min(0).max(1000000000);
 const Body = z.discriminatedUnion('mode', [
-  z.object({ mode: z.literal('forward'), cardId: z.string(), points: Pts, direct: z.boolean() }),
-  z.object({ mode: z.literal('reverse'), target: z.string(), miles: Pts, direct: z.boolean() }),
-  z.object({ mode: z.literal('pool'), target: z.string(), miles: Pts, direct: z.boolean(), rows: z.array(z.object({ cardId: z.string(), balance: Pts })).max(20) }),
+  z.object({ mode: z.literal('forward'), cardId: Slug, points: Pts, direct: z.boolean() }),
+  z.object({ mode: z.literal('reverse'), target: Slug, miles: Pts, direct: z.boolean() }),
+  z.object({ mode: z.literal('pool'), target: Slug, miles: Pts, direct: z.boolean(), rows: z.array(z.object({ cardId: Slug, balance: Pts })).max(20) }),
 ]);
 
 // The calculator runs on the server so the whole rules graph never ships to the browser.
 export async function POST(req: Request) {
-  const body = Body.safeParse(await req.json().catch(() => null));
+  const g = await readJson(req);
+  if (!g.ok) return g.res;
+  const body = Body.safeParse(g.body);
   if (!body.success) return Response.json({ error: 'Check the numbers and try again.' }, { status: 400 });
   const { data } = await getData();
   const b = body.data;

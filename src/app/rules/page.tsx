@@ -11,7 +11,13 @@ export const metadata: Metadata = {
 
 const day = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
 const n = (x: number) => x.toLocaleString('en-IN');
-const host = (u: string) => new URL(u).hostname.replace(/^www\./, '');
+const host = (u: string) => {
+  try {
+    return new URL(u).hostname.replace(/^www\./, '');
+  } catch {
+    return 'source';
+  }
+};
 
 export const revalidate = 300;
 
@@ -47,7 +53,7 @@ export default async function RulesPage() {
                     <td className="n">{r.ratio_in}:{r.ratio_out}</td>
                     <td>{r.monthly_cap ? `${n(r.monthly_cap)} a month` : r.annual_cap ? `${n(r.annual_cap)} a year` : <span className="muted">not found</span>}{r.min_multiple ? <div className="t-sm muted">multiples of {n(r.min_multiple)}</div> : null}</td>
                     <td>{r.route_confirmed_on ? <span className="tag tag-ok">Route seen working {day(r.route_confirmed_on)}</span> : <span className="tag tag-warn">Unverified</span>}</td>
-                    <td className="t-sm"><a href={r.source_url} target="_blank" rel="noopener noreferrer">{host(r.source_url)}</a><div className="muted">{r.source_note}</div></td>
+                    <td className="t-sm">{r.source_url ? <a href={r.source_url} target="_blank" rel="noopener noreferrer">{host(r.source_url)}</a> : <span className="muted">no link</span>}<div className="muted">{r.source_note}</div></td>
                   </tr>
                 ))}
               </tbody>

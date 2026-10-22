@@ -1,5 +1,8 @@
 import { z } from 'zod';
 
+// Ids are short slugs. Capping and shaping them means a request cannot carry a long or odd string into lookups, logs or prompts.
+export const Slug = z.string().regex(/^[a-z0-9-]{1,64}$/);
+
 // Shared by /api/plan and /api/explain. Route files may only export HTTP handlers, so the schema lives here.
 export const PlanBody = z.object({
   trip: z.object({
@@ -12,7 +15,7 @@ export const PlanBody = z.object({
     cashFareInr: z.number().min(0).max(100000000).nullable(),
   }),
   holdings: z.object({
-    cardIds: z.array(z.string()).max(12),
-    balances: z.record(z.string(), z.number().int().min(0).max(1000000000)),
+    cardIds: z.array(Slug).max(12),
+    balances: z.record(Slug, z.number().int().min(0).max(1000000000)),
   }),
 });

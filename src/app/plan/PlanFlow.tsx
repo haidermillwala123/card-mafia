@@ -399,7 +399,7 @@ export default function PlanFlow({ cards, initialQuery }: { cards: CardOpt[]; in
                   <span className="dot" style={{ width: 24, height: 24, borderRadius: '50%', border: '1.5px solid var(--color-accent-strong)', display: 'grid', placeItems: 'center', fontSize: 12, fontWeight: 600, color: 'var(--color-accent-strong)' }}>{hi + 1}</span>
                   <div>
                     <p><b>Transfer <span className="t-mono">{n(h.points_in)}</span> {nm(h.from)} to {nm(h.to)}</b> <span className="ratio">at {h.ratio_in}:{h.ratio_out}</span></p>
-                    <p className="t-sm muted" style={{ marginTop: 4 }}>You receive {n(h.points_out)}. {h.sourceNote} <a href={h.sourceUrl} target="_blank" rel="noopener noreferrer">Source</a></p>
+                    <p className="t-sm muted" style={{ marginTop: 4 }}>You receive {n(h.points_out)}. {h.sourceNote} {h.sourceUrl && <a href={h.sourceUrl} target="_blank" rel="noopener noreferrer">Source</a>}</p>
                   </div>
                 </li>
               ))}

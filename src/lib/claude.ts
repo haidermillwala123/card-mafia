@@ -78,5 +78,6 @@ export function allow(ip: string, perMinute = 12): boolean {
   const recent = (hits.get(ip) ?? []).filter(t => now - t < 60000);
   recent.push(now);
   hits.set(ip, recent);
+  if (hits.size > 5000) for (const [k, v] of hits) if (now - (v.at(-1) ?? 0) > 60000) hits.delete(k); // keep the map from growing without bound
   return recent.length <= perMinute;
 }
