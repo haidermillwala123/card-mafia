@@ -57,5 +57,5 @@ export const DESTINATIONS: Destination[] = [
 ];
 
 // The pinned hero on the app home cycles through these, in this order. Eight is enough to feel wide without a never-ending scroll.
-export const HERO_IDS = ['dubai', 'london', 'singapore', 'paris', 'maldives', 'bali', 'sydney', 'japan'];
+export const HERO_IDS = ['dubai', 'london', 'singapore', 'paris'];
 export const HERO: Destination[] = HERO_IDS.map(id => DESTINATIONS.find(x => x.id === id)!);

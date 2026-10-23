@@ -180,10 +180,13 @@ export default function HomeClient() {
         <ol className="hm-dots" aria-hidden="true">
           {HERO.map((c, i) => <li key={c.id} className={`hm-dot hm-dot-${i}`} />)}
         </ol>
+        <button type="button" className="hm-more" onClick={() => document.getElementById('hm-below')?.scrollIntoView({ behavior: 'smooth' })}>
+          Your points and trips<i aria-hidden="true">↓</i>
+        </button>
        </div>
       </section>
 
-      <div className="a-body">
+      <div className="a-body" id="hm-below">
         {latest && latest.origin && latest.destination && (
           <section className="hm-next" aria-label="Your next trip">
             <h2>Your next trip</h2>

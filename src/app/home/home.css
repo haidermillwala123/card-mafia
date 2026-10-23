@@ -67,7 +67,7 @@
 
 /* ---- Home hero stage: a destination photo that opens up as you scroll ----
    Pure CSS scroll-driven animation. Where the browser lacks it, or motion is reduced, the stage is one static framed photo.
-   The stage is 440vh tall for 8 places (about 43vh of scroll each). Change N and H together; the ranges below are generated from them. */
+   The timing in force is the block near the end of this file (four places). The per-place rules in this section are the older eight-place version. */
 .hm-stage{position:relative;--text:#F4F1EB;--text-muted:rgba(244,241,235,.82);--surface:rgba(22,20,18,.62);--border:rgba(255,255,255,.2);--border-strong:rgba(255,255,255,.55);--primary:#E6E9ED;--primary-hover:#fff;--on-primary:#181614;--primary-tint:rgba(255,255,255,.16)}
 .hm-sticky{position:relative;display:grid;place-items:center;min-height:620px;overflow:hidden;border-radius:28px;margin:12px 16px 0;isolation:isolate}
 .hm-frame{position:absolute;inset:0;z-index:-1;overflow:hidden;background:#0f0e0d}
@@ -133,3 +133,35 @@
 @keyframes hm-cap-out{from{opacity:1;pointer-events:auto;transform:none}to{opacity:0;pointer-events:none;transform:translateY(-8px)}}
 @keyframes hm-dot-on{from{opacity:.5;transform:scaleY(1);background:rgba(255,255,255,.55)}to{opacity:1;transform:scaleY(2.4);background:#fff}}
 @keyframes hm-dot-off{from{opacity:1;transform:scaleY(2.4);background:#fff}to{opacity:.5;transform:scaleY(1);background:rgba(255,255,255,.55)}}
+
+/* ---- Four places, not eight: the pinned scroll is 260vh, so about 160vh of scrolling instead of 340vh. ----
+   These rules come last and replace the per-place timing above for places 0 to 3 (the rules for 4 to 7 no longer match anything).
+   Photos swap at the quarter marks of the pinned stretch. Change N and H together if the number of places changes. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hm-stage{--p0:27.778%;--span:44.444%;height:260vh;view-timeline:--stage}
+    /* the hero fits the space under the 65px header exactly, so its bottom edge (captions and the "more below" cue) is on screen at first load */
+    .hm-sticky{top:65px;height:calc(100svh - 65px)}
+    .hm-ph-0{opacity:1;animation-name:hm-out,hm-drift;animation-timing-function:linear;animation-fill-mode:forwards,both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.2000) cover calc(var(--p0) + var(--span) * 0.3000),cover calc(var(--p0) + var(--span) * 0.0000) cover calc(var(--p0) + var(--span) * 1.0000)}
+    .hm-ph-1{opacity:0;animation-name:hm-in,hm-out,hm-drift;animation-timing-function:linear;animation-fill-mode:both,forwards,both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.2000) cover calc(var(--p0) + var(--span) * 0.3000),cover calc(var(--p0) + var(--span) * 0.4500) cover calc(var(--p0) + var(--span) * 0.5500),cover calc(var(--p0) + var(--span) * 0.0000) cover calc(var(--p0) + var(--span) * 1.0000)}
+    .hm-ph-2{opacity:0;animation-name:hm-in,hm-out,hm-drift;animation-timing-function:linear;animation-fill-mode:both,forwards,both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.4500) cover calc(var(--p0) + var(--span) * 0.5500),cover calc(var(--p0) + var(--span) * 0.7000) cover calc(var(--p0) + var(--span) * 0.8000),cover calc(var(--p0) + var(--span) * 0.0000) cover calc(var(--p0) + var(--span) * 1.0000)}
+    .hm-ph-3{opacity:0;animation-name:hm-in,hm-drift;animation-timing-function:linear;animation-fill-mode:both,both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.7000) cover calc(var(--p0) + var(--span) * 0.8000),cover calc(var(--p0) + var(--span) * 0.0000) cover calc(var(--p0) + var(--span) * 1.0000)}
+    .hm-cap-0{animation-name:hm-cap-out;animation-timing-function:linear;animation-fill-mode:forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.1500) cover calc(var(--p0) + var(--span) * 0.2300)}
+    .hm-cap-1{opacity:0;pointer-events:none;animation-name:hm-cap-in,hm-cap-out;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.2500) cover calc(var(--p0) + var(--span) * 0.3300),cover calc(var(--p0) + var(--span) * 0.4000) cover calc(var(--p0) + var(--span) * 0.4800)}
+    .hm-cap-2{opacity:0;pointer-events:none;animation-name:hm-cap-in,hm-cap-out;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.5000) cover calc(var(--p0) + var(--span) * 0.5800),cover calc(var(--p0) + var(--span) * 0.6500) cover calc(var(--p0) + var(--span) * 0.7300)}
+    .hm-cap-3{opacity:0;pointer-events:none;animation-name:hm-cap-in;animation-timing-function:linear;animation-fill-mode:both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.7500) cover calc(var(--p0) + var(--span) * 0.8300)}
+    .hm-dot-0{opacity:1;transform:scaleY(2.4);background:#fff;animation-name:hm-dot-off;animation-timing-function:linear;animation-fill-mode:forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.2000) cover calc(var(--p0) + var(--span) * 0.3000)}
+    .hm-dot-1{animation-name:hm-dot-on,hm-dot-off;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.2000) cover calc(var(--p0) + var(--span) * 0.3000),cover calc(var(--p0) + var(--span) * 0.4500) cover calc(var(--p0) + var(--span) * 0.5500)}
+    .hm-dot-2{animation-name:hm-dot-on,hm-dot-off;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.4500) cover calc(var(--p0) + var(--span) * 0.5500),cover calc(var(--p0) + var(--span) * 0.7000) cover calc(var(--p0) + var(--span) * 0.8000)}
+    .hm-dot-3{animation-name:hm-dot-on;animation-timing-function:linear;animation-fill-mode:both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.7000) cover calc(var(--p0) + var(--span) * 0.8000)}
+  }
+}
+
+/* "More below" cue, bottom left of the hero. It bobs gently; with reduced motion it just sits there. */
+.hm-more{position:absolute;left:22px;bottom:22px;z-index:2;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(14,13,12,.62);backdrop-filter:blur(10px);color:#F4F1EB;font:600 14px var(--font-body);cursor:pointer}
+.hm-more:hover{background:rgba(14,13,12,.8)}
+.hm-more:focus-visible{outline:2px solid var(--focus-ring,#7FC4CC);outline-offset:3px}
+.hm-more i{font-style:normal;display:inline-block}
+@media (prefers-reduced-motion:no-preference){.hm-more i{animation:hm-bob 1.6s ease-in-out infinite}}
+@keyframes hm-bob{0%,100%{transform:translateY(-2px)}50%{transform:translateY(3px)}}
+@media (max-width:760px){.hm-more{left:50%;bottom:148px;transform:translateX(-50%)}}
