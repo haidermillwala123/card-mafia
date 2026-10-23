@@ -2,3 +2,5 @@
 const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL;
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? (vercel ? `https://${vercel}` : 'http://localhost:3000')).replace(/\/$/, '');
 export const SITE_NAME = 'Card Mafia';
+// The connector address people paste into Claude or ChatGPT. Fixed, so it never shows localhost or a preview URL.
+export const MCP_URL = process.env.NEXT_PUBLIC_MCP_URL ?? 'https://cards-mafia.vercel.app/mcp';

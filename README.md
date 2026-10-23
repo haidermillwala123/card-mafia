@@ -34,3 +34,17 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Use Card Mafia from Claude and ChatGPT
+
+Card Mafia is also a remote MCP server with 23 read-only tools, one per feature that does not need a personal login. Connector address: `https://cards-mafia.vercel.app/mcp` (no sign-in). Full guide: [docs/MCP.md](docs/MCP.md) and `/developers` on the site.
+
+Claude Code plugin (the tools plus nine skills):
+
+```
+/plugin marketplace add haidermillwala123/card-mafia
+/plugin install card-mafia@card-mafia
+```
+
+Claude Desktop extension: download `public/downloads/card-mafia.mcpb` (built by `node scripts/build-mcpb.mjs`).
+ChatGPT: Settings, Connectors, Advanced, Developer mode, Create, paste the address, authentication none.

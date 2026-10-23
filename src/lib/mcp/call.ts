@@ -13,13 +13,19 @@ export const text = (value: unknown, isError = false): ToolOut => {
   return { content: [{ type: 'text', text: body }], ...(isError ? { isError: true } : {}) };
 };
 
-// POST `body` to a route handler, or GET when `body` is undefined.
-export async function callRoute(handler: Handler, body: unknown, from: Request): Promise<ToolOut> {
+// The caller's address headers, so the route behind a tool rate-limits the real caller.
+export function forwardHeaders(from: Request): Headers {
   const headers = new Headers();
   for (const h of FORWARD) {
     const v = from.headers.get(h);
     if (v) headers.set(h, v);
   }
+  return headers;
+}
+
+// POST `body` to a route handler, or GET when `body` is undefined.
+export async function callRoute(handler: Handler, body: unknown, from: Request): Promise<ToolOut> {
+  const headers = forwardHeaders(from);
   if (body !== undefined) headers.set('content-type', 'application/json');
   const req = new Request('http://card-mafia.internal/api', { method: body === undefined ? 'GET' : 'POST', headers, body: body === undefined ? undefined : JSON.stringify(body) });
   try {

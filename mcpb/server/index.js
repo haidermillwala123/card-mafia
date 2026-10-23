@@ -3,7 +3,7 @@
 // each JSON-RPC line from Claude is posted to the Card Mafia MCP endpoint and the answer is written back. No dependencies, no stored data.
 const readline = require('node:readline');
 
-const ENDPOINT = process.env.CARD_MAFIA_URL || 'https://card-mafia.vercel.app/mcp';
+const ENDPOINT = process.env.CARD_MAFIA_URL || 'https://cards-mafia.vercel.app/mcp';
 const TIMEOUT_MS = 90_000; // a seat that was not looked up recently can take about a minute
 
 const send = msg => process.stdout.write(`${JSON.stringify(msg)}\n`);

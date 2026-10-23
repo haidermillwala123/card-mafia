@@ -6,6 +6,7 @@ import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/
 import { allow } from '@/lib/claude';
 import { clientKey } from '@/lib/guard';
 import { registerTools } from '@/lib/mcp/tools';
+import { registerMoreTools } from '@/lib/mcp/tools-more';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -13,6 +14,8 @@ export const maxDuration = 60;
 const INSTRUCTIONS = [
   'Card Mafia plans award flights for Indian premium credit cards: which card to use, which transfer path is cheapest, and which seat to book.',
   'Call card_mafia_catalog first to get exact card, programme and airport ids. Then plan_trip or search_award_seats, and calculate_points for conversions.',
+  'Other jobs: trip_ideas (what my points can fly), wallet_overview (what my cards reach), recommend_card and best_earning_card (which card), analyze_statement (read a statement), transfer_rules and card_earn_rules (browse the rules), compare_seats, recheck_seat and booking_steps (before booking), learn_glossary, pricing_plans, about_card_mafia.',
+  'Saved wallet, saved trips, alerts and Gmail import need a Card Mafia account and are on the website; here the person types their cards and balances in.',
   'Every number comes from a rules engine with a stated check date and every seat shows its age. Card Mafia never books, transfers or stores anything: tell the person to confirm on the bank and airline sites before moving points.',
 ].join(' ');
 
@@ -37,6 +40,7 @@ async function handle(req: Request) {
   if (!allow(`mcp:${clientKey(req)}`, 120)) return withCors(Response.json({ jsonrpc: '2.0', error: { code: -32000, message: 'Too many requests. Wait a minute and try again.' }, id: null }, { status: 429 }));
   const server = new McpServer({ name: 'card-mafia', title: 'Card Mafia', version: '1.0.0' }, { instructions: INSTRUCTIONS });
   registerTools(server, req);
+  registerMoreTools(server, req);
   const transport = new WebStandardStreamableHTTPServerTransport({ sessionIdGenerator: undefined, enableJsonResponse: true });
   await server.connect(transport);
   return withCors(await transport.handleRequest(req));

@@ -2,9 +2,9 @@
   "manifest_version": "0.2",
   "name": "card-mafia",
   "display_name": "Card Mafia",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Plan award flights with Indian premium credit cards: which card, which transfer path, which seat.",
-  "long_description": "Card Mafia turns a trip goal into a checked award-flight plan for Indian premium cardholders. Ask Claude where you want to go and which cards you hold. It builds the cheapest points paths with ratios, caps and seat age checked before any transfer, searches award seats, runs the points calculator, ranks cards by what a month of spending earns, and points you to the airline's own booking page. Nothing is booked, transferred or stored. Seat data is cached and every result shows its age; always confirm on your bank and airline sites before moving points.",
+  "long_description": "Card Mafia turns a trip goal into a checked award-flight plan for Indian premium cardholders. Ask Claude where you want to go and which cards you hold. It builds the cheapest points paths with ratios, caps and seat age checked before any transfer, searches award seats, shows what your points can buy, runs the points calculator, reads a card statement, recommends the best card for how you spend, explains transfer rules, and points you to the airline's own booking page. Nothing is booked, transferred or stored. Seat data is cached and every result shows its age; always confirm on your bank and airline sites before moving points.",
   "author": { "name": "Card Mafia", "url": "https://card-mafia.vercel.app" },
   "homepage": "https://card-mafia.vercel.app/developers",
   "support": "https://card-mafia.vercel.app/developers",
@@ -16,7 +16,7 @@
     "mcp_config": {
       "command": "node",
       "args": ["${__dirname}/server/index.js"],
-      "env": { "CARD_MAFIA_URL": "https://card-mafia.vercel.app/mcp" }
+      "env": { "CARD_MAFIA_URL": "https://cards-mafia.vercel.app/mcp" }
     }
   },
   "tools": [
@@ -25,12 +25,24 @@
     { "name": "plan_trip", "description": "Build up to three award plans with the pre-transfer safety check." },
     { "name": "explain_plan", "description": "Explain the plans in plain words." },
     { "name": "search_award_seats", "description": "Find cached award seats and which ones your cards can pay for." },
+    { "name": "trip_ideas", "description": "The cheapest seat your cards can pay for in each region." },
+    { "name": "wallet_overview", "description": "What the points in each of your cards reach." },
     { "name": "calculate_points", "description": "Points calculator: forward, reverse and pooled." },
     { "name": "best_earning_card", "description": "Rank cards by points earned on a month of spending." },
+    { "name": "recommend_card", "description": "Which card to add for how you spend." },
+    { "name": "analyze_statement", "description": "Read a statement or PDF and find the best card for the spending." },
     { "name": "categorize_merchants", "description": "Sort statement merchants into spend categories." },
+    { "name": "transfer_rules", "description": "Transfer partners, ratios, caps, limits and indirect routes." },
+    { "name": "card_earn_rules", "description": "How each card earns points: rates, caps, milestones, exclusions." },
+    { "name": "compare_seats", "description": "Two or three seats side by side." },
+    { "name": "recheck_seat", "description": "Re-check one seat live before you transfer." },
+    { "name": "booking_steps", "description": "The ordered steps to book a seat." },
     { "name": "seat_booking_handoff", "description": "The airline's own booking page for a seat and the details to copy." },
     { "name": "buy_points_info", "description": "Where and at what price a programme sells points." },
-    { "name": "data_status", "description": "How fresh the seat data is today." }
+    { "name": "data_status", "description": "How fresh the seat data is today." },
+    { "name": "pricing_plans", "description": "Free, the day pass and Pro." },
+    { "name": "learn_glossary", "description": "Points and miles terms in plain English." },
+    { "name": "about_card_mafia", "description": "What Card Mafia does, and does not do." }
   ],
   "tools_generated": false,
   "compatibility": {

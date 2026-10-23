@@ -1,0 +1,13 @@
+{
+  "name": "card-mafia",
+  "owner": { "name": "Card Mafia", "url": "https://card-mafia.vercel.app" },
+  "metadata": { "description": "Award-flight planning for Indian premium credit cards." },
+  "plugins": [
+    {
+      "name": "card-mafia",
+      "source": "./plugins/card-mafia",
+      "description": "Plan award flights with Indian cards: which card, which transfer path, which seat. 23 read-only tools and nine skills.",
+      "category": "travel"
+    }
+  ]
+}

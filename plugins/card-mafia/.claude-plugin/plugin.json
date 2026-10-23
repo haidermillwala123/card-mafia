@@ -1,0 +1,9 @@
+{
+  "name": "card-mafia",
+  "version": "1.1.0",
+  "description": "Plan award flights with Indian premium credit cards: which card, which transfer path, which seat. Nothing is booked, transferred or stored.",
+  "author": { "name": "Card Mafia", "url": "https://card-mafia.vercel.app" },
+  "homepage": "https://card-mafia.vercel.app/developers",
+  "repository": "https://github.com/haidermillwala123/card-mafia",
+  "keywords": ["travel", "credit cards", "award flights", "points", "miles", "india"]
+}

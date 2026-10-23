@@ -1,0 +1,5 @@
+{
+  "mcpServers": {
+    "card-mafia": { "type": "http", "url": "https://cards-mafia.vercel.app/mcp" }
+  }
+}

@@ -3,15 +3,15 @@ import Link from 'next/link';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import CopyButton from '@/components/CopyButton';
 import JsonLd from '@/components/JsonLd';
-import { SITE_URL } from '@/lib/site';
+import { MCP_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Connect Card Mafia to Claude and ChatGPT',
-  description: 'Add Card Mafia to Claude or ChatGPT as a connector or a Claude Desktop extension. Eleven read-only tools for planning award flights with Indian cards.',
+  description: 'Add Card Mafia to Claude or ChatGPT as a connector or a Claude Desktop extension. 23 read-only tools for planning award flights with Indian cards.',
   alternates: { canonical: '/developers' },
 };
 
-const URL_MCP = `${SITE_URL}/mcp`;
+const URL_MCP = MCP_URL;
 
 const TOOLS: [string, string][] = [
   ['card_mafia_catalog', 'Exact ids for Indian premium cards, banks, programmes, airports and regions. The tools below use these, so it goes first.'],
@@ -25,6 +25,18 @@ const TOOLS: [string, string][] = [
   ['seat_booking_handoff', 'The airline programme\'s own booking page for a seat, prefilled where possible, and the details to copy.'],
   ['buy_points_info', 'Whether a programme sells points, at what price, and the source of that price.'],
   ['data_status', 'Today\'s live seat-lookup budget, so you can tell how fresh the seat data is.'],
+  ['trip_ideas', 'The cheapest business seat your cards can pay for in each region, from your home airport.'],
+  ['wallet_overview', 'What the points in each of your cards reach: the best programmes, the miles they become, caps and transfer times.'],
+  ['recommend_card', 'Which card to add for a month of spending: the top picks, a companion card and a stretch card, in comparable long-haul miles.'],
+  ['analyze_statement', 'Reads a pasted statement or a PDF, finds a typical month of spending and ranks the cards that would earn the most. Nothing is stored.'],
+  ['transfer_rules', 'The transfer explorer: every partner of a card with ratio, cap, time and limits, indirect routes that beat a direct transfer, or which cards reach a programme.'],
+  ['card_earn_rules', 'The earn browser: base rates, accelerated categories, caps, milestones and exclusions for each card.'],
+  ['compare_seats', 'Two or three seats side by side, with which of your cards can pay for each.'],
+  ['recheck_seat', 'A live re-check of one seat right before you transfer.'],
+  ['booking_steps', 'The ordered steps for a seat: transfer, wait, transfer, wait, book.'],
+  ['pricing_plans', 'What is free, what the ₹99 day pass adds, and what Pro will be.'],
+  ['learn_glossary', 'Points in plain English: ratio, multi-hop, caps and the other terms.'],
+  ['about_card_mafia', 'What Card Mafia does and does not do, how old its rules are, and which features live on the website only.'],
 ];
 
 const FAQ = [
@@ -41,7 +53,7 @@ export default function Developers() {
       <JsonLd data={{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: FAQ.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }} />
       <div className="container stack" style={{ ['--stack' as string]: '32px', paddingBottom: 'var(--space-2xl)' }}>
         <h1 className="t-h1">Use Card Mafia from Claude and ChatGPT</h1>
-        <p className="t-lg muted measure">Ask your assistant where you want to fly and which cards you hold. It plans the points path, searches award seats and runs the calculator through eleven read-only tools. Nothing is booked, transferred or stored.</p>
+        <p className="t-lg muted measure">Ask your assistant where you want to fly and which cards you hold. It plans the points path, searches award seats, reads your statement and runs the calculator through {TOOLS.length} read-only tools. Nothing is booked, transferred or stored. Saved wallet, saved trips, alerts and Gmail import need an account, so they stay on the website.</p>
 
         <section className="stack" aria-labelledby="url-h">
           <h2 id="url-h" className="t-h2">Connector address</h2>
@@ -77,7 +89,9 @@ export default function Developers() {
             </div>
             <div className="tier" aria-label="Claude Code and Codex">
               <div className="top"><b className="t-title">Claude Code and Codex</b><span className="tag">Terminal</span></div>
-              <p className="t-sm" style={{ marginTop: 12 }}><b>Claude Code</b></p>
+              <p className="t-sm" style={{ marginTop: 12 }}><b>Claude Code plugin</b> (the tools plus nine skills):</p>
+              <pre className="dev-pre">{`/plugin marketplace add haidermillwala123/card-mafia\n/plugin install card-mafia@card-mafia`}</pre>
+              <p className="t-sm" style={{ marginTop: 12 }}><b>Claude Code</b>, tools only:</p>
               <pre className="dev-pre">{`claude mcp add --transport http card-mafia ${URL_MCP}`}</pre>
               <p className="t-sm" style={{ marginTop: 12 }}><b>Codex</b>, in <code>~/.codex/config.toml</code>:</p>
               <pre className="dev-pre">{`[mcp_servers.card-mafia]\nurl = "${URL_MCP}"`}</pre>
@@ -86,7 +100,7 @@ export default function Developers() {
         </section>
 
         <section className="stack" aria-labelledby="tools-h">
-          <h2 id="tools-h" className="t-h2">The eleven tools</h2>
+          <h2 id="tools-h" className="t-h2">The {TOOLS.length} tools</h2>
           <p className="measure">Each feature of the app is its own tool, so your assistant picks the one a question needs.</p>
           <dl className="dev-tools">
             {TOOLS.map(([name, text]) => (

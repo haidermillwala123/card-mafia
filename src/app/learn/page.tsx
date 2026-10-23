@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Ic from '@/components/app/Icons';
+import { TERMS } from '@/lib/glossary';
 import './learn.css';
 
 export const metadata: Metadata = {
@@ -14,17 +15,6 @@ const TOOLS = [
   { href: '/earn', cap: 'Earn', title: 'How to earn points on every card', body: 'Base rates, accelerated categories, caps and exclusions for 58 cards, plus a monthly spend ranking.', icon: 'badge' as const, note: 'Sourced and dated' },
   { href: '/calculator', cap: 'Calculator', title: 'What is a point worth?', body: 'Type a cash fare, taxes and points. We show the value per point.', icon: 'shield' as const, note: 'Maths done in code' },
   { href: '/rules', cap: 'Rules', title: 'Ratios, caps and transfer times', body: 'Every rule links to the bank page it came from, with the date we checked it.', icon: 'badge' as const, note: 'Checked on bank portals' },
-];
-
-const TERMS: [string, string][] = [
-  ['Ratio', 'How many airline points you get for each bank point. 1:1 means equal. 2:1 means two bank points for one airline point.'],
-  ['Transfer block', 'The smallest amount a bank lets you move at once.'],
-  ['Monthly cap', 'The most points a bank lets you transfer in one month.'],
-  ['Multi-hop', 'Moving points through more than one programme to reach the one you need. It can cut the points a seat costs.'],
-  ['Value per point', '(Cash fare minus taxes) divided by points. It shows what each point bought you.'],
-  ['Taxes and fees', 'Cash you still pay on an award ticket.'],
-  ['Qsuite', 'Qatar Airways business class seat with a door.'],
-  ['Data age', 'How long ago we saw a seat. Seats change fast, so older rows carry a warning.'],
 ];
 
 export default function LearnPage() {
