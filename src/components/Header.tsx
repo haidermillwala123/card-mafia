@@ -8,14 +8,13 @@ import Ic from './app/Icons';
 import ThemeToggle from './ThemeToggle';
 
 // Two things: your cards and your trips. Settings and the rest sit under More.
-const MAIN = [{ href: '/home', label: 'Home' }];
+const MAIN = [{ href: '/home', label: 'Home' }, { href: '/wallet', label: 'Wallet' }];
 const GROUPS = [
   { label: 'Cards', items: [
     { href: '/earn/calculator', label: 'Points calculator', hint: 'What your spend earns' },
     { href: '/cards/recommend', label: 'Best card for you', hint: 'From what you spend' },
     { href: '/cards/statement', label: 'From your statement', hint: 'Upload a PDF or paste' },
     { href: '/earn', label: 'Best way to earn', hint: 'Filter 58 cards' },
-    { href: '/wallet', label: 'Wallet', hint: 'Your cards and balances' },
     { href: '/transfers', label: 'Transfers', hint: 'Ratios, caps and routes' },
   ] },
   { label: 'Trips', items: [

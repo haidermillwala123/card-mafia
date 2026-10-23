@@ -144,7 +144,7 @@ export default function HandoffClient({ id, travellers: n }: { id: string; trave
             <div className="a-r a-rw">
               {h.url && (
                 <a className="a-cta" href={h.url} target="_blank" rel="noopener noreferrer">
-                  Open {h.programme}
+                  {h.prefilled ? `Open ${h.programme} with this flight filled in` : `Open ${h.programme}`}
                   <span className="a-ar"><Ic name="ext" /></span>
                 </a>
               )}
@@ -155,8 +155,18 @@ export default function HandoffClient({ id, travellers: n }: { id: string; trave
               <span className="a-g" />
               {h.linkCheckedOn ? <VerifiedStamp>Link checked {dateFull(h.linkCheckedOn.slice(0, 10))}</VerifiedStamp> : null}
             </div>
-            {!h.linkCheckedOn && (
-              <Note kind="info" title="This link has not been checked by hand yet.">If it lands on a generic page, use the copy panel.</Note>
+            {h.prefilled ? (
+              <Note kind="info" title="The airline page opens with your route, date and passengers filled in.">Pick the flight shown above on that page, and check the taxes before you pay. If it shows nothing, the seat may have gone: do not transfer.</Note>
+            ) : !h.linkCheckedOn && (
+              <Note kind="info" title="This link opens the airline's main page.">We could not get a filled-in link for this seat right now. Use the copy panel to fill it in yourself.</Note>
+            )}
+            {h.links && h.links.filter(l => !l.primary).length > 0 && (
+              <div className="a-r a-rw">
+                <span className="a-cap">Also bookable through</span>
+                {h.links.filter(l => !l.primary).map(l => (
+                  <a key={l.url} className="a-ghost" href={l.url} target="_blank" rel="noopener noreferrer">{l.label.replace(/^Book via /, '')}</a>
+                ))}
+              </div>
             )}
             {saved.state === 'ok' && (
               <span className="a-checkout-saved" role="status">Saved. See it in <Link href="/trips" style={{ textDecoration: 'underline' }}>Trips</Link>.</span>

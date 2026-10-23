@@ -155,7 +155,10 @@ export async function pullRoutes(opts: { origins: string[]; dests: string[]; fro
 }
 
 // Get Trips for one availability: refreshes flight numbers, times and taxes for a row someone is comparing.
-export async function pullTrips(availabilityId: string): Promise<{ trips: Trip[]; remaining: number | null }> {
-  const { data, remaining } = await seatsGet<{ data: Trip[] }>(`/trips/${encodeURIComponent(availabilityId)}`, {});
-  return { trips: data.data ?? [], remaining };
+// It also returns the source's own booking links, already filled in with route, date and passengers; the primary one is the seat's own programme.
+export type BookingLink = { label: string; url: string; primary: boolean };
+export async function pullTrips(availabilityId: string): Promise<{ trips: Trip[]; links: BookingLink[]; remaining: number | null }> {
+  const { data, remaining } = await seatsGet<{ data: Trip[]; booking_links?: { label?: string; link?: string; primary?: boolean }[] }>(`/trips/${encodeURIComponent(availabilityId)}`, {});
+  const links = (data.booking_links ?? []).flatMap(l => (l.link && l.label ? [{ label: l.label, url: l.link, primary: Boolean(l.primary) }] : []));
+  return { trips: data.data ?? [], links, remaining };
 }

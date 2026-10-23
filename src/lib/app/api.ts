@@ -23,6 +23,8 @@ export type HandoffResponse = {
   programme: string;
   url: string | null;
   linkCheckedOn: string | null; // null until a person has checked the link by hand
+  prefilled?: boolean; // true when `url` opens the airline's results with this route, date and passengers already filled in
+  links?: { label: string; url: string; primary: boolean }[]; // the same seat's other prefilled booking links
   copy: { route: string; date: string; cabin: string; flights: string | null; points: number; taxes: { amount: number; currency: string; inr: number | null } | null; seatSeenAt: string };
 };
 export type QuotaResponse = { used: number; cap: number; paused: boolean };

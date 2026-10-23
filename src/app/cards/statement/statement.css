@@ -35,6 +35,7 @@
 .st-pick b{font:700 17px var(--font-body)}
 .st-m{color:var(--text)!important;font-weight:600}
 .st-mine{padding-top:8px;border-top:1px solid var(--border)}
+.st-why{display:block;color:var(--text-muted);font-size:13px;line-height:1.4}
 .st-up{margin:0;padding:14px 16px;border-radius:8px;background:var(--primary-tint);color:var(--on-primary-tint)}
 @media (max-width:760px){.st-line{grid-template-columns:22px 1fr auto}.st-sel{grid-column:2/-1}.st-bar{grid-template-columns:1fr auto}.st-bar i{grid-column:1/-1;order:3}}
 @media (prefers-reduced-motion:reduce){.st-drop{transition:none}}

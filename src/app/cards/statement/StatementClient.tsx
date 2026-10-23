@@ -326,12 +326,15 @@ export default function StatementClient({ cards, fees, programmes, miles }: Prop
             <div className="st-head">
               <div>
                 <h2>Best card for each kind of spend</h2>
-                <p>{held.length ? 'Counting the cards in your wallet.' : 'Add your cards in Wallet and we compare against them.'}</p>
+                <p>
+                  {prog ? `Ranked by ${programmes.find(p => p.id === prog)?.name ?? 'your airline'} miles: the points a card earns in that kind of spend, times how well those points transfer there. ` : 'Ranked by the average miles across the main airlines. Pick an airline to rank for one programme. '}
+                  {held.length ? 'Counting the cards in your wallet.' : 'Add your cards in Wallet and we compare against them.'}
+                </p>
               </div>
               <div className="st-air"><Select value={prog} onChange={e => setProg(e.target.value)}><option value="">Any airline</option>{programmes.map(p => <option key={p.id} value={p.id}>Miles on {p.name}</option>)}</Select></div>
             </div>
             <div className="st-cats">
-              {shownCat.map(({ cat, amount, best, mine }) => (
+              {shownCat.map(({ cat, amount, best, mine, picks }) => (
                 <div className="st-cat" key={cat}>
                   <div><b>{CAT_LABEL[cat]}</b><small>₹{fmt(amount)} a month</small></div>
                   {best ? (
@@ -340,6 +343,15 @@ export default function StatementClient({ cards, fees, programmes, miles }: Prop
                       <b>{best.card.name}</b>
                       <small>{(best.card as CalcEntry).bank} · {feeTier(fees[best.card.card_id]).label}</small>
                       <small className="st-m">+{fmt(Math.round(best.miles))} miles a month{held.includes(best.card.card_id) ? ' · you hold this' : ''}</small>
+                      {best.perPoint > 0 && amount > 0 && (
+                        <small className="st-why">
+                          Earns about {(Math.round((best.miles / amount / best.perPoint) * 1000) / 10).toLocaleString('en-IN')} points per ₹100 here; 1 point becomes {Math.round(best.perPoint * 100) / 100} {programmes.find(p => p.id === best.programme)?.name ?? 'airline'} miles.
+                        </small>
+                      )}
+                      {(() => {
+                        const next = picks.find(p => p.card.card_id !== best.card.card_id && fair(p.card.card_id));
+                        return next ? <small className="st-why">Next best: {next.card.name}, +{fmt(Math.round(next.miles))} miles.</small> : null;
+                      })()}
                     </div>
                   ) : <small>No card earns miles on this.</small>}
                   {mine && mine.card.card_id !== best?.card.card_id && <small className="st-mine">Your best: {mine.card.name}, +{fmt(Math.round(mine.miles))} miles</small>}
