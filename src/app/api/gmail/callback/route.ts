@@ -33,6 +33,6 @@ export async function GET(req: Request) {
   const j = res?.ok ? ((await res.json().catch(() => null)) as { access_token?: string } | null) : null;
   if (!j?.access_token) return back('error=token');
 
-  jar.set('cm_gtoken', j.access_token, { httpOnly: true, secure: true, sameSite: 'lax', path: '/api/gmail', maxAge: 900 });
+  jar.set('cm_gtoken', j.access_token, { httpOnly: true, secure: true, sameSite: 'lax', path: '/api/gmail', maxAge: 300 });
   return back('connected=1');
 }

@@ -4,7 +4,7 @@ import { test } from 'node:test';
 import { type BuyInfo, buyCost, pointsShort } from './buy-points.ts';
 
 const info = (over: Partial<BuyInfo> = {}): BuyInfo => ({
-  programme: 'Test Club', url: 'https://example.com/buy', sells: true, pricePer1000: 30, currency: 'USD', inrPer1000: 2500, annualCap: 200000, note: null, source: null, sourceUrl: null, sourceDate: '2026-10-23', ...over,
+  programme: 'Test Club', url: 'https://example.com/buy', sells: true, pricePer1000: 30, currency: 'USD', priceKind: 'listed', inrPer1000: 2500, annualCap: 200000, note: null, source: null, sourceUrl: null, sourceDate: '2026-10-23', ...over,
 });
 
 test('the missing airline points follow the card shortfall and the ratio', () => {
@@ -25,6 +25,7 @@ test('buying is priced in whole thousands, and no listed price means no figure',
   assert.deepEqual(buyCost(info(), 4001), { native: 150, inr: 12500 }); // 5 blocks
   assert.deepEqual(buyCost(info(), 1000), { native: 30, inr: 2500 });
   assert.deepEqual(buyCost(info({ inrPer1000: null }), 2000), { native: 60, inr: null });
-  assert.equal(buyCost(info({ pricePer1000: null }), 5000), null);
+  assert.deepEqual(buyCost(info({ pricePer1000: null, currency: null, inrPer1000: 1460 }), 4001), { native: null, inr: 7300 }); // a price already in rupees
+  assert.equal(buyCost(info({ pricePer1000: null, inrPer1000: null }), 5000), null);
   assert.equal(buyCost(info(), 0), null);
 });

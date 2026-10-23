@@ -14,6 +14,26 @@ export function sameOrigin(req: Request): boolean {
   }
 }
 
+// The request body as text, or null once it passes `max` bytes. An unreadable body counts as empty.
+async function readCapped(req: Request, max: number): Promise<string | null> {
+  const reader = req.body?.getReader();
+  if (!reader) return '';
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      size += value.byteLength;
+      if (size > max) { await reader.cancel().catch(() => undefined); return null; }
+      chunks.push(value);
+    }
+  } catch {
+    return '';
+  }
+  return new TextDecoder().decode(Buffer.concat(chunks));
+}
+
 // Returns the parsed JSON body, or a Response to send back when the request must be refused.
 export async function readJson(req: Request): Promise<{ ok: true; body: unknown } | { ok: false; res: Response }> {
   const refuse = (status: number, error: string) => ({ ok: false as const, res: Response.json({ error }, { status }) });
@@ -21,8 +41,9 @@ export async function readJson(req: Request): Promise<{ ok: true; body: unknown 
   if (!(req.headers.get('content-type') ?? '').toLowerCase().startsWith('application/json')) return refuse(415, 'Send JSON.');
   const declared = Number(req.headers.get('content-length') ?? 0);
   if (declared > MAX_BODY) return refuse(413, 'That request is too large.');
-  const text = await req.text().catch(() => '');
-  if (text.length > MAX_BODY) return refuse(413, 'That request is too large.');
+  // Read in chunks and stop at the limit, so a client that leaves out Content-Length (or lies about it) cannot make us buffer a huge body.
+  const text = await readCapped(req, MAX_BODY);
+  if (text === null) return refuse(413, 'That request is too large.');
   try {
     return { ok: true, body: JSON.parse(text) };
   } catch {

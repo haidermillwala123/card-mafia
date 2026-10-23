@@ -38,8 +38,12 @@ export default function BuyPoints({ r, n, held }: { r: SeatView; n: number; held
         <>
           {cost ? (
             <span>
-              Buying them costs about <b>{cost.inr !== null ? `₹${fmt(cost.inr)}` : money(cost.native, info.currency)}</b>
-              {cost.inr !== null && info.currency ? ` (${money(cost.native, info.currency)})` : ''} at the standard listed price. Promotions and your account&apos;s country change it, so check the final price before you pay.
+              {info.priceKind === 'guide' ? 'As a rough guide, buying them would cost about ' : 'Buying them costs about '}
+              <b>{cost.inr !== null ? `₹${fmt(cost.inr)}` : cost.native !== null ? money(cost.native, info.currency) : ''}</b>
+              {cost.inr !== null && cost.native !== null && info.currency ? ` (${money(cost.native, info.currency)})` : ''}
+              {info.priceKind === 'guide'
+                ? '. This comes from a published guide or a related programme, not from the programme itself, so the real price can be quite different. Check it before you pay.'
+                : ' at the standard listed price. Promotions and your account’s country change it, so check the final price before you pay.'}
             </span>
           ) : <span className="a-mu">{info.programme} sells points, but we have no price we can stand behind: open your account to see it.</span>}
           {info.note && <span className="a-mu">{info.note}</span>}

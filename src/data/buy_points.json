@@ -1,95 +1,165 @@
 {
   "checked_on": "2026-10-23",
-  "note": "Standard, non-promotional prices as read from each programme's page or a published guide on the date shown. A price is listed only where a source states one and confidence is at least medium; everything else is null and the screen sends the member to the programme's own site. Prices change often and promotions beat them: treat every figure as an estimate. source_url is only ever an exact page a researcher read or a search result showed.",
+  "note": "Prices for buying points, by programme id (the ids the seat data uses). price_kind 'listed' means the figure was read from the programme's own page (or its text as shown by a search); 'guide' means it comes from a published guide or from a related programme and is shown as a rough guide only. A programme with no figure sends the member to its own site. Prices change often and promotions beat them. source_url is only ever an exact page a researcher read or a search result showed.",
   "programmes": {
     "virgin-flyingclub": {
       "name": "Virgin Atlantic Flying Club",
       "url": "https://www.virginatlantic.com/en-us/flying-club/earn-points/buy-points",
-      "price_per_1000": 25, "currency": "USD", "annual_cap": 200000,
+      "price_per_1000": 25, "currency": "USD", "price_kind": "listed", "annual_cap": 200000,
       "note": "Plus a one-off fee of $22 per purchase (the page says £15/$25 per 1,000 points and £15/$22 per transaction).",
       "source": "Virgin Atlantic's own page, read directly", "source_url": "https://www.virginatlantic.com/en-us/flying-club/earn-points/buy-points", "source_date": "2026-10-23"
     },
     "turkish-ms": {
       "name": "Turkish Airlines Miles&Smiles",
       "url": "https://www.turkishairlines.com/en-tr/miles-and-smiles/miles-features/purchasing-miles/",
-      "price_per_1000": 30, "currency": "USD", "annual_cap": 250000,
+      "price_per_1000": 30, "currency": "USD", "price_kind": "listed", "annual_cap": 250000,
       "note": "Includes VAT, minimum 1,000 miles. You must be signed in to buy.",
       "source": "Turkish Airlines' page, from a search summary", "source_url": "https://www.turkishairlines.com/en-tr/miles-and-smiles/miles-features/purchasing-miles/", "source_date": "2026-10-23"
     },
     "emirates-skywards": {
       "name": "Emirates Skywards",
       "url": "https://www.emirates.com/us/english/skywards/do-more-with-your-miles/",
-      "price_per_1000": 30, "currency": "USD", "annual_cap": 100000,
+      "price_per_1000": 30, "currency": "USD", "price_kind": "listed", "annual_cap": 100000,
       "note": "The cap is 100,000 a year for Blue and Silver and 200,000 for Gold and Platinum, buying and gifting together. Some country pages differ: check yours.",
       "source": "Emirates' page, from a search summary", "source_url": "https://www.emirates.com/us/english/skywards/do-more-with-your-miles/", "source_date": "2026-10-23"
     },
     "aeroplan": {
       "name": "Air Canada Aeroplan",
       "url": "https://www.aircanada.com/",
-      "price_per_1000": 37.5, "currency": "CAD", "annual_cap": 1000000,
+      "price_per_1000": 37.5, "currency": "CAD", "price_kind": "guide", "annual_cap": 1000000,
       "note": "Before taxes, minimum 2,000 points, usually up to 250,000 a transaction. Sign in to Aeroplan and look for Buy points.",
       "source": "AwardWallet and Milesopedia guides (undated)", "source_url": null, "source_date": "2026-10-23"
     },
-    "alaska": {
+    "atmos-rewards": {
       "name": "Alaska Atmos Rewards",
       "url": "https://www.alaskaair.com/content/mileage-plan/buy-miles",
-      "price_per_1000": 37.63, "currency": "USD", "annual_cap": 150000,
+      "price_per_1000": 37.63, "currency": "USD", "price_kind": "guide", "annual_cap": 150000,
       "note": "$35 per 1,000 plus 7.5% US federal tax. The 150,000 a year cap is for members without elite status.",
       "source": "Traveling For Miles guide", "source_url": "https://travelingformiles.com/buy-alaska-points/", "source_date": "2026-10-23"
     },
-    "american": {
+    "american-airlines-aadvantage": {
       "name": "American AAdvantage",
       "url": "https://www.aa.com/aadvantage-program/miles/purchase",
-      "price_per_1000": 37.63, "currency": "USD", "annual_cap": 200000,
+      "price_per_1000": 37.63, "currency": "USD", "price_kind": "guide", "annual_cap": 200000,
       "note": "2,000 miles cost $75.25 including tax. The cap includes miles you gift.",
       "source": "The Point Calculator, updated 8 April 2026", "source_url": "https://www.thepointcalculator.com/us/american-airlines-aadvantage-miles/calculators/american-airlines-buy-miles-calculator/", "source_date": "2026-04-08"
+    },
+    "united-mileageplus": {
+      "name": "United MileagePlus",
+      "url": "https://www.united.com/",
+      "price_per_1000": 37.6, "currency": "USD", "price_kind": "guide", "annual_cap": 200000,
+      "note": "About 3.76 cents a mile including tax at the base price, with frequent promotions. The cap is 50,000 per 90 days and 200,000 a year.",
+      "source": "PointsMath and Loyalty Lobby guides", "source_url": "https://pointsmath.com/buy-united-miles/", "source_date": "2026-05-13"
+    },
+    "delta-skymiles": {
+      "name": "Delta SkyMiles",
+      "url": "https://www.delta.com/",
+      "price_per_1000": 37.6, "currency": "USD", "price_kind": "guide", "annual_cap": 60000,
+      "note": "Guides disagree between 3.5 and 3.76 cents a mile; the higher figure is used so the estimate is not too low. The yearly cap is for your own account and is raised during promotions.",
+      "source": "AwardWallet and WalletHub guides (undated)", "source_url": "https://awardwallet.com/airlines/delta-skymiles/buy-delta-miles/", "source_date": "2026-10-23"
     },
     "qatar-privilege-club": {
       "name": "Qatar Airways Privilege Club",
       "url": "https://www.qatarairways.com/en/homepage.html",
-      "price_per_1000": null, "currency": null, "annual_cap": 250000,
-      "note": "Qatar sells Avios inside your Privilege Club account (look for Buy Avios). The price depends on the country of your account and on promotions, and no figure for India is published, so open your account to see it.",
-      "source": "InsideFlyer, August 2026", "source_url": "https://insideflyer.com/posts/qatar-airways-offers-50-avios-bonus-until-august-25/", "source_date": "2026-08-01"
+      "price_per_1000": null, "currency": null, "price_inr_per_1000": 1460, "price_kind": "guide", "annual_cap": 250000,
+      "note": "Rough guide only. Qatar sells Avios inside your Privilege Club account (look for Buy Avios) and publishes no price for India. The figure shown is British Airways' price for India-registered accounts in July 2025 (₹1.46 per Avios at the lowest tier). Qatar's own price may differ, so open your account to see it.",
+      "source": "Live From A Lounge on British Airways' India price, July 2025", "source_url": "https://www.livefromalounge.com/buy-british-airways-avios-promotion/", "source_date": "2025-07-01"
     },
     "ba-executive-club": {
       "name": "British Airways Executive Club",
       "url": "https://www.britishairways.com/",
-      "price_per_1000": null, "currency": null, "annual_cap": 200000,
-      "note": "Sold inside your Executive Club account (Buy Avios). The price depends on your account's country and on volume. No current published price.",
+      "price_per_1000": null, "currency": null, "price_inr_per_1000": 1460, "price_kind": "guide", "annual_cap": 200000,
+      "note": "Rough guide only. Sold inside your Executive Club account (Buy Avios). For India-registered accounts one blog reported ₹1.46 per Avios at the lowest tier in July 2025; the price falls with volume and changes with promotions.",
       "source": "Live From A Lounge, July 2025", "source_url": "https://www.livefromalounge.com/buy-british-airways-avios-promotion/", "source_date": "2025-07-01"
     },
     "finnair-plus": {
       "name": "Finnair Plus",
       "url": "https://www.finnair.com/en",
-      "price_per_1000": null, "currency": null, "annual_cap": 200000,
-      "note": "Sold inside your Finnair Plus account (Buy Avios), priced in your account's currency, with regular sales. No stable price to quote.",
-      "source": "The Milelion, September 2026", "source_url": "https://milelion.com/2026/09/22/finnair-plus-selling-avios-with-up-to-50-bonus/", "source_date": "2026-09-22"
+      "price_per_1000": null, "currency": null, "price_inr_per_1000": 1460, "price_kind": "guide", "annual_cap": 200000,
+      "note": "Rough guide only. Sold inside your Finnair Plus account (Buy Avios) in your account's currency, with regular sales. The figure shown is British Airways' India price for Avios in July 2025; Finnair's own price may differ.",
+      "source": "The Milelion on Finnair sales, and Live From A Lounge on British Airways' India price", "source_url": "https://milelion.com/2026/09/22/finnair-plus-selling-avios-with-up-to-50-bonus/", "source_date": "2026-09-22"
     },
     "iberia-club": {
       "name": "Iberia Plus",
       "url": "https://www.iberia.com/",
-      "price_per_1000": null, "currency": null, "annual_cap": 200000,
-      "note": "Sold inside your Iberia Plus account (Buy Avios). No stable price to quote.",
-      "source": "LoyaltyLobby and Traveling For Miles (2023 to 2025)", "source_url": null, "source_date": "2025-01-01"
+      "price_per_1000": null, "currency": null, "price_inr_per_1000": 1460, "price_kind": "guide", "annual_cap": 200000,
+      "note": "Rough guide only. Sold inside your Iberia Plus account (Buy Avios). The figure shown is British Airways' India price for Avios in July 2025; Iberia's own regular price can be higher.",
+      "source": "LoyaltyLobby and Traveling For Miles, and Live From A Lounge on British Airways' India price", "source_url": null, "source_date": "2025-07-01"
     },
     "krisflyer": {
       "name": "Singapore Airlines KrisFlyer",
       "url": "https://www.singaporeair.com/",
-      "price_per_1000": null, "currency": null, "annual_cap": null,
-      "note": "KrisFlyer sells miles to signed-in members. We could not confirm the current price.",
-      "source": "none confirmed", "source_url": null, "source_date": "2026-10-23"
+      "price_per_1000": 40, "currency": "USD", "price_kind": "guide", "annual_cap": null,
+      "note": "About US$0.04 a mile according to a guide and a snippet of KrisFlyer's terms. We could not open the official page, so check the price when you sign in and buy.",
+      "source": "Blog guide and a search snippet of KrisFlyer terms", "source_url": null, "source_date": "2026-10-23"
     },
     "flying-blue": {
       "name": "Air France-KLM Flying Blue",
       "url": "https://www.flyingblue.com/",
-      "price_per_1000": null, "currency": null, "annual_cap": 100000,
-      "note": "Sold inside your Flying Blue account. One guide put it near $30.50 per 1,000 in April 2026, but we could not confirm it on the official site.",
+      "price_per_1000": 30.5, "currency": "USD", "price_kind": "guide", "annual_cap": 100000,
+      "note": "Sold inside your Flying Blue account. The 100,000 a year cap is for members without elite status.",
       "source": "Award Travel Finder, verified April 2026", "source_url": "https://www.awardtravelfinder.com/buy-points/flying-blue", "source_date": "2026-04-13"
+    },
+    "etihad-guest": {
+      "name": "Etihad Guest",
+      "url": "https://www.etihad.com/en/etihadguest/earn-miles/accelerate-your-miles",
+      "price_per_1000": 32, "currency": "USD", "price_kind": "guide", "annual_cap": null,
+      "note": "About 3.2 cents a mile for small purchases in a 2025 report. Etihad's own pages give conflicting yearly caps (100,000 or 200,000), so check yours.",
+      "source": "A 2025 report on Etihad's price (page not opened)", "source_url": null, "source_date": "2026-10-23"
+    },
+    "qantas-ff": {
+      "name": "Qantas Frequent Flyer",
+      "url": "https://www.qantas.com/",
+      "price_per_1000": 38.8, "currency": "AUD", "price_kind": "guide", "annual_cap": null,
+      "note": "The price falls as you buy more: about A$56 per 1,000 for 1,000 points, A$38.80 per 1,000 at 10,000 and A$26.60 per 1,000 at 150,000. The 10,000 level is used here. Up to 4 purchases in 12 months.",
+      "source": "Finder.com.au guide", "source_url": "https://www.finder.com.au/frequent-flyer/qantas-frequent-flyer/how-to-buy-qantas-frequent-flyer-points", "source_date": "2025-12-23"
+    },
+    "velocity": {
+      "name": "Virgin Australia Velocity",
+      "url": "https://www.velocityfrequentflyer.com/the-basics/buying-points",
+      "price_per_1000": 36, "currency": "AUD", "price_kind": "guide", "annual_cap": 250000,
+      "note": "The price falls as you buy more: A$36 for 1,000 points and about A$23.40 per 1,000 at 50,000. The higher price is used so the estimate is not too low.",
+      "source": "Finder.com.au guide quoting Velocity's table", "source_url": "https://www.finder.com.au/frequent-flyer/velocity/how-to-buy-velocity-points", "source_date": "2026-10-23"
+    },
+    "lifemiles": {
+      "name": "Avianca LifeMiles",
+      "url": "https://www.lifemiles.com/buy",
+      "price_per_1000": 33, "currency": "USD", "price_kind": "guide", "annual_cap": null,
+      "note": "About US$0.033 a mile outside promotions. Guides disagree on the yearly cap (150,000 to over 500,000), so check yours.",
+      "source": "Executive Traveller guide", "source_url": "https://www.executivetraveller.com/avianca-lifemiles-unlocks-low-cost-business-first-class-star-alliance-flights", "source_date": "2026-10-23"
+    },
+    "saudia-alfursan": {
+      "name": "Saudia Alfursan",
+      "url": "https://www.saudia.com/",
+      "price_per_1000": 30, "currency": "USD", "price_kind": "guide", "annual_cap": 200000,
+      "note": "SAR 112.5 (about US$30) per 1,000 miles before any bonus. Look for Buy miles when signed in.",
+      "source": "One Mile at a Time, September 2026 promotion", "source_url": "https://onemileatatime.com/deals/buy-saudia-alfursan-miles/", "source_date": "2026-09-15"
+    },
+    "cathay-asiamiles": {
+      "name": "Cathay Asia Miles",
+      "url": "https://www.asiamiles.com/",
+      "price_per_1000": 30, "currency": "USD", "price_kind": "guide", "annual_cap": null,
+      "note": "About US$60 per 2,000 miles. Cathay sells miles only at the checkout of a reward booking, in blocks of 2,000, and you need at least 70% of the miles already.",
+      "source": "Point Hacks guide", "source_url": "https://www.pointhacks.com.au/buying-asia-miles/", "source_date": "2026-10-23"
+    },
+    "infinity-mileagelands": {
+      "name": "EVA Air Infinity MileageLands",
+      "url": "https://www.evaair.com/",
+      "price_per_1000": null, "currency": null, "price_kind": null, "annual_cap": 150000,
+      "note": "EVA sells miles in blocks of 1,000, up to 150,000 a year, and bought miles can cover at most half of a redemption. No standard price found.",
+      "source": "AwardWallet", "source_url": "https://awardwallet.com/news/airlines/buy-eva-infinity-mileagelands-miles/", "source_date": "2026-10-23"
+    },
+    "miles-and-more": {
+      "name": "Lufthansa Miles & More",
+      "url": "https://www.miles-and-more.com/row/en/earn/buy-miles.html",
+      "price_per_1000": null, "currency": null, "price_kind": null, "annual_cap": 250000,
+      "note": "Sold in bundles in euros (for example 15,000 miles for €250 in a 2025 deal, which included a bonus), so there is no per-mile price to quote. Open the page to see today's bundles.",
+      "source": "InsideFlyer, August 2026", "source_url": "https://www.insideflyer.com/posts/lufthansa-offers-50-bonus-on-mile-purchases/", "source_date": "2026-08-01"
     },
     "jal-mileage-bank": {
       "name": "JAL Mileage Bank",
       "url": null,
-      "price_per_1000": null, "currency": null, "annual_cap": null,
+      "price_per_1000": null, "currency": null, "price_kind": null, "annual_cap": null,
       "note": "JAL does not sell miles to members.",
       "source": "JAL FAQ", "source_url": "https://www.jal.co.jp/jp/en/jmb/faq/", "source_date": "2026-10-23"
     }

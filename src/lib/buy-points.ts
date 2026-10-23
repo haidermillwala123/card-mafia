@@ -6,6 +6,8 @@ export type BuyEntry = {
   url: string | null; // the programme's own page for buying points (null when it does not sell points)
   price_per_1000: number | null; // null when the programme only shows a price after login or only runs promotions
   currency: string | null;
+  price_inr_per_1000?: number | null; // a price already in rupees (for example a programme that sells to India accounts in INR)
+  price_kind?: 'listed' | 'guide' | null; // listed: read from the programme's page; guide: from a published guide or a related programme, shown as a rough guide only
   annual_cap: number | null; // most a member can buy in a year, when the programme says
   note: string | null;
   source: string; // who published the price
@@ -19,7 +21,8 @@ export type BuyInfo = {
   sells: boolean; // false when the programme does not sell points at all
   pricePer1000: number | null;
   currency: string | null;
-  inrPer1000: number | null; // the same price in rupees at today's rate, when the rate is known
+  priceKind: 'listed' | 'guide' | null;
+  inrPer1000: number | null; // the same price in rupees (converted at today's rate, or listed in rupees), when known
   annualCap: number | null;
   note: string | null;
   source: string | null;
@@ -35,8 +38,11 @@ export function pointsShort(o: { need: number; held: number | null; cardShortBy:
 }
 
 // Cost to buy `points` at the listed price, rounded up to whole thousands because programmes sell in blocks. Null when no price is listed.
-export function buyCost(info: BuyInfo, points: number): { native: number; inr: number | null } | null {
-  if (points <= 0 || info.pricePer1000 === null) return null;
+export function buyCost(info: BuyInfo, points: number): { native: number | null; inr: number | null } | null {
+  if (points <= 0 || (info.pricePer1000 === null && info.inrPer1000 === null)) return null;
   const blocks = Math.ceil(points / 1000);
-  return { native: Math.round(blocks * info.pricePer1000 * 100) / 100, inr: info.inrPer1000 !== null ? Math.round(blocks * info.inrPer1000) : null };
+  return {
+    native: info.pricePer1000 !== null ? Math.round(blocks * info.pricePer1000 * 100) / 100 : null,
+    inr: info.inrPer1000 !== null ? Math.round(blocks * info.inrPer1000) : null,
+  };
 }
