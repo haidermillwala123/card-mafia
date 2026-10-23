@@ -10,8 +10,8 @@ import SpendSliders, { SPEND_CATS } from '@/components/SpendSliders';
 import { bankName, CARDS, cardName } from '@/lib/app/catalog';
 import { useWallet } from '@/lib/app/wallet';
 import { CAT_LABEL, type Cat, type Spend } from '@/lib/earn';
-import { feeTier } from '@/lib/fees';
 import { type Pick, recommend } from '@/lib/recommend';
+import PickTile, { MiniTile } from './PickTile';
 
 type Props = {
   cards: CalcEntry[];
@@ -183,26 +183,13 @@ export default function RecommendClient({ cards, fees, programmes, miles }: Prop
             <div className="cx-empty"><strong>No card fits yet</strong><span>{result.picks.length === 0 && result.baseline > 0 ? 'Your cards already cover this. Nothing new would add more.' : 'Loosen the fee limit, pick another airline, or add some spend.'}</span></div>
           ) : (
             <>
-              <article className="cx-card">
-                <span className="cx-badge">Best for you now</span>
-                <h3>{top.card.name}<small>{bank(top)}</small></h3>
-                <div className="cx-num">
-                  <b>+{inr(Math.round(top.gain))}</b>
-                  <span>{targets.length === 1 ? `${progName(targets[0])} miles` : 'airline miles'} a month</span>
-                </div>
-                <div className="cx-tags">
-                  <span className="cx-tag">{feeTier(fees[top.card.card_id]).label}</span>
-                  {top.programme && <span className="cx-tag">Best with {progName(top.programme)}</span>}
-                </div>
-                <ul className="cx-reasons">{reasons(top).map(r => <li key={r}>{r}</li>)}</ul>
-                <div className="cx-links"><Link href={`/earn#${top.card.card_id}`}>How it earns</Link><Link href={`/transfers/${top.card.card_id}`}>Where points go</Link></div>
-              </article>
+              <PickTile pick={top} bank={bank(top)} fee={fees[top.card.card_id]} label="Best for you now" programmeName={progName(top.programme)} chosen={targets.length > 0} unit={targets.length === 1 ? `${progName(targets[0])} miles` : 'airline miles'} />
+              <ul className="cx-reasons cx-why">{reasons(top).slice(0, 2).map(r => <li key={r}>{r}</li>)}</ul>
 
               {companion && (
                 <div className="cx-side">
                   <span className="cx-kicker">Pair it with</span>
-                  <h4>{companion.card.name} <small>{bank(companion)}</small></h4>
-                  <p>Adds about {inr(Math.round(companion.gain))} more miles a month, mostly on {winsText(companion, 2)}, where {top.card.name} is weaker.{companion.costPer1k ? ` Fee works out to about ₹${inr(Math.round(companion.costPer1k))} per 1,000 miles.` : ''}</p>
+                  <PickTile pick={companion} bank={bank(companion)} fee={fees[companion.card.card_id]} label="Covers the gaps" programmeName={progName(companion.programme)} chosen={targets.length > 0} unit="airline miles" extra={`Mostly on ${winsText(companion, 2)}, where ${top.card.name} is weaker.${companion.costPer1k ? ` Fee works out to about ₹${inr(Math.round(companion.costPer1k))} per 1,000 miles.` : ''}`} />
                 </div>
               )}
 
@@ -225,16 +212,9 @@ export default function RecommendClient({ cards, fees, programmes, miles }: Prop
               )}
 
               {alsoGood.length > 0 && (
-                <div className="cx-next">
-                  <h4>Also worth a look</h4>
-                  <ol>
-                    {alsoGood.map(p => (
-                      <li key={p.card.card_id}>
-                        <div><b>{p.card.name}</b><small>{bank(p)} · {feeTier(fees[p.card.card_id]).label}</small></div>
-                        <span>+{inr(Math.round(p.gain))}<small>miles a month</small></span>
-                      </li>
-                    ))}
-                  </ol>
+                <div className="bm-list">
+                  <h4 className="bm-h">Also worth a look</h4>
+                  {alsoGood.map(p => <MiniTile key={p.card.card_id} pick={p} bank={bank(p)} fee={fees[p.card.card_id]} />)}
                 </div>
               )}
               <p className="cx-fine">Miles are measured in comparable long-haul programmes unless you pick airlines. Every figure is derived from each card’s own rates, caps and transfer ratios.</p>

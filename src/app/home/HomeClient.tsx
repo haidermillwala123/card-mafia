@@ -55,12 +55,23 @@ export default function HomeClient() {
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setHour(new Date().getHours()); }, []);
   const greeting = hour === null ? 'Hello' : hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+  const [slide, setSlide] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [still, setStill] = useState(false); // reduced motion: the photos do not move on their own
   const [text, setText] = useState('');
   const [trip, setTrip] = useState<Parsed | null>(null);
   const [q, setQ] = useState<Question | null>(null);
 
   const [trips, setTrips] = useState<TripRow[] | null>(null);
   const [strip, setStrip] = useState<Strip | null>(null);
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { setStill(window.matchMedia('(prefers-reduced-motion: reduce)').matches); }, []);
+  useEffect(() => {
+    if (paused || still) return;
+    const t = setInterval(() => setSlide(i => (i + 1) % HERO.length), 4500);
+    return () => clearInterval(t);
+  }, [paused, still]);
 
   const userId = w.user?.id ?? null;
   useEffect(() => {
@@ -135,12 +146,14 @@ export default function HomeClient() {
     <div className="a-pg">
       <Tour />
       <section className="hm-stage" aria-label="Plan a trip">
-       <div className="hm-sticky">
+       <div className="hm-sticky" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocus={() => setPaused(true)} onBlur={() => setPaused(false)}>
         <div className="hm-frame" aria-hidden="true">
-          {HERO.map((c, i) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img key={c.id} className={`hm-ph hm-ph-${i}`} src={`/cities/${c.photo}.webp`} alt="" decoding="async" loading={i === 0 ? 'eager' : 'lazy'} fetchPriority={i === 0 ? 'high' : 'auto'} />
-          ))}
+          <div className="hm-track" style={{ transform: `translateX(-${slide * 100}%)` }}>
+            {HERO.map((c, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img key={c.id} className="hm-ph" src={`/cities/${c.photo}.webp`} alt="" decoding="async" loading={i === 0 ? 'eager' : 'lazy'} fetchPriority={i === 0 ? 'high' : 'auto'} />
+            ))}
+          </div>
           <i className="hm-shade" />
         </div>
         <div className="hm-hero">
@@ -171,15 +184,17 @@ export default function HomeClient() {
         </nav>
         </div>
         <div className="hm-caps">
-          {HERO.map((c, i) => (
-            <Link key={c.id} className={`hm-cap hm-cap-${i}`} href={flightsTo(c)} tabIndex={i === 0 ? 0 : -1}>
-              <b>{c.name}</b><span>{c.country}</span><em>See seats</em>
-            </Link>
-          ))}
+          <Link key={HERO[slide].id} className="hm-cap" href={flightsTo(HERO[slide])}>
+            <b>{HERO[slide].name}</b><span>{HERO[slide].country}</span><em>See seats</em>
+          </Link>
         </div>
-        <ol className="hm-dots" aria-hidden="true">
-          {HERO.map((c, i) => <li key={c.id} className={`hm-dot hm-dot-${i}`} />)}
-        </ol>
+        <div className="hm-ctl">
+          <button type="button" className="hm-arrow" aria-label="Previous place" onClick={() => setSlide(i => (i + HERO.length - 1) % HERO.length)}>←</button>
+          <ol className="hm-dots">
+            {HERO.map((c, i) => <li key={c.id}><button type="button" className="hm-dotb" aria-label={`Show ${c.name}`} aria-current={i === slide} onClick={() => setSlide(i)}><i /></button></li>)}
+          </ol>
+          <button type="button" className="hm-arrow" aria-label="Next place" onClick={() => setSlide(i => (i + 1) % HERO.length)}>→</button>
+        </div>
         <button type="button" className="hm-more" onClick={() => document.getElementById('hm-below')?.scrollIntoView({ behavior: 'smooth' })}>
           Your points and trips<i aria-hidden="true">↓</i>
         </button>

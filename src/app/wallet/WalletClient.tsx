@@ -9,6 +9,8 @@ import { BANKS, CARDS, PROGRAMME_OF_CARD, bankName, cardName, programmeName } fr
 import { fmt } from '@/lib/app/format';
 import { useWallet } from '@/lib/app/wallet';
 import type { Profile } from '@/lib/profile';
+import BigRedemption from './BigRedemption';
+import CardSlideshow from './CardSlideshow';
 import Loyalty from './Loyalty';
 import WalletTransfers from './WalletTransfers';
 import { bankGradient } from '@/lib/bank-style';
@@ -31,7 +33,7 @@ function groupsOf(cardIds: string[]): Group[] {
 }
 
 export default function WalletClient() {
-  const { ready, user, profile, update, save } = useWallet();
+  const { ready, user, profile, holdings, update, save } = useWallet();
   const [bank, setBank] = useState('');
   const [cardId, setCardId] = useState('');
   const [raw, setRaw] = useState<Record<string, string>>({}); // text being typed, per programme
@@ -104,6 +106,8 @@ export default function WalletClient() {
       <h1 className="a-hd">The cards you<br /><em>already hold.</em></h1>
       <p className="a-lead">Add a card and its balance. We never ask for logins.</p>
 
+      {groups.length > 0 && <BigRedemption holdings={holdings} home={profile.airport || 'BOM'} total={total} />}
+
       <div className="a-gl">
         <div className="a-r a-rw"><span className="a-cap a-g">Add a card</span><Link className="cm-btn cm-btn--ghost cm-btn--sm" href="/wallet/import">Import balances from Gmail</Link></div>
         <div className="a-wallet-picker">
@@ -124,7 +128,7 @@ export default function WalletClient() {
       </div>
 
       {groups.length > 0 && (
-        <div className="wc-row" aria-label="Your cards">
+        <CardSlideshow label="Your cards">
           {groups.map(g => {
             const c = CARDS.find(x => x.id === g.cardIds[0]);
             return (
@@ -138,7 +142,7 @@ export default function WalletClient() {
               </div>
             );
           })}
-        </div>
+        </CardSlideshow>
       )}
 
       {groups.length === 0 ? (

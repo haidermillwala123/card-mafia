@@ -1,0 +1,45 @@
+/* Best card for you: each pick is a card with its facts beside it. Names are bc- (the big card) and bm- (the small one). */
+.bc{display:flex;flex-direction:column;gap:14px}
+.bc-face{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;gap:18px;aspect-ratio:1.7/1;min-height:210px;padding:22px 24px;border-radius:24px;color:#fff;box-shadow:0 24px 50px -22px rgba(0,0,0,.55)}
+.bc-face::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.1)}
+.bc-face>*{position:relative;z-index:1}
+.bc-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.bc-badge{padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.2);font:600 13px var(--font-body)}
+.bc-chip{width:38px;height:28px;border-radius:7px;background:linear-gradient(135deg,#e8c97a,#b8913f)}
+.bc-name small{display:block;font:500 13px var(--font-body);opacity:.8}
+.bc-name h3{margin:2px 0 0;font:700 24px/1.1 var(--font-display);letter-spacing:-.02em;color:#fff}
+.bc-gain{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.bc-gain b{font:700 clamp(40px,5vw,56px)/1 var(--font-display);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.bc-gain span{font:500 14px var(--font-body);opacity:.85}
+.bc-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0}
+.bc-facts>div{display:flex;flex-direction:column;gap:6px;padding:14px;border-radius:18px;border:1px solid var(--border);background:var(--surface)}
+.bc-facts dt{font:600 12px var(--font-body);color:var(--text-muted)}
+.bc-facts dd{margin:0;display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.bc-facts dd b{font:700 22px/1 var(--font-display);letter-spacing:-.02em;color:var(--text);font-variant-numeric:tabular-nums}
+.bc-mu{font:500 13px var(--font-body);color:var(--text-muted)}
+.bc-pill{padding:4px 10px;border-radius:999px;background:var(--primary-tint,rgba(127,196,204,.14));color:var(--text);font:600 12px var(--font-body)}
+.bc-extra{margin:0;color:var(--text-muted);font-size:14px}
+.bc-links{display:flex;gap:18px;font-size:14px}
+.bc-links a{color:var(--accent-strong);text-decoration:underline;text-underline-offset:3px}
+.bm-list{display:flex;flex-direction:column;gap:8px}
+.bm{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 14px;border-radius:18px;border:1px solid var(--border);background:var(--surface);color:var(--text);text-decoration:none;transition:border-color .15s,transform .15s}
+.bm:hover{border-color:var(--border-strong);transform:translateY(-2px)}
+.bm-face{position:relative;width:56px;height:38px;border-radius:8px}
+.bm-face i{position:absolute;left:7px;top:8px;width:12px;height:9px;border-radius:2px;background:#e8c97a}
+.bm-t b{display:block;font:600 15px var(--font-body)}
+.bm-t small,.bm-g small{display:block;color:var(--text-muted);font:500 12px var(--font-body)}
+.bm-g{text-align:right}
+.bm-g b{font:700 18px var(--font-display);font-variant-numeric:tabular-nums}
+.bm-h{margin:6px 0 0;font:600 14px var(--font-body);color:var(--text-muted)}
+@media (max-width:620px){.bc-facts{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.bm{transition:none}}
+/* On a phone the result is a bar above the tab bar (calc.css), so only the card face stays in it. */
+@media (max-width:980px){
+  .cx-out .bc-facts,.cx-out .bc-links,.cx-out .bc-extra,.cx-out .bm-list{display:none}
+  .cx-out .bc-face{aspect-ratio:auto;min-height:0;flex-direction:row;align-items:center;gap:12px;padding:14px 18px;border-radius:22px}
+  .cx-out .bc-chip,.cx-out .bc-badge,.cx-out .bc-face::after{display:none}
+  .cx-out .bc-name h3{font-size:16px}
+  .cx-out .bc-gain{flex-direction:column;align-items:flex-end;gap:0}
+  .cx-out .bc-gain b{font-size:26px}
+  .cx-out .bc-gain span{font-size:11px}
+}

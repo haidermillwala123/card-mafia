@@ -65,14 +65,13 @@
 .hm-signin{font:500 14px var(--font-body);color:var(--text-muted);text-decoration:underline;text-underline-offset:3px;min-height:44px;display:inline-flex;align-items:center}
 .hm-signin:hover{color:var(--accent-strong)}
 
-/* ---- Home hero stage: a destination photo that opens up as you scroll ----
-   Pure CSS scroll-driven animation. Where the browser lacks it, or motion is reduced, the stage is one static framed photo.
-   The timing in force is the block near the end of this file (four places). The per-place rules in this section are the older eight-place version. */
+/* ---- Home hero: a slideshow. The destination photos glide sideways on a timer; arrows and dots move it by hand, hover or focus pauses it.
+   No scroll animation: the hero is one fixed-height panel and the page scrolls normally under it. ---- */
 .hm-stage{position:relative;--text:#F4F1EB;--text-muted:rgba(244,241,235,.82);--surface:rgba(22,20,18,.62);--border:rgba(255,255,255,.2);--border-strong:rgba(255,255,255,.55);--primary:#E6E9ED;--primary-hover:#fff;--on-primary:#181614;--primary-tint:rgba(255,255,255,.16)}
-.hm-sticky{position:relative;display:grid;place-items:center;min-height:620px;overflow:hidden;border-radius:28px;margin:12px 16px 0;isolation:isolate}
+.hm-sticky{position:relative;display:grid;place-items:center;min-height:min(680px,calc(100svh - 80px));overflow:hidden;border-radius:28px;margin:12px 16px 0;isolation:isolate}
 .hm-frame{position:absolute;inset:0;z-index:-1;overflow:hidden;background:#0f0e0d}
-.hm-ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
-.hm-ph-0{opacity:1}
+.hm-track{display:flex;height:100%;transition:transform .9s cubic-bezier(.22,.8,.2,1)}
+.hm-ph{flex:0 0 100%;width:100%;height:100%;object-fit:cover}
 .hm-shade{position:absolute;inset:0;background:radial-gradient(120% 70% at 50% 55%,rgba(10,9,8,.55) 0%,rgba(10,9,8,0) 70%),linear-gradient(180deg,rgba(10,9,8,.6) 0%,rgba(10,9,8,.42) 45%,rgba(10,9,8,.84) 100%)}
 .hm-stage .hm-hero{position:relative;width:100%;background:none;padding:72px 24px 120px}
 .hm-stage .hm-hero h1{font:700 clamp(36px,6vw,64px)/1.04 var(--font-display);letter-spacing:-.035em;max-width:16ch;text-shadow:0 2px 24px rgba(0,0,0,.35)}
@@ -87,75 +86,16 @@
 .hm-cap span{color:rgba(244,241,235,.75)}
 .hm-cap em{font-style:normal;font-weight:600;text-decoration:underline;text-underline-offset:3px}
 .hm-cap:hover{background:rgba(14,13,12,.8)}
-.hm-cap:not(.hm-cap-0){display:none}
-.hm-dots{display:none;list-style:none;margin:0;padding:0}
-@media (max-width:760px){.hm-sticky{margin:8px 8px 0;border-radius:22px;min-height:600px}.hm-stage .hm-hero{padding:48px 16px 150px}.hm-caps{bottom:92px}.hm-cap span{display:none}}
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .hm-stage{--p0:18.519%;--span:62.963%;height:440vh;view-timeline:--stage block}
-    .hm-sticky{position:sticky;top:0;height:100svh;min-height:560px;margin:0;border-radius:0;animation:hm-open linear both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.0000) cover calc(var(--p0) + var(--span) * 0.0900)}
-    .hm-stage .hm-hero{padding-top:96px}
-    .hm-cap:not(.hm-cap-0){display:flex}
-    .hm-dots{position:absolute;right:22px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;align-items:center;z-index:2}
-    .hm-dot{width:4px;height:12px;border-radius:2px;background:rgba(255,255,255,.55);opacity:.5;transform-origin:center}
-    .hm-ph-0{opacity:1;animation-name:hm-out,hm-drift;animation-timing-function:linear;animation-fill-mode:forwards,both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.0850) cover calc(var(--p0) + var(--span) * 0.1650),cover calc(var(--p0) + var(--span) * 0.0000) cover calc(var(--p0) + var(--span) * 1.0000)}
-    .hm-cap-0{animation-name:hm-cap-out;animation-timing-function:linear;animation-fill-mode:forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.0250) cover calc(var(--p0) + var(--span) * 0.1050)}
-    .hm-dot-0{opacity:1;transform:scaleY(2.4);background:#fff;animation-name:hm-dot-off;animation-timing-function:linear;animation-fill-mode:forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.0850) cover calc(var(--p0) + var(--span) * 0.1650)}
-    .hm-ph-1{opacity:0;animation-name:hm-in,hm-out,hm-drift;animation-timing-function:linear;animation-fill-mode:both,forwards,both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.0850) cover calc(var(--p0) + var(--span) * 0.1650),cover calc(var(--p0) + var(--span) * 0.2100) cover calc(var(--p0) + var(--span) * 0.2900),cover calc(var(--p0) + var(--span) * 0.0000) cover calc(var(--p0) + var(--span) * 1.0000)}
-    .hm-cap-1{opacity:0;pointer-events:none;animation-name:hm-cap-in,hm-cap-out;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.1250) cover calc(var(--p0) + var(--span) * 0.2050),cover calc(var(--p0) + var(--span) * 0.1500) cover calc(var(--p0) + var(--span) * 0.2300)}
-    .hm-dot-1{animation-name:hm-dot-on,hm-dot-off;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.0850) cover calc(var(--p0) + var(--span) * 0.1650),cover calc(var(--p0) + var(--span) * 0.2100) cover calc(var(--p0) + var(--span) * 0.2900)}
-    .hm-ph-2{opacity:0;animation-name:hm-in,hm-out,hm-drift;animation-timing-function:linear;animation-fill-mode:both,forwards,both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.2100) cover calc(var(--p0) + var(--span) * 0.2900),cover calc(var(--p0) + var(--span) * 0.3350) cover calc(var(--p0) + var(--span) * 0.4150),cover calc(var(--p0) + var(--span) * 0.0000) cover calc(var(--p0) + var(--span) * 1.0000)}
-    .hm-cap-2{opacity:0;pointer-events:none;animation-name:hm-cap-in,hm-cap-out;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.2500) cover calc(var(--p0) + var(--span) * 0.3300),cover calc(var(--p0) + var(--span) * 0.2750) cover calc(var(--p0) + var(--span) * 0.3550)}
-    .hm-dot-2{animation-name:hm-dot-on,hm-dot-off;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.2100) cover calc(var(--p0) + var(--span) * 0.2900),cover calc(var(--p0) + var(--span) * 0.3350) cover calc(var(--p0) + var(--span) * 0.4150)}
-    .hm-ph-3{opacity:0;animation-name:hm-in,hm-out,hm-drift;animation-timing-function:linear;animation-fill-mode:both,forwards,both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.3350) cover calc(var(--p0) + var(--span) * 0.4150),cover calc(var(--p0) + var(--span) * 0.4600) cover calc(var(--p0) + var(--span) * 0.5400),cover calc(var(--p0) + var(--span) * 0.0000) cover calc(var(--p0) + var(--span) * 1.0000)}
-    .hm-cap-3{opacity:0;pointer-events:none;animation-name:hm-cap-in,hm-cap-out;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.3750) cover calc(var(--p0) + var(--span) * 0.4550),cover calc(var(--p0) + var(--span) * 0.4000) cover calc(var(--p0) + var(--span) * 0.4800)}
-    .hm-dot-3{animation-name:hm-dot-on,hm-dot-off;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.3350) cover calc(var(--p0) + var(--span) * 0.4150),cover calc(var(--p0) + var(--span) * 0.4600) cover calc(var(--p0) + var(--span) * 0.5400)}
-    .hm-ph-4{opacity:0;animation-name:hm-in,hm-out,hm-drift;animation-timing-function:linear;animation-fill-mode:both,forwards,both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.4600) cover calc(var(--p0) + var(--span) * 0.5400),cover calc(var(--p0) + var(--span) * 0.5850) cover calc(var(--p0) + var(--span) * 0.6650),cover calc(var(--p0) + var(--span) * 0.0000) cover calc(var(--p0) + var(--span) * 1.0000)}
-    .hm-cap-4{opacity:0;pointer-events:none;animation-name:hm-cap-in,hm-cap-out;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.5000) cover calc(var(--p0) + var(--span) * 0.5800),cover calc(var(--p0) + var(--span) * 0.5250) cover calc(var(--p0) + var(--span) * 0.6050)}
-    .hm-dot-4{animation-name:hm-dot-on,hm-dot-off;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.4600) cover calc(var(--p0) + var(--span) * 0.5400),cover calc(var(--p0) + var(--span) * 0.5850) cover calc(var(--p0) + var(--span) * 0.6650)}
-    .hm-ph-5{opacity:0;animation-name:hm-in,hm-out,hm-drift;animation-timing-function:linear;animation-fill-mode:both,forwards,both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.5850) cover calc(var(--p0) + var(--span) * 0.6650),cover calc(var(--p0) + var(--span) * 0.7100) cover calc(var(--p0) + var(--span) * 0.7900),cover calc(var(--p0) + var(--span) * 0.0000) cover calc(var(--p0) + var(--span) * 1.0000)}
-    .hm-cap-5{opacity:0;pointer-events:none;animation-name:hm-cap-in,hm-cap-out;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.6250) cover calc(var(--p0) + var(--span) * 0.7050),cover calc(var(--p0) + var(--span) * 0.6500) cover calc(var(--p0) + var(--span) * 0.7300)}
-    .hm-dot-5{animation-name:hm-dot-on,hm-dot-off;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.5850) cover calc(var(--p0) + var(--span) * 0.6650),cover calc(var(--p0) + var(--span) * 0.7100) cover calc(var(--p0) + var(--span) * 0.7900)}
-    .hm-ph-6{opacity:0;animation-name:hm-in,hm-out,hm-drift;animation-timing-function:linear;animation-fill-mode:both,forwards,both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.7100) cover calc(var(--p0) + var(--span) * 0.7900),cover calc(var(--p0) + var(--span) * 0.8350) cover calc(var(--p0) + var(--span) * 0.9150),cover calc(var(--p0) + var(--span) * 0.0000) cover calc(var(--p0) + var(--span) * 1.0000)}
-    .hm-cap-6{opacity:0;pointer-events:none;animation-name:hm-cap-in,hm-cap-out;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.7500) cover calc(var(--p0) + var(--span) * 0.8300),cover calc(var(--p0) + var(--span) * 0.7750) cover calc(var(--p0) + var(--span) * 0.8550)}
-    .hm-dot-6{animation-name:hm-dot-on,hm-dot-off;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.7100) cover calc(var(--p0) + var(--span) * 0.7900),cover calc(var(--p0) + var(--span) * 0.8350) cover calc(var(--p0) + var(--span) * 0.9150)}
-    .hm-ph-7{opacity:0;animation-name:hm-in,hm-drift;animation-timing-function:linear;animation-fill-mode:both,both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.8350) cover calc(var(--p0) + var(--span) * 0.9150),cover calc(var(--p0) + var(--span) * 0.0000) cover calc(var(--p0) + var(--span) * 1.0000)}
-    .hm-cap-7{opacity:0;pointer-events:none;animation-name:hm-cap-in;animation-timing-function:linear;animation-fill-mode:both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.8750) cover calc(var(--p0) + var(--span) * 0.9550)}
-    .hm-dot-7{animation-name:hm-dot-on;animation-timing-function:linear;animation-fill-mode:both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.8350) cover calc(var(--p0) + var(--span) * 0.9150)}
-  }
-}
-@keyframes hm-open{from{clip-path:inset(12px 16px 12px 16px round 28px)}to{clip-path:inset(0 0 0 0 round 0)}}
-@keyframes hm-drift{from{transform:scale(1.16) translateY(2%)}to{transform:scale(1.02) translateY(-2%)}}
-@keyframes hm-in{from{opacity:0}to{opacity:1}}
-@keyframes hm-out{from{opacity:1}to{opacity:0}}
-@keyframes hm-cap-in{from{opacity:0;pointer-events:none;transform:translateY(8px)}to{opacity:1;pointer-events:auto;transform:none}}
-@keyframes hm-cap-out{from{opacity:1;pointer-events:auto;transform:none}to{opacity:0;pointer-events:none;transform:translateY(-8px)}}
-@keyframes hm-dot-on{from{opacity:.5;transform:scaleY(1);background:rgba(255,255,255,.55)}to{opacity:1;transform:scaleY(2.4);background:#fff}}
-@keyframes hm-dot-off{from{opacity:1;transform:scaleY(2.4);background:#fff}to{opacity:.5;transform:scaleY(1);background:rgba(255,255,255,.55)}}
-
-/* ---- Four places, not eight: the pinned scroll is 260vh, so about 160vh of scrolling instead of 340vh. ----
-   These rules come last and replace the per-place timing above for places 0 to 3 (the rules for 4 to 7 no longer match anything).
-   Photos swap at the quarter marks of the pinned stretch. Change N and H together if the number of places changes. */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .hm-stage{--p0:27.778%;--span:44.444%;height:260vh;view-timeline:--stage}
-    /* the hero fits the space under the 65px header exactly, so its bottom edge (captions and the "more below" cue) is on screen at first load */
-    .hm-sticky{top:65px;height:calc(100svh - 65px)}
-    .hm-ph-0{opacity:1;animation-name:hm-out,hm-drift;animation-timing-function:linear;animation-fill-mode:forwards,both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.2000) cover calc(var(--p0) + var(--span) * 0.3000),cover calc(var(--p0) + var(--span) * 0.0000) cover calc(var(--p0) + var(--span) * 1.0000)}
-    .hm-ph-1{opacity:0;animation-name:hm-in,hm-out,hm-drift;animation-timing-function:linear;animation-fill-mode:both,forwards,both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.2000) cover calc(var(--p0) + var(--span) * 0.3000),cover calc(var(--p0) + var(--span) * 0.4500) cover calc(var(--p0) + var(--span) * 0.5500),cover calc(var(--p0) + var(--span) * 0.0000) cover calc(var(--p0) + var(--span) * 1.0000)}
-    .hm-ph-2{opacity:0;animation-name:hm-in,hm-out,hm-drift;animation-timing-function:linear;animation-fill-mode:both,forwards,both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.4500) cover calc(var(--p0) + var(--span) * 0.5500),cover calc(var(--p0) + var(--span) * 0.7000) cover calc(var(--p0) + var(--span) * 0.8000),cover calc(var(--p0) + var(--span) * 0.0000) cover calc(var(--p0) + var(--span) * 1.0000)}
-    .hm-ph-3{opacity:0;animation-name:hm-in,hm-drift;animation-timing-function:linear;animation-fill-mode:both,both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.7000) cover calc(var(--p0) + var(--span) * 0.8000),cover calc(var(--p0) + var(--span) * 0.0000) cover calc(var(--p0) + var(--span) * 1.0000)}
-    .hm-cap-0{animation-name:hm-cap-out;animation-timing-function:linear;animation-fill-mode:forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.1500) cover calc(var(--p0) + var(--span) * 0.2300)}
-    .hm-cap-1{opacity:0;pointer-events:none;animation-name:hm-cap-in,hm-cap-out;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.2500) cover calc(var(--p0) + var(--span) * 0.3300),cover calc(var(--p0) + var(--span) * 0.4000) cover calc(var(--p0) + var(--span) * 0.4800)}
-    .hm-cap-2{opacity:0;pointer-events:none;animation-name:hm-cap-in,hm-cap-out;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.5000) cover calc(var(--p0) + var(--span) * 0.5800),cover calc(var(--p0) + var(--span) * 0.6500) cover calc(var(--p0) + var(--span) * 0.7300)}
-    .hm-cap-3{opacity:0;pointer-events:none;animation-name:hm-cap-in;animation-timing-function:linear;animation-fill-mode:both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.7500) cover calc(var(--p0) + var(--span) * 0.8300)}
-    .hm-dot-0{opacity:1;transform:scaleY(2.4);background:#fff;animation-name:hm-dot-off;animation-timing-function:linear;animation-fill-mode:forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.2000) cover calc(var(--p0) + var(--span) * 0.3000)}
-    .hm-dot-1{animation-name:hm-dot-on,hm-dot-off;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.2000) cover calc(var(--p0) + var(--span) * 0.3000),cover calc(var(--p0) + var(--span) * 0.4500) cover calc(var(--p0) + var(--span) * 0.5500)}
-    .hm-dot-2{animation-name:hm-dot-on,hm-dot-off;animation-timing-function:linear;animation-fill-mode:both,forwards;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.4500) cover calc(var(--p0) + var(--span) * 0.5500),cover calc(var(--p0) + var(--span) * 0.7000) cover calc(var(--p0) + var(--span) * 0.8000)}
-    .hm-dot-3{animation-name:hm-dot-on;animation-timing-function:linear;animation-fill-mode:both;animation-timeline:--stage;animation-range:cover calc(var(--p0) + var(--span) * 0.7000) cover calc(var(--p0) + var(--span) * 0.8000)}
-  }
-}
+.hm-ctl{position:absolute;right:22px;bottom:22px;z-index:2;display:flex;align-items:center;gap:10px}
+.hm-arrow{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(14,13,12,.62);backdrop-filter:blur(10px);color:#F4F1EB;font:600 18px var(--font-body);cursor:pointer;display:grid;place-items:center}
+.hm-arrow:hover{background:rgba(14,13,12,.82)}
+.hm-arrow:focus-visible,.hm-dotb:focus-visible{outline:2px solid var(--focus-ring,#7FC4CC);outline-offset:3px}
+.hm-dots{display:flex;gap:6px;margin:0;padding:0;list-style:none}
+.hm-dotb{width:44px;height:44px;border:0;background:transparent;cursor:pointer;display:grid;place-items:center;padding:0}
+.hm-dotb i{display:block;width:18px;height:4px;border-radius:2px;background:rgba(255,255,255,.5);transition:width .3s,background .3s}
+.hm-dotb[aria-current=true] i{width:34px;background:#fff}
+@media (prefers-reduced-motion:reduce){.hm-track{transition:none}.hm-dotb i{transition:none}}
+@media (max-width:760px){.hm-sticky{margin:8px 8px 0;border-radius:22px;min-height:600px}.hm-stage .hm-hero{padding:48px 16px 150px}.hm-caps{bottom:92px}.hm-cap span{display:none}.hm-ctl{left:0;right:0;justify-content:center;bottom:22px}}
 
 /* "More below" cue, bottom left of the hero. It bobs gently; with reduced motion it just sits there. */
 .hm-more{position:absolute;left:22px;bottom:22px;z-index:2;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(14,13,12,.62);backdrop-filter:blur(10px);color:#F4F1EB;font:600 14px var(--font-body);cursor:pointer}

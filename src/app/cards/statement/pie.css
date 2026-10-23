@@ -1,0 +1,12 @@
+/* Spend donut: the chart on the left, the legend on the right; stacked on a phone. */
+.sp{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:28px;align-items:center;padding:20px 24px;border-radius:24px;border:1px solid var(--border);background:var(--surface)}
+.sp-svg{width:100%;max-width:220px;height:auto;justify-self:center}
+.sp-k{fill:var(--text-muted);font:500 11px var(--font-body)}
+.sp-v{fill:var(--text);font:700 19px var(--font-display)}
+.sp-leg{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.sp-leg li{display:grid;grid-template-columns:14px minmax(0,1fr) auto auto;gap:10px;align-items:center;min-height:36px;font:500 15px var(--font-body);border-bottom:1px solid var(--border)}
+.sp-leg li:last-child{border-bottom:0}
+.sp-leg i{width:12px;height:12px;border-radius:4px}
+.sp-leg small{color:var(--text-muted);font-variant-numeric:tabular-nums;text-align:right;min-width:36px}
+.sp-leg b{font-variant-numeric:tabular-nums;text-align:right}
+@media (max-width:620px){.sp{grid-template-columns:1fr;padding:16px}}

@@ -11,6 +11,7 @@ import { Note } from '@/components/app/ui';
 import { fmt } from '@/lib/app/format';
 import { useWallet } from '@/lib/app/wallet';
 import { CAT_LABEL, CATS, type Cat } from '@/lib/earn';
+import SpendPie from './SpendPie';
 import { feeTier } from '@/lib/fees';
 import { recommend } from '@/lib/recommend';
 import { detectCard, monthlySpend, monthsCovered, parseStatementText, type Txn } from '@/lib/statement';
@@ -245,11 +246,7 @@ export default function StatementClient({ cards, fees, programmes, miles }: Prop
                   : verdicts.counted > 0 ? 'Every line was already on the best card for it.' : null}
               </p>
             )}
-            <div className="st-bars">
-              {CATS.filter(c => (spend[c] ?? 0) > 0).sort((a, b) => (spend[b] ?? 0) - (spend[a] ?? 0)).map(c => (
-                <div key={c} className="st-bar"><span>{CAT_LABEL[c]}</span><i style={{ width: `${Math.max(3, ((spend[c] ?? 0) / (total || 1)) * 100)}%` }} /><b>₹{fmt(spend[c] ?? 0)}</b></div>
-              ))}
-            </div>
+            <SpendPie spend={spend} />
             <button type="button" className="st-link" aria-expanded={open} onClick={() => setOpen(o => !o)}>{open ? 'Hide the lines' : 'Check the lines and fix any category'}</button>
             {open && (
               <div className="st-lines" role="table" aria-label="Statement lines">

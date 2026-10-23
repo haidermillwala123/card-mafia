@@ -6,3 +6,11 @@
 .a-wallet-bal.a-wallet-bad{border-color:var(--danger)}
 .a-wallet-err{color:var(--danger);font:var(--type-body-sm)}
 @media (max-width:760px){.a-wallet-picker{grid-template-columns:minmax(0,1fr)}}
+.ws{display:flex;flex-direction:column;align-items:center;gap:14px;overflow:hidden}
+.ws-track{display:flex;width:100%;transition:transform .7s cubic-bezier(.22,.8,.24,1)}
+.ws-slide{flex:0 0 100%;display:flex;justify-content:center;padding:4px 0 16px}
+.ws-slide .wc{width:min(100%,380px)}
+.ws-dots{display:flex;gap:8px}
+.ws-dots button{width:8px;height:8px;padding:0;border:0;border-radius:999px;background:var(--border-strong);cursor:pointer;transition:width .3s,background .3s}
+.ws-dots button.on{width:24px;background:var(--text)}
+@media (prefers-reduced-motion:reduce){.ws-track,.ws-dots button{transition:none}}
