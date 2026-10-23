@@ -9,6 +9,7 @@ import { CABIN_LABEL, fmt, inr } from '@/lib/app/format';
 import { useProgrammeBalance } from '@/lib/app/loyalty';
 import { stepsFor } from '@/lib/app/steps';
 import { saveTrip } from '@/lib/app/trips';
+import { useDayPass } from '@/lib/day-pass';
 import { DataFoot, Note, SeenStamp, VerifiedStamp } from '@/components/app/ui';
 import { dateFull, ErrorBox, MissingNote, reachable, Skeleton, urlFor } from '@/components/app/booking/bits';
 import { useSeats } from '@/components/app/booking/useSeats';
@@ -21,6 +22,7 @@ type Saved ={ state: 'idle' | 'busy' | 'ok' } | { state: 'error'; error: string;
 
 export default function HandoffClient({ id, travellers: n }: { id: string; travellers: number }) {
   const s = useSeats(id ? [id] : [], n);
+  const { pass } = useDayPass();
   const [tick, setTick] = useState(0);
   const [hres, setHres] = useState<{ tick: number; r: Result<HandoffResponse> } | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
@@ -143,6 +145,16 @@ export default function HandoffClient({ id, travellers: n }: { id: string; trave
                   <span role="status" className="a-cap">{copied ?? ''}</span>
                 </div>
                 <SeenStamp iso={h.copy.seatSeenAt} prefix="Seat seen" />
+                {r && (pass.state === 'active' ? (
+                  <div className="a-r a-rw">
+                    <button type="button" className="cm-btn cm-btn--secondary cm-btn--sm a-pb" disabled={s.check(r.id).busy} onClick={() => s.recheck(r.id)}>
+                      {s.check(r.id).busy ? 'Checking…' : 'Re-check this seat'}
+                    </button>
+                    <span role="status" className="a-cap">{s.check(r.id).gone ? 'This seat is gone. Do not transfer.' : s.check(r.id).msg ?? ''}</span>
+                  </div>
+                ) : (
+                  <Link className="a-cap" href="/pricing" style={{ textDecoration: 'underline' }}>Re-check this seat before you transfer: day pass, ₹99</Link>
+                ))}
               </div>
               <div className="a-gl">
                 <span className="a-cap">{plan?.direct ? 'You can book directly' : 'Do these in order'}</span>

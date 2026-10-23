@@ -2,18 +2,20 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import JsonLd from '@/components/JsonLd';
+import DayPassCard from '@/components/DayPassCard';
 import { Check } from '@/components/Icons';
 import { PRICES } from '@/lib/prices';
 
 export const metadata: Metadata = {
-  title: 'Free and Pro: what each includes',
-  description: 'Card Mafia is free with every feature unlocked. Pro will add alerts, saved plans on every device and a pre-transfer seat re-check. Planned prices, no payment taken yet.',
+  title: 'Free, Day pass and Pro: what each includes',
+  description: 'Card Mafia is free with every feature unlocked. A ₹99 day pass gives the Pro extras for 24 hours: alerts, saved plans on every device and a pre-transfer seat re-check. Pro prices are planned, and no real payment is taken yet.',
   alternates: { canonical: '/pricing' },
 };
 
 const FAQ = [
   { q: 'Is anything in Card Mafia behind a paywall?', a: 'No. Trip plans, the safety check, the points calculator, the transfer explorer and every rule with its source are free and stay free.' },
   { q: 'What will Pro add?', a: 'Alerts when a rule on your path changes, saved plans and trip history on every device, and a seat re-check before you transfer once live availability connects. These are extras, not features taken out of Free.' },
+  { q: 'What is the day pass?', a: 'For ₹99 you get the Pro extras for 24 hours: a seat re-check right before you transfer, alerts when a rule on your path changes, and saved plans on every device. It is one time, once per account, and Free keeps everything it has now. Checkout is a demo for now, so no money moves.' },
   { q: 'Can I pay for Pro today?', a: 'Not yet. Pro has not opened, so no payment is taken. You can join the list during setup or from your account, and we email you when it opens.' },
 ];
 
@@ -24,8 +26,8 @@ export default function Pricing() {
       <Breadcrumbs trail={[{ name: 'Free and Pro', href: '/pricing' }]} />
       <JsonLd data={{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: FAQ.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }} />
       <div className="container stack" style={{ ['--stack' as string]: '28px', paddingBottom: 'var(--space-2xl)' }}>
-        <h1 className="t-h1">Free has everything. Pro adds extras.</h1>
-        <p className="t-lg muted measure">Nothing in Card Mafia is locked. Pro is planned as a way to help pay for keeping the rules current, with a few extras on top.</p>
+        <h1 className="t-h1">Free has everything. Extras by the day or year.</h1>
+        <p className="t-lg muted measure">Nothing in Card Mafia is locked. A day pass or Pro helps pay for keeping the rules current, with a few extras on top.</p>
         <div className="tiers">
           <div className="tier" aria-label="Free plan">
             <div className="top"><b className="t-title">Free</b><span className="tag tag-ok">Everything</span></div>
@@ -37,6 +39,7 @@ export default function Pricing() {
               <li><Check size={14} /> Your setup saved on this device or to your account</li>
             </ul>
           </div>
+          <DayPassCard />
           <div className="tier" aria-label="Pro plan">
             <div className="top"><b className="t-title">Pro</b><span className="tag tag-sand">Opens soon</span></div>
             <p className="t-num" style={{ marginTop: 8 }}>{inr(PRICES.yearly)}<span className="t-sm muted" style={{ fontFamily: 'var(--font-body)', fontWeight: 400 }}> / year, or {inr(PRICES.monthly)} / month</span></p>

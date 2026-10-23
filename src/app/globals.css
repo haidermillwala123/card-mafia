@@ -191,6 +191,7 @@ svg{max-width:100%;vertical-align:-3px}
 /* ---------- free and pro ---------- */
 .tiers{display:grid;gap:var(--space-md);grid-template-columns:1fr}
 @media(min-width:720px){.tiers{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.tiers{grid-template-columns:repeat(3,1fr)}}
 .tier{background:var(--color-surface);border:1.5px solid var(--color-border-strong);border-radius:var(--radius-md);padding:var(--space-lg);text-align:left}
 .tier[role="radio"]{cursor:pointer}
 .tier[aria-checked="true"]{border-color:var(--color-accent-strong);background:var(--color-primary-tint)}
