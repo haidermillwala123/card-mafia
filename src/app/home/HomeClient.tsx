@@ -15,7 +15,7 @@ import { useWallet } from '@/lib/app/wallet';
 import { cityOf, expandDest } from '@/lib/airports';
 import CardsHub from './CardsHub';
 import DestinationGallery from '@/components/DestinationGallery';
-import { type Destination, HERO } from '@/lib/destinations';
+import { DESTINATIONS, type Destination, HERO } from '@/lib/destinations';
 import Tour from '@/components/Tour';
 import './home.css';
 
@@ -34,7 +34,8 @@ const ACTIONS: [string, string, ReactNode][] = [
   ['/cards/recommend', 'Best card', <svg key="c" {...SV}><rect x="3" y="6" width="18" height="13" rx="3" /><path d="M3 10h18M7 15h3" /></svg>],
   ['/cards/statement', 'Statement', <svg key="d" {...SV}><path d="M7 3h7l4 4v14H7z" /><path d="M14 3v4h4M10 12h5M10 16h5" /></svg>],
 ];
-const EXAMPLES = ['DEL to Tokyo, business, 1 person', 'BLR to Doha, 2 people', 'BOM to Europe, first class'];
+// [hello, where to?] in turn; the headline changes language every few seconds
+const HELLO: [string, string][] = [['Hi', 'where to?'], ['नमस्ते', 'कहाँ जाना है?'], ['Hola', '¿adónde?'], ['Bonjour', 'où ça ?'], ['こんにちは', 'どこへ？'], ['Ciao', 'dove?'], ['안녕', '어디로?'], ['Hallo', 'wohin?'], ['Olá', 'para onde?'], ['Merhaba', 'nereye?']];
 const STRIP_REGIONS = ['middle-east', 'europe', 'southeast-asia'];
 const STATUS_LABEL: Record<string, string> = { exploring: 'Exploring', transferring: 'Transferring', booked: 'Booked' };
 
@@ -56,8 +57,7 @@ export default function HomeClient() {
   useEffect(() => { setHour(new Date().getHours()); }, []);
   const greeting = hour === null ? 'Hello' : hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
   const [slide, setSlide] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const [still, setStill] = useState(false); // reduced motion: the photos do not move on their own
+  const [lang, setLang] = useState(0);
   const [text, setText] = useState('');
   const [trip, setTrip] = useState<Parsed | null>(null);
   const [q, setQ] = useState<Question | null>(null);
@@ -65,13 +65,12 @@ export default function HomeClient() {
   const [trips, setTrips] = useState<TripRow[] | null>(null);
   const [strip, setStrip] = useState<Strip | null>(null);
 
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => { setStill(window.matchMedia('(prefers-reduced-motion: reduce)').matches); }, []);
+  // plays on its own and never waits for a click; reduced motion only removes the sliding (css), not the change
   useEffect(() => {
-    if (paused || still) return;
     const t = setInterval(() => setSlide(i => (i + 1) % HERO.length), 4500);
-    return () => clearInterval(t);
-  }, [paused, still]);
+    const l = setInterval(() => setLang(i => (i + 1) % HELLO.length), 2600);
+    return () => { clearInterval(t); clearInterval(l); };
+  }, []);
 
   const userId = w.user?.id ?? null;
   useEffect(() => {
@@ -138,6 +137,7 @@ export default function HomeClient() {
   };
 
   const flightsTo = (c: Destination) => `/flights?${new URLSearchParams({ o: home, d: c.d, from: addDaysIso(14, todayIso()), to: addDaysIso(150, todayIso()), cabin: 'business', n: '1' })}`;
+  const first = w.profile.first.trim();
   const points = w.profile.cardIds.reduce((s, id) => s + (w.profile.balances[id] ?? 0), 0);
   // the soonest trip that has not passed, else the one touched last
   const latest = trips ? ([...trips].filter(t => t.depart_from && t.depart_from >= todayIso()).sort((a, b) => a.depart_from!.localeCompare(b.depart_from!))[0] ?? trips[0]) : undefined;
@@ -146,7 +146,7 @@ export default function HomeClient() {
     <div className="a-pg">
       <Tour />
       <section className="hm-stage" aria-label="Plan a trip">
-       <div className="hm-sticky" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocus={() => setPaused(true)} onBlur={() => setPaused(false)}>
+       <div className="hm-sticky">
         <div className="hm-frame" aria-hidden="true">
           <div className="hm-track" style={{ transform: `translateX(-${slide * 100}%)` }}>
             {HERO.map((c, i) => (
@@ -160,7 +160,9 @@ export default function HomeClient() {
         <div className="hm-top">
           <div>
             <small>{greeting}</small>
-            <h1>{w.profile.first.trim() ? `Hi ${w.profile.first.trim()}, where to?` : 'Where to next?'}</h1>
+            <h1 aria-label={first ? `Hi ${first}, where to?` : 'Where to next?'}>
+              <span key={lang} className="hm-lang" aria-hidden="true">{first ? `${HELLO[lang][0]} ${first}, ${HELLO[lang][1]}` : `${HELLO[lang][0]}, ${HELLO[lang][1]}`}</span>
+            </h1>
           </div>
           {w.hasCards && <Link className="hm-pts" href="/wallet"><b>{fmt(points)}</b><span>points in your wallet</span></Link>}
         </div>
@@ -175,8 +177,14 @@ export default function HomeClient() {
             <div>{q.options.map(o => <button key={o.label} type="button" onClick={() => answer(o)}>{o.label}</button>)}</div>
           </div>
         )}
-        <div className="hm-try">
-          {EXAMPLES.map(x => <button key={x} type="button" onClick={() => { setText(x); submit(x); }}>{x}</button>)}
+        <div className="hm-mq" aria-label="Places to fly to">
+          <div className="hm-mq-in">
+            {[0, 1].map(copy => DESTINATIONS.map(c => (
+              <Link key={`${copy}-${c.id}`} className="hm-mc" href={flightsTo(c)} aria-hidden={copy === 1 || undefined} tabIndex={copy === 1 ? -1 : undefined}>
+                {c.name}<small>{c.d}</small>
+              </Link>
+            )))}
+          </div>
         </div>
         {!w.user && <Link className="hm-signin" href="/signin">Sign in to save trips and watch routes</Link>}
         <nav className="hm-actions" aria-label="Quick actions">
