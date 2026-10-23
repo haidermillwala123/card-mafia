@@ -1,0 +1,40 @@
+{
+  "manifest_version": "0.2",
+  "name": "card-mafia",
+  "display_name": "Card Mafia",
+  "version": "1.0.0",
+  "description": "Plan award flights with Indian premium credit cards: which card, which transfer path, which seat.",
+  "long_description": "Card Mafia turns a trip goal into a checked award-flight plan for Indian premium cardholders. Ask Claude where you want to go and which cards you hold. It builds the cheapest points paths with ratios, caps and seat age checked before any transfer, searches award seats, runs the points calculator, ranks cards by what a month of spending earns, and points you to the airline's own booking page. Nothing is booked, transferred or stored. Seat data is cached and every result shows its age; always confirm on your bank and airline sites before moving points.",
+  "author": { "name": "Card Mafia", "url": "https://card-mafia.vercel.app" },
+  "homepage": "https://card-mafia.vercel.app/developers",
+  "support": "https://card-mafia.vercel.app/developers",
+  "icon": "icon.png",
+  "keywords": ["travel", "credit cards", "award flights", "points", "miles", "india"],
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/index.js"],
+      "env": { "CARD_MAFIA_URL": "https://card-mafia.vercel.app/mcp" }
+    }
+  },
+  "tools": [
+    { "name": "card_mafia_catalog", "description": "Exact ids for Indian premium cards, banks, programmes, airports and regions. Call first." },
+    { "name": "parse_trip_text", "description": "Turn one sentence about a trip, cards and balances into a structured trip." },
+    { "name": "plan_trip", "description": "Build up to three award plans with the pre-transfer safety check." },
+    { "name": "explain_plan", "description": "Explain the plans in plain words." },
+    { "name": "search_award_seats", "description": "Find cached award seats and which ones your cards can pay for." },
+    { "name": "calculate_points", "description": "Points calculator: forward, reverse and pooled." },
+    { "name": "best_earning_card", "description": "Rank cards by points earned on a month of spending." },
+    { "name": "categorize_merchants", "description": "Sort statement merchants into spend categories." },
+    { "name": "seat_booking_handoff", "description": "The airline's own booking page for a seat and the details to copy." },
+    { "name": "buy_points_info", "description": "Where and at what price a programme sells points." },
+    { "name": "data_status", "description": "How fresh the seat data is today." }
+  ],
+  "tools_generated": false,
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": { "node": ">=18.0.0" }
+  }
+}

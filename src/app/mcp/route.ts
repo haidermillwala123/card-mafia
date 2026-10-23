@@ -31,6 +31,8 @@ const withCors = (res: Response) => {
 };
 
 async function handle(req: Request) {
+  // someone pasted the connector address into a browser: show the page that explains it
+  if (req.method === 'GET' && (req.headers.get('accept') ?? '').includes('text/html')) return Response.redirect(new URL('/developers', req.url), 302);
   // its own counter: the app's limiter keeps one count per key, and the routes behind each tool count the bare address
   if (!allow(`mcp:${clientKey(req)}`, 120)) return withCors(Response.json({ jsonrpc: '2.0', error: { code: -32000, message: 'Too many requests. Wait a minute and try again.' }, id: null }, { status: 429 }));
   const server = new McpServer({ name: 'card-mafia', title: 'Card Mafia', version: '1.0.0' }, { instructions: INSTRUCTIONS });

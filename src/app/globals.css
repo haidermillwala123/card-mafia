@@ -289,3 +289,16 @@ svg{max-width:100%;vertical-align:-3px}
 .rules-chip{min-height:48px;padding:0 16px;border-radius:999px;border:1.5px solid var(--color-border-strong);background:transparent;color:var(--color-text);font:600 14px var(--font-body)}
 .rules-chip[aria-pressed="true"]{background:var(--color-primary);color:var(--color-on-primary);border-color:var(--color-primary)}
 .rules-chip:disabled{opacity:.45;cursor:not-allowed}
+
+/* developers page: connector address, terminal snippets, tool list */
+.dev-url{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-sm)}
+.dev-url code,.dev-pre,.dev-tools code{font-family:var(--font-mono,ui-monospace,monospace)}
+.dev-url code{flex:1 1 320px;padding:14px 16px;border:1.5px solid var(--color-border-strong);border-radius:var(--radius-md);background:var(--color-surface);font-size:15px;word-break:break-all;user-select:all}
+.dev-pre{margin-top:6px;padding:12px 14px;border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-surface);font-size:13px;white-space:pre-wrap;word-break:break-all}
+.dev-tools{display:grid;gap:0}
+.dev-tools>div{display:grid;grid-template-columns:minmax(0,15rem) 1fr;gap:var(--space-md);padding:var(--space-sm) 0;border-top:var(--border-hairline) solid var(--color-border)}
+.dev-tools>div:last-child{border-bottom:var(--border-hairline) solid var(--color-border)}
+.dev-tools dt{font-weight:600;font-size:14px;word-break:break-word}
+.dev-tools dd{margin:0;color:var(--color-text-muted)}
+@media(max-width:720px){.dev-tools>div{grid-template-columns:1fr;gap:4px}}
+.tier ol{list-style:decimal}

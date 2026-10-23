@@ -6,6 +6,6 @@ import { SITE_URL } from '@/lib/site';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data } = await getData();
   const lastModified = new Date(`${data.rulesCheckedOn}T00:00:00Z`);
-  const fixed = ['/', '/learn', '/calculator', '/transfers', '/earn', '/pricing', '/rules', '/about', '/privacy', '/cards/recommend', '/cards/statement'];
+  const fixed = ['/', '/learn', '/calculator', '/transfers', '/earn', '/pricing', '/developers', '/rules', '/about', '/privacy', '/cards/recommend', '/cards/statement'];
   return [...fixed.map(p => ({ url: `${SITE_URL}${p}`, lastModified })), ...data.cards.map(c => ({ url: `${SITE_URL}/transfers/${c.id}`, lastModified }))];
 }

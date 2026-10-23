@@ -15,6 +15,7 @@ export default function Footer() {
           <ul>
             <li><Link href="/plan">Build a plan</Link></li>
             <li><Link href="/rules">Transfer rules</Link></li>
+            <li><Link href="/developers">Use in Claude or ChatGPT</Link></li>
             <li><Link href="/about">About</Link></li>
             <li><Link href="/privacy">Privacy</Link></li>
           </ul>
