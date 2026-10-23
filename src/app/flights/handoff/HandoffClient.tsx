@@ -3,28 +3,21 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import Ic from '@/components/app/Icons';
-import { handoffFor, type HandoffResponse, type Result, type SeatView } from '@/lib/app/api';
-import { programmeName } from '@/lib/app/catalog';
+import { handoffFor, type HandoffResponse, type Result } from '@/lib/app/api';
+import { CARDS, programmeName } from '@/lib/app/catalog';
 import { CABIN_LABEL, fmt, inr } from '@/lib/app/format';
+import { useProgrammeBalance } from '@/lib/app/loyalty';
+import { stepsFor } from '@/lib/app/steps';
 import { saveTrip } from '@/lib/app/trips';
 import { DataFoot, Note, SeenStamp, VerifiedStamp } from '@/components/app/ui';
 import { dateFull, ErrorBox, MissingNote, reachable, Skeleton, urlFor } from '@/components/app/booking/bits';
 import { useSeats } from '@/components/app/booking/useSeats';
 import './handoff.css';
 
-type Saved = { state: 'idle' | 'busy' | 'ok' } | { state: 'error'; error: string; needsSignIn: boolean };
+// Airlines whose award search needs a login and takes no details from a link: Qatar, Singapore (KrisFlyer), Turkish and LifeMiles.
+const FRONT_ONLY = new Set(['qatar-privilege-club', 'krisflyer', 'turkish-ms', 'lifemiles']);
 
-function stepsFor(r: SeatView | undefined, programme: string): string[] {
-  const x = r?.reach;
-  let first = `Transfer points from your bank to ${programme}. Work out how many from your cards in Wallet.`;
-  if (x?.status === 'ok' && x.best) {
-    const via = x.best.hops.slice(0, -1).map(h => programmeName(h.to));
-    first = `Transfer ${fmt(x.best.pointsUsed)} points from ${x.best.cardName} to ${programme}${via.length ? ` (via ${via.join(', ')})` : ''}`;
-  } else if (x?.status === 'pooled' && x.pooled) {
-    first = `Transfer ${x.pooled.transfers.map(t => `${fmt(t.sourcePoints)} points from ${t.cardName}`).join(' and ')} to ${programme}`;
-  }
-  return [first, "Wait for the credit. Check the transfer time on your bank's portal", 'Search the same date on the airline site', 'Book, and confirm the taxes before you pay'];
-}
+type Saved ={ state: 'idle' | 'busy' | 'ok' } | { state: 'error'; error: string; needsSignIn: boolean };
 
 export default function HandoffClient({ id, travellers: n }: { id: string; travellers: number }) {
   const s = useSeats(id ? [id] : [], n);
@@ -47,6 +40,12 @@ export default function HandoffClient({ id, travellers: n }: { id: string; trave
   const h = hres?.r.ok ? hres.r.data : null;
   const herr = hres && !hres.r.ok ? hres.r.error : null;
   const programme = r?.programme_name ?? h?.programme ?? 'the airline';
+  // the ordered steps: bank transfer, wait, any further transfer, wait, book. Skipped when the points are already in the airline programme.
+  const held = useProgrammeBalance(r?.programme_id);
+  const plan = r ? stepsFor({ r, programme, n, held, nameOf: programmeName, bankOf: id => CARDS.find(c => c.id === id)?.bank }) : null;
+  const [done, setDone] = useState<Record<number, boolean>>({});
+  const transferSteps = plan && !plan.direct ? plan.steps.length - 1 : 0; // the last step is the booking itself
+  const locked = transferSteps > 0 && Array.from({ length: transferSteps }).some((_, i) => !done[i]);
   const taxes = h ? (h.copy.taxes ? (inr(h.copy.taxes.inr) ?? `${fmt(h.copy.taxes.amount)} ${h.copy.taxes.currency}`) : 'Taxes: see airline') : '';
   const rows: [string, string][] = h
     ? [
@@ -146,32 +145,55 @@ export default function HandoffClient({ id, travellers: n }: { id: string; trave
                 <SeenStamp iso={h.copy.seatSeenAt} prefix="Seat seen" />
               </div>
               <div className="a-gl">
-                <span className="a-cap">In this order</span>
-                {stepsFor(r, programme).map((t, i) => (
-                  <div className="a-step" key={i}><span className="a-n">{i + 1}</span><span>{t}</span></div>
-                ))}
+                <span className="a-cap">{plan?.direct ? 'You can book directly' : 'Do these in order'}</span>
+                {plan?.steps.map((st, i) => {
+                  const last = i === plan.steps.length - 1;
+                  return (
+                    <div className="a-step" key={i} style={{ alignItems: 'flex-start' }}>
+                      {last || plan.direct ? <span className="a-n">{i + 1}</span> : (
+                        <input type="checkbox" checked={Boolean(done[i])} onChange={e => setDone(d => ({ ...d, [i]: e.target.checked }))} aria-label={`Done: ${st.title}`} style={{ marginTop: 4 }} />
+                      )}
+                      <span style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                        <b>{!last && !plan.direct ? `${i + 1}. ` : ''}{st.title}</b>
+                        {st.note && <span className="a-mu">{st.note}</span>}
+                        {st.link && <a className="a-ghost" style={{ alignSelf: 'flex-start' }} href={st.link.href} target="_blank" rel="noopener noreferrer">{st.link.label}</a>}
+                      </span>
+                    </div>
+                  );
+                })}
+                {transferSteps > 0 && (
+                  <button type="button" className="cm-btn cm-btn--ghost cm-btn--sm" style={{ alignSelf: 'flex-start' }}
+                    onClick={() => setDone(Object.fromEntries(Array.from({ length: transferSteps }, (_, i) => [i, true])))}>I have already done these</button>
+                )}
               </div>
             </div>
 
             <div className="a-r a-rw">
               {h.url && (
-                <a className="a-cta" href={h.url} target="_blank" rel="noopener noreferrer">
-                  {h.prefilled ? `Open ${h.programme} with this flight filled in` : `Open ${h.programme}`}
+                <a className="a-cta" href={locked ? undefined : h.url} target="_blank" rel="noopener noreferrer" aria-disabled={locked}
+                  onClick={e => locked && e.preventDefault()} style={locked ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}>
+                  {h.prefilled ? `Open ${h.programme} with this flight filled in` : `Open ${h.programme} (front page only)`}
                   <span className="a-ar"><Ic name="ext" /></span>
                 </a>
               )}
-              <button type="button" className="a-ghost" onClick={markTransferring} disabled={!r || saved.state === 'busy' || saved.state === 'ok'}>
-                {saved.state === 'busy' ? 'Saving' : 'Mark as transferring'}
-              </button>
+              {!plan?.direct && (
+                <button type="button" className="a-ghost" onClick={markTransferring} disabled={!r || saved.state === 'busy' || saved.state === 'ok'}>
+                  {saved.state === 'busy' ? 'Saving' : 'Mark as transferring'}
+                </button>
+              )}
               <Link className="a-ghost" href={urlFor('checkout', id, n)}>Back to checks</Link>
               <span className="a-g" />
               {h.linkCheckedOn ? <VerifiedStamp>Link checked {dateFull(h.linkCheckedOn.slice(0, 10))}</VerifiedStamp> : null}
             </div>
+            {locked && <span className="a-cap">Tick each step above as you finish it. The airline opens after the last one.</span>}
+            <span className="a-cap">Qatar, Singapore, Turkish and LifeMiles open only the airline&apos;s front page. Every other airline opens with your flight filled in.</span>
             {h.prefilled ? (
               <Note kind="info" title="The airline page opens with your route, date and passengers filled in.">Pick the flight shown above on that page, and check the taxes before you pay. If it shows nothing, the seat may have gone: do not transfer.</Note>
             ) : (
               <Note kind="info" title={`${h.programme} cannot open with your flight filled in.`}>
-                Its site asks you to log in and runs the search itself, so no link can carry your details. Copy each field from the panel above.
+                {r && FRONT_ONLY.has(r.programme_id)
+                  ? 'Its site asks you to log in and runs the search itself, so no link can carry your details. Copy each field from the panel above.'
+                  : 'We could not get a filled-in link for this seat just now. Copy each field from the panel above, or press Re-check on the checks page and try again.'}
                 {h.links && h.links.some(l => !l.primary) ? ' The partner links below open with your flight filled in, but their points price can differ, so check it before you transfer.' : ''}
               </Note>
             )}

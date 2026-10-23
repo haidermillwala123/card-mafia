@@ -63,6 +63,8 @@ export type Hop = {
   routeConfirmedOn: string | null;
   sourceUrl: string;
   sourceNote: string;
+  transferTime?: string | null; // how long the bank or programme says the transfer takes, as written in the rule
+  minMultiple?: number | null; // points move in blocks of this size
 };
 export type Transfer = {
   cardId: string;
@@ -152,6 +154,7 @@ export function hopsFor(rules: Rule[], miles: number): Hop[] {
     hops.unshift({
       ruleId: r.id, from: r.from, to: r.to, ratio_in: r.ratio_in, ratio_out: r.ratio_out, points_in: inn, points_out: out,
       routeConfirmedOn: r.route_confirmed_on ?? null, sourceUrl: r.source_url, sourceNote: r.source_note,
+      transferTime: r.transfer_time ?? null, minMultiple: r.min_multiple ?? null,
     });
     out = inn;
   }

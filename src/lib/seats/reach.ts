@@ -3,7 +3,7 @@
 import { allocate, bestPaths, type Data, hopsFor, type Holdings, type Rule } from '../engine/engine';
 import type { SeatOut } from './search';
 
-export type HopOut = { from: string; to: string; ratio: string; pointsIn: number; pointsOut: number; verifiedOn: string | null };
+export type HopOut = { from: string; to: string; ratio: string; pointsIn: number; pointsOut: number; verifiedOn: string | null; transferTime?: string | null; minMultiple?: number | null };
 export type PayOut = {
   cardId: string; cardName: string; pointsUsed: number; enough: boolean; shortBy: number; ratio: string; hops: HopOut[];
   capLimit: number | null; capPeriod: 'month' | 'year' | null; capOk: boolean; monthsNeeded: number;
@@ -39,7 +39,7 @@ function payFor(data: Data, cardId: string, programme: string, miles: number, ba
   return {
     cardId, cardName: card.name, pointsUsed: used, enough: balance >= used, shortBy: Math.max(0, used - balance),
     ratio: `${Number(cost(rules).toFixed(2))}:1`,
-    hops: hops.map(h => ({ from: h.from, to: h.to, ratio: `${h.ratio_in}:${h.ratio_out}`, pointsIn: h.points_in, pointsOut: h.points_out, verifiedOn: h.routeConfirmedOn })),
+    hops: hops.map(h => ({ from: h.from, to: h.to, ratio: `${h.ratio_in}:${h.ratio_out}`, pointsIn: h.points_in, pointsOut: h.points_out, verifiedOn: h.routeConfirmedOn, transferTime: h.transferTime ?? null, minMultiple: h.minMultiple ?? null })),
     capLimit: cap.limit, capPeriod: cap.period, capOk: !cap.limit || used <= cap.limit, monthsNeeded: cap.limit ? Math.ceil(used / cap.limit) : 1,
   };
 }

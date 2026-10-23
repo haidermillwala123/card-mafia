@@ -5,6 +5,7 @@ import { Fragment, useState } from 'react';
 import Ic from '@/components/app/Icons';
 import { programmeName } from '@/lib/app/catalog';
 import { CABIN_LABEL, dateShort, fmt } from '@/lib/app/format';
+import { useProgrammeBalance } from '@/lib/app/loyalty';
 import { DataFoot, Note, SeenStamp, Tag } from '@/components/app/ui';
 import {
   cardPoints, ErrorBox, flightsText, MissingNote, NotReachable, partyMiles, PathStrip, reachable, Recheck, routeText, RulesStamp, seatsText, Skeleton, stopsText,
@@ -18,8 +19,11 @@ export default function CheckoutClient({ id, travellers: n }: { id: string; trav
   const [ticked, setTicked] = useState(false);
   const r = s.rows[0];
   const check = s.check(id);
-  const ok = r ? reachable(r) && !check.gone : false;
-  const go = ok && ticked;
+  // points already saved in the airline's own programme (Wallet) cover the seat: no transfer needed, book directly
+  const held = useProgrammeBalance(r?.programme_id);
+  const direct = Boolean(r && held !== null && held >= partyMiles(r, n));
+  const ok = r ? (reachable(r) || direct) && !check.gone : false;
+  const go = ok && (ticked || direct);
   const best = r?.reach?.best ?? null;
   const pts = r ? cardPoints(r) : null;
   const balances = s.wallet.holdings.balances;
@@ -61,7 +65,12 @@ export default function CheckoutClient({ id, travellers: n }: { id: string; trav
               </div>
 
               <div className="a-gl">
-                <span className="a-cap">Move points</span>
+                <span className="a-cap">{direct ? 'Your points' : 'Move points'}</span>
+                {direct && (
+                  <Note kind="success" title={`You already have ${fmt(held ?? 0)} points in ${r.programme_name}.`}>
+                    That covers the {fmt(partyMiles(r, n))} this seat needs, from the balance saved in your Wallet. You can book directly: no transfer needed.
+                  </Note>
+                )}
                 {reachable(r) ? (
                   <>
                     <div className="a-r a-rw">
@@ -88,7 +97,7 @@ export default function CheckoutClient({ id, travellers: n }: { id: string; trav
                     </span>
                     <RulesStamp r={r} fallback={s.rulesCheckedOn} />
                   </>
-                ) : (
+                ) : direct ? null : (
                   <NotReachable r={r} hasCards={s.wallet.hasCards} />
                 )}
               </div>
@@ -114,7 +123,7 @@ export default function CheckoutClient({ id, travellers: n }: { id: string; trav
                   {typeof balances[t.cardId] === 'number' && <div className="a-kv"><span>You keep</span><b>{fmt(Math.max(0, balances[t.cardId] - t.sourcePoints))} pts</b></div>}
                 </Fragment>
               ))}
-              {ok && (
+              {ok && !direct && (
                 <label className="cm-check a-checkout-ack">
                 <input type="checkbox" checked={ticked} onChange={e => setTicked(e.target.checked)} />
                 <span className="cm-check__text">
@@ -130,12 +139,13 @@ export default function CheckoutClient({ id, travellers: n }: { id: string; trav
                 tabIndex={go ? undefined : -1}
                 onClick={e => !go && e.preventDefault()}
               >
-                Continue to airline
+                {direct ? 'Book directly' : 'Start the transfer steps'}
                 <span className="a-ar"><Ic name="arrow" /></span>
               </Link>
               <span className="a-cap a-checkout-hint">
-                {!ok ? 'This seat cannot be paid for with your cards' : go ? 'Ready. You leave Card Mafia next.' : 'Tick the box above to continue'}
+                {!ok ? 'This seat cannot be paid for with your cards' : go ? (direct ? 'Ready. Next: the booking step.' : "Next: your bank's rewards site, then each step in order.") : 'Tick the box above to continue'}
               </span>
+              <span className="a-cap">Qatar, Singapore, Turkish and LifeMiles open only the airline&apos;s front page. Every other airline opens with your flight filled in.</span>
             </div>
           </div>
         )}
