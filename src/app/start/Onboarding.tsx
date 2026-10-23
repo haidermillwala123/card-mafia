@@ -180,6 +180,7 @@ export default function Onboarding({ banks, cards, programmes }: Props) {
       <FlightScene step={i} from={p.airport} />
       <section className="panel" aria-live="polite">
         <div className="panel-in">
+          {!user && <p className="member">Already a member? <a href={`/signin${search}`}>Sign in here</a></p>}
           <div className="progress" aria-hidden="true">{Array.from({ length: LAST + 1 }, (_, k) => <i key={k} className={k <= i ? 'on' : ''} />)}</div>
           {i > 0 && <button type="button" className="back" onClick={() => { setErr(''); setI(x => x - 1); }}><Back /> Back</button>}
           <p className="say"><span className="av" aria-hidden="true"><Arrow size={14} /></span>{i === 1 && p.first.trim() ? `Good to meet you, ${p.first.trim()}.` : SAY[i]}</p>
@@ -266,7 +267,6 @@ export default function Onboarding({ banks, cards, programmes }: Props) {
             {i === LAST && <button type="button" className="btn btn-secondary" onClick={finish}>{user ? 'Plan without saving' : 'Skip the account and plan a trip'}</button>}
           </div>
           <p className="fine">{i < LAST ? <>Your answers stay on this device. <button type="button" className="link" onClick={finish}>Skip setup</button> and add this later.</> : p.plan === 'pro' && !user ? 'Skipping means you will not be on the Pro list. Everything else still works.' : 'You can change any of this later from your account.'}</p>
-          <p className="fine">Already have an account? <a href={`/signin${search}`}>Sign in</a>.</p>
         </div>
       </section>
     </div>

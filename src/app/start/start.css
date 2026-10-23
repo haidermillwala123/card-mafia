@@ -107,3 +107,5 @@
 .otp input{width:48px;height:56px;text-align:center;font:600 22px var(--font-mono);background:var(--color-surface);color:var(--color-text);border:1.5px solid var(--color-border-strong);border-radius:var(--radius-sm)}
 .otp.err input{border-color:var(--color-danger)}
 .otp.ok input{border-color:var(--color-success)}
+.member{margin:0 0 var(--space-md);font-size:14px;color:var(--color-text-muted)}
+.member a{color:var(--color-text);font-weight:600;text-decoration:underline;text-underline-offset:3px}

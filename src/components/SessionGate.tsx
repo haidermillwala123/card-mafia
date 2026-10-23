@@ -20,10 +20,11 @@ export default function SessionGate({ children }: { children: ReactNode }) {
   const sb = supabase();
 
   useEffect(() => {
-    if (protectedPath && sb && user === null) router.replace(`/signin?next=${encodeURIComponent(path)}`);
+    // a signed-out visitor starts at setup, which carries "Already a member? Sign in here"
+    if (protectedPath && sb && user === null) router.replace(`/start?next=${encodeURIComponent(path)}`);
   }, [user, path, protectedPath, sb, router]);
 
   // Without Supabase there is nothing to sign in to, so the app stays open.
   if (!sb || !protectedPath) return <>{children}</>;
-  return user ? <>{children}</> : <div className="a-pg"><div className="a-body"><p className="muted" role="status">{user === undefined ? 'Checking your sign-in…' : 'Taking you to sign in…'}</p></div></div>;
+  return user ? <>{children}</> : <div className="a-pg"><div className="a-body"><p className="muted" role="status">{user === undefined ? 'Checking your sign-in…' : 'Taking you to set up…'}</p></div></div>;
 }
