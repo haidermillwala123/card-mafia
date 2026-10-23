@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
-import { DataFoot, Note, SeenStamp, Tag, VerifiedStamp } from '@/components/app/ui';
+import { DataFoot, Note, Tag, VerifiedStamp } from '@/components/app/ui';
 import Ic from '@/components/app/Icons';
 import { type Cabin, type Holdings, searchSeats, type SearchResponse, type SeatView } from '@/lib/app/api';
 import { cardName, programmeName } from '@/lib/app/catalog';
@@ -216,7 +216,6 @@ export default function PlanBoard(props: Props) {
                     )}
                     <div className="a-dsh" />
                     {rulesDate(s) && <VerifiedStamp>Rules verified {rulesDate(s)}</VerifiedStamp>}
-                    <SeenStamp iso={s.updated_at} prefix="Seat seen" />
                     <div className="a-r a-plan-actions">
                       {plans.length > 1 && (
                         <Link className="cm-btn cm-btn--secondary cm-btn--sm a-pb" href={`/flights/compare?${new URLSearchParams({ ids: plans.map(x => x.seat.id).join(','), n: String(n) })}`}>
