@@ -44,6 +44,6 @@ export async function POST(req: Request) {
     return Response.json({ row: rows[0], refreshed: true });
   } catch (e) {
     const quota = e instanceof SeatsError && e.quotaExhausted;
-    return Response.json({ error: quota ? 'seats.aero live checks are used up for today.' : 'We could not re-check that seat. Nothing was changed.' }, { status: quota ? 429 : 502 });
+    return Response.json({ error: quota ? 'Live re-checks are used up for today.' : 'We could not re-check that seat. Nothing was changed.' }, { status: quota ? 429 : 502 });
   }
 }

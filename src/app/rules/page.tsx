@@ -67,7 +67,7 @@ export default async function RulesPage() {
 
         <section aria-labelledby="seat-h" className="stack">
           <h2 id="seat-h" className="t-h2">Seat data</h2>
-          <p className="muted measure">{data.seats.sample ? 'The demo runs on a labelled sample of Doha to JFK, ORD, LAX and MIA, and India to Doha, for October 2027. It is not live availability.' : 'Seats come from cached seats.aero availability.'} Every plan shows how old the seat data is.</p>
+          <p className="muted measure">{data.seats.sample ? 'The demo runs on a labelled sample of Doha to JFK, ORD, LAX and MIA, and India to Doha, for October 2027. It is not live availability.' : 'Seats come from cached award availability.'} Every plan shows how old the seat data is.</p>
         </section>
       </div>
     </>

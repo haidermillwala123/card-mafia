@@ -33,16 +33,8 @@ export function Tag({ kind = 'plain', children, plain = false, style }: { kind?:
   );
 }
 
-// seats.aero asks for visible attribution with a link wherever its data is shown.
 export function SeatsCredit() {
-  return (
-    <span className="a-cap">
-      Seat data from{' '}
-      <a href="https://seats.aero" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>
-        seats.aero
-      </a>
-    </span>
-  );
+  return <span className="a-cap">Seat data is cached and can be a few hours old.</span>;
 }
 
 export function Note({ kind, title, children }: { kind: 'info' | 'success' | 'warning' | 'danger'; title: string; children?: ReactNode }) {

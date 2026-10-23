@@ -49,7 +49,9 @@ export function ShortText({ r }: { r: SeatView }) {
 export function Vpp({ r, fare }: { r: SeatView; fare: number | null }) {
   if (!fare || r.taxes_inr === null) return null;
   const v = valuePerPoint(fare, r.taxes_inr, r.miles);
-  return v === null ? null : <span>₹{v} per point</span>;
+  if (v === null) return <span className="a-mu">Cash fare is not above the taxes: pay cash</span>;
+  // Break-even, no guesswork: the seat saves money if a point is worth less to you than what it buys here.
+  return <span>₹{v} per point<small className="a-mu"> · points are the better deal if a point is worth less than ₹{v} to you, otherwise pay cash</small></span>;
 }
 
 const NP = <span className="a-mu">not published</span>;

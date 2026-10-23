@@ -7,11 +7,13 @@ import { SITE_URL } from '@/lib/site';
 
 export const dynamic = 'force-dynamic';
 
-const back = (q: string) => NextResponse.redirect(`${SITE_URL}/wallet/import?${q}`);
-
 export async function GET(req: Request) {
   const u = new URL(req.url);
   const jar = await cookies();
+  // setup (onboarding) gets its own return page and parameters; the wallet import page keeps the original ones
+  const fromStart = jar.get('cm_gnext')?.value === 'start';
+  jar.delete({ name: 'cm_gnext', path: '/api/gmail' });
+  const back = (q: string) => NextResponse.redirect(fromStart ? `${SITE_URL}/start?${q.replace('error=', 'gmailerr=').replace('connected=1', 'gmail=1')}` : `${SITE_URL}/wallet/import?${q}`);
   const want = jar.get('cm_gstate')?.value ?? '';
   const got = u.searchParams.get('state') ?? '';
   jar.delete({ name: 'cm_gstate', path: '/api/gmail' });

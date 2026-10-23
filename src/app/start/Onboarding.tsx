@@ -9,7 +9,15 @@ import EmailCode from '@/components/EmailCode';
 import PlanPicker from '@/components/PlanPicker';
 import { Arrow, Back, Check, Lock } from '@/components/Icons';
 import { pushProfile, recordInterest, useUser } from '@/lib/auth';
+import type { Finding } from '@/lib/gmail-parse';
 import { EMPTY_PROFILE, loadProfile, saveProfile, type Profile } from '@/lib/profile';
+
+const GMAIL_ERRORS: Record<string, string> = {
+  'not-configured': 'Gmail import is not switched on yet. Type your balances instead.',
+  denied: 'Google did not give access, so nothing was read. Type your balances instead.',
+  state: 'That sign-in link expired. Try the Gmail button again.',
+  token: 'Google would not complete the connection. Try the Gmail button again.',
+};
 
 type Props = {
   banks: { id: string; name: string }[];
@@ -44,6 +52,27 @@ export default function Onboarding({ banks, cards, programmes }: Props) {
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setSearch(window.location.search); }, []);
   const programmeOfCard = Object.fromEntries(cards.map(c => [c.id, c.programmeId]));
+  const [gm, setGm] = useState<{ busy: boolean; msg: string }>({ busy: false, msg: '' });
+
+  // Back from Google: read the bank emails once and fill the balance of each card the person already picked. Nothing else is touched.
+  async function importFromGmail(base: Profile) {
+    setGm({ busy: true, msg: '' });
+    const res = await fetch('/api/gmail/scan', { method: 'POST' }).catch(() => null);
+    const j = (await res?.json().catch(() => null)) as { findings?: Finding[]; error?: string } | null;
+    if (!res?.ok || !j?.findings) return setGm({ busy: false, msg: j?.error ?? 'We could not read your mail. Type your balances instead.' });
+    const balances = { ...base.balances };
+    let filled = 0;
+    for (const f of j.findings) {
+      if (f.kind !== 'bank') continue;
+      const mine = base.cardIds.filter(id => cards.find(c => c.id === id)?.bankId === f.bank);
+      const target = f.cardId && base.cardIds.includes(f.cardId) ? f.cardId : mine.length === 1 ? mine[0] : '';
+      if (target) { balances[target] = f.balance; filled++; }
+    }
+    const next = { ...base, balances };
+    setP(next);
+    saveProfile(next);
+    setGm({ busy: false, msg: filled ? `Filled ${filled} ${filled === 1 ? 'card' : 'cards'} from your emails. Check the numbers, then continue.` : 'We found no balances for these cards. Type them instead.' });
+  }
 
   useEffect(() => {
     if (started.current) return;
@@ -56,7 +85,18 @@ export default function Onboarding({ banks, cards, programmes }: Props) {
       const [y, m, d] = (saved.dob || '').split('-');
       setYy(y ?? ''); setMm(m ?? ''); setDd(d ?? '');
     }
+    // coming back from the Gmail button: land on the points step again
+    const url = new URL(window.location.href);
+    const back = url.searchParams.get('gmail') === '1', errCode = url.searchParams.get('gmailerr');
+    if (back || errCode) {
+      url.searchParams.delete('gmail'); url.searchParams.delete('gmailerr');
+      window.history.replaceState(null, '', url.pathname + url.search); // a refresh must not scan again with a spent token
+      setI(6);
+      if (errCode) setGm({ busy: false, msg: GMAIL_ERRORS[errCode] ?? 'Something went wrong. Type your balances instead.' });
+      else if (saved) void importFromGmail(saved);
+    }
     /* eslint-enable react-hooks/set-state-in-effect */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const set = <K extends keyof Profile>(k: K, v: Profile[K]) => { setP(x => ({ ...x, [k]: v })); setErr(''); };
@@ -179,6 +219,12 @@ export default function Onboarding({ banks, cards, programmes }: Props) {
             {i === 6 && (
               p.cardIds.length ? (
                 <div>
+                  <div className="gmail-imp" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+                    <a className="btn btn-secondary" href="/api/gmail/start?next=start" onClick={() => saveProfile(withDob(p))} aria-disabled={gm.busy}>Import from Gmail</a>
+                    <small className="muted">Read-only, used once, never stored. We only look at mail from your banks.</small>
+                  </div>
+                  {gm.busy && <p className="t-sm" role="status">Reading your bank emails. This takes up to a minute.</p>}
+                  {!gm.busy && gm.msg && <p className="t-sm" role="status">{gm.msg}</p>}
                   {p.cardIds.map(id => {
                     const c = cards.find(x => x.id === id)!;
                     const v = p.balances[id] ?? 0;

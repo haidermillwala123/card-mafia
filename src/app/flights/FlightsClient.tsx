@@ -113,6 +113,31 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
   const done = state.status === 'done' ? state : null;
   const allRows = useMemo(() => done?.res.rows ?? [], [done]);
 
+  // Nothing found in the chosen cabin: look at the other cabins for the same trip, so the person sees what does exist instead of a dead end.
+  const [alts, setAlts] = useState<{ cabin: Cabin; rows: SeatView[] }[] | null>(null);
+  useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect */
+    if (!done || allRows.length > 0) { setAlts(null); return; }
+    setAlts(null);
+    /* eslint-enable react-hooks/set-state-in-effect */
+    let live = true;
+    (async () => {
+      const out: { cabin: Cabin; rows: SeatView[] }[] = [];
+      for (const c of (['business', 'premium_economy', 'economy', 'first'] as Cabin[]).filter(x => x !== done.sub.cabin)) {
+        const r = await searchSeats({
+          origins: done.sub.origins, dests: expandDest(done.sub.d).slice(0, 40), from: done.sub.from, to: done.sub.to, cabin: c, travellers: done.sub.n,
+          holdings: wallet.hasCards ? wallet.holdings : undefined, filters: { directOnly: direct || undefined, programmes: prog ? [prog] : undefined }, limit: 12,
+        });
+        if (!live) return;
+        if (r.ok && r.data.rows.length) out.push({ cabin: c, rows: r.data.rows });
+      }
+      if (live) setAlts(out);
+    })();
+    return () => { live = false; };
+    // the other cabins are searched once per finished search that found nothing
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done]);
+
   // one entry per origin and destination pair, cheapest first
   const routes = useMemo(() => {
     const m = new Map<string, SeatView>();
@@ -271,13 +296,29 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
                   if (!near) return <span className="a-mu">Widen the dates or untick Reachable.</span>;
                   return (
                     <>
-                      <span className="a-mu">seats.aero has no award seats listed for {label(ds[0])}, on any date. Try a nearby airport, then press Search.</span>
-                      <span className="a-r a-rw">{near.map(c => <button key={c} type="button" className="cm-btn cm-btn--sm" onClick={() => setD(c)}>{label(c)}</button>)}</span>
+                      <span className="a-mu">We found no award seats listed for {label(ds[0])}, on any date. Try a nearby airport:</span>
+                      <span className="a-r a-rw">{near.map(c => <button key={c} type="button" className="cm-btn cm-btn--sm" onClick={() => { setD(c); void run(c); }}>{label(c)}</button>)}</span>
                     </>
                   );
                 })()}
               </div>
             )}
+
+            {allRows.length === 0 && (alts === null
+              ? <p className="a-mu" role="status">Checking the other cabins for the same trip</p>
+              : alts.length > 0 && (
+                <section className="a-c" aria-label="Seats in other cabins">
+                  <h2 className="a-sec">Nothing in {CABIN_LABEL[done.sub.cabin]}. These seats are open in other cabins.</h2>
+                  {alts.map(a => (
+                    <div className="a-c" key={a.cabin}>
+                      <span className="a-cap">{CABIN_LABEL[a.cabin]} · {fmt(a.rows.length)} {a.rows.length === 1 ? 'seat' : 'seats'}, cheapest first</span>
+                      <div className="sc-grid">
+                        {a.rows.slice(0, 6).map(r => <SeatCard key={r.id} r={r} n={done.sub.n} fare={fareNum} selected={false} picked={false} locked onPick={pick} />)}
+                      </div>
+                    </div>
+                  ))}
+                </section>
+              ))}
 
             {routes.length > 1 && (
               <section className="a-c" aria-label="Routes">
@@ -336,7 +377,7 @@ export default function FlightsClient({ initial }: { initial: InitialParams }) {
                   )}
                   <button type="button" className="cm-btn cm-btn--secondary cm-btn--sm a-pb" disabled={!watchRoute || watch.kind === 'busy'} onClick={doWatch}>Watch this route</button>
                   <label className="a-flights-fare">
-                    <span className="a-cap">Cash fare per person (₹)</span>
+                    <span className="a-cap">Cash fare per person (₹), to compare points with paying cash</span>
                     <span className="cm-control"><input inputMode="numeric" placeholder="Optional" value={fare} onChange={e => setFare(e.target.value.replace(/[^\d,]/g, ''))} /></span>
                   </label>
                 </div>

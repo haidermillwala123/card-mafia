@@ -298,7 +298,7 @@ export default function PlanFlow({ cards, initialQuery }: { cards: CardOpt[]; in
               {DESTS.find(d => d.value === form.dest)?.label} · {monthLabel(form.month)} · {form.travellers} {form.travellers === 1 ? 'traveller' : 'travellers'}{form.qsuite ? ' · Qsuite' : ''}
             </p>
           </div>
-          {result.meta.sampleSeats && <div className="note note-warn"><Warn /><span>Seat data is a labelled sample, checked {ageText(Math.round((Date.now() - new Date(result.meta.seatsFetchedAt).getTime()) / 60000))} ago. Live availability needs a seats.aero key.</span></div>}
+          {result.meta.sampleSeats && <div className="note note-warn"><Warn /><span>Seat data is a labelled sample, checked {ageText(Math.round((Date.now() - new Date(result.meta.seatsFetchedAt).getTime()) / 60000))} ago. Live availability is not switched on for this copy.</span></div>}
           {result.empty && <div className="note note-info" role="status"><Info />{result.empty}</div>}
           {result.considered.droppedNotQsuite > 0 && <p className="t-sm muted">We dropped {result.considered.droppedNotQsuite} flights without Qsuite aircraft{result.considered.droppedTooFewSeats ? ` and ${result.considered.droppedTooFewSeats} with too few seats` : ''}.</p>}
 
