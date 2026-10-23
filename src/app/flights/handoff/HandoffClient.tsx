@@ -146,21 +146,31 @@ export default function HandoffClient({ id, travellers: n }: { id: string; trave
               </div>
               <div className="a-gl">
                 <span className="a-cap">{plan?.direct ? 'You can book directly' : 'Do these in order'}</span>
-                {plan?.steps.map((st, i) => {
-                  const last = i === plan.steps.length - 1;
-                  return (
-                    <div className="a-step" key={i} style={{ alignItems: 'flex-start' }}>
-                      {last || plan.direct ? <span className="a-n">{i + 1}</span> : (
-                        <input type="checkbox" checked={Boolean(done[i])} onChange={e => setDone(d => ({ ...d, [i]: e.target.checked }))} aria-label={`Done: ${st.title}`} style={{ marginTop: 4 }} />
-                      )}
-                      <span style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                        <b>{!last && !plan.direct ? `${i + 1}. ` : ''}{st.title}</b>
-                        {st.note && <span className="a-mu">{st.note}</span>}
-                        {st.link && <a className="a-ghost" style={{ alignSelf: 'flex-start' }} href={st.link.href} target="_blank" rel="noopener noreferrer">{st.link.label}</a>}
-                      </span>
-                    </div>
-                  );
-                })}
+                {transferSteps > 0 && (
+                  <div className="ho-bar" role="progressbar" aria-valuemin={0} aria-valuemax={transferSteps} aria-valuenow={Array.from({ length: transferSteps }).filter((_, i) => done[i]).length} aria-label="Steps done">
+                    <i style={{ width: `${(Array.from({ length: transferSteps }).filter((_, i) => done[i]).length / transferSteps) * 100}%` }} />
+                  </div>
+                )}
+                <ol className="ho-tl">
+                  {plan?.steps.map((st, i) => {
+                    const last = i === plan.steps.length - 1;
+                    const tickable = !last && !plan.direct;
+                    return (
+                      <li key={i} className={done[i] ? 'is-done' : last ? 'is-book' : undefined}>
+                        {tickable ? (
+                          <button type="button" className="ho-dot" aria-pressed={Boolean(done[i])} aria-label={`${done[i] ? 'Undo' : 'Done'}: ${st.title}`} onClick={() => setDone(d => ({ ...d, [i]: !d[i] }))}>
+                            {done[i] ? '✓' : i + 1}
+                          </button>
+                        ) : <span className="ho-dot">{i + 1}</span>}
+                        <div className="ho-body">
+                          <b>{st.title}</b>
+                          {st.note && <span className="a-mu">{st.note}</span>}
+                          {st.link && <a className="a-ghost" style={{ alignSelf: 'flex-start' }} href={st.link.href} target="_blank" rel="noopener noreferrer">{st.link.label}</a>}
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ol>
                 {transferSteps > 0 && (
                   <button type="button" className="cm-btn cm-btn--ghost cm-btn--sm" style={{ alignSelf: 'flex-start' }}
                     onClick={() => setDone(Object.fromEntries(Array.from({ length: transferSteps }, (_, i) => [i, true])))}>I have already done these</button>

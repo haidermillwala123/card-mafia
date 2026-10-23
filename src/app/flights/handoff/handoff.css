@@ -2,3 +2,21 @@
 .a-checkout-copy{display:flex;flex-direction:column;gap:10px}
 .a-checkout-copy .a-kv b{word-break:break-word}
 .a-checkout-saved{font:500 14px var(--font-body)}
+
+/* The ordered steps: a vertical timeline with a progress bar. Each marker turns into a tick when its step is done. */
+.ho-bar{height:6px;border-radius:999px;background:var(--surface-sunken,rgba(127,127,127,.2));overflow:hidden}
+.ho-bar i{display:block;height:100%;border-radius:inherit;background:var(--accent-strong);transition:width .5s cubic-bezier(.22,1,.36,1)}
+.ho-tl{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column}
+.ho-tl li{position:relative;display:grid;grid-template-columns:36px minmax(0,1fr);gap:14px;padding-bottom:20px}
+.ho-tl li:not(:last-child)::before{content:"";position:absolute;left:17px;top:38px;bottom:2px;width:2px;border-radius:2px;background:var(--border-strong);transition:background .4s}
+.ho-tl li.is-done:not(:last-child)::before{background:var(--accent-strong)}
+.ho-dot{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;padding:0;border:1.5px solid var(--border-strong);background:var(--surface);color:var(--text);font:700 14px var(--font-body);transition:background .25s,color .25s,border-color .25s,transform .25s}
+button.ho-dot{cursor:pointer}
+button.ho-dot:hover{border-color:var(--text-muted);transform:scale(1.06)}
+button.ho-dot:focus-visible{outline:2px solid var(--focus-ring,#7FC4CC);outline-offset:3px}
+.ho-tl li.is-done .ho-dot{background:var(--accent-strong);border-color:transparent;color:var(--on-accent,#0f0f0f)}
+.ho-tl li.is-book .ho-dot{border-color:var(--accent-strong)}
+.ho-body{display:flex;flex-direction:column;gap:6px;padding-top:6px;min-width:0}
+.ho-body b{font:650 16px/1.3 var(--font-body)}
+.ho-tl li.is-done .ho-body b{color:var(--text-muted);text-decoration:line-through;text-decoration-thickness:1px}
+@media (prefers-reduced-motion:reduce){.ho-bar i,.ho-dot,.ho-tl li::before{transition:none}button.ho-dot:hover{transform:none}}

@@ -4,7 +4,7 @@ import { test } from 'node:test';
 import type { SeatView } from './api.ts';
 import { stepsFor } from './steps.ts';
 
-const names: Record<string, string> = { 'finnair-plus': 'Finnair Plus', 'qatar-privilege-club': 'Qatar Airways Privilege Club' };
+const names: Record<string, string> = { 'finnair-plus': 'Finnair Plus', 'qatar-privilege-club': 'Qatar Airways Privilege Club', 'ba-executive-club': 'British Airways Club' };
 const seat = {
   miles: 65000, origin: 'MAA', dest: 'LHR', date: '2026-11-30', flights: ['QR529', 'QR15'],
   reach: {
@@ -26,14 +26,27 @@ test('a two-hop transfer lists every step in order and ends with the booking', (
   assert.deepEqual(p.steps.map(s => s.title), [
     'Transfer 65,000 Infinia points to Finnair Plus',
     'Wait until the points show in Finnair Plus',
-    'In Finnair Plus, transfer 65,000 points to Qatar Airways Privilege Club',
+    'Move 65,000 Avios from Finnair Plus to British Airways Club',
+    'Move 65,000 Avios from British Airways Club to Qatar Airways Privilege Club',
     'Wait until the points show in Qatar Airways Privilege Club',
     'Book on Qatar Airways Privilege Club',
   ]);
   assert.match(p.steps[0].note!, /blocks of 1,000/);
   assert.match(p.steps[0].note!, /Takes 0 to 3 days/);
   assert.equal(p.steps[0].link?.href, 'https://offers.smartbuy.hdfcbank.com/');
-  assert.equal(p.steps[2].link, undefined); // a programme-to-programme transfer has no bank site
+  // Avios do not go straight from Finnair Plus to Qatar: both legs use BA's Combine Avios page
+  assert.match(p.steps[2].link!.href, /combine-avios/);
+  assert.match(p.steps[2].note!, /pass through British Airways Club/);
+  assert.match(p.steps[3].link!.href, /combine-avios/);
+});
+
+test('a bank with published steps gets them, an unknown bank gets plain wording and no link', () => {
+  const icici = stepsFor({ ...base, held: null, bankOf: () => 'icici' }).steps[0];
+  assert.match(icici.note!, /Redeem Now/);
+  assert.equal(icici.link?.href, 'https://infinity.icicibank.com/');
+  const other = stepsFor({ ...base, held: null, bankOf: () => 'kotak' }).steps[0];
+  assert.match(other.note!, /net banking or card app/);
+  assert.equal(other.link, undefined);
 });
 
 test('points already in the airline programme mean book directly, with no transfer steps', () => {
