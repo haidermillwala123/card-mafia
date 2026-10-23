@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Ic from '@/components/app/Icons';
 import { Note, Tag } from '@/components/app/ui';
+import CopyButton from '@/components/CopyButton';
+import { MCP_URL } from '@/lib/site';
 import { listAlerts, listWatches } from '@/lib/app/alerts';
 import { listTrips } from '@/lib/app/trips';
 import { useWallet } from '@/lib/app/wallet';
@@ -139,6 +141,18 @@ export default function Account() {
             <button type="button" className="cm-btn cm-btn--secondary cm-btn--sm a-pb" disabled={busy} onClick={exportData}>Export my data</button>
           </div>
           <span className="cm-stamp"><Ic name="lock" small />We never ask for bank logins or card numbers.</span>
+        </div>
+
+        <div className="a-gl">
+          <span className="a-cap">Connect with MCP</span>
+          <b className="a-t">Use Card Mafia from Claude or ChatGPT.</b>
+          <span className="a-mu">Add this address as a custom connector. It needs no sign-in.</span>
+          <code className="a-account-mono" style={{ wordBreak: 'break-all' }}>{MCP_URL}</code>
+          <div className="a-account-actions">
+            <CopyButton value={MCP_URL} label="Copy address" className="cm-btn cm-btn--secondary cm-btn--sm a-pb" />
+            <Link className="cm-btn cm-btn--ghost cm-btn--sm" href="/developers">Setup steps</Link>
+          </div>
+          <span className="a-mu">It does not read your saved wallet or trips. It only uses the cards and balances you type into the chat.</span>
         </div>
       </div>
       <div className="a-foot">
