@@ -48,5 +48,5 @@ const post = <T,>(url: string, body: unknown, timeoutMs?: number) => call<T>(url
 export const searchSeats = (b: SearchRequest) => post<SearchResponse>('/api/search', b, 55000);
 export const fetchRows = (ids: string[], travellers: number, holdings?: Holdings) => post<RowsResponse>('/api/search/rows', { ids, travellers, holdings });
 export const recheckSeat = (id: string) => post<{ row: SeatOut; refreshed: boolean; gone?: boolean; note?: string }>('/api/search/detail', { id });
-export const handoffFor = (id: string) => post<HandoffResponse>('/api/handoff', { id });
+export const handoffFor = (id: string, n = 1) => post<HandoffResponse>('/api/handoff', { id, n });
 export const getQuota = () => call<QuotaResponse>('/api/quota');

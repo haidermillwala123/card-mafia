@@ -3,6 +3,7 @@ import { clientKey, readJson } from '@/lib/guard';
 import { safeUrl } from '@/lib/safe-url';
 import { firstIssue, IdBody } from '@/lib/schemas';
 import { type BookingLink, pullTrips } from '@/lib/seats/client';
+import { finalLink, sourceOf } from '@/lib/seats/deeplink';
 import { CABIN_LABEL, HANDOFF } from '@/lib/seats/sources';
 import { ONDEMAND_CAP, withInr } from '@/lib/seats/search';
 import { getStore } from '@/lib/seats/store';
@@ -44,11 +45,20 @@ export async function POST(req: Request) {
   const main = links.find(l => l.primary) ?? null;
   const { rows } = await withInr([row]);
   const r = rows[0];
+  // the supplied link, or the programme's main page, made to carry this seat's route, date, passengers and cabin
+  const base = main?.url ?? link?.url ?? null;
+  const n = body.data.n ?? 1;
+  const fin = base ? finalLink({ source: row.source, url: base, origin: r.origin, dest: r.dest, date: r.date, cabin: r.cabin, n }) : null;
+  // partner links get the same treatment, so "also bookable through" opens with your passengers and cabin too
+  const partners = links.map(l => {
+    const source = sourceOf(l.url);
+    return source ? { ...l, url: finalLink({ source, url: l.url, origin: r.origin, dest: r.dest, date: r.date, cabin: r.cabin, n }).url } : l;
+  });
   return Response.json({
     programme: link?.name ?? row.programme_id,
-    url: main?.url ?? link?.url ?? null,
-    prefilled: Boolean(main),
-    links,
+    url: fin?.url ?? null,
+    prefilled: fin?.prefilled ?? false,
+    links: partners,
     linkCheckedOn: link?.checkedOn ?? null, // null = not yet checked by hand; the page says so
     copy: {
       route: `${r.origin} → ${r.dest}`,

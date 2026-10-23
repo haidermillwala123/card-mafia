@@ -44,7 +44,7 @@ export const RowsBody = z.object({
   holdings: HoldingsBody.optional(),
 });
 
-export const IdBody = z.object({ id: z.string().regex(/^[A-Za-z0-9-]{8,40}$/) });
+export const IdBody = z.object({ id: z.string().regex(/^[A-Za-z0-9-]{8,40}$/), n: z.number().int().min(1).max(9).optional() });
 
 // Shared by /api/plan and /api/explain. Route files may only export HTTP handlers, so the schema lives here.
 export const PlanBody = z.object({

@@ -37,7 +37,7 @@ export default function HandoffClient({ id, travellers: n }: { id: string; trave
   useEffect(() => {
     if (!id) return;
     let live = true;
-    handoffFor(id).then(r => live && setHres({ tick, r }));
+    handoffFor(id, n).then(r => live && setHres({ tick, r }));
     return () => {
       live = false;
     };
@@ -73,6 +73,15 @@ export default function HandoffClient({ id, travellers: n }: { id: string; trave
         sel?.addRange(range);
       }
       setCopied('Text selected. Press Ctrl or Cmd + C to copy');
+    }
+  }
+
+  async function copyOne(k: string, v: string) {
+    try {
+      await navigator.clipboard.writeText(v);
+      setCopied(`${k} copied`);
+    } catch {
+      setCopied('Select the text and press Ctrl or Cmd + C');
     }
   }
 
@@ -124,7 +133,10 @@ export default function HandoffClient({ id, travellers: n }: { id: string; trave
                 <span className="a-cap">Copy for the airline site</span>
                 <div className="a-checkout-copy" ref={panel}>
                   {rows.map(([k, v]) => (
-                    <div className="a-kv" key={k}><span>{k}</span><b className="a-mono">{v}</b></div>
+                    <div className="a-kv" key={k}>
+                      <span>{k}</span><b className="a-mono">{v}</b>
+                      <button type="button" className="cm-btn cm-btn--ghost cm-btn--sm" aria-label={`Copy ${k}`} onClick={() => copyOne(k, v)}>Copy</button>
+                    </div>
                   ))}
                 </div>
                 <div className="a-r a-rw">
@@ -157,12 +169,15 @@ export default function HandoffClient({ id, travellers: n }: { id: string; trave
             </div>
             {h.prefilled ? (
               <Note kind="info" title="The airline page opens with your route, date and passengers filled in.">Pick the flight shown above on that page, and check the taxes before you pay. If it shows nothing, the seat may have gone: do not transfer.</Note>
-            ) : !h.linkCheckedOn && (
-              <Note kind="info" title="This link opens the airline's main page.">We could not get a filled-in link for this seat right now. Use the copy panel to fill it in yourself.</Note>
+            ) : (
+              <Note kind="info" title={`${h.programme} cannot open with your flight filled in.`}>
+                Its site asks you to log in and runs the search itself, so no link can carry your details. Copy each field from the panel above.
+                {h.links && h.links.some(l => !l.primary) ? ' The partner links below open with your flight filled in, but their points price can differ, so check it before you transfer.' : ''}
+              </Note>
             )}
             {h.links && h.links.filter(l => !l.primary).length > 0 && (
               <div className="a-r a-rw">
-                <span className="a-cap">Also bookable through</span>
+                <span className="a-cap">Also bookable through (points price can differ)</span>
                 {h.links.filter(l => !l.primary).map(l => (
                   <a key={l.url} className="a-ghost" href={l.url} target="_blank" rel="noopener noreferrer">{l.label.replace(/^Book via /, '')}</a>
                 ))}
