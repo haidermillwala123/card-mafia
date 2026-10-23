@@ -11,6 +11,7 @@ import {
   cardPoints, ErrorBox, flightsText, MissingNote, NotReachable, partyMiles, PathStrip, reachable, Recheck, routeText, RulesStamp, seatsText, Skeleton, stopsText,
   taxesLine, timesText, urlFor,
 } from '@/components/app/booking/bits';
+import BuyPoints from '@/components/app/booking/BuyPoints';
 import { useSeats } from '@/components/app/booking/useSeats';
 import './checkout.css';
 
@@ -65,7 +66,7 @@ export default function CheckoutClient({ id, travellers: n }: { id: string; trav
               </div>
 
               <div className="a-gl">
-                <span className="a-cap">{direct ? 'Your points' : 'Move points'}</span>
+                <span className="a-cap">{direct ? 'Your points' : reachable(r) ? 'Move points' : 'Not enough points yet'}</span>
                 {direct && (
                   <Note kind="success" title={`You already have ${fmt(held ?? 0)} points in ${r.programme_name}.`}>
                     That covers the {fmt(partyMiles(r, n))} this seat needs, from the balance saved in your Wallet. You can book directly: no transfer needed.
@@ -98,7 +99,10 @@ export default function CheckoutClient({ id, travellers: n }: { id: string; trav
                     <RulesStamp r={r} fallback={s.rulesCheckedOn} />
                   </>
                 ) : direct ? null : (
-                  <NotReachable r={r} hasCards={s.wallet.hasCards} />
+                  <>
+                    <NotReachable r={r} hasCards={s.wallet.hasCards} />
+                    <BuyPoints r={r} n={n} held={held} />
+                  </>
                 )}
               </div>
 
@@ -143,7 +147,7 @@ export default function CheckoutClient({ id, travellers: n }: { id: string; trav
                 <span className="a-ar"><Ic name="arrow" /></span>
               </Link>
               <span className="a-cap a-checkout-hint">
-                {!ok ? 'This seat cannot be paid for with your cards' : go ? (direct ? 'Ready. Next: the booking step.' : "Next: your bank's rewards site, then each step in order.") : 'Tick the box above to continue'}
+                {!ok ? 'Short on points? Your options are in the box on the left.' : go ? (direct ? 'Ready. Next: the booking step.' : "Next: your bank's rewards site, then each step in order.") : 'Tick the box above to continue'}
               </span>
               <span className="a-cap">Qatar, Singapore, Turkish and LifeMiles open only the airline&apos;s front page. Every other airline opens with your flight filled in.</span>
             </div>

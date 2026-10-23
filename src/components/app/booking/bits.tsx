@@ -96,7 +96,7 @@ export function NotReachable({ r, hasCards }: { r: SeatView; hasCards: boolean }
   const short = r.reach?.best?.shortBy;
   return (
     <div className="a-c" style={{ gap: 6 }}>
-      <Tag kind="danger" plain style={{ alignSelf: 'flex-start' }}>Not reachable with your cards</Tag>
+      <Tag kind="outline" style={{ alignSelf: 'flex-start' }}>Not enough points on your cards yet</Tag>
       {r.reach?.status === 'short' && short ? <span className="a-mu">You are {fmt(short)} points short on {r.reach.best?.cardName}.</span> : null}
       {r.reach?.status === 'unmapped' ? <span className="a-mu">We have no transfer rule for {r.programme_name}.</span> : null}
       {fix ? <span className="a-mu">{fix.cardName} would cover it with {fmt(fix.pointsNeeded)} points.</span> : null}

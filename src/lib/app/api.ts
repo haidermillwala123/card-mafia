@@ -1,6 +1,7 @@
 // Browser-side calls to our own API. Nothing here touches seats.aero; the server does, and only when its cache is stale.
 import type { SeatOut, SearchMeta } from '@/lib/seats/search';
 import type { SeatView } from '@/lib/seats/reach';
+import type { BuyInfo } from '@/lib/buy-points';
 
 export type { SeatView, SeatOut, SearchMeta };
 export type Holdings = { cardIds: string[]; balances: Record<string, number> };
@@ -49,4 +50,5 @@ export const searchSeats = (b: SearchRequest) => post<SearchResponse>('/api/sear
 export const fetchRows = (ids: string[], travellers: number, holdings?: Holdings) => post<RowsResponse>('/api/search/rows', { ids, travellers, holdings });
 export const recheckSeat = (id: string) => post<{ row: SeatOut; refreshed: boolean; gone?: boolean; note?: string }>('/api/search/detail', { id });
 export const handoffFor = (id: string, n = 1) => post<HandoffResponse>('/api/handoff', { id, n });
+export const buyInfoFor = (id: string) => post<BuyInfo>('/api/buy-points', { id });
 export const getQuota = () => call<QuotaResponse>('/api/quota');
